@@ -956,8 +956,8 @@ footer[role="contentinfo"] {
   }
   i {
     float: right;
-    &:hover{
-      cursor:pointer;
+    &:hover {
+      cursor: pointer;
     }
   }
   &.success {
@@ -965,19 +965,46 @@ footer[role="contentinfo"] {
     background: fade(@green, 5%);
     border-color: fade(@green, 20%);
   }
-  &.warning{
-    color:@orange;
+  &.warning {
+    color: @orange;
     background: fade(@orange, 5%);
     border-color: fade(@orange, 20%);
   }
-  &.error{
-    color:@redish;
-    background:fade(@redish, 5%);
+  &.error {
+    color: @redish;
+    background: fade(@redish, 5%);
     border-color: fade(@redish, 20%);
   }
-  &.info{
-    color:@blue;
-    background:fade(@blue, 5%);
+  &.info {
+    color: @blue;
+    background: fade(@blue, 5%);
     border-color: fade(@blue, 20%);
   }
+}
+
+#error-page {
+
+  font-family: proxima !important;
+  text-align:right;
+  margin-top:40px;
+  img{
+    max-width:100%;
+  }
+
+  h1 {
+    font-size: 80px;
+    color: @textcolor + 50;
+  }
+
+  p {
+    color: @textcolor + 100;
+    font-size: 30px;
+    margin-top:40px;
+  }
+
+  h2{
+    font-size:60px;
+    margin-top:40px;
+  }
+
 }

@@ -22,7 +22,7 @@ php:
 
 nette:
         application:
-                errorPresenter: Error
+                errorPresenter: "Front:Error"
                 mapping:
                         *: App\*Module\*Presenter
 

@@ -168,7 +168,7 @@
                         }(document, "script", "twitter-wjs");
                     </script>
                 </div>
-                <a href="" id="filter-button"><i class="fa fa-cogs fa-fw"></i></a>
+                {if $presenter->name == 'Front:Homepage'}<a href="" id="filter-button"><i class="fa fa-cogs fa-fw"></i></a>{/if}
             </div>
             <div class="col-lg-4 col-md-3 col-sm-3 clearfix">
                 <div id="filter-buttons" class="clearfix">
@@ -177,6 +177,7 @@
                 </div>
             </div>
         </div>
+        {if $presenter->name == 'Front:Homepage'}
         <div class="row" id="filter-container">
             <div class="col-lg-12" id="filter">
                 <div class="row">
@@ -199,9 +200,11 @@
                 </div>
             </div>
         </div>
+        {/if}
     </div>
 </div>
 <div class="container" id="main">
+    {block main}
     <div class="row">
         <div class="col-lg-12">
             {if count($flashes) > 0}
@@ -212,77 +215,7 @@
     <div class="row">
         <section role="main" class="col-lg-8 col-md-9 col-sm-9 col-xs-12">
             <div id="content">
-                {for $i = 0; $i < 5; $i++}
-                    <div class="row article <?php if ($i == 4) echo 'last' ?>">
-                        <article class="content-item">
-                            <div class="col-lg-2 visible-lg">
-                            </div>
-                            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                                <section>
-                                    <div class="social">
-                                        <a href=""><i class="fa fa-facebook"></i></a>
-                                        <a href=""><i class="fa fa-twitter"></i></a>
-                                        <a href=""><i class="fa fa-google-plus"></i></a>
-                                        <a href=""><i class="fa fa-pinterest"></i></a>
-                                        <a href=""><i class="fa fa-thumbs-down"></i></a>
-                                        <a href=""><i class="fa fa-thumbs-up"></i></a>
-                                    </div>
-
-                                    <h2><a href="">Matematická analýza</a>
-                                        <small><a href="">#LubošPick</a></small>
-                                        <br>
-                                    </h2>
-                                    <span><a href="">4,355 bodů</a> &nbsp;·&nbsp; <a href="">43 komentářů</a></span>
-
-                                    <p>Při opravování chyby mokrou houbou si doc. Pick rozmazal kus tabule, kterou
-                                        předtím
-                                        jako obvykle dokonale vzorně smazal:
-                                        "Ta tabule je zase smazaná..." (marně se pokouší zachránit to stěrkou)
-                                        "...to
-                                        jsem
-                                        tomu dal... už nikdy to nebude, co to bylo."</p>
-
-                                    <div class="item-tags">
-                                        <a href="" class="tag">#MatematickáAnalýza</a>
-                                        <a href="" class="tag">#LubošPick</a>
-                                        <a href="" class="tag">#integrál</a>
-                                        <a href="" class="tag">#tabule</a>
-                                        <a href="" class="tag">#klasika</a>
-                                        <a href="" class="tag">#houba</a>
-                                        <a href="" class="tag">#matalyza</a>
-                                        <a href="" class="tag">#profesor</a>
-                                        <a href="" class="tag">#just</a>
-                                    </div>
-                                    <footer>
-                                        {for $j = 0; $j < 2; $j++}
-                                            <div class="top-comment clearfix">
-                                                <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
-                                                     class="img-circle">
-
-                                                <div class="comment-body">
-                                                    <p><a href="">@vitush93</a></span>
-                                                        Lorem ipsum dolor sit amet, consectetur awig banar cones amet
-                                                        lis <a href="">...</a>
-                                                    </p>
-                                                    <span><i class="fa fa-thumbs-up"></i> 147</span>
-                                                    <span><i class="fa fa-thumbs-down"></i> 14</span>
-                                                </div>
-
-                                            </div>
-                                        {/for}
-                                        <p><i class="fa fa-angle-right"></i> <a href="">všechny komentáře</a></p>
-                                    </footer>
-                                </section>
-                            </div>
-                        </article>
-                    </div>
-                {/for}
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-12"></div>
-                    <div class="col-lg-10 col-md-10 col-sm-12 article-content">
-                        <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-                    </div>
-                </div>
+                {include content}
             </div>
         </section>
         <aside class="col-lg-4 col-md-3 col-sm-3 hidden-xs" role="complementary">
@@ -297,6 +230,7 @@
             </div>
         </aside>
     </div>
+    {/block}
 </div>
 </body>
 </html>
