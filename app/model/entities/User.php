@@ -9,6 +9,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 use Nette\InvalidArgumentException;
 use Nette\Security\Passwords;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\OneToMany;
 use DateTime;
 
 /**
@@ -30,20 +31,25 @@ class User extends BaseEntity
      */
     private $id;
 
-    // TODO entities & relationships
+    /**
+     * @ORM\OneToMany(targetEntity="Quote", mappedBy="user")
+     * @var Quote
+     */
     private $quotations;
+
+    // TODO entities & relationships
     private $comments;
     private $quote_ratings;
     private $comment_ratings;
 
     /**
-     * @ORM\Column(type="string",unique=true)
+     * @ORM\Column(type="string", unique=true)
      * @var string
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string",unique=true)
+     * @ORM\Column(type="string", unique=true)
      * @var string
      */
     private $email;
@@ -61,23 +67,28 @@ class User extends BaseEntity
     private $role;
 
     /**
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $name;
 
     /**
-     * @ORM\Column(type="datetime",nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
     private $registered;
 
     /**
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $avatar;
 
+    public function __construct()
+    {
+        $this->registered = new DateTime();
+        $this->quotations = new ArrayCollection();
+    }
 
     /**
      * @return integer
