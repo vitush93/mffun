@@ -1,7 +1,6 @@
 <?php
 
 namespace App\FrontModule;
-use App\Model\Articles;
 
 
 /**
@@ -9,11 +8,4 @@ use App\Model\Articles;
  */
 class HomepagePresenter extends BasePresenter
 {
-    private $articles;
-    
-    public function injectArticles(Articles $articles)
-    {
-        $this->articles = $articles;
-    }
-
 }

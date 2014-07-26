@@ -58,6 +58,7 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
         $newUser->setUsername($data['username']);
         $newUser->setPassword($data['password']);
         $newUser->setRole($data['role']);
+        $newUser->setEmail($data['email']);
         $this->em->persist($newUser);
         $this->em->flush();
     }

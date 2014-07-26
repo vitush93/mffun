@@ -9,12 +9,11 @@ extensions:
 doctrine:
     user: root
     password:
-    dbname: skeleton
+    dbname: rocnikac
     metadata:
         App: %appDir%
 
 services:
     - App\RouterFactory
-    - App\Model\Articles
     - App\Model\UserManager
     - App\AdminModule\IGridoUsersControlFactory
