@@ -157,7 +157,8 @@ $(function () {
                     if (navbarVisible) {
                         if (st > 200) {
                             if (mobile) {
-                                mobileMenu.hide();
+                                //mobileMenu.hide();
+                                mobileMenu.stop().animate({top: -menuHeight}, 200);
                             } else {
                                 /*
                                  mobileMenu.stop().velocity(
@@ -215,7 +216,8 @@ $(function () {
                     // scroll up
                     if (!navbarVisible) {
                         if (mobile) {
-                            mobileMenu.show();
+                            //mobileMenu.show();
+                            mobileMenu.stop().animate({top: 0}, 200);
                         } else {
                             /*
                              mobileMenu.stop().velocity(
