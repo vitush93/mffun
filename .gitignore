@@ -1,0 +1,15 @@
+log/*
+temp/*
+vendor/*
+!vendor/others
+www/upload/*
+www/temp/*
+www/temp/thumbs/*
+.idea/
+nbproject/
+
+.DS_Store
+!.gitignore
+!.htaccess
+!web.config
+composer.lock
