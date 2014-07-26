@@ -1,0 +1,27 @@
+{block title}Velikosti{/block}
+{block breadcrumb}
+<li class="active">Velikosti</li>
+{/block}
+{block content}
+
+
+<div class="col-lg-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">Ovládací panel</div>
+        <div class="panel-body">
+            <a href="{link newvelikost!}" class="btn btn-success ajax" data-toggle="modal">Nový</a>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Existující</div>
+        <div class="panel-body">
+            {control gridoVelikosti}
+        </div>
+    </div>
+</div>
+
+{control newVelikostForm}
+
+{/block}

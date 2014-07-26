@@ -1,0 +1,51 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+thumbnail:
+    thumbPathMask: 'temp/thumbs/{filename}-{width}x{height}.{extension}'
+    placeholder: 'http://dummyimage.com/100x100/000000/fff.png&text=image'
+
+parameters:
+    imap:
+        host: "imap"
+        port: 110
+        username: "username"
+        password: "password"
+        disabled: true
+
+php:
+        date.timezone: Europe/Prague
+        # zlib.output_compression: yes
+
+nette:
+        application:
+                errorPresenter: Error
+                mapping:
+                        *: App\*Module\*Presenter
+
+        session:
+                expiration: 14 days
+        mailer:
+                smtp: true
+                host: "host"
+                port: "110"
+                username: "username"
+                password: "password"
+
+
+services:
+    authorizator:
+        class: Nette\Security\Permission
+        setup:
+            - addRole('guest')
+            - addRole('user')
+            - addRole('admin')
+            - addResource('Admin:*')
+            - allow('admin')
+    router: @App\RouterFactory::createRouter
+    imap:
+        class: App\Libs\IMAPMail
+        arguments: [%imap.host%, %imap.username%, %imap.password%, %imap.port%, %imap.disabled%]

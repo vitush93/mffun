@@ -1,0 +1,115 @@
+{block html|minifyhtml}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="robots" content="{$robots}" n:ifset="$robots">
+
+        <title>{block title|striptags|upper}the blog{/block}</title>
+
+        {control css}
+        {control js}
+
+        {block assets}{/block}
+
+    </head>
+
+    <body>
+        <script> document.documentElement.className += ' js'</script>
+
+        {if count($flashes) > 0}
+            <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+        {/if}
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{link Homepage:default}">Project name</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right" role="form">
+                        <div class="form-group" style="margin-right:10px">
+                            <input type="text" placeholder="Email" class="form-control">
+                        </div>
+                        <div class="form-group" style="margin-right:10px">
+                            <input type="password" placeholder="Password" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Sign in</button>
+                    </form>
+                </div>
+                <!--/.navbar-collapse -->
+            </div>
+        </div>
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="container" style="padding-top:80px">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="row">
+                        {foreach $articles as $article}
+                            <div class="col-lg-12">
+                                <h2>{$article->getTitle()} <small>by Author on {$article->getPosted()|date:"j.n.Y"}</small></h2>
+                                <p>{$article->getText()}</p>
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom:40px">
+                            <h4>Main menu</h4>
+                            <div class="list-group">
+                               <a href="#" class="list-group-item active">
+                                    Cras justo odio
+                                </a>
+                                <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                                <a href="#" class="list-group-item">Morbi leo risus</a>
+                                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                                <a href="#" class="list-group-item">Vestibulum at eros</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-bottom:40px">
+                            <h4>Tag cloud</h4>
+                            {for $i = 0; $i < 10; $i++}
+                                <span class="label label-primary">Tag {$i}</span>
+                            {/for}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:50px;">
+                {for $i = 1; $i < 4; $i++}
+                    <div class="col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Heading {$i}</div>
+                            <div class="panel-body">
+                                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
+                                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+                                    ut fermentum massa justo sit amet risus.</p>
+
+                                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {/for}
+            </div>
+
+            <hr>
+
+            <footer>
+                <p>&copy; Company 2014</p>
+            </footer>
+        </div>
+        <!-- /container -->
+        {include content}
+
+    </body>
+</html>
+{/block}

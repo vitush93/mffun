@@ -1,0 +1,15 @@
+{
+    "require":
+    {
+        "php" : ">=5.4",
+        "nette/nette": "~2.2.2",
+        "o5/grido": "dev-master",
+        "ezyang/htmlpurifier": "dev-master",
+        "kollarovic/thumbnail": "dev-master",
+        "leafo/lessphp": "v0.4.0",
+        "janmarek/webloader": "dev-master",
+        "ckeditor/ckeditor": "dev-basic/stable",
+        "mrclay/minify": "dev-master",
+        "kdyby/doctrine": "~2.0"
+    }
+}

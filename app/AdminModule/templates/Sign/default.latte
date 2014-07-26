@@ -1,0 +1,394 @@
+{layout none}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Přihlášení do Administrace</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{$basePath}/public/admin/css/bootstrap.css" rel="stylesheet">
+    <script src="{$basePath}/public/admin/js/jquery-1.10.2.js"></script>
+    <script src="{$basePath}/public/admin/js/bootstrap.js"></script>
+
+    <style type="text/css">
+    @import url(http://fonts.googleapis.com/css?family=Exo+2:400,100,100italic,200,200italic,300,300italic,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&subset=latin,latin-ext);
+    /* Global Styles */
+
+    /* ------------------------------- */
+
+    body {
+        background-color: #f8f8f8;
+        font-family:'Exo 2', sans-serif;
+    }
+
+    /* Wrappers */
+
+    /* ------------------------------- */
+
+    #wrapper {
+        width: 100%;
+    }
+
+    #page-wrapper {
+        padding: 0 15px;
+        min-height: 568px;
+        background-color: #fff;
+    }
+
+    @media(min-width:768px) {
+        #page-wrapper {
+            position: inherit;
+            margin: 0 0 0 250px;
+            padding: 0 30px;
+            min-height: 1300px;
+            border-left: 1px solid #e7e7e7;
+        }
+    }
+
+    .navbar-static-side ul li {
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    /* Navigation */
+
+    /* ------------------------------- */
+
+    /* Top Right Navigation Dropdown Styles */
+
+    .navbar-top-links li {
+        display: inline-block;
+    }
+
+    .navbar-top-links li:last-child {
+        margin-right: 15px;
+    }
+
+    .navbar-top-links li a {
+        padding: 15px;
+        min-height: 50px;
+    }
+
+    .navbar-top-links .dropdown-menu li {
+        display: block;
+    }
+
+    .navbar-top-links .dropdown-menu li:last-child {
+        margin-right: 0;
+    }
+
+    .navbar-top-links .dropdown-menu li a {
+        padding: 3px 20px;
+        min-height: 0;
+    }
+
+    .navbar-top-links .dropdown-menu li a div {
+        white-space: normal;
+    }
+
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        width: 310px;
+        min-width: 0;
+    }
+
+    .navbar-top-links .dropdown-messages {
+        margin-left: 5px;
+    }
+
+    .navbar-top-links .dropdown-tasks {
+        margin-left: -59px;
+    }
+
+    .navbar-top-links .dropdown-alerts {
+        margin-left: -123px;
+    }
+
+    .navbar-top-links .dropdown-user {
+        right: 0;
+        left: auto;
+    }
+
+    /* Sidebar Menu Styles */
+
+    .sidebar-search {
+        padding: 15px;
+    }
+
+    .arrow {
+        float: right;
+    }
+
+    .fa.arrow:before {
+        content: "\f104";
+    }
+
+    .active > a > .fa.arrow:before {
+        content: "\f107";
+    }
+
+    .nav-second-level li,
+    .nav-third-level li {
+        border-bottom: none !important;
+    }
+
+    .nav-second-level li a {
+        padding-left: 37px;
+    }
+
+    .nav-third-level li a {
+        padding-left: 52px;
+    }
+
+    @media(min-width:768px) {
+        .navbar-static-side {
+            z-index: 1;
+            position: absolute;
+            width: 250px;
+        }
+
+        .navbar-top-links .dropdown-messages,
+        .navbar-top-links .dropdown-tasks,
+        .navbar-top-links .dropdown-alerts {
+            margin-left: auto;
+        }
+    }
+
+    /* Buttons */
+
+    /* ------------------------------- */
+
+    .btn-outline {
+        color: inherit;
+        background-color: transparent;
+        transition: all .5s;
+    }
+
+    .btn-primary.btn-outline {
+        color: #428bca;
+    }
+
+    .btn-success.btn-outline {
+        color: #5cb85c;
+    }
+
+    .btn-info.btn-outline {
+        color: #5bc0de;
+    }
+
+    .btn-warning.btn-outline {
+        color: #f0ad4e;
+    }
+
+    .btn-danger.btn-outline {
+        color: #d9534f;
+    }
+
+    .btn-primary.btn-outline:hover,
+    .btn-success.btn-outline:hover,
+    .btn-info.btn-outline:hover,
+    .btn-warning.btn-outline:hover,
+    .btn-danger.btn-outline:hover {
+        color: #fff;
+    }
+
+    /* Pages */
+
+    /* ------------------------------- */
+
+    /* Dashboard Chat */
+
+    .chat {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .chat li {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+
+    .chat li.left .chat-body {
+        margin-left: 60px;
+    }
+
+    .chat li.right .chat-body {
+        margin-right: 60px;
+    }
+
+    .chat li .chat-body p {
+        margin: 0;
+        color: #777777;
+    }
+
+    .panel .slidedown .glyphicon,
+    .chat .glyphicon {
+        margin-right: 5px;
+    }
+
+    .chat-panel .panel-body {
+        height: 350px;
+        overflow-y: scroll;
+    }
+
+    /* Login Page */
+
+    .login-panel {
+        margin-top: 25%;
+    }
+
+    /* Flot Chart Containers */
+
+    .flot-chart {
+        display: block;
+        height: 400px;
+    }
+
+    .flot-chart-content {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* DataTables Overrides */
+
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc,
+    table.dataTable thead .sorting_asc_disabled,
+    table.dataTable thead .sorting_desc_disabled {
+        background: transparent;
+    }
+
+    table.dataTable thead .sorting_asc:after {
+        content: "\f0de";
+        float: right;
+        font-family: fontawesome;
+    }
+
+    table.dataTable thead .sorting_desc:after {
+        content: "\f0dd";
+        float: right;
+        font-family: fontawesome;
+    }
+
+    table.dataTable thead .sorting:after {
+        content: "\f0dc";
+        float: right;
+        font-family: fontawesome;
+        color: rgba(50,50,50,.5);
+    }
+
+    /* Circle Buttons */
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        padding: 6px 0;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.428571429;
+    }
+
+    .btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        border-radius: 25px;
+        font-size: 18px;
+        line-height: 1.33;
+    }
+
+    .btn-circle.btn-xl {
+        width: 70px;
+        height: 70px;
+        padding: 10px 16px;
+        border-radius: 35px;
+        font-size: 24px;
+        line-height: 1.33;
+    }
+
+    .show-grid [class^="col-"] {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: 1px solid #ddd;
+        background-color: #eee !important;
+    }
+
+    .show-grid {
+        margin: 15px 0;
+    }
+
+    .panel-base-mixin{
+        border-radius: 2px;
+        box-shadow: 0 2px 1px rgba(50, 50, 50, 0.1);
+        border-color: @borders;
+    }
+
+    .panel-heading-mixin {
+        font-size:13px;
+        font-weight:600;
+    }
+
+    .panel-default {
+        border-radius: 2px;
+        box-shadow: 0 2px 1px rgba(50, 50, 50, 0.1);
+        border-color: @borders;
+    }
+    .panel-default > .panel-heading {
+          font-size:13px;
+          font-weight:600;
+            color:#777;
+            box-shadow: inset 0 -2px 1px rgba(80, 80, 80, 0.1);
+            background-color: #f9f9f9;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="height:40px"></div>
+        </div>
+        <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type} alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="font-family:arial">&times;</button>
+            {$flash->message}
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Přihlašte se prosím</h3>
+                    </div>
+                    <div class="panel-body">
+                        {form signInForm}
+                            <fieldset>
+                                <div class="form-group">
+                                    {input username}
+                                </div>
+                                <div class="form-group">
+                                    {input password}
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        {input remember}
+                                    </label>
+                                </div>
+                                {input send}
+                            </fieldset>
+                        {/form}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+

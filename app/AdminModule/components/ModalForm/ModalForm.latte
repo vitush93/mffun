@@ -1,0 +1,23 @@
+{snippet form}
+    <div class="modal fade" id="{!$formId}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{$formName}</h4>
+                </div>
+                <div class="modal-body">
+                    {control form}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {form form}
+        {if isset($show) || $form->hasErrors()}
+            <script>
+                $('#{!$formId}').modal('show');
+            </script>
+        {/if}
+        {/form}
+{/snippet}

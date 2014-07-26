@@ -1,0 +1,20 @@
+parameters:
+
+extensions:
+    console: Kdyby\Console\DI\ConsoleExtension
+    events: Kdyby\Events\DI\EventsExtension
+    annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    doctrine: Kdyby\Doctrine\DI\OrmExtension
+
+doctrine:
+    user: root
+    password:
+    dbname: skeleton
+    metadata:
+        App: %appDir%
+
+services:
+    - App\RouterFactory
+    - App\Model\Articles
+    - App\Model\UserManager
+    - App\AdminModule\IGridoUsersControlFactory
