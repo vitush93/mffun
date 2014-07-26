@@ -1,115 +1,291 @@
-{block html|minifyhtml}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="">
-        <meta name="robots" content="{$robots}" n:ifset="$robots">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="Freelance Webdesigner a Web Developer - Tvorba Webových Stránek a Aplikací">
+    <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
+    <title>Web Database of Professor Quotations</title>
+    <link rel="stylesheet" href="{$basePath}/public/front/css/bootstrap.css">
+    <link rel="stylesheet" href="{$basePath}/public/front/css/reset.css">
+    <link rel="stylesheet/less" type="text/css" href="{$basePath}/public/front/css/style.less">
+    <link rel="stylesheet" href="{$basePath}/public/front/css/font-awesome.css">
+    <link
+            href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic|Bitter:400,700&subset=latin,latin-ext'
+            rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+    <link
+            href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,latin-ext'
+            rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+    <link
+            href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+            rel='stylesheet' type='text/css'>
+    <script src="{$basePath}/public/front/js/jquery.js"></script>
+    <script src="{$basePath}/public/front/js/jquery.velocity.js"></script>
+    <script src="{$basePath}/public/front/js/bootstrap.js"></script>
+    <script src="{$basePath}/public/front/js/less.js"></script>
+    <script src="{$basePath}/public/front/js/script.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&appId=249336298524816&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
-        <title>{block title|striptags|upper}the blog{/block}</title>
+<nav id="mobile-menu" class="hidden-lg hidden-md hidden-sm">
+    <div class="container">
+        <a href="" id="mobile-add"><i class="fa fa-plus"></i></a>
+        <a href="index.php" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <a href="" id="toggle-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
 
-        {control css}
-        {control js}
+        <div class="row">
 
-        {block assets}{/block}
+        </div>
+    </div>
+</nav>
+<div id="scroll-top">
+    <i class="fa fa-angle-double-up fa-fw fa-4x"></i></div>
+<footer role="contentinfo" id="footer">
+    <span>Handcrafted by <a href="http://vithabada.cz" target="_blank">Vít Habada</a></span>
+</footer>
+<nav role="navigation" id="top-nav" class="hidden-xs">
+    <div class="container" id="nav-container">
+        <a href="index.php" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <ul>
+            <li><a href="index.php"><i class="fa fa-lightbulb-o fa-fw"></i> <span
+                            class="hidden-md hidden-sm">nejnovější</span></a></li>
+            <li><a href="index.php"><i class="fa fa-trophy fa-fw"></i> <span class="hidden-md hidden-sm">top</span></a>
+            </li>
+            <li><a href="index.php"><i class="fa fa-comments fa-fw"></i> <span class="hidden-md hidden-sm">nejkomentovanější</span></a>
+            </li>
+            <li><a href="index.php"><i class="fa fa-random fa-fw"></i> <span class="hidden-md hidden-sm">náhodné</span></a>
+            </li>
+        </ul>
+        <div>
+            <a href="">přidat citát</a>
+        </div>
+        <ul id="user-cp">
+            <li>
+                <a href="" id="user-controls-toggle">
+                    <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
+                    <span><small>přihlášen</small><br>somefuckinglongnick</span>
+                    <i class="fa fa-caret-down"></i>
+                </a>
 
-    </head>
+                <div id="user-controls">
+                    <div class="caret-arrow"></div>
+                    {if $user->isLoggedIn()}
+                        <a href=""><i class="fa fa-user fa-fw"></i> Můj účet</a>
+                        <a href=""><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
+                    {else}
+                        <div><i class="fa fa-lock fa-fw"></i> Přihlásit se</div>
+                        <form>
+                            <p>
+                                <input type="text" placeholder="login" class="login">
+                                <i class="fa fa-user fa-fw"></i>
+                            </p>
 
-    <body>
-        <script> document.documentElement.className += ' js'</script>
+                            <p>
+                                <input type="password" placeholder="heslo" class="login">
+                                <i class="fa fa-key fa-fw"></i>
+                            </p>
 
-        {if count($flashes) > 0}
-            <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-        {/if}
+                            <div class="onoffswitch" title="zapamatovat přihlášení">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                                       id="myonoffswitch" checked>
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <i class="fa fa-floppy-o"></i>
+                            <a href="" class="login">obnovit heslo</a>
 
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{link Homepage:default}">Project name</a>
+                            <div style="clear:both"></div>
+                            <input type="submit" value="přihlásit">
+                            <a href="" class="login">vytvořit nový účet</a>
+                        </form>
+                    {/if}
                 </div>
-                <div class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right" role="form">
-                        <div class="form-group" style="margin-right:10px">
-                            <input type="text" placeholder="Email" class="form-control">
-                        </div>
-                        <div class="form-group" style="margin-right:10px">
-                            <input type="password" placeholder="Password" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Sign in</button>
-                    </form>
+            </li>
+        </ul>
+        <div id="page-search">
+            <a href="" id="page-search-button"><i class="fa fa-search fa-fw"></i></a>
+
+            <form>
+                <input type="text" id="page-search-box">
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="control-bar" class="hidden-xs">
+    <div style="height:55px"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-9 col-sm-9 clearfix">
+                <div id="bar-social">
+                    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/"
+                         data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                    <!-- Umístěte tuto značku na místo, kde se má widget tlačítko +1 zobrazit. -->
+                    <div class="g-plusone" data-size="medium" data-href="http://google.com"></div>
+
+                    <!-- Umístěte tuto značku za poslední značku tlačítko +1. -->
+                    <script type="text/javascript">
+                        window.___gcfg = { lang: 'cs' };
+
+                        (function () {
+                            var po = document.createElement('script');
+                            po.type = 'text/javascript';
+                            po.async = true;
+                            po.src = 'https://apis.google.com/js/platform.js';
+                            var s = document.getElementsByTagName('script')[0];
+                            s.parentNode.insertBefore(po, s);
+                        })();
+                    </script>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+                    <script>!function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (!d.getElementById(id)) {
+                                js = d.createElement(s);
+                                js.id = id;
+                                js.src = "https://platform.twitter.com/widgets.js";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }
+                        }(document, "script", "twitter-wjs");
+                    </script>
                 </div>
-                <!--/.navbar-collapse -->
+                <a href="" id="filter-button"><i class="fa fa-cogs fa-fw"></i></a>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-3 clearfix">
+                <div id="filter-buttons" class="clearfix">
+                    <a href="" class="button red" id="checkbox-reset">Resetovat</a>
+                    <a href="" class="button blue">Uložit</a>
+                </div>
             </div>
         </div>
-
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="container" style="padding-top:80px">
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="row">
-                        {foreach $articles as $article}
-                            <div class="col-lg-12">
-                                <h2>{$article->getTitle()} <small>by Author on {$article->getPosted()|date:"j.n.Y"}</small></h2>
-                                <p>{$article->getText()}</p>
-                            </div>
-                        {/foreach}
-                    </div>
+        <div class="row" id="filter-container">
+            <div class="col-lg-12" id="filter">
+                <div class="row">
+                    <h2>Učitelé</h2>
+                    {for $i = 0; $i < 80; $i++}
+                        <p class="col-lg-2 col-md-2 col-sm-3">
+                            <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
+                            <label for="ucitel-{$i}">{$tags[$i]}</label>
+                        </p>
+                    {/for}
                 </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <div class="col-md-12" style="margin-bottom:40px">
-                            <h4>Main menu</h4>
-                            <div class="list-group">
-                               <a href="#" class="list-group-item active">
-                                    Cras justo odio
-                                </a>
-                                <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                                <a href="#" class="list-group-item">Morbi leo risus</a>
-                                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                                <a href="#" class="list-group-item">Vestibulum at eros</a>
-                            </div>
-                        </div>
-                        <div class="col-md-12" style="margin-bottom:40px">
-                            <h4>Tag cloud</h4>
-                            {for $i = 0; $i < 10; $i++}
-                                <span class="label label-primary">Tag {$i}</span>
-                            {/for}
-                        </div>
-                    </div>
+                <div class="row">
+                    <h2>Předměty</h2>
+                    {for $i = 80; $i < 160; $i++}
+                        <p class="col-lg-2 col-md-2 col-sm-3">
+                            <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
+                            <label for="ucitel-{$i}">{$tags[$i]}</label>
+                        </p>
+                    {/for}
                 </div>
             </div>
-            <div class="row" style="padding-top:50px;">
-                {for $i = 1; $i < 4; $i++}
-                    <div class="col-md-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Heading {$i}</div>
-                            <div class="panel-body">
-                                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                                    ut fermentum massa justo sit amet risus.</p>
-
-                                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-                            </div>
+        </div>
+    </div>
+</div>
+<div class="container" id="main">
+    <div class="row">
+        <section role="main" class="col-lg-8 col-md-9 col-sm-9 col-xs-12">
+            <div id="content">
+                {for $i = 0; $i < 5; $i++}
+                <div class="row article <?php if ($i == 4) echo 'last' ?>">
+                    <article class="content-item">
+                        <div class="col-lg-2 visible-lg">
                         </div>
-                    </div>
+                        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                            <section>
+                                <div class="social">
+                                    <a href=""><i class="fa fa-facebook"></i></a>
+                                    <a href=""><i class="fa fa-twitter"></i></a>
+                                    <a href=""><i class="fa fa-google-plus"></i></a>
+                                    <a href=""><i class="fa fa-pinterest"></i></a>
+                                    <a href=""><i class="fa fa-thumbs-down"></i></a>
+                                    <a href=""><i class="fa fa-thumbs-up"></i></a>
+                                </div>
+
+                                <h2><a href="">Matematická analýza</a>
+                                    <small><a href="">#LubošPick</a></small>
+                                    <br>
+                                </h2>
+                                <span><a href="">4,355 bodů</a> &nbsp;·&nbsp; <a href="">43 komentářů</a></span>
+                                <p>Při opravování chyby mokrou houbou si doc. Pick rozmazal kus tabule, kterou
+                                    předtím
+                                    jako obvykle dokonale vzorně smazal:
+                                    "Ta tabule je zase smazaná..." (marně se pokouší zachránit to stěrkou)
+                                    "...to
+                                    jsem
+                                    tomu dal... už nikdy to nebude, co to bylo."</p>
+                                <div class="item-tags">
+                                    <a href="" class="tag">#MatematickáAnalýza</a>
+                                    <a href="" class="tag">#LubošPick</a>
+                                    <a href="" class="tag">#integrál</a>
+                                    <a href="" class="tag">#tabule</a>
+                                    <a href="" class="tag">#klasika</a>
+                                    <a href="" class="tag">#houba</a>
+                                    <a href="" class="tag">#matalyza</a>
+                                    <a href="" class="tag">#profesor</a>
+                                    <a href="" class="tag">#just</a>
+                                </div>
+                                <footer>
+                                    {for $j = 0; $j < 2; $j++}
+                                    <div class="top-comment clearfix">
+                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
+
+                                        <div class="comment-body">
+                                            <p><a href="">@vitush93</a></span>
+                                                Lorem ipsum dolor sit amet, consectetur awig banar cones amet
+                                                lis <a href="">...</a>
+                                            </p>
+                                            <span><i class="fa fa-thumbs-up"></i> 147</span>
+                                            <span><i class="fa fa-thumbs-down"></i> 14</span>
+                                        </div>
+
+                                    </div>
+                                    {/for}
+                                    <p><i class="fa fa-angle-right"></i> <a href="">všechny komentáře</a></p>
+                                </footer>
+                            </section>
+                        </div>
+                    </article>
+                </div>
                 {/for}
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-12"></div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 article-content">
+                        <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+                    </div>
+                </div>
             </div>
-
-            <hr>
-
-            <footer>
-                <p>&copy; Company 2014</p>
-            </footer>
-        </div>
-        <!-- /container -->
-        {include content}
-
-    </body>
+        </section>
+        <aside class="col-lg-4 col-md-3 col-sm-3 hidden-xs" role="complementary">
+            <div class="tag-cloud">
+                <?php
+                sort($tags);
+                $sizes = array(12, 16, 20);
+                foreach ($tags as $s) {
+                    echo '<a href="" style="font-size:' . $sizes[rand(0, count($sizes) - 1)] . 'px">#' . $s . '</a> ';
+                }
+                ?>
+            </div>
+        </aside>
+    </div>
+</div>
+</body>
 </html>
-{/block}
