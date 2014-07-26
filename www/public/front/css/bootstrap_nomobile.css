@@ -5,8 +5,8 @@
  */
 
 /*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=54ad9e3262d9547f636e)
- * Config saved to config.json and https://gist.github.com/54ad9e3262d9547f636e
+ * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=b9bb7e6110d92e8396fd)
+ * Config saved to config.json and https://gist.github.com/b9bb7e6110d92e8396fd
  */
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
@@ -295,7 +295,7 @@ hr {
   padding-left: 15px;
   padding-right: 15px;
 }
-@media (min-width: 768px) {
+@media (min-width: 0px) {
   .container {
     width: 750px;
   }
@@ -482,7 +482,7 @@ hr {
 .col-xs-offset-0 {
   margin-left: 0%;
 }
-@media (min-width: 768px) {
+@media (min-width: 0px) {
   .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
     float: left;
   }
@@ -1032,7 +1032,7 @@ hr {
 .visible-lg-inline-block {
   display: none !important;
 }
-@media (max-width: 767px) {
+@media (max-width: -1px) {
   .visible-xs {
     display: block !important;
   }
@@ -1047,22 +1047,22 @@ hr {
     display: table-cell !important;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: -1px) {
   .visible-xs-block {
     display: block !important;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: -1px) {
   .visible-xs-inline {
     display: inline !important;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: -1px) {
   .visible-xs-inline-block {
     display: inline-block !important;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 0px) and (max-width: 991px) {
   .visible-sm {
     display: block !important;
   }
@@ -1077,17 +1077,17 @@ hr {
     display: table-cell !important;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 0px) and (max-width: 991px) {
   .visible-sm-block {
     display: block !important;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 0px) and (max-width: 991px) {
   .visible-sm-inline {
     display: inline !important;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 0px) and (max-width: 991px) {
   .visible-sm-inline-block {
     display: inline-block !important;
   }
@@ -1152,12 +1152,12 @@ hr {
     display: inline-block !important;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: -1px) {
   .hidden-xs {
     display: none !important;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 0px) and (max-width: 991px) {
   .hidden-sm {
     display: none !important;
   }

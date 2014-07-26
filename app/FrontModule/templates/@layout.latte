@@ -7,6 +7,7 @@
     <meta name="description" content="Freelance Webdesigner a Web Developer - Tvorba Webových Stránek a Aplikací">
     <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
     <title>Web Database of Professor Quotations</title>
+    <link rel="icon" type="image/png" href="{$basePath}/public/front/img/favicon.png">
     <link rel="stylesheet" href="{$basePath}/public/front/css/bootstrap.css">
     <link rel="stylesheet" href="{$basePath}/public/front/css/reset.css">
     <link rel="stylesheet/less" type="text/css" href="{$basePath}/public/front/css/style.less">
@@ -81,7 +82,8 @@
             <li>
                 <a href="" id="user-controls-toggle">
                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
-                    <span><small>přihlášen</small><br>somefuckinglongnick</span>
+                    {if $user->isLoggedIn()}<span><small>přihlášen</small><br>{$user->getIdentity()->username}</span>{else}
+                    <span><small>nepřihlášen</small><br>uživatel</span>{/if}
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -89,7 +91,7 @@
                     <div class="caret-arrow"></div>
                     {if $user->isLoggedIn()}
                         <a href=""><i class="fa fa-user fa-fw"></i> Můj účet</a>
-                        <a href=""><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
+                        <a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
                     {else}
                         <div><i class="fa fa-lock fa-fw"></i> Přihlásit se</div>
                         <form>
@@ -103,7 +105,7 @@
                                 <i class="fa fa-key fa-fw"></i>
                             </p>
 
-                            <div class="onoffswitch" title="zapamatovat přihlášení">
+                            <div class="onoffswitch" title="zapamatovat přihlášení" id="login-switch">
                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
                                        id="myonoffswitch" checked>
                                 <label class="onoffswitch-label" for="myonoffswitch">

@@ -79,4 +79,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         });
         return $template;
     }
+
+    public function handleLogout()
+    {
+        if($this->user->isLoggedIn()) {
+            $this->user->logout();
+        }
+        $this->redirect('default');
+    }
 }
