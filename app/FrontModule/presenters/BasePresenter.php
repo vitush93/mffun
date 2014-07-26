@@ -9,6 +9,7 @@ use WebLoader\Compiler;
 use WebLoader\FileCollection;
 use WebLoader\Filter\LessFilter;
 use WebLoader\Nette\JavaScriptLoader;
+use Nette\Application\UI\Form;
 
 /**
  * Base presenter for all application presenters.
@@ -16,6 +17,46 @@ use WebLoader\Nette\JavaScriptLoader;
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
     protected $thumbGenerator;
+
+    public function handleLogout()
+    {
+        if ($this->user->isLoggedIn()) {
+            $this->user->logout();
+        }
+        $this->flashMessage('Byl jsi odhlášen.', 'info');
+        $this->redirect('default');
+    }
+
+    public function processLoginForm(Form $form)
+    {
+        $values = $form->getValues();
+        if ($values->remember) {
+            $this->getUser()->setExpiration('14 days', false);
+        } else {
+            $this->getUser()->setExpiration('20 minutes', true);
+        }
+
+        try {
+            $this->getUser()->login($values->username, $values->password);
+            $this->flashMessage('Byl jsi úspěšně přihlášen!','success');
+            $this->redirect('Homepage:default');
+        } catch (Nette\Security\AuthenticationException $e) {
+            $this->flashMessage($e->getMessage(), 'error');
+        }
+    }
+
+    protected function createComponentLoginForm()
+    {
+        $form = new Form();
+        $form->addText('username', '');
+        $form->addPassword('password', '');
+        $form->addCheckbox('remember', '')->setDefaultValue(true);
+        $form->addSubmit('process', 'přihlásit');
+
+        $form->onSuccess[] = $this->processLoginForm;
+
+        return $form;
+    }
 
     protected function createComponentCss()
     {
@@ -78,13 +119,5 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             return \Minify_HTML::minify($in);
         });
         return $template;
-    }
-
-    public function handleLogout()
-    {
-        if($this->user->isLoggedIn()) {
-            $this->user->logout();
-        }
-        $this->redirect('default');
     }
 }

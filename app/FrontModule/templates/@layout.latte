@@ -6,30 +6,26 @@
     <meta name="robots" content="index,follow">
     <meta name="description" content="Freelance Webdesigner a Web Developer - Tvorba Webových Stránek a Aplikací">
     <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
-    <title>Web Database of Professor Quotations</title>
+    <title>{block title|striptags}Web Database of Professor Quotations{/block}</title>
     <link rel="icon" type="image/png" href="{$basePath}/public/front/img/favicon.png">
     <link rel="stylesheet" href="{$basePath}/public/front/css/bootstrap.css">
     <link rel="stylesheet" href="{$basePath}/public/front/css/reset.css">
     <link rel="stylesheet/less" type="text/css" href="{$basePath}/public/front/css/style.less">
     <link rel="stylesheet" href="{$basePath}/public/front/css/font-awesome.css">
-    <link
-            href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic|Bitter:400,700&subset=latin,latin-ext'
-            rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300&subset=latin,latin-ext' rel='stylesheet'
-          type='text/css'>
-    <link
-            href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,latin-ext'
-            rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
-    <link
-            href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
-            rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster|Oswald:400,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
     <script src="{$basePath}/public/front/js/jquery.js"></script>
     <script src="{$basePath}/public/front/js/jquery.velocity.js"></script>
     <script src="{$basePath}/public/front/js/bootstrap.js"></script>
     <script src="{$basePath}/public/front/js/less.js"></script>
     <script src="{$basePath}/public/front/js/script.js"></script>
+
+    {*
+    Webloader:
+    {control css}
+    {control js}
+    *}
+
+    {block assets}{/block}
 </head>
 <body>
 <div id="fb-root"></div>
@@ -82,8 +78,12 @@
             <li>
                 <a href="" id="user-controls-toggle">
                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
-                    {if $user->isLoggedIn()}<span><small>přihlášen</small><br>{$user->getIdentity()->username}</span>{else}
-                    <span><small>nepřihlášen</small><br>uživatel</span>{/if}
+                    {if $user->isLoggedIn()}<span>
+                        <small>přihlášen</small>
+                        <br>
+                        {$user->getIdentity()->username}</span>{else}
+                        <span><small>nepřihlášen</small><br>uživatel</span>
+                    {/if}
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -94,32 +94,31 @@
                         <a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
                     {else}
                         <div><i class="fa fa-lock fa-fw"></i> Přihlásit se</div>
-                        <form>
+                        {form loginForm}
                             <p>
-                                <input type="text" placeholder="login" class="login">
+                                {input username class=>'login',placeholder=>'login'}
+                                {*<input type="text" placeholder="login" class="login">*}
                                 <i class="fa fa-user fa-fw"></i>
                             </p>
-
                             <p>
-                                <input type="password" placeholder="heslo" class="login">
+                                {input password placeholder=>'heslo',class=>'login'}
+                                {*<input type="password" placeholder="heslo" class="login">*}
                                 <i class="fa fa-key fa-fw"></i>
                             </p>
-
-                            <div class="onoffswitch" title="zapamatovat přihlášení" id="login-switch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
-                                       id="myonoffswitch" checked>
-                                <label class="onoffswitch-label" for="myonoffswitch">
+                            <div class="onoffswitch" title="zapamatovat přihlášení">
+                                <input type="checkbox" name="remember" id="frm-loginForm-remember" checked="" class="onoffswitch-checkbox">
+                                <label class="onoffswitch-label" for="frm-loginForm-remember" id="login-switch">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
                                 </label>
                             </div>
                             <i class="fa fa-floppy-o"></i>
                             <a href="" class="login">obnovit heslo</a>
-
                             <div style="clear:both"></div>
-                            <input type="submit" value="přihlásit">
+                        {input process}
+                            {*<input type="submit" value="přihlásit">*}
                             <a href="" class="login">vytvořit nový účet</a>
-                        </form>
+                        {/form}
                     {/if}
                 </div>
             </li>
@@ -204,69 +203,79 @@
 </div>
 <div class="container" id="main">
     <div class="row">
+        <div class="col-lg-12">
+            {if count($flashes) > 0}
+                <div n:foreach="$flashes as $flash" class="clearfix flash {$flash->type}">{$flash->message} <i class="fa fa-times"></i></div>
+            {/if}
+        </div>
+    </div>
+    <div class="row">
         <section role="main" class="col-lg-8 col-md-9 col-sm-9 col-xs-12">
             <div id="content">
                 {for $i = 0; $i < 5; $i++}
-                <div class="row article <?php if ($i == 4) echo 'last' ?>">
-                    <article class="content-item">
-                        <div class="col-lg-2 visible-lg">
-                        </div>
-                        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                            <section>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-pinterest"></i></a>
-                                    <a href=""><i class="fa fa-thumbs-down"></i></a>
-                                    <a href=""><i class="fa fa-thumbs-up"></i></a>
-                                </div>
-
-                                <h2><a href="">Matematická analýza</a>
-                                    <small><a href="">#LubošPick</a></small>
-                                    <br>
-                                </h2>
-                                <span><a href="">4,355 bodů</a> &nbsp;·&nbsp; <a href="">43 komentářů</a></span>
-                                <p>Při opravování chyby mokrou houbou si doc. Pick rozmazal kus tabule, kterou
-                                    předtím
-                                    jako obvykle dokonale vzorně smazal:
-                                    "Ta tabule je zase smazaná..." (marně se pokouší zachránit to stěrkou)
-                                    "...to
-                                    jsem
-                                    tomu dal... už nikdy to nebude, co to bylo."</p>
-                                <div class="item-tags">
-                                    <a href="" class="tag">#MatematickáAnalýza</a>
-                                    <a href="" class="tag">#LubošPick</a>
-                                    <a href="" class="tag">#integrál</a>
-                                    <a href="" class="tag">#tabule</a>
-                                    <a href="" class="tag">#klasika</a>
-                                    <a href="" class="tag">#houba</a>
-                                    <a href="" class="tag">#matalyza</a>
-                                    <a href="" class="tag">#profesor</a>
-                                    <a href="" class="tag">#just</a>
-                                </div>
-                                <footer>
-                                    {for $j = 0; $j < 2; $j++}
-                                    <div class="top-comment clearfix">
-                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
-
-                                        <div class="comment-body">
-                                            <p><a href="">@vitush93</a></span>
-                                                Lorem ipsum dolor sit amet, consectetur awig banar cones amet
-                                                lis <a href="">...</a>
-                                            </p>
-                                            <span><i class="fa fa-thumbs-up"></i> 147</span>
-                                            <span><i class="fa fa-thumbs-down"></i> 14</span>
-                                        </div>
-
+                    <div class="row article <?php if ($i == 4) echo 'last' ?>">
+                        <article class="content-item">
+                            <div class="col-lg-2 visible-lg">
+                            </div>
+                            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                                <section>
+                                    <div class="social">
+                                        <a href=""><i class="fa fa-facebook"></i></a>
+                                        <a href=""><i class="fa fa-twitter"></i></a>
+                                        <a href=""><i class="fa fa-google-plus"></i></a>
+                                        <a href=""><i class="fa fa-pinterest"></i></a>
+                                        <a href=""><i class="fa fa-thumbs-down"></i></a>
+                                        <a href=""><i class="fa fa-thumbs-up"></i></a>
                                     </div>
-                                    {/for}
-                                    <p><i class="fa fa-angle-right"></i> <a href="">všechny komentáře</a></p>
-                                </footer>
-                            </section>
-                        </div>
-                    </article>
-                </div>
+
+                                    <h2><a href="">Matematická analýza</a>
+                                        <small><a href="">#LubošPick</a></small>
+                                        <br>
+                                    </h2>
+                                    <span><a href="">4,355 bodů</a> &nbsp;·&nbsp; <a href="">43 komentářů</a></span>
+
+                                    <p>Při opravování chyby mokrou houbou si doc. Pick rozmazal kus tabule, kterou
+                                        předtím
+                                        jako obvykle dokonale vzorně smazal:
+                                        "Ta tabule je zase smazaná..." (marně se pokouší zachránit to stěrkou)
+                                        "...to
+                                        jsem
+                                        tomu dal... už nikdy to nebude, co to bylo."</p>
+
+                                    <div class="item-tags">
+                                        <a href="" class="tag">#MatematickáAnalýza</a>
+                                        <a href="" class="tag">#LubošPick</a>
+                                        <a href="" class="tag">#integrál</a>
+                                        <a href="" class="tag">#tabule</a>
+                                        <a href="" class="tag">#klasika</a>
+                                        <a href="" class="tag">#houba</a>
+                                        <a href="" class="tag">#matalyza</a>
+                                        <a href="" class="tag">#profesor</a>
+                                        <a href="" class="tag">#just</a>
+                                    </div>
+                                    <footer>
+                                        {for $j = 0; $j < 2; $j++}
+                                            <div class="top-comment clearfix">
+                                                <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                                     class="img-circle">
+
+                                                <div class="comment-body">
+                                                    <p><a href="">@vitush93</a></span>
+                                                        Lorem ipsum dolor sit amet, consectetur awig banar cones amet
+                                                        lis <a href="">...</a>
+                                                    </p>
+                                                    <span><i class="fa fa-thumbs-up"></i> 147</span>
+                                                    <span><i class="fa fa-thumbs-down"></i> 14</span>
+                                                </div>
+
+                                            </div>
+                                        {/for}
+                                        <p><i class="fa fa-angle-right"></i> <a href="">všechny komentáře</a></p>
+                                    </footer>
+                                </section>
+                            </div>
+                        </article>
+                    </div>
                 {/for}
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-12"></div>

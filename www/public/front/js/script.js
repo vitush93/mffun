@@ -16,12 +16,27 @@ $(function () {
         }
     });
 
+    $('.flash i').on('click', function () {
+        $(this).parent('.flash').remove();
+    });
+
     $('#checkbox-reset').on('click', function (e) {
         e.preventDefault();
         $('.filter-checkbox').each(function () {
             $(this).attr('checked', false);
         });
     });
+
+    /*
+     $('#login-switch').on('click', function () {
+     var checkbox = $('#myonoffswitch');
+     if (checkbox.is(':checked')) {
+     checkbox.attr('checked', false);
+     } else {
+     checkbox.attr('checked', true);
+     }
+     });
+     */
 
     $('#user-cp').on({
         mouseenter: function () {
