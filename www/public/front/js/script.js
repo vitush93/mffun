@@ -303,7 +303,7 @@ $(function () {
 
                 lastScroll = st;
             }
-        }, 150);
+        }, 500);
     }
 
 });
