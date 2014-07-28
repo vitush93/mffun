@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="{$basePath}/public/front/css/reset.css">
     <link rel="stylesheet/less" type="text/css" href="{$basePath}/public/front/css/style.less">
     <link rel="stylesheet" href="{$basePath}/public/front/css/font-awesome.css">
-    <link href='http://fonts.googleapis.com/css?family=Lobster|Oswald:400,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster|Oswald:400,700&subset=latin-ext,latin' rel='stylesheet'
+          type='text/css'>
     <script src="{$basePath}/public/front/js/jquery.js"></script>
     {*<script src="{$basePath}/public/front/js/jquery.velocity.js"></script>*}
     <script src="{$basePath}/public/front/js/TweenMax.min.js"></script>
@@ -39,6 +40,12 @@
         js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&appId=249336298524816&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
+<div id="scroll-top">
+    <i class="fa fa-angle-double-up fa-fw fa-4x"></i></div>
+<footer role="contentinfo" id="footer">
+    <span>Handcrafted by <a href="http://vithabada.cz" target="_blank">Vít Habada</a></span>
+</footer>
+
 
 <nav id="mobile-menu" class="hidden-lg hidden-md hidden-sm">
     <div class="container">
@@ -55,11 +62,6 @@
         </div>
     </div>
 </nav>
-<div id="scroll-top">
-    <i class="fa fa-angle-double-up fa-fw fa-4x"></i></div>
-<footer role="contentinfo" id="footer">
-    <span>Handcrafted by <a href="http://vithabada.cz" target="_blank">Vít Habada</a></span>
-</footer>
 <nav role="navigation" id="top-nav" class="hidden-xs">
     <div class="container" id="nav-container">
         <a href="index.php" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
@@ -108,7 +110,8 @@
                                 <i class="fa fa-key fa-fw"></i>
                             </p>
                             <div class="onoffswitch" title="zapamatovat přihlášení">
-                                <input type="checkbox" name="remember" id="frm-loginForm-remember" checked="" class="onoffswitch-checkbox">
+                                <input type="checkbox" name="remember" id="frm-loginForm-remember" checked=""
+                                       class="onoffswitch-checkbox">
                                 <label class="onoffswitch-label" for="frm-loginForm-remember" id="login-switch">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
@@ -180,58 +183,59 @@
             </div>
         </div>
         {if $presenter->name == 'Front:Homepage'}
-        <div class="row" id="filter-container">
-            <div class="col-lg-12" id="filter">
-                <div class="row">
-                    <h2>Učitelé</h2>
-                    {for $i = 0; $i < 80; $i++}
-                        <p class="col-lg-2 col-md-2 col-sm-3">
-                            <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
-                            <label for="ucitel-{$i}">{$tags[$i]}</label>
-                        </p>
-                    {/for}
-                </div>
-                <div class="row">
-                    <h2>Předměty</h2>
-                    {for $i = 80; $i < 160; $i++}
-                        <p class="col-lg-2 col-md-2 col-sm-3">
-                            <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
-                            <label for="ucitel-{$i}">{$tags[$i]}</label>
-                        </p>
-                    {/for}
+            <div class="row" id="filter-container">
+                <div class="col-lg-12" id="filter">
+                    <div class="row">
+                        <h2>Učitelé</h2>
+                        {for $i = 0; $i < 80; $i++}
+                            <p class="col-lg-2 col-md-2 col-sm-3">
+                                <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
+                                <label for="ucitel-{$i}">{$tags[$i]}</label>
+                            </p>
+                        {/for}
+                    </div>
+                    <div class="row">
+                        <h2>Předměty</h2>
+                        {for $i = 80; $i < 160; $i++}
+                            <p class="col-lg-2 col-md-2 col-sm-3">
+                                <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
+                                <label for="ucitel-{$i}">{$tags[$i]}</label>
+                            </p>
+                        {/for}
+                    </div>
                 </div>
             </div>
-        </div>
         {/if}
     </div>
 </div>
 <div class="container" id="main">
     {block main}
-    <div class="row">
-        <div class="col-lg-12">
-            {if count($flashes) > 0}
-                <div n:foreach="$flashes as $flash" class="clearfix flash {$flash->type}">{$flash->message} <i class="fa fa-times"></i></div>
-            {/if}
-        </div>
-    </div>
-    <div class="row">
-        <section role="main" class="col-lg-8 col-md-8 col-sm-9 col-xs-12">
-            <div id="content">
-                {include content}
+        <div class="row">
+            <div class="col-lg-12">
+                {if count($flashes) > 0}
+                    <div n:foreach="$flashes as $flash" class="clearfix flash {$flash->type}">{$flash->message} <i
+                                class="fa fa-times"></i></div>
+                {/if}
             </div>
-        </section>
-        <aside class="col-lg-4 col-md-4 col-sm-3 hidden-xs" role="complementary">
-            <div class="tag-cloud">
-                <?php
+        </div>
+        <div class="row">
+            <section role="main" class="col-lg-8 col-md-8 col-sm-9 col-xs-12">
+                <div id="content">
+                    {include content}
+                </div>
+            </section>
+            <aside class="col-lg-4 col-md-4 col-sm-3 hidden-xs" role="complementary">
+                <div class="tag-cloud">
+                    <?php
                 sort($tags);
                 $sizes = array(12, 16, 20);
                 foreach ($tags as $s) {
                     echo '<a href="" style="font-size:' . $sizes[rand(0, count($sizes) - 1)] . 'px">#' . $s . '</a> ';
-                }
-                ?>
-            </div>
-        </aside>
-    </div>
+                    }
+                    ?>
+                </div>
+            </aside>
+        </div>
     {/block}
 </div>
 </body>

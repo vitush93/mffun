@@ -214,13 +214,12 @@ h1, h2, h3, h4, h5, h6 {
         padding: 40px;
         padding-top: 25px;
         padding-bottom: 30px;
-        box-shadow: 0 4px 0 1px #e4e6eb, 0 3px 0 #fff - 40;
+        box-shadow: 0 3px 0 1px #e4e6eb, 0 2px 0 #fff - 40;
         border-radius: 2px;
         position: relative;
         div.social {
           position: relative;
           //top: -25px;
-
           z-index: 2;
           .clearfix;
           a {
@@ -536,7 +535,7 @@ nav[role="navigation"] {
           display: block;
           font-size: 12px;
           font-family: @proxima;
-          color: @textcolor + 100;
+          color: @textcolor;
           &:focus {
             outline: none;
           }
@@ -761,9 +760,10 @@ aside[role="complementary"] {
   height: 95px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 4px 0 0 #e4e6eb;
+  box-shadow: 0 3px 0 1px #e4e6eb, 0 2px 0 #fff - 40;
   #filter-buttons {
     display: none;
+    margin-top:5px;
   }
   .button {
     font-size: 10px;
@@ -771,7 +771,6 @@ aside[role="complementary"] {
     padding: 0;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 5px;
     margin-right: 10px;
     height: 28px;
     line-height: 28px;
@@ -817,7 +816,6 @@ aside[role="complementary"] {
     padding-left: 15px;
     padding-right: 15px;
     line-height: 40px;
-    height: 40px;
     font-size: 16px;
     color: @textcolor + 60;
     &:hover {
@@ -957,7 +955,6 @@ footer[role="contentinfo"] {
 
 .flash {
   border-radius: 3px;
-  border: 1px solid fade(@green, 20%);
   margin: 20px;
   padding: 20px;
   font-family: @proxima;
@@ -977,22 +974,22 @@ footer[role="contentinfo"] {
   &.success {
     color: @green - 20;
     background: fade(@green, 5%);
-    border-color: fade(@green, 20%);
+    box-shadow: 0 3px 0 1px fade(@green - 50, 15%);
   }
   &.warning {
     color: @orange;
     background: fade(@orange, 5%);
-    border-color: fade(@orange, 20%);
+    box-shadow: 0 3px 0 1px fade(@orange - 50, 15%);
   }
   &.error {
     color: @redish;
     background: fade(@redish, 5%);
-    border-color: fade(@redish, 20%);
+    box-shadow: 0 3px 0 1px fade(@redish - 50, 15%);
   }
   &.info {
     color: @blue;
     background: fade(@blue, 5%);
-    border-color: fade(@blue, 20%);
+    box-shadow: 0 3px 0 1px fade(@blue - 50, 15%);
   }
 }
 
