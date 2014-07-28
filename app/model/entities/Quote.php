@@ -28,18 +28,16 @@ class Quote extends BaseEntity
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
+     */
+    private $comments;
+
     // TODO entities & relationships
     private $teacher;
     private $subject;
-    private $comments;
     private $ratings;
     private $tags;
-
-    /**
-     * @ORM\Column(type="string")
-     * @var string
-     */
-    private $year;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,12 +56,6 @@ class Quote extends BaseEntity
      * @var string
      */
     private $text;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string
-     */
-    private $user_comment;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -141,22 +133,6 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @param string $user_comment
-     */
-    public function setUserComment($user_comment)
-    {
-        $this->user_comment = $user_comment;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserComment()
-    {
-        return $this->user_comment;
-    }
-
-    /**
      * @param string $user_email
      */
     public function setUserEmail($user_email)
@@ -171,22 +147,5 @@ class Quote extends BaseEntity
     {
         return $this->user_email;
     }
-
-    /**
-     * @param string $year
-     */
-    public function setYear($year)
-    {
-        $this->year = $year;
-    }
-
-    /**
-     * @return string
-     */
-    public function getYear()
-    {
-        return $this->year;
-    }
-
 
 } 

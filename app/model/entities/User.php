@@ -33,12 +33,15 @@ class User extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="Quote", mappedBy="user")
-     * @var Quote
      */
     private $quotations;
 
-    // TODO entities & relationships
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     */
     private $comments;
+
+    // TODO entities & relationships
     private $quote_ratings;
     private $comment_ratings;
 
@@ -88,6 +91,7 @@ class User extends BaseEntity
     {
         $this->registered = new DateTime();
         $this->quotations = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
