@@ -28,7 +28,10 @@ class Quote extends BaseEntity
      */
     private $user;
 
-    // TODO entities & relationships
+    /**
+     * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="quotations")
+     * @var Teacher
+     */
     private $teacher;
 
     /**
@@ -213,6 +216,25 @@ class Quote extends BaseEntity
     {
         return $this->subject;
     }
+
+    /**
+     * @param mixed $teacher
+     */
+    public function setTeacher(Teacher $teacher)
+    {
+        $teacher->addQuote($this);
+        $this->teacher = $teacher;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTeacher()
+    {
+        return $this->teacher;
+    }
+
+
 
 
 }
