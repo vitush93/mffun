@@ -31,7 +31,6 @@ class Quote extends BaseEntity
     // TODO entities & relationships
     private $teacher;
     private $subject;
-    private $tags;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
