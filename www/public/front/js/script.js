@@ -101,7 +101,6 @@ $(function () {
     var scrollVisible = false;
 
     handler = function () {
-        console.log('scroll');
         st = $(window).scrollTop();
         if (st > lastScroll) {
             //scroll down

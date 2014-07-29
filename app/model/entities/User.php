@@ -41,8 +41,12 @@ class User extends BaseEntity
      */
     private $comments;
 
-    // TODO entities & relationships
+    /**
+     * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="user")
+     */
     private $quote_ratings;
+
+    // TODO entities & relationships
     private $comment_ratings;
 
     /**
@@ -92,6 +96,30 @@ class User extends BaseEntity
         $this->registered = new DateTime();
         $this->quotations = new ArrayCollection();
         $this->comments = new ArrayCollection();
+    }
+
+    /**
+     * @param Quote $quote
+     */
+    public function addQuote(Quote $quote)
+    {
+        $this->quotations[] = $quote;
+    }
+
+    /**
+     * @param QuoteRating $quoteRating
+     */
+    public function addQuoteRating(QuoteRating $quoteRating)
+    {
+        $this->quote_ratings[] = $quoteRating;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function addComment(Comment $comment)
+    {
+        $this->comments[] = $comment;
     }
 
     /**
@@ -148,7 +176,7 @@ class User extends BaseEntity
      */
     public function setRole($role)
     {
-        if(!in_array($role, self::$ALLOWED_ROLES)){
+        if (!in_array($role, self::$ALLOWED_ROLES)) {
             throw new InvalidArgumentException("Role {$role} is not in allowed roles.");
         }
         $this->role = $role;
@@ -168,6 +196,70 @@ class User extends BaseEntity
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getRegistered()
+    {
+        return $this->registered;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuoteRatings()
+    {
+        return $this->quote_ratings;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getQuotations()
+    {
+        return $this->quotations;
     }
 
 } 

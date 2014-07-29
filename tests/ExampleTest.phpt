@@ -3,34 +3,41 @@
 namespace Test;
 
 use Nette,
-	Tester,
-	Tester\Assert;
+    Tester,
+    Tester\Assert;
 
 $container = require __DIR__ . '/bootstrap.php';
 
-
 class ExampleTest extends Tester\TestCase
 {
-	private $container;
 
+    private $container;
 
-	function __construct(Nette\DI\Container $container)
-	{
-		$this->container = $container;
-	}
+    function __construct(Nette\DI\Container $container)
+    {
+        $this->container = $container;
+    }
 
+    function setUp()
+    {
+        // prepare
+    }
 
-	function setUp()
-	{
-	}
+    function tearDown()
+    {
+        // cleanup
+    }
 
+    function testSomething()
+    {
+        
+    }
 
-	function testSomething()
-	{
-		Assert::true( true );
-	}
+    function testAny()
+    {
+        
+    }
 
 }
-
 
 id(new ExampleTest($container))->run();

@@ -33,10 +33,14 @@ class Quote extends BaseEntity
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote")
+     */
+    private $ratings;
+
     // TODO entities & relationships
     private $teacher;
     private $subject;
-    private $ratings;
     private $tags;
 
     /**
@@ -69,6 +73,22 @@ class Quote extends BaseEntity
     }
 
     /**
+     * @param QuoteRating $quoteRating
+     */
+    public function addRating(QuoteRating $quoteRating)
+    {
+        $this->ratings[] = $quoteRating;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function addComment(Comment $comment)
+    {
+        $this->comments[] = $comment;
+    }
+
+    /**
      * @param int $id
      */
     public function setId($id)
@@ -87,7 +107,7 @@ class Quote extends BaseEntity
     /**
      * @param \DateTime $date
      */
-    public function setDate($date)
+    public function setDate(DateTime $date)
     {
         $this->date = $date;
     }
@@ -98,14 +118,6 @@ class Quote extends BaseEntity
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * @param \DateTime $posted
-     */
-    public function setPosted($posted)
-    {
-        $this->posted = $posted;
     }
 
     /**
@@ -146,6 +158,39 @@ class Quote extends BaseEntity
     public function getUserEmail()
     {
         return $this->user_email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
+    }
+
+    /**
+     * @param \App\Model\Entities\User $user
+     */
+    public function setUser(User $user)
+    {
+        $user->addQuote($this);
+        $this->user = $user;
+    }
+
+    /**
+     * @return \App\Model\Entities\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
 } 
