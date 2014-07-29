@@ -5,7 +5,7 @@ namespace Model;
 use Nette\Http\FileUpload;
 use Nette\Object;
 
-class FileUploadManager extends Object
+class FileUploadHandler extends Object
 {
 
     private static function getUploadDir()

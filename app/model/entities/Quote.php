@@ -23,13 +23,18 @@ class Quote extends BaseEntity
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="quotations")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="quotations")
      * @var User
      */
     private $user;
 
     // TODO entities & relationships
     private $teacher;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Subject", inversedBy="quotations")
+     * @var Subject
+     */
     private $subject;
 
     /**
@@ -192,4 +197,22 @@ class Quote extends BaseEntity
         return $this->user;
     }
 
-} 
+    /**
+     * @param \App\Model\Entities\Subject $subject
+     */
+    public function setSubject(Subject $subject)
+    {
+        $subject->addQuote($this);
+        $this->subject = $subject;
+    }
+
+    /**
+     * @return \App\Model\Entities\Subject
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+
+}
