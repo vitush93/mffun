@@ -28,6 +28,11 @@ class Quote extends BaseEntity
      */
     private $user;
 
+    // TODO entities & relationships
+    private $teacher;
+    private $subject;
+    private $tags;
+
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
      */
@@ -37,11 +42,6 @@ class Quote extends BaseEntity
      * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote")
      */
     private $ratings;
-
-    // TODO entities & relationships
-    private $teacher;
-    private $subject;
-    private $tags;
 
     /**
      * @ORM\Column(type="datetime")

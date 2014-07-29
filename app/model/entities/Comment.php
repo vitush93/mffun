@@ -5,6 +5,8 @@ namespace App\Model\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use DateTime;
 
 /**
@@ -33,7 +35,10 @@ class Comment extends BaseEntity
      */
     private $quote;
 
-    // TODO entities & relationships
+    /**
+     * @ORM\OneToMany(targetEntity="CommentRating", mappedBy="comment")
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
     private $ratings;
 
     /**
@@ -58,6 +63,14 @@ class Comment extends BaseEntity
     {
         $this->posted = new DateTime();
         $this->ratings = new ArrayCollection();
+    }
+
+    /**
+     * @param CommentRating $commentRating
+     */
+    public function addRating(CommentRating $commentRating)
+    {
+        $this->ratings[] = $commentRating;
     }
 
     /**

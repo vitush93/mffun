@@ -1,18 +1,19 @@
 <?php
 
+
 namespace App\Model\Entities;
 
 
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\DateTime;
 use Doctrine\ORM\Mapping\ManyToOne;
-use DateTime;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="quote_ratings")
+ * @ORM\Table(name="comment_ratings")
  */
-class QuoteRating extends BaseEntity
+class CommentRating extends BaseEntity
 {
     const
         POSITIVE = 1,
@@ -28,16 +29,16 @@ class QuoteRating extends BaseEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Quote", inversedBy="ratings")
-     * @var Quote
-     */
-    private $quote;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="quote_ratings")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comment_ratings")
      * @var User
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="ratings")
+     * @var Comment
+     */
+    private $comment;
 
     /**
      * @ORM\Column(type="datetime")
@@ -53,7 +54,24 @@ class QuoteRating extends BaseEntity
 
     public function __construct()
     {
-        $this->rated = new DateTime();
+        $this->rated = new \DateTime();
+    }
+
+    /**
+     * @param \App\Model\Entities\Comment $comment
+     */
+    public function setComment(Comment $comment)
+    {
+        $comment->addRating($this);
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return \App\Model\Entities\Comment
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
 
     /**
@@ -73,24 +91,15 @@ class QuoteRating extends BaseEntity
     }
 
     /**
-     * @param \App\Model\Entities\Quote $quote
+     * @param \Nette\Utils\DateTime $rated
      */
-    public function setQuote(Quote $quote)
+    public function setRated($rated)
     {
-        $quote->addRating($this);
-        $this->quote = $quote;
+        $this->rated = $rated;
     }
 
     /**
-     * @return \App\Model\Entities\Quote
-     */
-    public function getQuote()
-    {
-        return $this->quote;
-    }
-
-    /**
-     * @return \DateTime
+     * @return \Nette\Utils\DateTime
      */
     public function getRated()
     {
@@ -100,9 +109,9 @@ class QuoteRating extends BaseEntity
     /**
      * @param \App\Model\Entities\User $user
      */
-    public function setUser(User $user)
+    public function setUser($user)
     {
-        $user->addQuoteRating($this);
+        $user->addCommentRating($this);
         $this->user = $user;
     }
 
@@ -133,6 +142,7 @@ class QuoteRating extends BaseEntity
     {
         return $this->value;
     }
+
 
 
 } 

@@ -46,7 +46,9 @@ class User extends BaseEntity
      */
     private $quote_ratings;
 
-    // TODO entities & relationships
+    /**
+     * @ORM\OneToMany(targetEntity="CommentRating", mappedBy="user")
+     */
     private $comment_ratings;
 
     /**
@@ -71,7 +73,7 @@ class User extends BaseEntity
      * @ORM\Column(type="string")
      * @var string
      */
-    private $role;
+    private $role = self::ROLE_USER;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -80,7 +82,7 @@ class User extends BaseEntity
     private $name;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      * @var DateTime
      */
     private $registered;
@@ -96,6 +98,13 @@ class User extends BaseEntity
         $this->registered = new DateTime();
         $this->quotations = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->comment_ratings = new ArrayCollection();
+        $this->quote_ratings = new ArrayCollection();
+    }
+
+    public function addCommentRating(CommentRating $commentRating)
+    {
+        $this->comment_ratings[] = $commentRating;
     }
 
     /**
