@@ -16,6 +16,33 @@ $(function () {
         }
     });
 
+    $('#add-quote-close').on('click', function () {
+        modalClose();
+    });
+
+    $('#add-quote-button').on('click', function (e) {
+        e.preventDefault();
+        $('#modal-fade').stop().show();
+        $('#add-quote').stop().show().animate({
+            top: 50,
+            opacity: 1
+        }, 300);
+    });
+
+    $('#modal-fade').on('click', function () {
+        modalClose();
+    });
+
+    function modalClose() {
+        $('#modal-fade').hide();
+        $('#add-quote').stop().animate({
+            top: 0,
+            opacity: 0
+        }, 100, function () {
+            $(this).hide();
+        });
+    }
+
     $('.flash i').on('click', function () {
         $(this).parent('.flash').remove();
     });
@@ -40,8 +67,9 @@ $(function () {
 
 
     $('html').on('click', function (e) {
+        var target = $(e.target);
+        var add_quote = $('#add-quote');
         if ($('#page-search-button').hasClass('active')) {
-            var target = $(e.target);
             if (target.parents('#top-nav').size() == 0) {
                 searchBoxControl();
             }
@@ -91,7 +119,7 @@ $(function () {
             scrolled = false;
             handler();
         }
-    }, 100);
+    }, 200);
 
     var lastScroll = 0;
     var st = 0;

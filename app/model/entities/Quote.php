@@ -234,7 +234,4 @@ class Quote extends BaseEntity
         return $this->teacher;
     }
 
-
-
-
 }

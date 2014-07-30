@@ -2,6 +2,7 @@
 
 namespace App\FrontModule;
 
+use App\FrontModule\Forms\LoginForm;
 use Kollarovic\Thumbnail\AbstractGenerator;
 use Nette,
     Model;
@@ -11,6 +12,7 @@ use WebLoader\Filter\LessFilter;
 use WebLoader\Nette\JavaScriptLoader;
 use Nette\Application\UI\Form;
 use Nette\Application\Application;
+use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 
 /**
  * Base presenter for all application presenters.
@@ -18,6 +20,9 @@ use Nette\Application\Application;
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
     protected $thumbGenerator;
+
+    /** @var IAddQuoteControlFactory @inject */
+    public  $addQuoteFactory;
 
     public function handleLogout()
     {
@@ -56,21 +61,21 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
 
         try {
             $this->getUser()->login($values->username, $values->password);
-            $this->flashMessage('Byl jsi úspěšně přihlášen!','success');
+            $this->flashMessage('Byl jsi úspěšně přihlášen!', 'success');
             $this->redirect('Homepage:default');
         } catch (Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage(), 'error');
         }
     }
 
+    protected function createComponentAddQuoteControl()
+    {
+        return $this->addQuoteFactory->create();
+    }
+
     protected function createComponentLoginForm()
     {
-        $form = new Form();
-        $form->addText('username', '');
-        $form->addPassword('password', '');
-        $form->addCheckbox('remember', '')->setDefaultValue(true);
-        $form->addSubmit('process', 'přihlásit');
-
+        $form = new LoginForm();
         $form->onSuccess[] = $this->processLoginForm;
 
         return $form;

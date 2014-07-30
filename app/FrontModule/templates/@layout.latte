@@ -45,7 +45,14 @@
     <span>Handcrafted by <a href="http://vithabada.cz" target="_blank">Vít Habada</a></span>
 </footer>
 
+<div id="add-quote">
+    <i class="fa fa-times fa-fw" id="add-quote-close"></i>
 
+    <h2>Přidat citaci</h2>
+
+    {control addQuoteControl}
+</div>
+<div id="modal-fade"></div>
 <nav id="mobile-menu" class="hidden-lg hidden-md hidden-sm">
     <div class="container">
         <a href="" id="mobile-add"><i class="fa fa-plus"></i></a>
@@ -75,7 +82,7 @@
             </li>
         </ul>
         <div>
-            <a href="">přidat citát</a>
+            <a href="" id="add-quote-button">přidat citát</a>
         </div>
         <ul id="user-cp">
             <li>

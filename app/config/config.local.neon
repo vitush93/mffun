@@ -14,6 +14,12 @@ doctrine:
         App: %appDir%
 
 services:
-    - App\RouterFactory
+    # repositories
     - App\Model\UserManager
+
+    # services
+
+    # factories
+    - App\RouterFactory
     - App\AdminModule\IGridoUsersControlFactory
+    - App\FrontModule\Components\AddQuote\IAddQuoteControlFactory
