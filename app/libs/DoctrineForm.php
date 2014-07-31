@@ -38,13 +38,10 @@ class DoctrineForm extends Form
     /**
      * @return self
      */
-    public function reset()
+    public
+    function reset()
     {
         $this->setDefaults(array());
         return $this;
     }
-}
-
-class MissingEntityException extends \Exception
-{
 }

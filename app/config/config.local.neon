@@ -10,14 +10,19 @@ doctrine:
     user: root
     password:
     dbname: rocnikac
+    metadataCache: default
     metadata:
         App: %appDir%
 
 services:
     # repositories
-    - App\Model\UserManager
+    - App\Model\Repositories\QuoteRepository
+    - App\Model\Repositories\TeacherRepository
+    - App\Model\Repositories\SubjectRepository
+    - App\Model\Repositories\UserRepository
 
     # services
+    - App\Model\Services\AuthenticationService
 
     # factories
     - App\RouterFactory

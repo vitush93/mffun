@@ -27,7 +27,7 @@ class Subject extends BaseEntity
     private $quotations;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      * @var string
      */
     private $name;

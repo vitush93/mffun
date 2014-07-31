@@ -93,6 +93,12 @@ class User extends BaseEntity
      */
     private $avatar;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @var int
+     */
+    private $active = TRUE;
+
     public function __construct()
     {
         $this->registered = new DateTime();
@@ -270,5 +276,23 @@ class User extends BaseEntity
     {
         return $this->quotations;
     }
+
+    /**
+     * @param int $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return int
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+
 
 } 

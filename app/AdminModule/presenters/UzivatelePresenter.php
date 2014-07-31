@@ -5,34 +5,34 @@ namespace App\AdminModule;
 use App\Libs\BootstrapForm;
 use App\Libs\DoctrineForm;
 use App\Model\Entities\User;
-use App\Model\UserManager;
+use Kdyby\Doctrine\DuplicateEntryException;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Form;
+use App\Model\Repositories\UserRepository;
 
 class UzivatelePresenter extends BasePresenter
 {
-    private $gridoUsersControlFactory;
+    /** @var  IGridoUsersControlFactory @inject */
+    public $gridoUsersControlFactory;
 
-    /** @var UserManager */
-    private $userManager;
-
-    /** @var EntityManager */
-    private $entityManager;
+    /** @var UserRepository @inject */
+    public $userRepository;
 
     public function actionDetail($id)
     {
-        $this->template->info = $this->entityManager->getDao(User::getClassName())->find($id);
+        $this->template->info = $this->userRepository->find($id);
     }
 
     public function actionEdit($id)
     {
-        $user = $this->entityManager->getDao(User::getClassName())->find($this->getParameter('id'));
+        $user = $this->userRepository->find($this->getParameter('id'));
         $this->setView('default');
         if ($this->isAjax()) {
             $this['newUserForm']
                 ->setDefaults(array(
                     'username' => $user->getUsername(),
-                    'role' => $user->getRole()
+                    'role' => $user->getRole(),
+                    'email' => $user->getEmail()
                 ))
                 ->setFormName('Upravit uživatele')
                 ->show()
@@ -42,10 +42,7 @@ class UzivatelePresenter extends BasePresenter
 
     public function actionDelete($id)
     {
-        $this->entityManager->remove(
-            $this->entityManager->getDao(User::getClassName())->find($id)
-        );
-        $this->entityManager->flush();
+        $this->userRepository->remove($id);
 
         $this->flashMessage('Uživatel byl smazán', 'info');
         $this->redirect('default');
@@ -63,22 +60,20 @@ class UzivatelePresenter extends BasePresenter
     {
         try {
             $values = $form->getValues();
-            $user = $this->entityManager->getDao(User::getClassName())->find($this->getParameter('id'));
+            $user = $this->userRepository->find($this->getParameter('id'));
+
             $user->setUsername($values->username);
             $user->setRole($values->role);
             $user->setPassword($values->password);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            $user->setEmail($values->email);
+
+            $this->userRepository->save($user);
 
             $this->flashMessage('Změny byly uloženy.', 'success');
             $this->redirect('default');
-        } catch (\PDOException $e) {
+        } catch (DuplicateEntryException $e) {
             $this['newUserForm']->show();
-            if ($e->getCode() == 23000) {
-                $form->addError('Uživatel s tímto uživatelským jménem již existuje.');
-            } else {
-                throw $e;
-            }
+            $form->addError('Uživatel s tímto uživatelským jménem nebo e-mailem již existuje.');
         }
     }
 
@@ -86,38 +81,21 @@ class UzivatelePresenter extends BasePresenter
     {
         try {
             $data = $form->getValues(true);
-            $this->userManager->add($data);
+
+            $newuser = new User();
+            $newuser->setUsername($data['username']);
+            $newuser->setPassword($data['password']);
+            $newuser->setEmail($data['email']);
+            $newuser->setRole($data['role']);
+
+            $this->userRepository->add($newuser);
 
             $this->flashMessage('Uživatel byl vytvořen.', 'success');
             $this->redirect('default');
-        } catch (\PDOException $e) {
+        } catch (DuplicateEntryException $e) {
             $this['newUserForm']->show();
-            if ($e->getCode() == 23000) {
-                $form->addError('Uživatel s tímto uživatelským jménem již existuje.');
-            } else {
-                throw $e;
-            }
+            $form->addError('Uživatel s tímto uživatelským jménem nebo e-mailem již existuje.');
         }
-    }
-
-    protected function createComponentDoctrineForm()
-    {
-        $form = new DoctrineForm();
-
-        $form->addGroup('User credentials');
-        $form->addText('username', 'Username')->setRequired();
-        $form->addPassword('password', 'Password')->setRequired();
-        $form->addSelect('role', 'Role', array(
-            'admin' => 'Admin',
-            'user' => 'User'
-        ))->setPrompt('-vyberte-')->setRequired();
-
-        $form->addGroup('Submit');
-        $form->addSubmit('process', 'Submit');
-
-        $form->onSuccess[] = $this->newUser;
-
-        return BootstrapForm::makeBootstrap($form);
     }
 
     protected function createComponentNewUserForm()
@@ -144,6 +122,9 @@ class UzivatelePresenter extends BasePresenter
         }
 
         $form->addGroup('Vlastnosti účtu');
+        $form->addText('email', 'E-mail')
+            ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.')
+            ->setRequired('Vyplňte prosím.');
         $form->addSelect('role', 'Role', array('user' => 'Registrovaný', 'admin' => 'Admin'))
             ->setPrompt('-vyberte-')
             ->addRule(Form::FILLED, 'Vyplňte prosím.');
@@ -163,20 +144,5 @@ class UzivatelePresenter extends BasePresenter
     protected function createComponentGridoUsers()
     {
         return $this->gridoUsersControlFactory->create();
-    }
-
-    public function injectGridoUsersControl(IGridoUsersControlFactory $grido)
-    {
-        $this->gridoUsersControlFactory = $grido;
-    }
-
-    public function injectUserManager(UserManager $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
-    public function injectEntityManager(EntityManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
     }
 }

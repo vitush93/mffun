@@ -5,8 +5,9 @@ namespace App\AdminModule;
 use App\Model\Entities\User;
 use Grido\DataSources\Doctrine;
 use Kdyby\Doctrine\EntityManager;
+use Nette\Application\UI\Control;
 
-class GridoUsersControl extends \Nette\Application\UI\Control
+class GridoUsersControl extends Control
 {
     /** @var EntityManager */
     private $entityManager;

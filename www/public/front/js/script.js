@@ -1,4 +1,6 @@
 $(function () {
+    $.nette.init();
+
     $('#user-controls-toggle').on('click', function (e) {
         e.preventDefault();
     });

@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\Services;
 
 use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette,
     Nette\Security\Passwords;
+use Nette\Object;
 
-
-/**
- * Users management.
- */
-class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
+class AuthenticationService extends Object implements Nette\Security\IAuthenticator
 {
     /** @var EntityManager */
     private $em;
@@ -51,16 +48,4 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
 
         return new Nette\Security\Identity($arr['id'], $arr['role'], $arr);
     }
-
-    public function add(array $data)
-    {
-        $newUser = new User();
-        $newUser->setUsername($data['username']);
-        $newUser->setPassword($data['password']);
-        $newUser->setRole($data['role']);
-        $newUser->setEmail($data['email']);
-        $this->em->persist($newUser);
-        $this->em->flush();
-    }
-
 }

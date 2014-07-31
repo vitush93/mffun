@@ -28,7 +28,7 @@ class Teacher extends BaseEntity
     private $quotations;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      * @var string
      */
     private $name;
@@ -41,14 +41,6 @@ class Teacher extends BaseEntity
     public function addQuote(Quote $quote)
     {
         $this->quotations[] = $quote;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
