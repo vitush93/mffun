@@ -86,8 +86,9 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
         $files = new FileCollection(WWW_DIR . '/public/front/css');
         $files->addFiles(array(
             'bootstrap.css',
-            'bootstrap-theme.css',
-            'front.less'
+            'reset.css',
+            'style.less',
+            'font-awesome.css',
         ));
 
         $compiler = Compiler::createCssCompiler($files, WWW_DIR . '/temp');
@@ -114,10 +115,12 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
         $files = new FileCollection(WWW_DIR . '/public/front/js');
         $files->addFiles(array(
             'jquery.js',
+            'TweenMax.min.js',
+            'jquery.gsap.min.js',
             'bootstrap.js',
             'nette.ajax.js',
             'live-form-validation.js',
-            'main.js'
+            'script.js'
         ));
 
         $compiler = Compiler::createJsCompiler($files, WWW_DIR . '/temp');
