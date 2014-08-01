@@ -17,6 +17,9 @@ $user->setPassword($_SERVER['argv'][2]);
 $user->setRole($_SERVER['argv'][3]);
 $user->setEmail($_SERVER['argv'][4]);
 
-$container->getByType('App\Model\Repositories\UserRepository')->add($user);
+$em = $container->getByType('Kdyby\Doctrine\EntityManager');
+
+$em->persist($user);
+$em->flush();
 
 echo "User {$_SERVER['argv'][1]} was added.\n";

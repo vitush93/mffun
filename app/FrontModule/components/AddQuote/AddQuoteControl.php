@@ -2,45 +2,45 @@
 
 namespace App\FrontModule\Components\AddQuote;
 
-use App\Libs\DoctrineForm;
-use App\Model\Repositories\QuoteRepository;
-use App\Model\Repositories\SubjectRepository;
-use App\Model\Repositories\TeacherRepository;
-use App\Model\Repositories\UserRepository;
+use App\FrontModule\Forms\AddQuoteForm;
+use App\Model\Entities\User;
+use App\Model\Services\QuoteManagementService;
+use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
-use App\Model\Entities\Subject;
 use App\Model\Entities\Quote;
-use App\Model\Entities\Teacher;
 use Nette\Utils\DateTime;
+use App\Model\Entities\Teacher;
+use App\Model\Entities\Subject;
+use App\Libs\Utils;
 
 
 class AddQuoteControl extends Control
 {
-    /** @var \App\Model\Repositories\TeacherRepository */
-    private $teacherRepository;
-
-    /** @var \App\Model\Repositories\SubjectRepository */
-    private $subjectRepository;
+    /** @var \Kdyby\Doctrine\EntityManager */
+    private $em;
 
     /** @var \App\Model\Repositories\QuoteRepository */
-    private $quoteRepository;
+    private $quoteManagementService;
 
-    /** @var \App\Model\Repositories\UserRepository */
-    private $userRepository;
+    /** @var \Kdyby\Doctrine\EntityDao */
+    private $userDao;
 
-    public function __construct(
-        TeacherRepository $teacherRepository,
-        SubjectRepository $subjectRepository,
-        QuoteRepository $quoteRepository,
-        UserRepository $userRepository)
+    /** @var \Kdyby\Doctrine\EntityDao */
+    private $subjectDao;
+
+    /** @var \Kdyby\Doctrine\EntityDao */
+    private $teacherDao;
+
+    public function __construct(EntityManager $entityManager, QuoteManagementService $managementService)
     {
         parent::__construct();
 
-        $this->teacherRepository = $teacherRepository;
-        $this->subjectRepository = $subjectRepository;
-        $this->quoteRepository = $quoteRepository;
-        $this->userRepository = $userRepository;
+        $this->quoteManagementService = $managementService;
+        $this->em = $entityManager;
+        $this->userDao = $entityManager->getDao(User::getClassName());
+        $this->subjectDao = $entityManager->getDao(Subject::getClassName());
+        $this->teacherDao = $entityManager->getDao(Teacher::getClassName());
     }
 
     public function render()
@@ -49,7 +49,7 @@ class AddQuoteControl extends Control
         $this->template->render();
     }
 
-    public function processAddQuoteForm(DoctrineForm $form)
+    public function processAddQuoteForm(Form $form)
     {
         $data = $form->getValues(true);
 
@@ -59,33 +59,37 @@ class AddQuoteControl extends Control
         $quote->setUserEmail($data['user_email']);
 
         if ($this->presenter->getUser()->isLoggedIn()) {
-            $quote->setUser($this->userRepository->find($this->presenter->getUser()->getId()));
+            $author = $this->userDao->find($this->presenter->getUser()->getId());
         } else {
-            $quote->setUser($this->userRepository->findOneByUsername('unknown'));
+            $author = $this->userDao->findOneBy(array('username' => 'unknown'));
         }
+        $quote->setUser($author);
 
         // set teacher, add new teacher if not exists
-        $teacher = $this->teacherRepository->findOneByName($data['teacher']);
-        if ($teacher === NULL) {
+        $teacher = $this->teacherDao->findOneBy(array('name' => $data['teacher']));
+        if ($teacher == NULL) {
             $teacher = new Teacher();
             $teacher->setName($data['teacher']);
-            $quote->setTeacher($this->teacherRepository->add($teacher));
-        } else {
-            $quote->setTeacher($teacher);
+
+            $this->teacherDao->save($teacher);
         }
+        $quote->setTeacher($teacher);
 
         // set subject, add new subject if not exists
-        $subject = $this->subjectRepository->findOneByName($data['subject']);
-        if ($subject === NULL) {
+        $subject = $this->subjectDao->findOneBy(array('name' => $data['subject']));
+        if ($subject == NULL) {
             $subject = new Subject();
             $subject->setName($data['subject']);
-            $quote->setSubject($this->subjectRepository->add($subject));
-        } else {
-            $quote->setSubject($subject);
+
+            $this->subjectDao->save($subject);
         }
+        $quote->setSubject($subject);
+
+        Utils::safeExplodeByComma($data['tags']);
 
         // add new quote
-        $this->quoteRepository->add($quote);
+        $this->quoteManagementService->addQuote($quote, $data['tags']);
+        $this->em->flush();
 
         $this->presenter->flashMessage('Citace byla přidána.', 'success');
         $this->presenter->redirect('this');
@@ -93,18 +97,7 @@ class AddQuoteControl extends Control
 
     protected function createComponentQuoteForm()
     {
-        $form = new DoctrineForm();
-        $form->addText('subject', 'Předmět')->setRequired('Vyplňte prosím.');
-        $form->addText('teacher', 'Vyučující')->setRequired('Vyplňte prosím.');
-        $form->addTextArea('text', 'Text citace')->setRequired('Vyplňte prosím.');
-        $form->addText('date', 'Datum výroku')
-            ->setDefaultValue(date('j.n.Y'))
-            ->setRequired('Vyplňte prosím.');
-        $form->addText('user_email', 'Tvůj e-mail')
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
-        $form->addSubmit('process', 'přidat citát');
-
+        $form = new AddQuoteForm();
         $form->onSuccess[] = $this->processAddQuoteForm;
 
         return $form;

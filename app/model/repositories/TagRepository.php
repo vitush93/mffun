@@ -2,30 +2,29 @@
 
 namespace App\Model\Repositories;
 
-use App\Model\Entities\Subject;
+use App\Model\Entities\Tag;
 use Kdyby\Doctrine\EntityManager;
-use Kdyby\Doctrine\EntityDao;
 use Nette\Object;
 
-class SubjectRepository extends Object implements IRepository
+class TagRepository extends Object implements IRepository
 {
     use RepositoryTrait;
 
-    /** @var EntityDao */
-    private $subjectDao;
+    /** @var \Kdyby\Doctrine\EntityDao */
+    private $tagDao;
 
     /** @var EntityManager */
     private $em;
 
     public function __construct(EntityManager $entityManager)
     {
-        $this->subjectDao = $entityManager->getDao(Subject::getClassName());
+        $this->tagDao = $entityManager->getDao(Tag::getClassName());
         $this->em = $entityManager;
     }
 
-    public function findOneByName($subject)
+    public function findOneByTag($tag)
     {
-        return $this->subjectDao->findOneBy(array('name' => $subject));
+        return $this->tagDao->findOneBy(array('tag' => $tag));
     }
 
     /**

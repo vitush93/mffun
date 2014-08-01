@@ -1,7 +1,7 @@
 {block content}
 
-    {for $i = 0; $i < 5; $i++}
-        <div class="row article <?php if ($i == 4) echo 'last' ?>">
+    {foreach $quotations as $q}
+        <div class="row article {if $iterator->isLast()}last{/if}">
             <article class="content-item">
                 <div class="col-lg-2 visible-lg">
                 </div>
@@ -16,58 +16,55 @@
                             <a href=""><i class="fa fa-thumbs-up"></i></a>
                         </div>
 
-                        <h2><a href="">Matematická analýza</a>
-                            <small><a href="">#LubošPick</a></small>
+                        <h2><a href="">{$q->getSubject()->getName()}</a>
+                            <small><a href="">{$q->getTeacher()->getName(true)}</a></small>
                             <br>
                         </h2>
-                        <span><a href="">4,355 bodů</a> &nbsp;·&nbsp; <a href="">43 komentářů</a></span>
+                        <span><a href="">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a href="">{$q->getComments()->count()} komentářů</a></span>
 
-                        <p>Při opravování chyby mokrou houbou si doc. Pick rozmazal kus tabule, kterou
-                            předtím
-                            jako obvykle dokonale vzorně smazal:
-                            "Ta tabule je zase smazaná..." (marně se pokouší zachránit to stěrkou)
-                            "...to
-                            jsem
-                            tomu dal... už nikdy to nebude, co to bylo."</p>
-
-                        <div class="item-tags">
-                            <a href="" class="tag">#MatematickáAnalýza</a>
-                            <a href="" class="tag">#LubošPick</a>
-                            <a href="" class="tag">#integrál</a>
-                            <a href="" class="tag">#tabule</a>
-                            <a href="" class="tag">#klasika</a>
-                            <a href="" class="tag">#houba</a>
-                            <a href="" class="tag">#matalyza</a>
-                            <a href="" class="tag">#profesor</a>
-                            <a href="" class="tag">#just</a>
-                        </div>
+                        <p>{$q->getText()}</p>
+                        {if $q->getTags()->count() > 0}
+                            <div class="item-tags">
+                                <a href="" class="tag">{$q->getTeacher()->getName(true)}</a>
+                                <a href="" class="tag">{$q->getSubject()->getName(true)}</a>
+                                {foreach $q->getTags() as $tag}
+                                    <a href="" class="tag">#{$tag->getTag()}</a>
+                                {/foreach}
+                            </div>
+                        {/if}
+                        {if $q->getComments()->count() > 0}
                         <footer>
-                            {for $j = 0; $j < 2; $j++}
+                            {foreach $q->getComments() as $comment}
+                                {breakIf $iterator->getCounter() > 2}
                                 <div class="top-comment clearfix">
-                                    <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
-                                         class="img-circle">
+                                    <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
 
                                     <div class="comment-body">
-                                        <p><a href="">@vitush93</a></span>
-                                            Lorem ipsum dolor sit amet, consectetur awig banar cones
+                                        <p><a href="">@{$comment->getUser()->getUsername()}</a>
+                                            {$comment->getText()|truncate:60}
                                         </p>
-                                        <span><i class="fa fa-thumbs-up"></i> 147</span>
-                                        <span><i class="fa fa-thumbs-down"></i> 14</span>
+                                        <span><i class="fa fa-thumbs-up"></i> {$comment->getRatingUp()}</span>
+                                        <span><i class="fa fa-thumbs-down"></i> {-1*$comment->getRatingDown()}</span>
                                     </div>
 
                                 </div>
-                            {/for}
+                            {/foreach}
                             <p><i class="fa fa-angle-right"></i> <a href="">všechny komentáře</a></p>
                         </footer>
+                        {/if}
                     </section>
                 </div>
             </article>
         </div>
-    {/for}
+    {/foreach}
+
+
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-12"></div>
         <div class="col-lg-10 col-md-10 col-sm-12 article-content">
             <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
         </div>
     </div>
+
+
 {/block}

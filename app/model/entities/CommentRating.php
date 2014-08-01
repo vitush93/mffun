@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 /**
  * @ORM\Entity
  * @ORM\Table(name="comment_ratings")
+ * @ORM\HasLifecycleCallbacks
  */
 class CommentRating extends BaseEntity
 {
@@ -58,9 +59,9 @@ class CommentRating extends BaseEntity
     }
 
     /**
-     * @param \App\Model\Entities\Comment $comment
+     * @param Comment $comment
      */
-    public function setComment(Comment $comment)
+    public function setComment($comment)
     {
         $comment->addRating($this);
         $this->comment = $comment;
@@ -115,6 +116,17 @@ class CommentRating extends BaseEntity
         return $this->user;
     }
 
+    public function setPositive()
+    {
+        $this->value = CommentRating::POSITIVE;
+    }
+
+    public function setNegative()
+    {
+        $this->value = CommentRating::NEGATIVE;
+    }
+
+
     /**
      * @param $value
      * @throws \InvalidArgumentException
@@ -135,6 +147,38 @@ class CommentRating extends BaseEntity
         return $this->value;
     }
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function updateCommentRatingUpPrePersist()
+    {
+        $rating = $this->calculateRating(CommentRating::POSITIVE);
+        $this->comment->setRatingUp($rating);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function updateCommentRatingDownPrePersist()
+    {
+        $rating = $this->calculateRating(CommentRating::NEGATIVE);
+        $this->comment->setRatingDown($rating);
+    }
+
+    /**
+     * @param int $value
+     * @return int
+     */
+    private function calculateRating($value)
+    {
+        $sum = 0;
+        foreach ($this->comment->getRatings() as $r) {
+            if ($r->getValue() === $value) {
+                $sum += $r->getValue();
+            }
+        }
+        return $sum;
+    }
 
 
 } 

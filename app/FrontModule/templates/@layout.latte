@@ -48,11 +48,13 @@
 </footer>
 
 <div id="add-quote">
-    <i class="fa fa-times fa-fw" id="add-quote-close"></i>
+    <div>
+        <i class="fa fa-times fa-fw" id="add-quote-close"></i>
 
-    <h2>Přidat citaci</h2>
+        <h2>Přidat citaci</h2>
 
-    {control addQuoteControl}
+        {control addQuoteControl}
+    </div>
 </div>
 <div id="modal-fade"></div>
 <nav id="mobile-menu" class="hidden-lg hidden-md hidden-sm">
@@ -74,7 +76,7 @@
     <div class="container" id="nav-container">
         <a href="index.php" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
         <ul>
-            <li><a href="index.php"><i class="fa fa-lightbulb-o fa-fw"></i> <span
+            <li><a href="index.php" {ifCurrent Homepage:Default}class="active"{/ifCurrent}><i class="fa fa-lightbulb-o fa-fw"></i> <span
                             class="hidden-md hidden-sm">nejnovější</span></a></li>
             <li><a href="index.php"><i class="fa fa-trophy fa-fw"></i> <span class="hidden-md hidden-sm">top</span></a>
             </li>

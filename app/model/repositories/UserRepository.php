@@ -9,7 +9,12 @@ use Nette\Object;
 
 class UserRepository extends Object implements IRepository
 {
+    use RepositoryTrait;
+
+    /** @var \Kdyby\Doctrine\EntityManager */
     private $em;
+
+    /** @var \Kdyby\Doctrine\EntityDao */
     private $userDao;
 
     public function __construct(EntityManager $entityManager)
@@ -25,7 +30,7 @@ class UserRepository extends Object implements IRepository
 
     /**
      * @param integer $id
-     * @return mixed
+     * @return User
      */
     public function find($id)
     {
@@ -41,32 +46,12 @@ class UserRepository extends Object implements IRepository
     }
 
     /**
-     * @param object|array|\Traversable $entity
-     * @return object|array|\Traversable
-     */
-    public function add($entity)
-    {
-        return $this->userDao->save($entity);
-    }
-
-    /**
      * @param integer $id
      * @return void
      */
     public function remove($id)
     {
         $this->userDao->delete($this->userDao->find($id));
-    }
-
-    /**
-     * alias for $this->add($entity)
-     *
-     * @param object|array|\Traversable $entity
-     * @return object|array|\Traversable
-     */
-    public function save($entity)
-    {
-        return $this->userDao->save($entity);
     }
 
 

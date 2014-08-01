@@ -25,10 +25,12 @@ class DoctrineForm extends Form
             if ($control instanceof IControl) {
                 $method = 'get' . ucfirst($name);
                 if (method_exists($this->entity, $method)) {
-                    $control->setValue($entity->$method());
+                    if (!$this || !$this->isAnchored() || !$this->isSubmitted()) {
+                        $control->setValue($entity->$method());
+                    }
                 }
             } elseif ($control instanceof Container) {
-
+                // TODO
             }
         }
 
@@ -38,8 +40,7 @@ class DoctrineForm extends Form
     /**
      * @return self
      */
-    public
-    function reset()
+    public function reset()
     {
         $this->setDefaults(array());
         return $this;

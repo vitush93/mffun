@@ -17,13 +17,11 @@ interface IRepository
 
     /**
      * @param object|array|\Traversable $entity
-     * @return object|array|\Traversable
      */
-    public function add($entity);
+    public function save($entity);
 
     /**
      * @param integer $id
-     * @return void
      */
     public function remove($id);
 } 

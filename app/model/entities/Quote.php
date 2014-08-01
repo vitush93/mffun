@@ -3,6 +3,7 @@
 namespace App\Model\Entities;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
@@ -41,12 +42,21 @@ class Quote extends BaseEntity
     private $subject;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Tag", mappedBy="quotations")
+     * @var ArrayCollection
+     */
+    private $tags;
+
+    /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
+     * @ORM\OrderBy({"rating_up" = "DESC"})
+     * @var ArrayCollection
      */
     private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote")
+     * @var ArrayCollection
      */
     private $ratings;
 
@@ -74,15 +84,24 @@ class Quote extends BaseEntity
      */
     private $user_email;
 
+    /**
+     * @ORM\Column(type="float")
+     * @var float
+     */
+    private $rating = 0;
+
     public function __construct()
     {
         $this->posted = new DateTime();
+        $this->comments = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
      * @param QuoteRating $quoteRating
      */
-    public function addRating(QuoteRating $quoteRating)
+    public function addRating($quoteRating)
     {
         $this->ratings[] = $quoteRating;
     }
@@ -90,7 +109,7 @@ class Quote extends BaseEntity
     /**
      * @param Comment $comment
      */
-    public function addComment(Comment $comment)
+    public function addComment($comment)
     {
         $this->comments[] = $comment;
     }
@@ -160,7 +179,7 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getComments()
     {
@@ -168,7 +187,7 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getRatings()
     {
@@ -176,16 +195,16 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @param \App\Model\Entities\User $user
+     * @param User $user
      */
-    public function setUser(User $user)
+    public function setUser($user)
     {
         $user->addQuote($this);
         $this->user = $user;
     }
 
     /**
-     * @return \App\Model\Entities\User
+     * @return User
      */
     public function getUser()
     {
@@ -193,16 +212,16 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @param \App\Model\Entities\Subject $subject
+     * @param Subject $subject
      */
-    public function setSubject(Subject $subject)
+    public function setSubject($subject)
     {
         $subject->addQuote($this);
         $this->subject = $subject;
     }
 
     /**
-     * @return \App\Model\Entities\Subject
+     * @return Subject
      */
     public function getSubject()
     {
@@ -210,20 +229,44 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @param mixed $teacher
+     * @param Teacher $teacher
      */
-    public function setTeacher(Teacher $teacher)
+    public function setTeacher($teacher)
     {
         $teacher->addQuote($this);
         $this->teacher = $teacher;
     }
 
     /**
-     * @return mixed
+     * @return Teacher
      */
     public function getTeacher()
     {
         return $this->teacher;
+    }
+
+    /**
+     * @param float $rating
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+    }
+
+    /**
+     * @return float
+     */
+    public function getRating()
+    {
+        return $this->rating*1000;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 
 }

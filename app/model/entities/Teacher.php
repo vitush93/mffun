@@ -38,7 +38,10 @@ class Teacher extends BaseEntity
         $this->quotations = new ArrayCollection();
     }
 
-    public function addQuote(Quote $quote)
+    /**
+     * @param Quote $quote
+     */
+    public function addQuote($quote)
     {
         $this->quotations[] = $quote;
     }
@@ -60,22 +63,30 @@ class Teacher extends BaseEntity
     }
 
     /**
+     * @param bool $asTag
      * @return string
      */
-    public function getName()
+    public function getName($asTag = false)
     {
-        return $this->name;
+        if ($asTag) {
+            $tag = explode(' ', $this->name);
+            array_walk($tag, function($val){
+                return ucfirst($val);
+            });
+            $tag = implode('', $tag);
+            return '#' . str_replace(' ', '', $tag);
+        } else {
+            return $this->name;
+        }
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getQuotations()
     {
         return $this->quotations;
     }
-
-
 
 
 }

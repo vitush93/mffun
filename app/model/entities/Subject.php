@@ -40,7 +40,7 @@ class Subject extends BaseEntity
     /**
      * @param Quote $quote
      */
-    public function addQuote(Quote $quote)
+    public function addQuote($quote)
     {
         $this->quotations[] = $quote;
     }
@@ -70,15 +70,25 @@ class Subject extends BaseEntity
     }
 
     /**
+     * @param bool $asTag
      * @return string
      */
-    public function getName()
+    public function getName($asTag = false)
     {
-        return $this->name;
+        if ($asTag) {
+            $tag = explode(' ', $this->name);
+            for ($i = 0; $i < count($tag); $i++) {
+                $tag[$i] = ucfirst($tag[$i]);
+            }
+            $tag = implode('', $tag);
+            return '#' . str_replace(' ', '', $tag);
+        } else {
+            return $this->name;
+        }
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getQuotations()
     {

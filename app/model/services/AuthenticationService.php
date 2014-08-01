@@ -27,7 +27,8 @@ class AuthenticationService extends Object implements Nette\Security\IAuthentica
         list($username, $password) = $credentials;
 
         $row = $this->usersDao->findOneBy(array(
-            'username' => $username
+            'username' => $username,
+            'active' => TRUE
         ));
 
         if (!$row) {

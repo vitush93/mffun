@@ -59,6 +59,18 @@ class Comment extends BaseEntity
      */
     private $parent = 0;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @var integer
+     */
+    private $rating_up = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var integer
+     */
+    private $rating_down = 0;
+
     public function __construct()
     {
         $this->posted = new DateTime();
@@ -68,22 +80,22 @@ class Comment extends BaseEntity
     /**
      * @param CommentRating $commentRating
      */
-    public function addRating(CommentRating $commentRating)
+    public function addRating($commentRating)
     {
         $this->ratings[] = $commentRating;
     }
 
     /**
-     * @param \App\Model\Entities\Quote $quote
+     * @param Quote $quote
      */
-    public function setQuote(Quote $quote)
+    public function setQuote($quote)
     {
         $quote->addComment($this);
         $this->quote = $quote;
     }
 
     /**
-     * @return \App\Model\Entities\Quote
+     * @return Quote
      */
     public function getQuote()
     {
@@ -115,16 +127,16 @@ class Comment extends BaseEntity
     }
 
     /**
-     * @param \App\Model\Entities\User $user
+     * @param User $user
      */
-    public function setUser(User $user)
+    public function setUser($user)
     {
         $user->addComment($this);
         $this->user = $user;
     }
 
     /**
-     * @return \App\Model\Entities\User
+     * @return User
      */
     public function getUser()
     {
@@ -161,6 +173,38 @@ class Comment extends BaseEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $rating_down
+     */
+    public function setRatingDown($rating_down)
+    {
+        $this->rating_down = $rating_down;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRatingDown()
+    {
+        return $this->rating_down;
+    }
+
+    /**
+     * @param int $rating_up
+     */
+    public function setRatingUp($rating_up)
+    {
+        $this->rating_up = $rating_up;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRatingUp()
+    {
+        return $this->rating_up;
     }
 
 

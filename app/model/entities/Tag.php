@@ -22,12 +22,13 @@ class Tag extends BaseEntity
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Quote")
+     * @ORM\ManyToMany(targetEntity="Quote", inversedBy="tags")
+     * @var ArrayCollection
      */
-    private $quotations = NULL;
+    private $quotations;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      * @var string
      */
     private $tag;
@@ -40,7 +41,7 @@ class Tag extends BaseEntity
     /**
      * @param Quote $quote
      */
-    public function assignToQuote(Quote $quote)
+    public function assignToQuote($quote)
     {
         $this->quotations[] = $quote;
     }
@@ -54,7 +55,7 @@ class Tag extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getQuotations()
     {
@@ -76,7 +77,5 @@ class Tag extends BaseEntity
     {
         return $this->tag;
     }
-
-
 
 } 

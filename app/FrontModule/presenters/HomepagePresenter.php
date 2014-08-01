@@ -2,10 +2,15 @@
 
 namespace App\FrontModule;
 
+use App\Model\Repositories\QuoteRepository;
 
-/**
- * Homepage presenter.
- */
 class HomepagePresenter extends BasePresenter
 {
+    /** @var  QuoteRepository @inject */
+    public $quoteRepository;
+
+    public function renderDefault()
+    {
+        $this->template->quotations = $this->quoteRepository->findAllByDateDesc();
+    }
 }

@@ -1,10 +1,6 @@
 $(function () {
     $.nette.init();
 
-    $('#user-controls-toggle').on('click', function (e) {
-        e.preventDefault();
-    });
-
     $('#filter-button').on('click', function (e) {
         e.preventDefault();
         var height = $('#filter-container').height() + 95 + 41;
@@ -56,24 +52,22 @@ $(function () {
         });
     });
 
-    $('#user-cp').on({
-        mouseenter: function () {
-            $('#user-controls').stop().show().animate({top: 60, opacity: 1}, 150);
-        },
-        mouseleave: function () {
-            $('#user-controls').stop().animate({top: 50, opacity: 0}, 150, function () {
-                $(this).hide();
-            });
-        }
+    $('#user-controls-toggle').on('click', function (e) {
+        e.preventDefault();
+        userCpControl();
     });
 
 
     $('html').on('click', function (e) {
         var target = $(e.target);
-        var add_quote = $('#add-quote');
         if ($('#page-search-button').hasClass('active')) {
             if (target.parents('#top-nav').size() == 0) {
                 searchBoxControl();
+            }
+        }
+        if ($('#user-controls').hasClass('active')) {
+            if (target.parents('#user-cp').size() == 0) {
+                userCpControl();
             }
         }
     });
@@ -82,6 +76,21 @@ $(function () {
         e.preventDefault();
         searchBoxControl();
     });
+
+    function userCpControl() {
+        var c = $('#user-controls');
+        if (c.hasClass('active')) {
+            c.stop().animate({top: 50, opacity: 0}, 150, function () {
+                $(this).hide();
+            });
+            c.removeClass('active');
+            $('#user-controls-toggle').removeClass('active');
+        } else {
+            c.stop().show().animate({top: 60, opacity: 1}, 150);
+            c.addClass('active');
+            $('#user-controls-toggle').addClass('active');
+        }
+    }
 
     function searchBoxControl() {
         var button = $('#page-search-button');

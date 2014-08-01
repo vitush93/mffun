@@ -51,7 +51,7 @@ class GridoUsersControl extends Control
                 }
             )->setSortable();
 
-        $grid->addActionHref('edit', 'Upravit')->setIcon('pencil')->getElementPrototype()->class('ajax');
+        $grid->addActionHref('edit', 'Upravit')->setIcon('pencil');
         $grid->addActionHref('delete', 'Odstranit')->setIcon('trash-o')->setConfirm('Opravdu?');
 
         $grid->addFilterText('username', '')->setSuggestion();

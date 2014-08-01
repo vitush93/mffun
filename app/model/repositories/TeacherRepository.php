@@ -9,31 +9,27 @@ use Nette\Object;
 
 class TeacherRepository extends Object implements IRepository
 {
-    private $em;
+    use RepositoryTrait;
+
+    /** @var \Kdyby\Doctrine\EntityDao */
     private $teacherDao;
 
-    public function __construct(EntityManager $entityManager)
+    /** @var \Kdyby\Doctrine\EntityManager */
+    private $em;
+
+    function __construct(EntityManager $entityManager)
     {
-        $this->em = $entityManager;
         $this->teacherDao = $entityManager->getDao(Teacher::getClassName());
+        $this->em = $entityManager;
     }
 
     /**
-     * @param $name string
+     * @param string $teacher
      * @return mixed|null|object
      */
-    public function findOneByName($name)
+    public function findOneByName($teacher)
     {
-        return $this->teacherDao->findOneBy(array('name' => $name));
-    }
-
-    /**
-     * @param array|object|\Traversable $teacher
-     * @return array|object|\Traversable
-     */
-    public function add($teacher)
-    {
-        return $this->teacherDao->save($teacher);
+        return $this->teacherDao->findOneBy(array('name' => $teacher));
     }
 
     /**
@@ -61,6 +57,5 @@ class TeacherRepository extends Object implements IRepository
     {
         // TODO: Implement remove() method.
     }
-
 
 } 

@@ -108,7 +108,10 @@ class User extends BaseEntity
         $this->quote_ratings = new ArrayCollection();
     }
 
-    public function addCommentRating(CommentRating $commentRating)
+    /**
+     * @param CommentRating $commentRating
+     */
+    public function addCommentRating($commentRating)
     {
         $this->comment_ratings[] = $commentRating;
     }
@@ -116,7 +119,7 @@ class User extends BaseEntity
     /**
      * @param Quote $quote
      */
-    public function addQuote(Quote $quote)
+    public function addQuote($quote)
     {
         $this->quotations[] = $quote;
     }
@@ -124,7 +127,7 @@ class User extends BaseEntity
     /**
      * @param QuoteRating $quoteRating
      */
-    public function addQuoteRating(QuoteRating $quoteRating)
+    public function addQuoteRating($quoteRating)
     {
         $this->quote_ratings[] = $quoteRating;
     }
@@ -132,7 +135,7 @@ class User extends BaseEntity
     /**
      * @param Comment $comment
      */
-    public function addComment(Comment $comment)
+    public function addComment($comment)
     {
         $this->comments[] = $comment;
     }
@@ -174,7 +177,11 @@ class User extends BaseEntity
      */
     public function setPassword($password)
     {
-        $this->password = Passwords::hash($password);
+        if($password === NULL) {
+            $this->password = NULL;
+        }else{
+            $this->password = Passwords::hash($password);
+        }
     }
 
     /**
@@ -230,7 +237,7 @@ class User extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getComments()
     {
@@ -262,7 +269,7 @@ class User extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getQuoteRatings()
     {

@@ -8,25 +8,18 @@ use App\Model\Entities\Quote;
 
 class QuoteRepository extends Object implements IRepository
 {
-	/** @var EntityManager */
-	private $em;
+    use RepositoryTrait;
 
-	/** @var \Kdyby\Doctrine\EntityDao */
-	private $quoteDao;
+    /** @var EntityManager */
+    private $em;
 
-	public function __construct(EntityManager $entityManager)
-	{
-		$this->em = $entityManager;
-		$this->quoteDao = $entityManager->getDao(Quote::getClassName());
-	}
+    /** @var \Kdyby\Doctrine\EntityDao */
+    private $quoteDao;
 
-    /**
-     * @param array|object|\Traversable $quote
-     * @return array|object|\Traversable|void
-     */
-    public function add($quote)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->quoteDao->save($quote);
+        $this->em = $entityManager;
+        $this->quoteDao = $entityManager->getDao(Quote::getClassName());
     }
 
     /**
@@ -56,18 +49,18 @@ class QuoteRepository extends Object implements IRepository
     }
 
 
-    public function getAllByDate()
-	{
-		// TODO
-	}
+    public function findAllByDateDesc($limit = 10)
+    {
+        return $this->quoteDao->findBy([], ['posted' => 'DESC'], $limit);
+    }
 
-	public function getAllByRatingDesc()
-	{
-		// TODO
-	}
+    public function findAllByRatingDesc($limit = 10)
+    {
+        return $this->quoteDao->findBy([], ['rating' => 'DESC'], $limit);
+    }
 
-	public function getAllByCommentsDesc()
-	{
-		// TODO
-	}
+    public function findAllByCommentsDesc()
+    {
+        // TODO
+    }
 }

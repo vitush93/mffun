@@ -2,8 +2,8 @@
 
 namespace App\AdminModule;
 
+use App\AdminModule\forms\UserForm;
 use App\Libs\BootstrapForm;
-use App\Libs\DoctrineForm;
 use App\Model\Entities\User;
 use Kdyby\Doctrine\DuplicateEntryException;
 use Kdyby\Doctrine\EntityManager;
@@ -18,6 +18,17 @@ class UzivatelePresenter extends BasePresenter
     /** @var UserRepository @inject */
     public $userRepository;
 
+    /** @var EntityManager @inject */
+    public $em;
+
+    public function actionNew()
+    {
+        $this['userForm']->onSuccess[] = $this->newUser;
+        $this['userForm']['password']
+            ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 6)
+            ->setRequired('Vyplňte prosím.');
+    }
+
     public function actionDetail($id)
     {
         $this->template->info = $this->userRepository->find($id);
@@ -25,19 +36,16 @@ class UzivatelePresenter extends BasePresenter
 
     public function actionEdit($id)
     {
-        $user = $this->userRepository->find($this->getParameter('id'));
-        $this->setView('default');
-        if ($this->isAjax()) {
-            $this['newUserForm']
-                ->setDefaults(array(
-                    'username' => $user->getUsername(),
-                    'role' => $user->getRole(),
-                    'email' => $user->getEmail()
-                ))
-                ->setFormName('Upravit uživatele')
-                ->show()
-                ->refresh();
-        }
+        $this->setView('new');
+
+        $user = $this->userRepository->find($id);
+
+        $form = $this['userForm'];
+        $form->onSuccess[] = $this->editUser;
+        $form['password']
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 6);
+        $form->bindEntity($user);
     }
 
     public function actionDelete($id)
@@ -48,31 +56,26 @@ class UzivatelePresenter extends BasePresenter
         $this->redirect('default');
     }
 
-    public function handleModalNew()
-    {
-        $this['newUserForm']
-            ->reset()
-            ->show()
-            ->refresh();
-    }
-
     public function editUser(Form $form)
     {
         try {
             $values = $form->getValues();
+
             $user = $this->userRepository->find($this->getParameter('id'));
 
             $user->setUsername($values->username);
             $user->setRole($values->role);
-            $user->setPassword($values->password);
+            if (strlen($values->password) > 5) {
+                $user->setPassword($values->password);
+            }
             $user->setEmail($values->email);
 
             $this->userRepository->save($user);
+            $this->em->flush();
 
             $this->flashMessage('Změny byly uloženy.', 'success');
             $this->redirect('default');
         } catch (DuplicateEntryException $e) {
-            $this['newUserForm']->show();
             $form->addError('Uživatel s tímto uživatelským jménem nebo e-mailem již existuje.');
         }
     }
@@ -88,57 +91,21 @@ class UzivatelePresenter extends BasePresenter
             $newuser->setEmail($data['email']);
             $newuser->setRole($data['role']);
 
-            $this->userRepository->add($newuser);
+            $this->userRepository->save($newuser);
+            $this->em->flush();
 
             $this->flashMessage('Uživatel byl vytvořen.', 'success');
             $this->redirect('default');
         } catch (DuplicateEntryException $e) {
-            $this['newUserForm']->show();
             $form->addError('Uživatel s tímto uživatelským jménem nebo e-mailem již existuje.');
         }
     }
 
-    protected function createComponentNewUserForm()
+    protected function createComponentUserForm()
     {
-        $form = new Form();
+        $form = new UserForm();
 
-        $form->addGroup('Přihlašovací údaje');
-        $form->addText('username', 'Uživ. jméno')
-            ->addRule(Form::PATTERN, 'Jsou povoleny pouze alfanumericke znaky', '^[a-zA-Z0-9]*$')
-            ->addRule(Form::FILLED, 'Vyplňte prosím.')
-            ->addRule(Form::MIN_LENGTH, 'Uživ. jméno musí mít alespoň %d znaky.', 4);
-
-        $form->addPassword('password', 'Heslo')
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 6);
-        $form->addPassword('password2', 'Heslo znovu')
-            ->addRule(Form::EQUAL, 'Hesla se neshodují.', $form['password'])
-            ->setOmitted();
-
-        if (!$this->getParameter('id')) {
-            $form['password']
-                ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaků', 6)
-                ->setRequired('Vyplňte prosím.');
-        }
-
-        $form->addGroup('Vlastnosti účtu');
-        $form->addText('email', 'E-mail')
-            ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.')
-            ->setRequired('Vyplňte prosím.');
-        $form->addSelect('role', 'Role', array('user' => 'Registrovaný', 'admin' => 'Admin'))
-            ->setPrompt('-vyberte-')
-            ->addRule(Form::FILLED, 'Vyplňte prosím.');
-
-        $form->addGroup();
-        $form->addSubmit('submit', 'Uložit');
-
-        if (!$this->getParameter('id')) {
-            $form->onSuccess[] = $this->newUser;
-        } else {
-            $form->onSuccess[] = $this->editUser;
-        }
-
-        return new ModalFormControl($form, 'Nový uživatel');
+        return BootstrapForm::makeBootstrap($form);
     }
 
     protected function createComponentGridoUsers()
