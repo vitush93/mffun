@@ -1,5 +1,6 @@
 @import "mixins";
 
+/*
 @font-face {
   font-family: proxima;
   font-style: normal;
@@ -13,6 +14,7 @@
   font-weight: 600;
   src: url('../fonts/ProximaNova-Semibold.otf') format('opentype');
 }
+*/
 
 @bgcolor: #ECF0F1;
 @textcolor: #2C3E50;
@@ -26,6 +28,10 @@
 
 @oswald: 'Oswald', sans-serif;
 @proxima: proxima;
+// temporary crappy font fix
+@bodyfont: 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
+@proxima: @bodyfont;
+
 @nav_panel_height: 50px;
 
 //@box_shadow: 0 3px 1px 1px #e4e6eb - 10, 0 2px 0 #fff - 80;
@@ -44,6 +50,10 @@ a {
   &:hover {
     color: @blue;
   }
+}
+
+a, a:visited, a:focus, a:active, a:hover {
+  outline: 0 none !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -132,7 +142,7 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 15px;
         margin-top: 20px;
         //padding: 25px;
-        margin-bottom:25px;
+        margin-bottom: 25px;
         position: relative;
         /*
         &:before {
@@ -161,8 +171,8 @@ h1, h2, h3, h4, h5, h6 {
         padding-bottom: 1px;
         //padding-top: 20px;
         //border-top: 1px solid #ecf0f1 - 20;
-        margin-top:25px;
-        padding-left:20px;
+        margin-top: 25px;
+        padding-left: 20px;
         > p {
           color: @textcolor + 20;
           margin-top: 15px;
@@ -188,7 +198,7 @@ h1, h2, h3, h4, h5, h6 {
           p {
             line-height: 1.3;
             font-family: @proxima;
-            font-size: 14px;
+            font-size: 13px;
             cursor: default;
           }
           div.comment-body {
@@ -1002,7 +1012,7 @@ footer[role="contentinfo"] {
 
 #error-page {
 
-  font-family: proxima !important;
+  font-family: @proxima !important;
   text-align: right;
   margin-top: 40px;
   img {
@@ -1060,7 +1070,7 @@ footer[role="contentinfo"] {
   input, textarea {
     padding: 10px;
     font-size: 13px;
-    font-family: proxima;
+    font-family: @proxima;
     color: #2c3e50;
     border-radius: 3px;
     border: 1px solid #ddd;
