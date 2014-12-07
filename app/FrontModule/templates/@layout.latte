@@ -9,8 +9,7 @@
     <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
     <title>{block title|striptags}Web Database of Professor Quotations{/block}</title>
     <link rel="icon" type="image/png" href="{$basePath}/public/front/img/favicon.png">
-    <link href='http://fonts.googleapis.com/css?family=Lobster|Oswald:400,700&subset=latin-ext,latin' rel='stylesheet'
-          type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto:400,400italic,700|Oswald:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{$basePath}/public/front/css/master.css">
 
     {block assets}{/block}
@@ -95,12 +94,10 @@
                         {form loginForm}
                             <p>
                                 {input username class=>'login',placeholder=>'login'}
-                                {*<input type="text" placeholder="login" class="login">*}
                                 <i class="fa fa-user fa-fw"></i>
                             </p>
                             <p>
                                 {input password placeholder=>'heslo',class=>'login'}
-                                {*<input type="password" placeholder="heslo" class="login">*}
                                 <i class="fa fa-key fa-fw"></i>
                             </p>
                             <div class="onoffswitch" title="zapamatovat přihlášení">
@@ -115,7 +112,6 @@
                             <a href="" class="login">obnovit heslo</a>
                             <div style="clear:both"></div>
                         {input process}
-                            {*<input type="submit" value="přihlásit">*}
                             <a href="" class="login">vytvořit nový účet</a>
                         {/form}
                     {/if}
