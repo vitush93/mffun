@@ -6,10 +6,6 @@ use App\FrontModule\Forms\LoginForm;
 use Kollarovic\Thumbnail\AbstractGenerator;
 use Nette,
     Model;
-use WebLoader\Compiler;
-use WebLoader\FileCollection;
-use WebLoader\Filter\LessFilter;
-use WebLoader\Nette\JavaScriptLoader;
 use Nette\Application\UI\Form;
 use Nette\Application\Application;
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
@@ -79,57 +75,6 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
         $form->onSuccess[] = $this->processLoginForm;
 
         return $form;
-    }
-
-    protected function createComponentCss()
-    {
-        $files = new FileCollection(WWW_DIR . '/public/front/css');
-        $files->addFiles(array(
-            'bootstrap.css',
-            'reset.css',
-            'style.less',
-            'font-awesome.css',
-        ));
-
-        $compiler = Compiler::createCssCompiler($files, WWW_DIR . '/temp');
-
-        $compiler->addFileFilter(new LessFilter());
-
-        $compiler->addFilter(function ($code) {
-            $cssmin = new \CSSmin();
-            return $cssmin->run($code);
-        });
-
-        $compiler->addFilter(function ($code) {
-            return \Minify_CSS_UriRewriter::rewrite($code, 'public/front/css');
-        });
-
-        $control = new \WebLoader\Nette\CssLoader($compiler, $this->template->basePath . '/temp');
-        $control->setMedia('screen');
-
-        return $control;
-    }
-
-    protected function createComponentJs()
-    {
-        $files = new FileCollection(WWW_DIR . '/public/front/js');
-        $files->addFiles(array(
-            'jquery.js',
-            'TweenMax.min.js',
-            'jquery.gsap.min.js',
-            'bootstrap.js',
-            'nette.ajax.js',
-            'live-form-validation.js',
-            'script.js'
-        ));
-
-        $compiler = Compiler::createJsCompiler($files, WWW_DIR . '/temp');
-
-        $compiler->addFilter(function ($code) {
-            return \JSMin::minify($code);
-        });
-
-        return new JavaScriptLoader($compiler, $this->template->basePath . '/temp');
     }
 
     public function injectThumbGenerator(AbstractGenerator $abstractGenerator)

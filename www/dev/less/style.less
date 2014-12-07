@@ -1,42 +1,3 @@
-@import "mixins";
-
-/*
-@font-face {
-  font-family: proxima;
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/ProximaNova-Regular.otf') format('opentype');
-}
-
-@font-face {
-  font-family: proxima;
-  font-style: normal;
-  font-weight: 600;
-  src: url('../fonts/ProximaNova-Semibold.otf') format('opentype');
-}
-*/
-
-@bgcolor: #ECF0F1;
-@textcolor: #2C3E50;
-@red: #E74C3C;
-@blue: #3498DB;
-@grey: #646464;
-@logo: #E0393D;
-@green: #45B29D;
-@redish: #e05866;
-@orange: #e67e22;
-
-@oswald: 'Oswald', sans-serif;
-@proxima: proxima;
-// temporary crappy font fix
-@bodyfont: 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
-@proxima: @bodyfont;
-
-@nav_panel_height: 50px;
-
-//@box_shadow: 0 3px 1px 1px #e4e6eb - 10, 0 2px 0 #fff - 80;
-@box_shadow: 0 2px 0px 1px @bgcolor - 15;
-
 body {
   background-color: @bgcolor;
   //background-color: fade(@textcolor, 10%);
@@ -335,6 +296,7 @@ h1, h2, h3, h4, h5, h6 {
 
 nav[role="navigation"] {
   position: fixed;
+  box-sizing: content-box;
   top: 0;
   overflow: visible !important;
   left: 0;
@@ -342,12 +304,11 @@ nav[role="navigation"] {
   z-index: 10;
   background: @blue;
   height: @nav_panel_height;
-  box-shadow: 0 4px 0px @blue - 20;
-  //.transition(0.2s);
+  box-shadow: inset 0 -4px 0px @blue - 20;
   #page-search {
     margin-right: 37px;
     float: right;
-    height: 50px;
+    height: @nav_panel_height;
     .clearfix;
     a {
       background: inherit;
@@ -356,7 +317,7 @@ nav[role="navigation"] {
       border-radius: inherit;
       display: block;
       width: 50px;
-      height: 50px;
+      height: @nav_panel_height;
       line-height: 46px;
       text-align: center;
       font-size: 20px;
@@ -364,7 +325,7 @@ nav[role="navigation"] {
       &:hover, &.active {
         background: @blue + 20;
         margin-top: inherit;
-        box-shadow: 0px 4px 0px @blue;
+        box-shadow: inset 0px -4px 0px @blue;
         text-shadow: inherit;
       }
     }
@@ -396,7 +357,7 @@ nav[role="navigation"] {
   > div > a {
     text-shadow: 0px -1px 0px @logo - 20;
     background: @logo + 60;
-    box-shadow: 0 4px 0px @logo;
+    box-shadow: inset 0 -4px 0px @logo;
     float: left;
     display: block;
     height: @nav_panel_height;
@@ -606,7 +567,7 @@ nav[role="navigation"] {
           margin-top: 20px;
         }
         .caret-arrow {
-          background: url('../img/disc-arrow-up.png') center no-repeat;
+          background: url('../../public/front/img/disc-arrow-up.png') center no-repeat;
           background-size: 20px 20px;
           width: 100%;
           height: 20px;

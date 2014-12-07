@@ -9,26 +9,9 @@
     <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
     <title>{block title|striptags}Web Database of Professor Quotations{/block}</title>
     <link rel="icon" type="image/png" href="{$basePath}/public/front/img/favicon.png">
-    <link rel="stylesheet" href="{$basePath}/public/front/css/font-awesome.css">
     <link href='http://fonts.googleapis.com/css?family=Lobster|Oswald:400,700&subset=latin-ext,latin' rel='stylesheet'
           type='text/css'>
-
-    {*
-    <link rel="stylesheet" href="{$basePath}/public/front/css/bootstrap.css">
-    <link rel="stylesheet" href="{$basePath}/public/front/css/reset.css">
-    <link rel="stylesheet/less" type="text/css" href="{$basePath}/public/front/css/style.less">
-    <script src="{$basePath}/public/front/js/jquery.js"></script>
-    <script src="{$basePath}/public/front/js/TweenMax.min.js"></script>
-    <script src="{$basePath}/public/front/js/jquery.gsap.min.js"></script>
-    <script src="{$basePath}/public/front/js/bootstrap.js"></script>
-    <script src="{$basePath}/public/front/js/less.js"></script>
-    <script src="{$basePath}/public/front/js/nette.ajax.js"></script>
-    <script src="{$basePath}/public/front/js/live-form-validation.js"></script>
-    <script src="{$basePath}/public/front/js/script.js"></script>
-    *}
-
-    {control css}
-    {control js}
+    <link rel="stylesheet" href="{$basePath}/public/front/css/master.css">
 
     {block assets}{/block}
 </head>
@@ -249,6 +232,8 @@
         </div>
     {/block}
 </div>
+
+<script src="{$basePath}/public/front/js/master.js"></script>
 </body>
 </html>
 {/block}

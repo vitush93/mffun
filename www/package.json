@@ -1,0 +1,18 @@
+{
+    "name": "frontend-less",
+    "description": "Frontend skeleton app",
+    "author": "Vit Habada",
+    "private": true,
+    "devDependencies": {
+        "grunt": "~0.4.0",
+        "grunt-contrib-cssmin": "*",
+        "grunt-contrib-less": "*",
+        "grunt-contrib-uglify": "*",
+        "grunt-contrib-watch": "*",
+        "grunt-contrib-concat": "*",
+        "grunt-autoprefixer": "*",
+        "grunt-cssc": "*",
+        "matchdep": "*",
+        "time-grunt": "~1.0.0"
+    }
+}

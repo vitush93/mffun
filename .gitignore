@@ -8,3 +8,5 @@ nbproject/
 !.htaccess
 !web.config
 composer.lock
+www/bower_components/*
+www/node_modules/*
