@@ -2,13 +2,13 @@
 
 namespace App\Model\Repositories;
 
+use Nette\NotImplementedException;
 use Nette\Object;
 use Kdyby\Doctrine\EntityManager;
 use App\Model\Entities\Quote;
 
-class QuoteRepository extends Object implements IRepository
+class QuoteRepository extends Object
 {
-    use RepositoryTrait;
 
     /** @var EntityManager */
     private $em;
@@ -22,45 +22,29 @@ class QuoteRepository extends Object implements IRepository
         $this->quoteDao = $entityManager->getDao(Quote::getClassName());
     }
 
-    /**
-     * @param integer $id
-     * @return mixed
-     */
-    public function find($id)
-    {
-        // TODO: Implement find() method.
+    public function create(Quote $quote, array $tags) {
+        throw new NotImplementedException();
     }
 
     /**
+     * Get all quotations sorted by date descending.
+     *
+     * @param int $limit LIMIT statement part parameter
      * @return array
      */
-    public function findAll()
-    {
-        // TODO: Implement findAll() method.
-    }
-
-    /**
-     * @param integer $id
-     * @return void
-     */
-    public function remove($id)
-    {
-        // TODO: Implement remove() method.
-    }
-
-
     public function findAllByDateDesc($limit = 10)
     {
         return $this->quoteDao->findBy([], ['posted' => 'DESC'], $limit);
     }
 
+    /**
+     * Get all quotes sorted by rating descending.
+     *
+     * @param int $limit
+     * @return array
+     */
     public function findAllByRatingDesc($limit = 10)
     {
         return $this->quoteDao->findBy([], ['rating' => 'DESC'], $limit);
-    }
-
-    public function findAllByCommentsDesc()
-    {
-        // TODO
     }
 }

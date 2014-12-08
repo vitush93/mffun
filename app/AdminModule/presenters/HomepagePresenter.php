@@ -1,13 +1,10 @@
 <?php
 
-namespace App\AdminModule;
+namespace App\AdminModule\Presenters;
 
 use Nette,
     Model;
 
-/**
- * Homepage presenter.
- */
 class HomepagePresenter extends BasePresenter
 {
 

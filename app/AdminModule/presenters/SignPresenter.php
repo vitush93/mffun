@@ -1,13 +1,11 @@
 <?php
 
-namespace App\AdminModule;
+namespace App\AdminModule\Presenters;
 
+use App\AdminModule\Forms\SignInForm;
 use Nette,
     Model;
 
-/**
- * Sign in/out presenters.
- */
 class SignPresenter extends BasePresenter
 {
 
@@ -18,35 +16,25 @@ class SignPresenter extends BasePresenter
     }
 
     /**
-     * Sign-in form factory.
+     * SignInForm factory.
      *
-     * @return Nette\Application\UI\Form
+     * @return SignInForm
      */
     protected function createComponentSignInForm()
     {
-        $form = new Nette\Application\UI\Form;
-        $form->addText('username', 'Jméno:', 80, 50)
-            ->setAttribute('placeholder', 'uživatelské jméno')
-            ->setRequired('zadejte své uživatelské jméno')
-            ->getControlPrototype()->class('form-control');
+        $form = new SignInForm();
 
-        $form->addPassword('password', 'Heslo:', 80, 60)
-            ->setAttribute('placeholder', 'heslo')
-            ->setRequired('zadejte své heslo')
-            ->getControlPrototype()->class('form-control');
-
-        $form->addCheckbox('remember', 'zapamatovat si mě');
-
-        $form->addSubmit('send', 'přihlásit')
-            ->getControlPrototype()
-            ->class('btn btn-lg btn-success btn-block');
-        $form->getElementPrototype()->class('form-signin');
-        // call method signInFormSucceeded() on success
         $form->onSuccess[] = $this->signInFormSucceeded;
         return $form;
     }
 
-    public function signInFormSucceeded($form)
+    /**
+     * [SignInForm]
+     * Tries to authorize the user.
+     *
+     * @param Nette\Application\UI\Form $form
+     */
+    public function signInFormSucceeded(Nette\Application\UI\Form $form)
     {
         $values = $form->getValues();
 
@@ -60,15 +48,8 @@ class SignPresenter extends BasePresenter
             $this->getUser()->login($values->username, $values->password);
             $this->redirect('Homepage:');
         } catch (Nette\Security\AuthenticationException $e) {
-            $this->flashMessage($e->getMessage(), 'danger');
+            $form->addError($e->getMessage(), 'danger');
         }
-    }
-
-    public function actionOut()
-    {
-        $this->getUser()->logout();
-        $this->flashMessage('You have been signed out.');
-        $this->redirect('default');
     }
 
 }

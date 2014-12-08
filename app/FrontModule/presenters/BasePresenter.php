@@ -1,13 +1,12 @@
 <?php
 
-namespace App\FrontModule;
+namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Forms\LoginForm;
 use Kollarovic\Thumbnail\AbstractGenerator;
 use Nette,
     Model;
 use Nette\Application\UI\Form;
-use Nette\Application\Application;
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 
 /**
@@ -15,11 +14,15 @@ use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
-    protected $thumbGenerator;
+    /** @var AbstractGenerator @inject  */
+    public  $thumbGenerator;
 
     /** @var IAddQuoteControlFactory @inject */
     public  $addQuoteFactory;
 
+    /**
+     * User logout signal.
+     */
     public function handleLogout()
     {
         if ($this->user->isLoggedIn()) {
@@ -46,6 +49,12 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
         $this->template->tags = explode(' ', $string);
     }
 
+    /**
+     * [LoginForm]
+     * Validates the user's credentials.
+     *
+     * @param Form $form
+     */
     public function processLoginForm(Form $form)
     {
         $values = $form->getValues();
@@ -64,11 +73,21 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
         }
     }
 
+    /**
+     * AddQuoteControl factory.
+     *
+     * @return \App\FrontModule\Components\AddQuote\AddQuoteControl
+     */
     protected function createComponentAddQuoteControl()
     {
         return $this->addQuoteFactory->create();
     }
 
+    /**
+     * LoginForm factory
+     *
+     * @return LoginForm
+     */
     protected function createComponentLoginForm()
     {
         $form = new LoginForm();
@@ -77,11 +96,12 @@ In leo arcu, aliquam non magna non, vestibulum luctus lacus. Proin placerat, ris
         return $form;
     }
 
-    public function injectThumbGenerator(AbstractGenerator $abstractGenerator)
-    {
-        $this->thumbGenerator = $abstractGenerator;
-    }
-
+    /**
+     * Add the HTML minification helper to the template.
+     *
+     * @param null $class
+     * @return Nette\Application\UI\ITemplate
+     */
     protected function createTemplate($class = NULL)
     {
         $template = parent::createTemplate($class);

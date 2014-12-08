@@ -1,38 +1,48 @@
 <?php
 
-namespace App\AdminModule;
+namespace App\AdminModule\Presenters;
 
-use App\Libs\IMAPMail;
+use App\Model\Entities\User;
 use Nette,
     Model;
+use Kdyby\Doctrine\EntityManager;
+use Nette\Application\UI\Presenter;
+use Nette\Security\IUserStorage;
 
-/**
- * Base presenter for all application presenters.
- */
-abstract class BasePresenter extends Nette\Application\UI\Presenter
+abstract class BasePresenter extends Presenter
 {
-    /** @var IMAPMail */
-    protected $imap;
+    /** @var EntityManager @inject */
+    public $em;
 
-    public function startup()
+    protected function startup()
     {
         parent::startup();
+
         $this->detectAccess();
-        $this->imap->start();
     }
 
     public function handleLogout()
     {
         $this->logout();
-        $this->flashMessage('Byl jste odhlášen.', 'info');
+
         $this->redirect('Sign:default');
     }
 
+    public function beforeRender()
+    {
+        if ($this->user->isLoggedIn()) {
+            $this->template->userInfo = $this->em->find(User::getClassName(), $this->getUser()->getId());
+        }
+    }
+
+    /**
+     * Detects if user is logged in and/or has access to the administration.
+     */
     private function detectAccess()
     {
         if ($this->name !== 'Admin:Sign') {
             if (!$this->getUser()->isLoggedIn()) {
-                if ($this->getUser()->getLogoutReason() === Nette\Security\IUserStorage::INACTIVITY) {
+                if ($this->getUser()->getLogoutReason() === IUserStorage::INACTIVITY) {
                     $this->flashMessage('Byl jste automaticky odhlášen (20 minut).', 'info');
                 } else {
                     $this->flashMessage('Přihlašte se prosím.', 'info');
@@ -47,19 +57,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             }
         } else {
             if ($this->getUser()->isLoggedIn()) {
-                if ($this->getUser()->isInRole('admin')) {
+                if ($this->getUser()->isInRole(User::ROLE_ADMIN)) {
                     $this->redirect('Homepage:default');
                 }
             }
         }
     }
 
-    protected function setPageInfo($title, $description)
-    {
-        $this->template->pageTitle = $title;
-        $this->template->pageDesc = $description;
-    }
-
+    /**
+     * Logs out the user.
+     */
     public function logout()
     {
         if ($this->getUser()->isLoggedIn()) {
@@ -67,35 +74,4 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         }
     }
 
-    public static function activeRowToArray($data)
-    {
-        if (!($data instanceof Nette\Database\Table\ActiveRow)) {
-            return null;
-        }
-
-        $return = array();
-        foreach ($data as $key => $value) {
-            $return[$key] = $value;
-        }
-        return $return;
-    }
-
-    /* New emails notification */
-
-    public function beforeRender()
-    {
-        $this->template->eCount = $this->imap->getMessCount();
-        $this->template->emails = $this->imap->getInbox();
-    }
-
-    public function injectImap(IMAPMail $imap)
-    {
-        $this->imap = $imap;
-    }
-
-    public function handleVisited($id)
-    {
-        $this->imap->emailVisited($id);
-        $this->reconect("this");
-    }
 }

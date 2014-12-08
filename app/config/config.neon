@@ -24,7 +24,7 @@ nette:
         application:
                 errorPresenter: "Front:Error"
                 mapping:
-                        *: App\*Module\*Presenter
+                        *: App\*Module\Presenters\*Presenter
 
         session:
                 expiration: 14 days

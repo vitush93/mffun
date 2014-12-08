@@ -7,10 +7,8 @@ use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
-class UserRepository extends Object implements IRepository
+class UserRepository extends Object
 {
-    use RepositoryTrait;
-
     /** @var \Kdyby\Doctrine\EntityManager */
     private $em;
 
@@ -23,6 +21,10 @@ class UserRepository extends Object implements IRepository
         $this->userDao = $entityManager->getDao(User::getClassName());
     }
 
+    /**
+     * @param $username
+     * @return mixed|null|User
+     */
     public function findOneByUsername($username)
     {
         return $this->userDao->findOneBy(array('username' => $username));
@@ -42,7 +44,7 @@ class UserRepository extends Object implements IRepository
      */
     public function findAll()
     {
-        // TODO: Implement findAll() method.
+        return $this->userDao->findBy([], array('id' => 'DESC'));
     }
 
     /**
@@ -53,6 +55,4 @@ class UserRepository extends Object implements IRepository
     {
         $this->userDao->delete($this->userDao->find($id));
     }
-
-
 } 

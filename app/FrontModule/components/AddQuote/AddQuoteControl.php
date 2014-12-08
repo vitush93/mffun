@@ -4,7 +4,7 @@ namespace App\FrontModule\Components\AddQuote;
 
 use App\FrontModule\Forms\AddQuoteForm;
 use App\Model\Entities\User;
-use App\Model\Services\QuoteManagementService;
+use App\Model\Repositories\QuoteRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
@@ -14,14 +14,19 @@ use App\Model\Entities\Teacher;
 use App\Model\Entities\Subject;
 use App\Libs\Utils;
 
-
+/**
+ *
+ *
+ * Class AddQuoteControl
+ * @package App\FrontModule\Components\AddQuote
+ */
 class AddQuoteControl extends Control
 {
     /** @var \Kdyby\Doctrine\EntityManager */
     private $em;
 
     /** @var \App\Model\Repositories\QuoteRepository */
-    private $quoteManagementService;
+    private $quoteRepository;
 
     /** @var \Kdyby\Doctrine\EntityDao */
     private $userDao;
@@ -32,11 +37,11 @@ class AddQuoteControl extends Control
     /** @var \Kdyby\Doctrine\EntityDao */
     private $teacherDao;
 
-    public function __construct(EntityManager $entityManager, QuoteManagementService $managementService)
+    public function __construct(EntityManager $entityManager, QuoteRepository $quoteRepository)
     {
         parent::__construct();
 
-        $this->quoteManagementService = $managementService;
+        $this->quoteRepository = $quoteRepository;
         $this->em = $entityManager;
         $this->userDao = $entityManager->getDao(User::getClassName());
         $this->subjectDao = $entityManager->getDao(Subject::getClassName());
@@ -49,6 +54,13 @@ class AddQuoteControl extends Control
         $this->template->render();
     }
 
+    /**
+     * [AddQuoteForm]
+     * Tries to add a new quote to the database.
+     *
+     * @param Form $form
+     */
+    // TODO refactor
     public function processAddQuoteForm(Form $form)
     {
         $data = $form->getValues(true);
@@ -88,13 +100,18 @@ class AddQuoteControl extends Control
         Utils::safeExplodeByComma($data['tags']);
 
         // add new quote
-        $this->quoteManagementService->addQuote($quote, $data['tags']);
+        $this->quoteRepository->create($quote, $data['tags']);
         $this->em->flush();
 
         $this->presenter->flashMessage('Citace byla přidána.', 'success');
         $this->presenter->redirect('this');
     }
 
+    /**
+     * AddQuoteForm factory.
+     *
+     * @return AddQuoteForm
+     */
     protected function createComponentQuoteForm()
     {
         $form = new AddQuoteForm();

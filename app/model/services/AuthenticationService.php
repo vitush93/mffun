@@ -22,6 +22,13 @@ class AuthenticationService extends Object implements Nette\Security\IAuthentica
         $this->usersDao = $entityManager->getDao(User::getClassName());
     }
 
+    /**
+     * Try to authenticate the user.
+     *
+     * @param array $credentials
+     * @return Nette\Security\Identity|Nette\Security\IIdentity
+     * @throws Nette\Security\AuthenticationException
+     */
     public function authenticate(array $credentials)
     {
         list($username, $password) = $credentials;

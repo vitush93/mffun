@@ -19,15 +19,10 @@ services:
     # repositories
     - App\Model\Repositories\QuoteRepository
     - App\Model\Repositories\UserRepository
-    - App\Model\Repositories\TeacherRepository
-    - App\Model\Repositories\SubjectRepository
-    - App\Model\Repositories\TagRepository
 
     # services
     - App\Model\Services\AuthenticationService
-    - App\Model\Services\QuoteManagementService
 
     # factories
     - App\RouterFactory
-    - App\AdminModule\IGridoUsersControlFactory
     - App\FrontModule\Components\AddQuote\IAddQuoteControlFactory
