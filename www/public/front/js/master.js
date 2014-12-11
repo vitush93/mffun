@@ -18751,229 +18751,15 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
 	$.gsap = {enabled:function(value) {_enabled = value;}, version:"0.1.9"};
 
 }(jQuery));
-/*
- *  Bootstrap Auto-Hiding Navbar - v1.0.0
- *  An extension for Bootstrap's fixed navbar which hides the navbar while the page is scrolling downwards and shows it the other way. The plugin is able to show/hide the navbar programmatically as well.
- *  http://www.virtuosoft.eu/code/bootstrap-autohidingnavbar/
- *
- *  Made by István Ujj-Mészáros
- *  Under Apache License v2.0 License
- */
-;(function($, window, document, undefined) {
-  var pluginName = 'autoHidingNavbar',
-      $window = $(window),
-      $document = $(document),
-      _scrollThrottleTimer = null,
-      _resizeThrottleTimer = null,
-      _throttleDelay = 70,
-      _lastScrollHandlerRun = 0,
-      _previousScrollTop = null,
-      _windowHeight = $window.height(),
-      _visible = true,
-      _hideOffset,
-      defaults = {
-        disableAutohide: false,
-        showOnUpscroll: true,
-        showOnBottom: true,
-        hideOffset: 'auto', // "auto" means the navbar height
-        animationDuration: 200
-      };
-
-  function AutoHidingNavbar(element, options) {
-    this.element = $(element);
-    this.settings = $.extend({}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
-    this.init();
-  }
-
-  function hide(autoHidingNavbar) {
-    if (!_visible) {
-      return;
-    }
-
-    autoHidingNavbar.element.addClass('navbar-hidden').animate({
-      top: -autoHidingNavbar.element.height()
-    }, {
-      queue: false,
-      duration: autoHidingNavbar.settings.animationDuration
-    });
-
-    $('.dropdown.open .dropdown-toggle', autoHidingNavbar.element).dropdown('toggle');
-
-    _visible = false;
-  }
-
-  function show(autoHidingNavbar) {
-    if (_visible) {
-      return;
-    }
-
-    autoHidingNavbar.element.removeClass('navbar-hidden').animate({
-      top: 0
-    }, {
-      queue: false,
-      duration: autoHidingNavbar.settings.animationDuration
-    });
-    _visible = true;
-  }
-
-  function detectState(autoHidingNavbar) {
-    var scrollTop = $window.scrollTop(),
-        scrollDelta = scrollTop - _previousScrollTop;
-
-    _previousScrollTop = scrollTop;
-
-    if (scrollDelta < 0) {
-      if (_visible) {
-        return;
-      }
-
-      if (autoHidingNavbar.settings.showOnUpscroll || scrollTop <= _hideOffset) {
-        show(autoHidingNavbar);
-      }
-    }
-    else if (scrollDelta > 0) {
-      if (!_visible) {
-        if (autoHidingNavbar.settings.showOnBottom && scrollTop + _windowHeight === $document.height()) {
-          show(autoHidingNavbar);
-        }
-        return;
-      }
-
-      if (scrollTop >= _hideOffset) {
-        hide(autoHidingNavbar);
-      }
-    }
-
-  }
-
-  function scrollHandler(autoHidingNavbar) {
-    if (autoHidingNavbar.settings.disableAutohide) {
-      return;
-    }
-
-    _lastScrollHandlerRun = new Date().getTime();
-
-    detectState(autoHidingNavbar);
-  }
-
-  function bindEvents(autoHidingNavbar) {
-    $document.on('scroll.' + pluginName, function() {
-      if (new Date().getTime() - _lastScrollHandlerRun > _throttleDelay) {
-        scrollHandler(autoHidingNavbar);
-      }
-      else {
-        clearTimeout(_scrollThrottleTimer);
-        _scrollThrottleTimer = setTimeout(function() {
-          scrollHandler(autoHidingNavbar);
-        }, _throttleDelay);
-      }
-    });
-
-    $window.on('resize.' + pluginName, function() {
-      clearTimeout(_resizeThrottleTimer);
-      _resizeThrottleTimer = setTimeout(function() {
-        _windowHeight = $window.height();
-      }, _throttleDelay);
-    });
-  }
-
-  function unbindEvents() {
-    $document.off('.' + pluginName);
-
-    $window.off('.' + pluginName);
-  }
-
-  AutoHidingNavbar.prototype = {
-    init: function() {
-      this.elements = {
-        navbar: this.element
-      };
-
-      this.setDisableAutohide(this.settings.disableAutohide);
-      this.setShowOnUpscroll(this.settings.showOnUpscroll);
-      this.setShowOnBottom(this.settings.showOnBottom);
-      this.setHideOffset(this.settings.hideOffset);
-      this.setAnimationDuration(this.settings.animationDuration);
-
-      _hideOffset = this.settings.hideOffset === 'auto' ? this.element.height() : this.settings.hideOffset;
-      bindEvents(this);
-
-      return this.element;
-    },
-    setDisableAutohide: function(value) {
-      this.settings.disableAutohide = value;
-      return this.element;
-    },
-    setShowOnUpscroll: function(value) {
-      this.settings.showOnUpscroll = value;
-      return this.element;
-    },
-    setShowOnBottom: function(value) {
-      this.settings.showOnBottom = value;
-      return this.element;
-    },
-    setHideOffset: function(value) {
-      this.settings.hideOffset = value;
-      return this.element;
-    },
-    setAnimationDuration: function(value) {
-      this.settings.animationDuration = value;
-      return this.element;
-    },
-    show: function() {
-      show(this);
-      return this.element;
-    },
-    hide: function() {
-      hide(this);
-      return this.element;
-    },
-    destroy: function() {
-      unbindEvents(this);
-      show(this);
-      $.data(this, 'plugin_' + pluginName, null);
-      return this.element;
-    }
-  };
-
-  $.fn[pluginName] = function(options) {
-    var args = arguments;
-
-    if (options === undefined || typeof options === 'object') {
-      return this.each(function() {
-        if (!$.data(this, 'plugin_' + pluginName)) {
-          $.data(this, 'plugin_' + pluginName, new AutoHidingNavbar(this, options));
-        }
-      });
-    } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
-      var returns;
-
-      this.each(function() {
-        var instance = $.data(this, 'plugin_' + pluginName);
-
-        if (instance instanceof AutoHidingNavbar && typeof instance[options] === 'function') {
-          returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
-        }
-      });
-
-      return returns !== undefined ? returns : this;
-    }
-
-  };
-
-})(jQuery, window, document);
-
 /**
  * AJAX Nette Framework plugin for jQuery
  *
  * @copyright Copyright (c) 2009, 2010 Jan Marek
  * @copyright Copyright (c) 2009, 2010 David Grudl
- * @copyright Copyright (c) 2012 Vojtěch Dobeš
+ * @copyright Copyright (c) 2012-2014 Vojtěch Dobeš
  * @license MIT
  *
- * @version 1.2.2
+ * @version 2.0.0
  */
 
 (function(window, $, undefined) {
@@ -19330,28 +19116,46 @@ $.nette.ext('forms', {
 		if (!analyze || !analyze.form) return;
 		var e = analyze.e;
 		var originalData = settings.data || {};
-		var formData = {};
+		var data = {};
 
 		if (analyze.isSubmit) {
-			formData[analyze.el.attr('name')] = analyze.el.val() || '';
+			data[analyze.el.attr('name')] = analyze.el.val() || '';
 		} else if (analyze.isImage) {
 			var offset = analyze.el.offset();
 			var name = analyze.el.attr('name');
 			var dataOffset = [ Math.max(0, e.pageX - offset.left), Math.max(0, e.pageY - offset.top) ];
 
 			if (name.indexOf('[', 0) !== -1) { // inside a container
-				formData[name] = dataOffset;
+				data[name] = dataOffset;
 			} else {
-				formData[name + '.x'] = dataOffset[0];
-				formData[name + '.y'] = dataOffset[1];
+				data[name + '.x'] = dataOffset[0];
+				data[name + '.y'] = dataOffset[1];
 			}
 		}
+		
+		// https://developer.mozilla.org/en-US/docs/Web/Guide/Using_FormData_Objects#Sending_files_using_a_FormData_object
+		if (analyze.form.attr('method').toLowerCase() === 'post' && 'FormData' in window) {
+			var formData = new FormData(analyze.form[0]);
+			for (var i in data) {
+				formData.append(i, data[i]);
+			}
 
-		if (typeof originalData !== 'string') {
-			originalData = $.param(originalData);
+			if (typeof originalData !== 'string') {
+				for (var i in originalData) {
+					formData.append(i, originalData[i]);
+				}
+			}
+
+			settings.data = formData;
+			settings.processData = false;
+			settings.contentType = false;
+		} else {
+			if (typeof originalData !== 'string') {
+				originalData = $.param(originalData);
+			}
+			data = $.param(data);
+			settings.data = analyze.form.serialize() + (data ? '&' + data : '') + '&' + originalData;
 		}
-		formData = $.param(formData);
-		settings.data = analyze.form.serialize() + (formData ? '&' + formData : '') + '&' + originalData;
 	}
 });
 
@@ -19491,6 +19295,220 @@ $.nette.ext('init', {
 });
 
 })(window, window.jQuery);
+
+/*
+ *  Bootstrap Auto-Hiding Navbar - v1.0.0
+ *  An extension for Bootstrap's fixed navbar which hides the navbar while the page is scrolling downwards and shows it the other way. The plugin is able to show/hide the navbar programmatically as well.
+ *  http://www.virtuosoft.eu/code/bootstrap-autohidingnavbar/
+ *
+ *  Made by István Ujj-Mészáros
+ *  Under Apache License v2.0 License
+ */
+;(function($, window, document, undefined) {
+  var pluginName = 'autoHidingNavbar',
+      $window = $(window),
+      $document = $(document),
+      _scrollThrottleTimer = null,
+      _resizeThrottleTimer = null,
+      _throttleDelay = 70,
+      _lastScrollHandlerRun = 0,
+      _previousScrollTop = null,
+      _windowHeight = $window.height(),
+      _visible = true,
+      _hideOffset,
+      defaults = {
+        disableAutohide: false,
+        showOnUpscroll: true,
+        showOnBottom: true,
+        hideOffset: 'auto', // "auto" means the navbar height
+        animationDuration: 200
+      };
+
+  function AutoHidingNavbar(element, options) {
+    this.element = $(element);
+    this.settings = $.extend({}, defaults, options);
+    this._defaults = defaults;
+    this._name = pluginName;
+    this.init();
+  }
+
+  function hide(autoHidingNavbar) {
+    if (!_visible) {
+      return;
+    }
+
+    autoHidingNavbar.element.addClass('navbar-hidden').animate({
+      top: -autoHidingNavbar.element.height()
+    }, {
+      queue: false,
+      duration: autoHidingNavbar.settings.animationDuration
+    });
+
+    $('.dropdown.open .dropdown-toggle', autoHidingNavbar.element).dropdown('toggle');
+
+    _visible = false;
+  }
+
+  function show(autoHidingNavbar) {
+    if (_visible) {
+      return;
+    }
+
+    autoHidingNavbar.element.removeClass('navbar-hidden').animate({
+      top: 0
+    }, {
+      queue: false,
+      duration: autoHidingNavbar.settings.animationDuration
+    });
+    _visible = true;
+  }
+
+  function detectState(autoHidingNavbar) {
+    var scrollTop = $window.scrollTop(),
+        scrollDelta = scrollTop - _previousScrollTop;
+
+    _previousScrollTop = scrollTop;
+
+    if (scrollDelta < 0) {
+      if (_visible) {
+        return;
+      }
+
+      if (autoHidingNavbar.settings.showOnUpscroll || scrollTop <= _hideOffset) {
+        show(autoHidingNavbar);
+      }
+    }
+    else if (scrollDelta > 0) {
+      if (!_visible) {
+        if (autoHidingNavbar.settings.showOnBottom && scrollTop + _windowHeight === $document.height()) {
+          show(autoHidingNavbar);
+        }
+        return;
+      }
+
+      if (scrollTop >= _hideOffset) {
+        hide(autoHidingNavbar);
+      }
+    }
+
+  }
+
+  function scrollHandler(autoHidingNavbar) {
+    if (autoHidingNavbar.settings.disableAutohide) {
+      return;
+    }
+
+    _lastScrollHandlerRun = new Date().getTime();
+
+    detectState(autoHidingNavbar);
+  }
+
+  function bindEvents(autoHidingNavbar) {
+    $document.on('scroll.' + pluginName, function() {
+      if (new Date().getTime() - _lastScrollHandlerRun > _throttleDelay) {
+        scrollHandler(autoHidingNavbar);
+      }
+      else {
+        clearTimeout(_scrollThrottleTimer);
+        _scrollThrottleTimer = setTimeout(function() {
+          scrollHandler(autoHidingNavbar);
+        }, _throttleDelay);
+      }
+    });
+
+    $window.on('resize.' + pluginName, function() {
+      clearTimeout(_resizeThrottleTimer);
+      _resizeThrottleTimer = setTimeout(function() {
+        _windowHeight = $window.height();
+      }, _throttleDelay);
+    });
+  }
+
+  function unbindEvents() {
+    $document.off('.' + pluginName);
+
+    $window.off('.' + pluginName);
+  }
+
+  AutoHidingNavbar.prototype = {
+    init: function() {
+      this.elements = {
+        navbar: this.element
+      };
+
+      this.setDisableAutohide(this.settings.disableAutohide);
+      this.setShowOnUpscroll(this.settings.showOnUpscroll);
+      this.setShowOnBottom(this.settings.showOnBottom);
+      this.setHideOffset(this.settings.hideOffset);
+      this.setAnimationDuration(this.settings.animationDuration);
+
+      _hideOffset = this.settings.hideOffset === 'auto' ? this.element.height() : this.settings.hideOffset;
+      bindEvents(this);
+
+      return this.element;
+    },
+    setDisableAutohide: function(value) {
+      this.settings.disableAutohide = value;
+      return this.element;
+    },
+    setShowOnUpscroll: function(value) {
+      this.settings.showOnUpscroll = value;
+      return this.element;
+    },
+    setShowOnBottom: function(value) {
+      this.settings.showOnBottom = value;
+      return this.element;
+    },
+    setHideOffset: function(value) {
+      this.settings.hideOffset = value;
+      return this.element;
+    },
+    setAnimationDuration: function(value) {
+      this.settings.animationDuration = value;
+      return this.element;
+    },
+    show: function() {
+      show(this);
+      return this.element;
+    },
+    hide: function() {
+      hide(this);
+      return this.element;
+    },
+    destroy: function() {
+      unbindEvents(this);
+      show(this);
+      $.data(this, 'plugin_' + pluginName, null);
+      return this.element;
+    }
+  };
+
+  $.fn[pluginName] = function(options) {
+    var args = arguments;
+
+    if (options === undefined || typeof options === 'object') {
+      return this.each(function() {
+        if (!$.data(this, 'plugin_' + pluginName)) {
+          $.data(this, 'plugin_' + pluginName, new AutoHidingNavbar(this, options));
+        }
+      });
+    } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
+      var returns;
+
+      this.each(function() {
+        var instance = $.data(this, 'plugin_' + pluginName);
+
+        if (instance instanceof AutoHidingNavbar && typeof instance[options] === 'function') {
+          returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
+        }
+      });
+
+      return returns !== undefined ? returns : this;
+    }
+
+  };
+
+})(jQuery, window, document);
 
 /**
  * Live Form Validation for Nette 2.2
@@ -20301,33 +20319,6 @@ $('#filter-button').on('click', function (e) {
     }
 });
 
-$('#add-quote-close').on('click', function () {
-    modalClose();
-});
-
-$('#add-quote-button').on('click', function (e) {
-    e.preventDefault();
-    $('#modal-fade').stop().show();
-    $('#add-quote').stop().show().animate({
-        top: 50,
-        opacity: 1
-    }, 300);
-});
-
-$('#modal-fade').on('click', function () {
-    modalClose();
-});
-
-function modalClose() {
-    $('#modal-fade').hide();
-    $('#add-quote').stop().animate({
-        top: 0,
-        opacity: 0
-    }, 100, function () {
-        $(this).hide();
-    });
-}
-
 $('.flash i').on('click', function () {
     $(this).parent('.flash').remove();
 });
@@ -20405,79 +20396,3 @@ function searchBoxControl() {
 $('#top-nav').autoHidingNavbar({
     hideOffset: -60
 });
-
-/*
-var scrollTop = $('#scroll-top');
-scrollTop.click(function (event) {
-    event.preventDefault();
-    $('html, body').stop().animate({scrollTop: 0}, 200);
-    return false;
-});
-
-var scrolled = false;
-$(window).scroll(function () {
-    scrolled = true;
-});
-
-setInterval(function () {
-    if (scrolled) {
-        scrolled = false;
-        handler();
-    }
-}, 200);
-
-var lastScroll = 0;
-var st = 0;
-var menu = $('#top-nav');
-var mobileMenu = $('#mobile-menu');
-var navbarVisible = true;
-var scrollVisible = false;
-
-handler = function () {
-    st = $(window).scrollTop();
-    if (st > lastScroll) {
-        //scroll down
-        if (navbarVisible) {
-            if (st > 200) {
-                mobileMenu.hide();
-                menu.stop().animate({top: -55}, 200);
-                navbarVisible = false;
-            }
-        }
-        if (scrollVisible) {
-            scrollTop.stop().animate({bottom: 10, opacity: 0}, 200, function () {
-                $(this).hide();
-            });
-            $('#footer').stop().animate({opacity: 0}, 200, function () {
-                $(this).hide();
-            });
-            scrollVisible = false;
-        }
-    } else {
-        // scroll up
-        if (!navbarVisible) {
-            mobileMenu.show();
-            menu.stop().animate({top: 0}, 200);
-            navbarVisible = true;
-        }
-        if (!scrollVisible) {
-            if (st + $(window).height() - $('.tag-cloud').outerHeight() - $("#control-bar").outerHeight() > 200) {
-                scrollTop.stop().show().animate({bottom: 20, opacity: 1}, 200);
-                $('#footer').stop().show().animate({opacity: 1}, 200);
-                scrollVisible = true;
-            }
-        } else {
-            if (st + $(window).height() - $('.tag-cloud').outerHeight() - $("#control-bar").outerHeight() < 200) {
-                scrollTop.stop().animate({bottom: 10, opacity: 0}, 200, function () {
-                    $(this).hide();
-                });
-                $('#footer').stop().animate({opacity: 0}, 200, function () {
-                    $(this).hide();
-                });
-                scrollVisible = false;
-            }
-        }
-    }
-    lastScroll = st;
-};
-*/

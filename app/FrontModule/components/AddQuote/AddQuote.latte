@@ -1,34 +1,13 @@
-{form quoteForm}
-    <p>
-        {label subject /}
-        {input subject}
-        <i class="fa fa-puzzle-piece fa-fw"></i>
-    </p>
-    <p>
-        {label teacher /}
-        {input teacher}
-        <i class="fa fa-mortar-board fa-fw"></i>
-    </p>
-    <p>
-        {label text /}
-        {input text}
-    </p>
-    <p>
-        {label tags /}
-        {input tags}
-        <i class="fa fa-tags fa-fw"></i>
-    </p>
-    <p>
-        {label date /}
-        {input date}
-        <i class="fa fa-calendar-o fa-fw"></i>
-    </p>
-    <p>
-        {label user_email /}
-        {input user_email}
-        <i class="fa fa-envelope-o fa-fw"></i>
-    </p>
-    <p>
-        {input process}
-    </p>
-{/form}
+<div id="add-quote-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-heading">
+            <h2>Přidat citaci</h2>
+        </div>
+        <div class="modal-content">
+            {control quoteForm}
+        </div>
+    </div>
+
+</div>

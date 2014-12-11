@@ -3,6 +3,7 @@
 namespace App\FrontModule\Components\AddQuote;
 
 use App\FrontModule\Forms\AddQuoteForm;
+use App\Libs\BootstrapForm;
 use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use Kdyby\Doctrine\EntityManager;
@@ -15,8 +16,6 @@ use App\Model\Entities\Subject;
 use App\Libs\Utils;
 
 /**
- *
- *
  * Class AddQuoteControl
  * @package App\FrontModule\Components\AddQuote
  */
@@ -110,11 +109,25 @@ class AddQuoteControl extends Control
     /**
      * AddQuoteForm factory.
      *
-     * @return AddQuoteForm
+     * @return Form
      */
     protected function createComponentQuoteForm()
     {
-        $form = new AddQuoteForm();
+        $form = new Form();
+
+        $form->addText('subject', 'Předmět')->setRequired('Vyplňte prosím.');
+        $form->addText('teacher', 'Vyučující')->setRequired('Vyplňte prosím.');
+        $form->addTextArea('text', 'Text citace')->setRequired('Vyplňte prosím.');
+        $form->addText('tags', 'Tagy')->setRequired('Vyplňte prosím.');
+        $form->addText('date', 'Datum výroku')
+            ->setDefaultValue(date('j.n.Y'))
+            ->setRequired('Vyplňte prosím.')
+            ->getControlPrototype()->class('datepicker');
+        $form->addText('user_email', 'Tvůj e-mail')
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
+        $form->addSubmit('process', 'přidat citát');
+
         $form->onSuccess[] = $this->processAddQuoteForm;
 
         return $form;

@@ -12,8 +12,8 @@ var scripts = [
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',
     'bower_components/gsap/src/uncompressed/jquery.gsap.js',
+    'bower_components/nette.ajax.js/nette.ajax.js',
     'dev/js/jquery.bootstrap-autohidingnavbar.js',
-    'dev/js/nette.ajax.js',
     'dev/js/live-form-validation.js',
     'dev/js/script.js'
 ];
