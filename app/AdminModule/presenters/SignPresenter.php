@@ -2,9 +2,9 @@
 
 namespace App\AdminModule\Presenters;
 
-use App\AdminModule\Forms\SignInForm;
-use Nette,
-    Model;
+use Model;
+use Nette;
+use Nette\Application\UI\Form;
 
 class SignPresenter extends BasePresenter
 {
@@ -13,19 +13,6 @@ class SignPresenter extends BasePresenter
     {
         $this->template->pageTitle = 'Přihlášení';
         $this->template->pageDesc = 'přihlášení do administrace';
-    }
-
-    /**
-     * SignInForm factory.
-     *
-     * @return SignInForm
-     */
-    protected function createComponentSignInForm()
-    {
-        $form = new SignInForm();
-
-        $form->onSuccess[] = $this->signInFormSucceeded;
-        return $form;
     }
 
     /**
@@ -50,6 +37,36 @@ class SignPresenter extends BasePresenter
         } catch (Nette\Security\AuthenticationException $e) {
             $form->addError($e->getMessage(), 'danger');
         }
+    }
+
+    /**
+     * SignInForm factory.
+     *
+     * @return Form
+     */
+    protected function createComponentSignInForm()
+    {
+        $form = new Form();
+
+        $form->addText('username', 'Jméno:', 80, 50)
+            ->setAttribute('placeholder', 'Uživatelské jméno')
+            ->setRequired('zadejte své uživatelské jméno')
+            ->getControlPrototype()->class('form-control');
+
+        $form->addPassword('password', 'Heslo:', 80, 60)
+            ->setAttribute('placeholder', 'Heslo')
+            ->setRequired('zadejte své heslo')
+            ->getControlPrototype()->class('form-control');
+
+        $form->addCheckbox('remember', 'zapamatovat přihlášení');
+
+        $form->addSubmit('send', 'Přihlásit')
+            ->getControlPrototype()
+            ->class('btn btn-lg btn-success btn-block');
+        $form->getElementPrototype()->class('form-signin');
+
+        $form->onSuccess[] = $this->signInFormSucceeded;
+        return $form;
     }
 
 }

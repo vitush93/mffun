@@ -1,6 +1,5 @@
 vendor/*
 !vendor/others
-.idea/
 nbproject/
 
 .DS_Store
