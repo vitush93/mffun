@@ -3,14 +3,12 @@
 
 namespace App\Model\Entities;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Nette\InvalidArgumentException;
 use Nette\Security\Passwords;
-use Doctrine\ORM\Mapping\UniqueConstraint;
-use Doctrine\ORM\Mapping\OneToMany;
-use DateTime;
 
 /**
  * @ORM\Entity
@@ -21,6 +19,8 @@ class User extends BaseEntity
     const ROLE_ADMIN = 'admin';
     const ROLE_USER = 'user';
     const ROLE_MODERATOR = 'moderator';
+    const USER_UNKNOWN = 'unknown';
+
     public static $ALLOWED_ROLES = array(self::ROLE_ADMIN, self::ROLE_USER, self::ROLE_MODERATOR);
 
     /**
@@ -99,6 +99,12 @@ class User extends BaseEntity
      */
     private $active = TRUE;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    private $crank = 5;
+
     public function __construct()
     {
         $this->registered = new DateTime();
@@ -164,6 +170,32 @@ class User extends BaseEntity
         $this->username = $username;
     }
 
+    public function increaseCrank()
+    {
+        $this->crank++;
+    }
+
+    public function decreaseCrank()
+    {
+        $this->crank--;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCrank()
+    {
+        return $this->crank;
+    }
+
+    /**
+     * @param int $crank
+     */
+    public function setCrank($crank)
+    {
+        $this->crank = $crank;
+    }
+
     /**
      * @return string
      */
@@ -177,9 +209,9 @@ class User extends BaseEntity
      */
     public function setPassword($password)
     {
-        if($password === NULL) {
+        if ($password === NULL) {
             $this->password = NULL;
-        }else{
+        } else {
             $this->password = Passwords::hash($password);
         }
     }
@@ -205,14 +237,6 @@ class User extends BaseEntity
     }
 
     /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
@@ -221,11 +245,11 @@ class User extends BaseEntity
     }
 
     /**
-     * @param string $name
+     * @param string $email
      */
-    public function setName($name)
+    public function setEmail($email)
     {
-        $this->name = $name;
+        $this->email = $email;
     }
 
     /**
@@ -237,6 +261,14 @@ class User extends BaseEntity
     }
 
     /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getComments()
@@ -245,19 +277,19 @@ class User extends BaseEntity
     }
 
     /**
-     * @param string $avatar
-     */
-    public function setAvatar($avatar)
-    {
-        $this->avatar = $avatar;
-    }
-
-    /**
      * @return string
      */
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
     }
 
     /**
@@ -285,14 +317,6 @@ class User extends BaseEntity
     }
 
     /**
-     * @param int $active
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-    }
-
-    /**
      * @return int
      */
     public function getActive()
@@ -300,6 +324,13 @@ class User extends BaseEntity
         return $this->active;
     }
 
+    /**
+     * @param int $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
 
 
-} 
+}

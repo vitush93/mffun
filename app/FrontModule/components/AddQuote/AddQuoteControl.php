@@ -64,7 +64,6 @@ class AddQuoteControl extends Control
      *
      * @param Form $form
      */
-    // TODO refactor
     public function processAddQuoteForm(Form $form)
     {
         $data = $form->getValues(true);

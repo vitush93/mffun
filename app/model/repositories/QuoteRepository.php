@@ -2,10 +2,10 @@
 
 namespace App\Model\Repositories;
 
-use Nette\NotImplementedException;
-use Nette\Object;
-use Kdyby\Doctrine\EntityManager;
 use App\Model\Entities\Quote;
+use App\Model\Entities\Tag;
+use Kdyby\Doctrine\EntityManager;
+use Nette\Object;
 
 class QuoteRepository extends Object
 {
@@ -22,8 +22,38 @@ class QuoteRepository extends Object
         $this->quoteDao = $entityManager->getDao(Quote::getClassName());
     }
 
-    public function create(Quote $quote, array $tags) {
-        throw new NotImplementedException();
+    /**
+     * Persists a new quote and assigns given tags to it.
+     *
+     * @param Quote $quote
+     * @param array $tags
+     */
+    public function create(Quote $quote, array $tags)
+    {
+        $this->em->persist($quote);
+
+        // collect existing tags
+        $existing_tags = $this->em->getDao(Tag::getClassName())->findAll();
+        $ex = array();
+
+        /** @var Tag $e */
+        foreach ($existing_tags as $e) {
+            $ex[$e->getTag()] = $e;
+        }
+
+        // persist new tags, omitting the existing ones
+        foreach ($tags as $tag) {
+            if (array_key_exists($tag, $ex)) {
+                $t = $ex[$tag];
+            } else {
+                $t = new Tag();
+                $t->setTag($tag);
+                $this->em->persist($t);
+            }
+
+            $t->assignToQuote($quote);
+            $quote->addTag($t);
+        }
     }
 
     /**
@@ -34,7 +64,7 @@ class QuoteRepository extends Object
      */
     public function findAllByDateDesc($limit = 10)
     {
-        return $this->quoteDao->findBy([], ['posted' => 'DESC'], $limit);
+        return $this->quoteDao->findBy(['approved' => true], ['posted' => 'DESC'], $limit);
     }
 
     /**

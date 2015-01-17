@@ -33,6 +33,7 @@ $dummy_user->setPassword('123');
 $dummy_user->setRole('user');
 $dummy_user->setEmail('unk@unk.com');
 $dummy_user->setActive(false);
+$dummy_user->setCrank(0);
 
 $em = $container->getByType('Kdyby\Doctrine\EntityManager');
 

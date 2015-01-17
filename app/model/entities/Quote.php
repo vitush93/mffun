@@ -3,15 +3,16 @@
 namespace App\Model\Entities;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby\Doctrine\Entities\BaseEntity;
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Event\PreFlushEventArgs;
+use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="quotations")
+ * @ORM\HasLifecycleCallbacks
  */
 class Quote extends BaseEntity
 {
@@ -22,73 +23,67 @@ class Quote extends BaseEntity
      * @var integer
      */
     private $id;
-
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="quotations")
      * @var User
      */
     private $user;
-
     /**
      * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="quotations")
      * @var Teacher
      */
     private $teacher;
-
     /**
      * @ORM\ManyToOne(targetEntity="Subject", inversedBy="quotations")
      * @var Subject
      */
     private $subject;
-
     /**
      * @ORM\ManyToMany(targetEntity="Tag", mappedBy="quotations")
      * @var ArrayCollection
      */
     private $tags;
-
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
      * @ORM\OrderBy({"rating_up" = "DESC"})
      * @var ArrayCollection
      */
     private $comments;
-
     /**
      * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote")
      * @var ArrayCollection
      */
     private $ratings;
-
     /**
      * @ORM\Column(type="datetime")
      * @var DateTime
      */
     private $date;
-
     /**
      * @ORM\Column(type="datetime")
      * @var DateTime
      */
     private $posted;
-
     /**
      * @ORM\Column(type="text")
      * @var string
      */
     private $text;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $user_email;
-
     /**
      * @ORM\Column(type="float")
      * @var float
      */
     private $rating = 0;
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    private $approved = false;
 
     public function __construct()
     {
@@ -96,6 +91,56 @@ class Quote extends BaseEntity
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->tags = new ArrayCollection();
+    }
+
+    /**
+     * Check if quote poster has enough crank to post this quote automatically.
+     * If the quote is approved automatically, user's crank will be increased.
+     *
+     * @ORM\PreFlush
+     */
+    public function resolveApprovalPreFlush(PreFlushEventArgs $args)
+    {
+        if ($this->user->getRole() == User::ROLE_ADMIN || $this->user->getRole() == User::ROLE_MODERATOR) {
+            $this->approve();
+
+            return;
+        }
+
+        if ($this->user->getUsername() == User::USER_UNKNOWN) {
+            $this->disapprove();
+
+            return;
+        }
+
+        if ($this->user->getCrank() > 0) {
+            $this->approve();
+            $this->user->increaseCrank();
+        }
+    }
+
+    /**
+     * Approves the quote making it visible to the users.
+     */
+    public function approve()
+    {
+        $this->approved = TRUE;
+    }
+
+    /**
+     * Disapproves the quote.
+     */
+    public function disapprove()
+    {
+        $this->approved = FALSE;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags->add($tag);
     }
 
     /**
@@ -123,6 +168,14 @@ class Quote extends BaseEntity
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
      * @param \DateTime $date
      */
     public function setDate(DateTime $date)
@@ -133,17 +186,17 @@ class Quote extends BaseEntity
     /**
      * @return \DateTime
      */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * @return \DateTime
-     */
     public function getPosted()
     {
         return $this->posted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 
     /**
@@ -157,9 +210,9 @@ class Quote extends BaseEntity
     /**
      * @return string
      */
-    public function getText()
+    public function getUserEmail()
     {
-        return $this->text;
+        return $this->user_email;
     }
 
     /**
@@ -168,14 +221,6 @@ class Quote extends BaseEntity
     public function setUserEmail($user_email)
     {
         $this->user_email = $user_email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserEmail()
-    {
-        return $this->user_email;
     }
 
     /**
@@ -195,6 +240,14 @@ class Quote extends BaseEntity
     }
 
     /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
      * @param User $user
      */
     public function setUser($user)
@@ -204,11 +257,11 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @return User
+     * @return Subject
      */
-    public function getUser()
+    public function getSubject()
     {
-        return $this->user;
+        return $this->subject;
     }
 
     /**
@@ -221,11 +274,11 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @return Subject
+     * @return Teacher
      */
-    public function getSubject()
+    public function getTeacher()
     {
-        return $this->subject;
+        return $this->teacher;
     }
 
     /**
@@ -238,11 +291,11 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @return Teacher
+     * @return float
      */
-    public function getTeacher()
+    public function getRating()
     {
-        return $this->teacher;
+        return $this->rating * 1000;
     }
 
     /**
@@ -251,14 +304,6 @@ class Quote extends BaseEntity
     public function setRating($rating)
     {
         $this->rating = $rating;
-    }
-
-    /**
-     * @return float
-     */
-    public function getRating()
-    {
-        return $this->rating*1000;
     }
 
     /**
