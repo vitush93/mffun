@@ -3,17 +3,22 @@
 namespace App\FrontModule\Components\AddQuote;
 
 use App\FrontModule\Forms\AddQuoteForm;
-use App\Libs\BootstrapForm;
+use App\Libs\Utils;
+use App\Model\Entities\Quote;
+use App\Model\Entities\Subject;
+use App\Model\Entities\Teacher;
 use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
-use App\Model\Entities\Quote;
 use Nette\Utils\DateTime;
-use App\Model\Entities\Teacher;
-use App\Model\Entities\Subject;
-use App\Libs\Utils;
+
+interface IAddQuoteControlFactory
+{
+    /** @return AddQuoteControl */
+    function create();
+}
 
 /**
  * Class AddQuoteControl
@@ -115,10 +120,15 @@ class AddQuoteControl extends Control
     {
         $form = new Form();
 
-        $form->addText('subject', 'Předmět')->setRequired('Vyplňte prosím.');
-        $form->addText('teacher', 'Vyučující')->setRequired('Vyplňte prosím.');
+        $form->addText('subject', 'Předmět')
+            ->setRequired('Vyplňte prosím.')
+            ->setAttribute('placeholder', 'Matematická analýza');
+        $form->addText('teacher', 'Vyučující')
+            ->setRequired('Vyplňte prosím.')
+            ->setAttribute('placeholder', 'Luděk Zajíček');
         $form->addTextArea('text', 'Text citace')->setRequired('Vyplňte prosím.');
-        $form->addText('tags', 'Tagy')->setRequired('Vyplňte prosím.');
+        $form->addText('tags', 'Tagy')
+            ->setAttribute('placeholder', 'analýza, zajíček, derivace');
         $form->addText('date', 'Datum výroku')
             ->setDefaultValue(date('j.n.Y'))
             ->setRequired('Vyplňte prosím.')
@@ -126,16 +136,17 @@ class AddQuoteControl extends Control
         $form->addText('user_email', 'Tvůj e-mail')
             ->addCondition(Form::FILLED)
             ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
+
+        foreach($form->getControls() as $control) {
+            $control->getControlPrototype()->class('form-input');
+        }
+
         $form->addSubmit('process', 'přidat citát');
+
+
 
         $form->onSuccess[] = $this->processAddQuoteForm;
 
         return $form;
     }
-}
-
-interface IAddQuoteControlFactory
-{
-    /** @return AddQuoteControl */
-    function create();
 }

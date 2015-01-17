@@ -2,11 +2,19 @@
      aria-hidden="true">
 
     <div class="modal-dialog">
-        <div class="modal-heading">
-            <h2>Přidat citaci</h2>
-        </div>
-        <div class="modal-content">
-            {control quoteForm}
+        <div class="modal-content form-container">
+            {*control quoteForm*}
+            {form quoteForm}
+                <fieldset>
+                    <legend>přidat citát</legend>
+                    {foreach $form->getControls() as $control}
+                        <div n:class="$control->isRequired() ? required">
+                            {label $control /}
+                            {input $control}
+                        </div>
+                    {/foreach}
+                </fieldset>
+            {/form}
         </div>
     </div>
 

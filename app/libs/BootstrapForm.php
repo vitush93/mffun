@@ -8,6 +8,10 @@ use Nette;
 class BootstrapForm
 {
 
+    /**
+     * @param Nette\Application\UI\Form $form
+     * @return Nette\Application\UI\Form
+     */
     public static function makeBootstrap(Nette\Application\UI\Form $form)
     {
         $renderer = $form->getRenderer();
