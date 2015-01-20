@@ -3,10 +3,11 @@
 
     <div class="modal-dialog">
         <div class="modal-content form-container">
-            {*control quoteForm*}
             {form quoteForm}
                 <fieldset>
                     <legend>přidat citát</legend>
+                    <p n:if="!$user->isLoggedIn()" class="notice">Nejsi přihlášen - citace bude nejprve zaslána ke
+                        schválení.</p>
                     {foreach $form->getControls() as $control}
                         <div n:class="$control->isRequired() ? required">
                             {label $control /}

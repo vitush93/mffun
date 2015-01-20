@@ -6,6 +6,7 @@ namespace App\Model\Repositories;
 use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
+use Nette\Utils\ArrayHash;
 
 class UserRepository extends Object
 {
@@ -19,6 +20,32 @@ class UserRepository extends Object
     {
         $this->em = $entityManager;
         $this->userDao = $entityManager->getDao(User::getClassName());
+    }
+
+    /**
+     * [RegisterForm]
+     * Creates a new user from submitted data.
+     *
+     * @param ArrayHash $values
+     */
+    public function createUser(ArrayHash $values)
+    {
+        $user = new User();
+
+        $user->setUsername($values->username);
+        $user->setEmail($values->email);
+        $user->setName($values->name);
+        $user->setPassword($values->password);
+
+        $this->add($user);
+    }
+
+    /**
+     * @param User $user
+     */
+    public function add(User $user)
+    {
+        $this->em->persist($user);
     }
 
     /**

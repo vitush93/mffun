@@ -36,7 +36,7 @@
 <nav id="mobile-menu" class="hidden-lg hidden-md hidden-sm">
     <div class="container">
         <a href="" id="mobile-add"><i class="fa fa-plus"></i></a>
-        <a href="index.php" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <a href="{link Homepage:default}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
         <a href="" id="toggle-button">
             <span></span>
             <span></span>
@@ -50,7 +50,7 @@
 </nav>
 <nav role="navigation" id="top-nav" class="hidden-xs">
     <div class="container" id="nav-container">
-        <a href="index.php" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <a href="{link Homepage:default}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
         <ul>
             <li><a href="index.php" {ifCurrent Homepage:Default}class="active"{/ifCurrent}><i class="fa fa-lightbulb-o fa-fw"></i> <span
                             class="hidden-md hidden-sm">nejnovější</span></a></li>
@@ -102,10 +102,10 @@
                                 </label>
                             </div>
                             <i class="fa fa-floppy-o"></i>
-                            <a href="" class="login">obnovit heslo</a>
+                            <a href="{link Sign:recover}" class="login">obnovit heslo</a>
                             <div style="clear:both"></div>
                         {input process}
-                            <a href="" class="login">vytvořit nový účet</a>
+                            <a href="{link Sign:register}" class="login">vytvořit nový účet</a>
                         {/form}
                     {/if}
                 </div>

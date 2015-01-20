@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
+use Kdyby\Doctrine\EntityManager;
 use Kollarovic\Thumbnail\AbstractGenerator;
 use Model;
 use Nette;
@@ -14,11 +15,14 @@ use Nette\Application\UI\Form;
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
-    /** @var AbstractGenerator @inject  */
-    public  $thumbGenerator;
+    /** @var AbstractGenerator @inject */
+    public $thumbGenerator;
 
     /** @var IAddQuoteControlFactory @inject */
-    public  $addQuoteFactory;
+    public $addQuoteFactory;
+
+    /** @var EntityManager @inject */
+    public $em;
 
     /**
      * User logout signal.
@@ -88,6 +92,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     {
         $form = new LoginForm();
         $form->onSuccess[] = $this->processLoginForm;
+        $form->addProtection();
 
         return $form;
     }
