@@ -8588,6 +8588,7 @@ nav[role="navigation"] ul li #user-controls input[type="password"] {
   border-top-right-radius: 0;
 }
 nav[role="navigation"] ul li #user-controls input[type="submit"] {
+  outline: none;
   display: block;
   font-size: 11px;
   border: none;
@@ -8965,6 +8966,7 @@ footer[role="contentinfo"] span {
   color: #7c8ea0;
 }
 .button {
+  outline: none;
   display: block;
   font-size: 11px;
   border: none;

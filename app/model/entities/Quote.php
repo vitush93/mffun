@@ -16,6 +16,12 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  */
 class Quote extends BaseEntity
 {
+    const STATUS_APPROVED = 1;
+    const STATUS_NEED_APPROVAL = 2;
+    const STATUS_DENIED = 3;
+
+    public static $ALLOWED_STATUS = [self::STATUS_APPROVED, self::STATUS_DENIED, self::STATUS_NEED_APPROVAL];
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -23,67 +29,83 @@ class Quote extends BaseEntity
      * @var integer
      */
     private $id;
+
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="quotations")
      * @var User
      */
     private $user;
+
     /**
      * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="quotations")
      * @var Teacher
      */
     private $teacher;
+
     /**
      * @ORM\ManyToOne(targetEntity="Subject", inversedBy="quotations")
      * @var Subject
      */
     private $subject;
+
     /**
      * @ORM\ManyToMany(targetEntity="Tag", mappedBy="quotations")
      * @var ArrayCollection
      */
     private $tags;
+
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
      * @ORM\OrderBy({"rating_up" = "DESC"})
      * @var ArrayCollection
      */
     private $comments;
+
     /**
      * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote")
      * @var ArrayCollection
      */
     private $ratings;
+
     /**
+     * Date when the quotation has been spoken.
+     *
      * @ORM\Column(type="datetime")
      * @var DateTime
      */
     private $date;
+
     /**
+     * Date posted.
+     *
      * @ORM\Column(type="datetime")
      * @var DateTime
      */
     private $posted;
+
     /**
      * @ORM\Column(type="text")
      * @var string
      */
     private $text;
+
     /**
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $user_email;
+
     /**
      * @ORM\Column(type="float")
      * @var float
      */
     private $rating = 0;
+
     /**
-     * @ORM\Column(type="boolean")
-     * @var bool
+     * @ORM\Column(type="integer")
+     * @var int
      */
-    private $approved = false;
+    private $status = self::STATUS_NEED_APPROVAL;
 
     public function __construct()
     {
@@ -94,6 +116,15 @@ class Quote extends BaseEntity
     }
 
     /**
+     * @return int
+     */
+    public function getStaus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Does the automatic approval.
      * Check if quote poster has enough crank to post this quote automatically.
      * If the quote is approved automatically, user's crank will be increased.
      *
@@ -103,12 +134,6 @@ class Quote extends BaseEntity
     {
         if ($this->user->getRole() == User::ROLE_ADMIN || $this->user->getRole() == User::ROLE_MODERATOR) {
             $this->approve();
-
-            return;
-        }
-
-        if ($this->user->getUsername() == User::USER_UNKNOWN) {
-            $this->disapprove();
 
             return;
         }
@@ -124,15 +149,28 @@ class Quote extends BaseEntity
      */
     public function approve()
     {
-        $this->approved = TRUE;
+        $this->setStatus(self::STATUS_APPROVED);
+    }
+
+    /**
+     * @param $status
+     * @throws \InvalidArgumentException
+     */
+    public function setStatus($status)
+    {
+        if (!in_array($status, self::$ALLOWED_STATUS)) {
+            throw new \InvalidArgumentException("Invalid status code");
+        }
+
+        $this->status = $status;
     }
 
     /**
      * Disapproves the quote.
      */
-    public function disapprove()
+    public function deny()
     {
-        $this->approved = FALSE;
+        $this->setStatus(self::STATUS_DENIED);
     }
 
     /**

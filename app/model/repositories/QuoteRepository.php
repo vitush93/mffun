@@ -23,6 +23,75 @@ class QuoteRepository extends Object
     }
 
     /**
+     * @return array
+     */
+    public function findAllDenied()
+    {
+        return $this->quoteDao->findBy(['status' => Quote::STATUS_DENIED]);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAll()
+    {
+        return $this->quoteDao->findAll();
+    }
+
+    /**
+     * Approve the quote and decrease authored user's c-rank.
+     *
+     * @param Quote $quote
+     */
+    public function deny(Quote $quote)
+    {
+        $quote->deny();
+        $quote->getUser()->decreaseCrank();
+    }
+
+    /**
+     * Approve the quote and increase authored user's c-rank.
+     *
+     * @param Quote $quote
+     */
+    public function approve(Quote $quote)
+    {
+        $quote->approve();
+        $quote->getUser()->increaseCrank();
+    }
+
+    /**
+     * @param $id
+     * @return null|Quote
+     */
+    public function find($id)
+    {
+        return $this->quoteDao->find($id);
+    }
+
+    /**
+     * Remove the quote by id and flush.
+     *
+     * @param $id
+     */
+    public function delete($id)
+    {
+        $quote = $this->quoteDao->find($id);
+
+        if ($quote != null) $this->quoteDao->delete($quote);
+    }
+
+    /**
+     * Find all yet unapproved quotations.
+     *
+     * @return array
+     */
+    public function findAllUnapproved()
+    {
+        return $this->quoteDao->findBy(['status' => Quote::STATUS_NEED_APPROVAL]);
+    }
+
+    /**
      * Persists a new quote and assigns given tags to it.
      *
      * @param Quote $quote
@@ -64,7 +133,7 @@ class QuoteRepository extends Object
      */
     public function findAllByDateDesc($limit = 10)
     {
-        return $this->quoteDao->findBy(['approved' => true], ['posted' => 'DESC'], $limit);
+        return $this->quoteDao->findBy(['status' => Quote::STATUS_APPROVED], ['posted' => 'DESC'], $limit);
     }
 
     /**
