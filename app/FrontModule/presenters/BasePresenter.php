@@ -33,7 +33,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             $this->user->logout();
         }
         $this->flashMessage('Byl jsi odhlášen.', 'info');
-        $this->redirect('default');
+        $this->redirect('Homepage:default');
     }
 
     public function beforeRender()

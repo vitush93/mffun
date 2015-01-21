@@ -16,11 +16,13 @@
                             <a href=""><i class="fa fa-thumbs-up"></i></a>
                         </div>
 
-                        <h2><a href="">{$q->getSubject()->getName()}</a>
+                        <h2><a href="{link Quote:default $q->getId()}">{$q->getSubject()->getName()}</a>
                             <small><a href="">{$q->getTeacher()->getName(true)}</a></small>
                             <br>
                         </h2>
-                        <span><a href="">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a href="">{$q->getComments()->count()} komentářů</a></span>
+                        <span><a href="{link Quote:default $q->getId()}">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a
+                                    href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
+                                komentářů</a></span>
 
                         <p>{$q->getText()}</p>
                         {if $q->getTags()->count() > 0}
@@ -40,7 +42,7 @@
                                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
 
                                     <div class="comment-body">
-                                        <p><a href="">@{$comment->getUser()->getUsername()}</a>
+                                        <p>
                                             {$comment->getText()|truncate:65}
                                         </p>
                                         <span><i class="fa fa-thumbs-up"></i> {$comment->getRatingUp()}</span>
@@ -49,7 +51,8 @@
 
                                 </div>
                             {/foreach}
-                            <p><i class="fa fa-angle-right"></i> <a href="">všechny komentáře</a></p>
+                            <p><i class="fa fa-angle-right"></i> <a href="{link Quote:default $q->getId()}#comments">všechny
+                                    komentáře</a></p>
                         </footer>
                         {/if}
                     </section>

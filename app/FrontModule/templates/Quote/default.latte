@@ -1,0 +1,109 @@
+{block content}
+    <div class="row article last detail">
+        <article class="content-item">
+            <div class="col-lg-2 visible-lg">
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                <section>
+                    <div class="social">
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-pinterest"></i></a>
+                        <a href=""><i class="fa fa-thumbs-down"></i></a>
+                        <a href=""><i class="fa fa-thumbs-up"></i></a>
+                    </div>
+
+                    <h2><a href="{link Quote:default $q->getId()}">{$q->getSubject()->getName()}</a>
+                        <small><a href="">{$q->getTeacher()->getName(true)}</a></small>
+                        <br>
+                    </h2>
+                    <span><a href="{link Quote:default $q->getId()}">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a
+                                href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
+                            komentářů</a></span>
+
+                    <p>{$q->getText()}</p>
+                    {if $q->getTags()->count() > 0}
+                        <div class="item-tags">
+                            <a href="" class="tag">{$q->getTeacher()->getName(true)}</a>
+                            <a href="" class="tag">{$q->getSubject()->getName(true)}</a>
+                            {foreach $q->getTags() as $tag}
+                                <a href="" class="tag">#{$tag->getTag()}</a>
+                            {/foreach}
+                        </div>
+                    {/if}
+
+
+
+                    <div class="comments">
+                        <h3>Komentáře</h3>
+                        {if !$user->isLoggedIn()}<p class="notice">Pro komentování musíš být přihlášený.</p>{/if}
+                        {if $user->isLoggedIn()}
+                            {form postCommentForm, class=>'new-comment-form ajax'}
+                                <div class="comment clearfix">
+                                    <div class="comment-left">
+                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                             class="img-circle">
+                                    </div>
+                                    <div class="comment-right">
+                                        {input text}
+                                        {input process}
+                                    </div>
+                                </div>
+                            {/form}
+                        {/if}
+                        {snippet comments}
+                        {foreach $q->getComments() as $comment}
+                            <div class="comment clearfix">
+                                <div class="comment-left">
+                                    <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                         class="img-circle">
+                                </div>
+                                <div class="comment-right">
+                                    <a href="">{$comment->getUser()->getUsername()}</a>
+
+                                    <p>
+                                        {$comment->getText()}
+                                    </p>
+
+                                    <div class="comment-controls">
+                                        <a href="" class="rate up"><i
+                                                    class="fa fa-thumbs-up"></i> {$comment->getRatingUp()}</a>
+                                        <a href="" class="rate down"><i
+                                                    class="fa fa-thumbs-down"></i> {-1*$comment->getRatingDown()}</a>
+                                        {if $user->isLoggedIn()}<a href="" class="reply">reagovat</a>{/if}
+                                    </div>
+                                </div>
+                            </div>
+                            {foreach $getReplies($comment->id) as $reply}
+                                <div class="comment child clearfix">
+                                    <div class="comment-left">
+                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                             class="img-circle">
+                                    </div>
+                                    <div class="comment-right">
+                                        <a href="">{$reply->getUser()->getUsername()}</a>
+
+                                        <p><a href="">@{$getReplyTo($comment->id)->getUsername()}</a>
+                                            {$reply->getText()} awd asfg edhfgbhegbjeh rjgebj h adsf sdfg dfgdg f
+                                            wrwegerg
+                                            ddbbsfwdgh dfgd d fgd
+                                        </p>
+
+                                        <div class="comment-controls">
+                                            <a href="" class="rate up"><i
+                                                        class="fa fa-thumbs-up"></i> {$reply->getRatingUp()}</a>
+                                            <a href="" class="rate down"><i
+                                                        class="fa fa-thumbs-down"></i> {-1*$reply->getRatingDown()}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {/foreach}
+                        {/foreach}
+                        {/snippet}
+                    </div>
+                </section>
+            </div>
+        </article>
+    </div>
+{/block}

@@ -13,6 +13,26 @@ $('#filter-button').on('click', function (e) {
     }
 });
 
+$('.rate').click(function () {
+    $(this).addClass('active');
+    $(this).removeAttr('href');
+});
+
+
+// QUOTE
+$('.reply').click(function (e) {
+    e.preventDefault();
+    $(this).parent('div').append("<textarea></textarea>"); // TODO actual functionality
+});
+
+$(".new-comment-form textarea").keypress(function (event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        $(".new-comment-form").submit();
+        $(this).val('');
+    }
+});
+
 $('.flash i').on('click', function () {
     $(this).parent('.flash').remove();
 });

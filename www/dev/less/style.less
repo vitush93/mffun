@@ -1099,3 +1099,90 @@ p.notice {
   font-size: 13px;
   color: @bodyfont;
 }
+
+.article {
+  h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+}
+
+.comments {
+  .notice {
+    margin-bottom: 20px;
+  }
+  form .comment-left {
+    height: 50px;
+  }
+  form .comment-right {
+    height: 50px;
+
+    input[type="submit"] {
+      display: none;
+    }
+  }
+  .comment {
+    margin-bottom: 20px;
+    &.child .comment-left img {
+      max-width: 30px;
+    }
+    .comment-left {
+      max-width: 20%;
+      min-width: 10%;
+      float: left;
+      img {
+        float: right;
+        margin-right: 10px;
+        width: 100%;
+        max-width: 50px;
+      }
+    }
+    .comment-right {
+      > a {
+        color: @textcolor;
+        font-weight: bold;
+      }
+      textarea {
+        border: 1px solid @grey + 80;
+        height: 50px;
+        resize: none;
+        width: 100%;
+        outline: none;
+        .transition(0.1s);
+        &:focus {
+          .transition(0.1s);
+          border: 1px solid @blue;
+        }
+      }
+      min-width: 80%;
+      max-width: 90%;
+      float: left;
+      .comment-controls {
+        margin-top: 7px;
+        a {
+          margin-right: 10px;
+          color: @grey + 60;
+          .transition(0.1s);
+          &:hover {
+            color: @grey;
+            text-decoration: none;
+            .transition(0.2s);
+          }
+        }
+        .rate.up.active {
+          .transition(0.1s);
+          color: @green;
+        }
+        .rate.down.active {
+          color: @red;
+          .transition(0.1s);
+        }
+        textarea {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}

@@ -2,8 +2,10 @@
 
 namespace App\Model\Repositories;
 
+use App\Model\Entities\Comment;
 use App\Model\Entities\Quote;
 use App\Model\Entities\Tag;
+use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
@@ -20,6 +22,44 @@ class QuoteRepository extends Object
     {
         $this->em = $entityManager;
         $this->quoteDao = $entityManager->getDao(Quote::getClassName());
+    }
+
+    /**
+     * @param string $text comment text
+     * @param int $qid quote id
+     * @param int $uid user id
+     * @param int $parentid parent comment
+     */
+    public function postComment($text, $qid, $uid, $parentid = null)
+    {
+        $clean = new \HTMLPurifier();
+        $text = $clean->purify($text);
+        if (strlen($text) == 0) return;
+
+        $quote = $this->find($qid);
+        $user = $this->em->find(User::getClassName(), $uid);
+
+        $comment = new Comment();
+        $comment->setUser($user);
+        $comment->setText($text);
+        $comment->setQuote($quote);
+
+        if ($parentid) {
+            $comment->setParent($parentid);
+        } else {
+            $comment->setParent(0);
+        }
+
+        $this->em->persist($comment);
+    }
+
+    /**
+     * @param $id
+     * @return null|Quote
+     */
+    public function find($id)
+    {
+        return $this->quoteDao->find($id);
     }
 
     /**
@@ -58,15 +98,6 @@ class QuoteRepository extends Object
     {
         $quote->approve();
         $quote->getUser()->increaseCrank();
-    }
-
-    /**
-     * @param $id
-     * @return null|Quote
-     */
-    public function find($id)
-    {
-        return $this->quoteDao->find($id);
     }
 
     /**
