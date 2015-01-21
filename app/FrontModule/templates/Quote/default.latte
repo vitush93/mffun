@@ -13,14 +13,15 @@
                         <a href=""><i class="fa fa-thumbs-down"></i></a>
                         <a href=""><i class="fa fa-thumbs-up"></i></a>
                     </div>
-
-                    <h2><a href="{link Quote:default $q->getId()}">{$q->getSubject()->getName()}</a>
-                        <small><a href="">{$q->getTeacher()->getName(true)}</a></small>
-                        <br>
-                    </h2>
-                    <span><a href="{link Quote:default $q->getId()}">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a
+                    {snippet counts}
+                        <h2><a href="{link Quote:default $q->getId()}">{$q->getSubject()->getName()}</a>
+                            <small><a href="">{$q->getTeacher()->getName(true)}</a></small>
+                            <br>
+                        </h2>
+                        <span><a href="{link Quote:default $q->getId()}">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a
                                 href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
                             komentářů</a></span>
+                    {/snippet}
 
                     <p>{$q->getText()}</p>
                     {if $q->getTags()->count() > 0}
@@ -52,8 +53,9 @@
                                 </div>
                             {/form}
                         {/if}
+                        {form commentsForm, class=>'new-reply-form ajax'}
                         {snippet comments}
-                        {foreach $q->getComments() as $comment}
+                        {foreach $comments as $comment}
                             <div class="comment clearfix">
                                 <div class="comment-left">
                                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
@@ -71,7 +73,8 @@
                                                     class="fa fa-thumbs-up"></i> {$comment->getRatingUp()}</a>
                                         <a href="" class="rate down"><i
                                                     class="fa fa-thumbs-down"></i> {-1*$comment->getRatingDown()}</a>
-                                        {if $user->isLoggedIn()}<a href="" class="reply">reagovat</a>{/if}
+                                        {if $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
+                                                reagovat</a>{/if}
                                     </div>
                                 </div>
                             </div>
@@ -85,9 +88,7 @@
                                         <a href="">{$reply->getUser()->getUsername()}</a>
 
                                         <p><a href="">@{$getReplyTo($comment->id)->getUsername()}</a>
-                                            {$reply->getText()} awd asfg edhfgbhegbjeh rjgebj h adsf sdfg dfgdg f
-                                            wrwegerg
-                                            ddbbsfwdgh dfgd d fgd
+                                            {$reply->getText()}
                                         </p>
 
                                         <div class="comment-controls">
@@ -101,6 +102,7 @@
                             {/foreach}
                         {/foreach}
                         {/snippet}
+                        {/form}
                     </div>
                 </section>
             </div>

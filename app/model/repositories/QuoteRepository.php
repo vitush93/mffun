@@ -6,6 +6,7 @@ use App\Model\Entities\Comment;
 use App\Model\Entities\Quote;
 use App\Model\Entities\Tag;
 use App\Model\Entities\User;
+use Doctrine\Common\Collections\Criteria;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
@@ -18,10 +19,31 @@ class QuoteRepository extends Object
     /** @var \Kdyby\Doctrine\EntityDao */
     private $quoteDao;
 
+    private $commentDao;
+
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
         $this->quoteDao = $entityManager->getDao(Quote::getClassName());
+        $this->commentDao = $entityManager->getDao(Comment::getClassName());
+    }
+
+    public function findTopLevelComments($qid)
+    {
+        return $this->find($qid)->getComments()->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->eq('parent', 0))
+                ->orderBy(['posted' => 'ASC'])
+        );
+    }
+
+    /**
+     * @param $id
+     * @return null|Quote
+     */
+    public function find($id)
+    {
+        return $this->quoteDao->find($id);
     }
 
     /**
@@ -51,15 +73,6 @@ class QuoteRepository extends Object
         }
 
         $this->em->persist($comment);
-    }
-
-    /**
-     * @param $id
-     * @return null|Quote
-     */
-    public function find($id)
-    {
-        return $this->quoteDao->find($id);
     }
 
     /**

@@ -20,9 +20,9 @@ $('.rate').click(function () {
 
 
 // QUOTE
-$('.reply').click(function (e) {
+$('.new-reply-form').on('click', '.reply', function (e) {
     e.preventDefault();
-    $(this).parent('div').append("<textarea></textarea>"); // TODO actual functionality
+    $(this).parent('div').append('<input type="hidden" value="' + $(this).data('reply') + '" name="reply-id"><textarea name="reply-content"></textarea>');
 });
 
 $(".new-comment-form textarea").keypress(function (event) {
@@ -30,6 +30,14 @@ $(".new-comment-form textarea").keypress(function (event) {
         event.preventDefault();
         $(".new-comment-form").submit();
         $(this).val('');
+    }
+});
+
+$('.new-reply-form').on('keypress', 'textarea', function (event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        $(".new-reply-form").submit();
+        $('.new-reply-form textarea').remove();
     }
 });
 

@@ -20335,23 +20335,31 @@ $('#filter-button').on('click', function (e) {
 });
 
 $('.rate').click(function () {
-	$(this).addClass('active');
-	$(this).removeAttr('href');
+    $(this).addClass('active');
+    $(this).removeAttr('href');
 });
 
 
 // QUOTE
-$('.reply').click(function (e) {
-	e.preventDefault();
-	$(this).parent('div').append("<textarea></textarea>"); // TODO actual functionality
+$('.new-reply-form').on('click', '.reply',function (e) {
+    e.preventDefault();
+    $(this).parent('div').append('<input type="hidden" value="'+$(this).data('reply')+'" name="reply-id"><textarea name="reply-content"></textarea>');
 });
 
 $(".new-comment-form textarea").keypress(function (event) {
-	if (event.which == 13) {
-		event.preventDefault();
-		$(".new-comment-form").submit();
-		$(this).val('');
-	}
+    if (event.which == 13) {
+        event.preventDefault();
+        $(".new-comment-form").submit();
+        $(this).val('');
+    }
+});
+
+$('.new-reply-form').on('keypress', 'textarea', function (event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        $(".new-reply-form").submit();
+        $('.new-reply-form textarea').remove();
+    }
 });
 
 $('.flash i').on('click', function () {

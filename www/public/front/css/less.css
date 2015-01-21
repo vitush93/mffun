@@ -1483,13 +1483,16 @@ p.notice {
 .comments .notice {
   margin-bottom: 20px;
 }
-.comments form .comment-left {
+
+.comments form.new-comment-form .comment-left {
   height: 50px;
 }
-.comments form .comment-right {
+
+.comments form.new-comment-form .comment-right {
   height: 50px;
 }
-.comments form .comment-right input[type="submit"] {
+
+.comments form.new-comment-form .comment-right input[type="submit"] {
   display: none;
 }
 .comments .comment {
@@ -1499,8 +1502,7 @@ p.notice {
   max-width: 30px;
 }
 .comments .comment .comment-left {
-  max-width: 20%;
-  min-width: 10%;
+  width: 10%;
   float: left;
 }
 .comments .comment .comment-left img {
@@ -1510,8 +1512,7 @@ p.notice {
   max-width: 50px;
 }
 .comments .comment .comment-right {
-  min-width: 80%;
-  max-width: 90%;
+  width: 90%;
   float: left;
 }
 .comments .comment .comment-right > a {

@@ -33,6 +33,7 @@ class QuotePresenter extends BasePresenter
 
         $this->template->q = $this->quote;
 
+        $this->template->comments = $this->quoteRepository->findTopLevelComments($id);
         $this->template->getReplies = function ($cid) use ($em) {
             $dao = $em->getDao(Comment::getClassName());
 
@@ -45,6 +46,49 @@ class QuotePresenter extends BasePresenter
             $c = $dao->find($cid);
             return $c->getUser();
         };
+    }
+
+    /**
+     * [CommentsForm]
+     * Post replies.
+     *
+     * @param Form $form
+     */
+    public function commentsFormSucceeded(Form $form)
+    {
+        if (!$this->user->isLoggedIn()) return;
+
+        $parent_id = ($form->getHttpData($form::DATA_TEXT, 'reply-id'));
+        $text = ($form->getHttpData($form::DATA_TEXT, 'reply-content'));
+
+        $this->quoteRepository->postComment($text,
+            $this->getParameter('id'),
+            $this->user->getId(),
+            $parent_id);
+
+        $this->em->flush();
+
+        if ($this->isAjax()) {
+            $this->redrawControl('comments');
+            $this->redrawControl('counts');
+        } else {
+            $this->redirect('this');
+        }
+    }
+
+    /**
+     * CommentsForm factory.
+     *
+     * @return Form
+     */
+    public function createComponentCommentsForm()
+    {
+        $form = new Form();
+
+        $form->onSuccess[] = $this->commentsFormSucceeded;
+        $form->addProtection();
+
+        return $form;
     }
 
     /**
@@ -66,6 +110,7 @@ class QuotePresenter extends BasePresenter
 
         if ($this->isAjax()) {
             $this->redrawControl('comments');
+            $this->redrawControl('counts');
         } else {
             $this->redirect('this');
         }
@@ -86,6 +131,7 @@ class QuotePresenter extends BasePresenter
         $form->addSubmit('process', '');
 
         $form->onSuccess[] = $this->postCommentFormSucceeded;
+        $form->addProtection();
 
         return $form;
     }

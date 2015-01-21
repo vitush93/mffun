@@ -1113,12 +1113,11 @@ p.notice {
   .notice {
     margin-bottom: 20px;
   }
-  form .comment-left {
+  form.new-comment-form .comment-left {
     height: 50px;
   }
-  form .comment-right {
+  form.new-comment-form .comment-right {
     height: 50px;
-
     input[type="submit"] {
       display: none;
     }
@@ -1129,8 +1128,7 @@ p.notice {
       max-width: 30px;
     }
     .comment-left {
-      max-width: 20%;
-      min-width: 10%;
+      width: 10%;
       float: left;
       img {
         float: right;
@@ -1156,8 +1154,7 @@ p.notice {
           border: 1px solid @blue;
         }
       }
-      min-width: 80%;
-      max-width: 90%;
+      width: 90%;
       float: left;
       .comment-controls {
         margin-top: 7px;
