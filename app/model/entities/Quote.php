@@ -132,6 +132,8 @@ class Quote extends BaseEntity
      */
     public function resolveApprovalPreFlush(PreFlushEventArgs $args)
     {
+        if ($this->user->getUsername() === 'unknown') return;
+
         if ($this->user->getRole() == User::ROLE_ADMIN || $this->user->getRole() == User::ROLE_MODERATOR) {
             $this->approve();
 
@@ -140,7 +142,6 @@ class Quote extends BaseEntity
 
         if ($this->user->getCrank() > 0) {
             $this->approve();
-            $this->user->increaseCrank();
         }
     }
 
