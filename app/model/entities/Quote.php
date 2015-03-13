@@ -84,6 +84,14 @@ class Quote extends BaseEntity
     private $posted;
 
     /**
+     * Date approved.
+     *
+     * @ORM\Column(type="datetime")
+     * @var DateTime
+     */
+    private $approved;
+
+    /**
      * @ORM\Column(type="text")
      * @var string
      */
@@ -150,6 +158,7 @@ class Quote extends BaseEntity
      */
     public function approve()
     {
+        $this->approved = new DateTime();
         $this->setStatus(self::STATUS_APPROVED);
     }
 

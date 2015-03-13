@@ -20341,9 +20341,9 @@ $('.rate').click(function () {
 
 
 // QUOTE
-$('.new-reply-form').on('click', '.reply',function (e) {
+$('.new-reply-form').on('click', '.reply', function (e) {
     e.preventDefault();
-    $(this).parent('div').append('<input type="hidden" value="'+$(this).data('reply')+'" name="reply-id"><textarea name="reply-content"></textarea>');
+    $(this).parent('div').append('<input type="hidden" value="' + $(this).data('reply') + '" name="reply-id"><textarea name="reply-content"></textarea>');
 });
 
 $(".new-comment-form textarea").keypress(function (event) {

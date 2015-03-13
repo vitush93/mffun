@@ -177,7 +177,7 @@ class QuoteRepository extends Object
      */
     public function findAllByDateDesc($limit = 10)
     {
-        return $this->quoteDao->findBy(['status' => Quote::STATUS_APPROVED], ['posted' => 'DESC'], $limit);
+        return $this->quoteDao->findBy(['status' => Quote::STATUS_APPROVED], ['approved' => 'DESC'], $limit);
     }
 
     /**

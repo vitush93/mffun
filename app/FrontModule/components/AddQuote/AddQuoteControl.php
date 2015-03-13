@@ -69,7 +69,13 @@ class AddQuoteControl extends Control
         $data = $form->getValues(true);
 
         $quote = new Quote();
-        $quote->setDate(DateTime::from($data['date']));
+        try {
+            $quote->setDate(DateTime::from($data['date']));
+        } catch (\Exception $e) {
+            $this->presenter->flashMessage("Datum je ve špatném formátu.", "error");
+
+            return;
+        }
         $quote->setText($data['text']);
         $quote->setUserEmail($data['user_email']);
 
@@ -136,12 +142,11 @@ class AddQuoteControl extends Control
             ->addCondition(Form::FILLED)
             ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
 
-        foreach($form->getControls() as $control) {
+        foreach ($form->getControls() as $control) {
             $control->getControlPrototype()->class('form-input');
         }
 
         $form->addSubmit('process', 'přidat citát');
-
 
 
         $form->onSuccess[] = $this->processAddQuoteForm;
