@@ -12,7 +12,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="quotations")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\EntityListeners({"App\Model\Events\QuoteListener"})
  */
 class Quote extends BaseEntity
 {
@@ -86,7 +86,7 @@ class Quote extends BaseEntity
     /**
      * Date approved.
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
     private $approved;
@@ -124,6 +124,16 @@ class Quote extends BaseEntity
     }
 
     /**
+     * Returns true if the quote is approved and published.
+     *
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return $this->status == self::STATUS_APPROVED;
+    }
+
+    /**
      * @return int
      */
     public function getStaus()
@@ -132,34 +142,29 @@ class Quote extends BaseEntity
     }
 
     /**
-     * Does the automatic approval.
-     * Check if quote poster has enough crank to post this quote automatically.
-     * If the quote is approved automatically, user's crank will be increased.
-     *
-     * @ORM\PreFlush
+     * @return DateTime
      */
-    public function resolveApprovalPreFlush(PreFlushEventArgs $args)
+    public function getApproved()
     {
-        if ($this->user->getUsername() === 'unknown') return;
-
-        if ($this->user->getRole() == User::ROLE_ADMIN || $this->user->getRole() == User::ROLE_MODERATOR) {
-            $this->approve();
-
-            return;
-        }
-
-        if ($this->user->getCrank() > 0) {
-            $this->approve();
-        }
+        return $this->approved;
     }
 
     /**
-     * Approves the quote making it visible to the users.
+     * Approves the quote.
      */
-    public function approve()
+    public function approveNoRankUp()
     {
         $this->approved = new DateTime();
         $this->setStatus(self::STATUS_APPROVED);
+    }
+
+    /**
+     * Approves the quote making it visible to the users and increase the poster's rank.
+     */
+    public function approve()
+    {
+        $this->approveNoRankUp();
+        $this->user->increaseCrank();
     }
 
     /**
@@ -176,11 +181,12 @@ class Quote extends BaseEntity
     }
 
     /**
-     * Disapproves the quote.
+     * Disapproves the quote and decreases poster's rank.
      */
     public function deny()
     {
         $this->setStatus(self::STATUS_DENIED);
+        $this->user->decreaseCrank();
     }
 
     /**

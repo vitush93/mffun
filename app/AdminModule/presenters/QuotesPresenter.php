@@ -46,7 +46,7 @@ class QuotesPresenter extends BasePresenter
 
         if (!$this->checkQuote($quote)) throw new BadRequestException();
 
-        $this->quoteRepository->deny($quote);
+        $quote->deny();
         $this->em->flush();
 
         $this->flashMessage('Citace byla odmítnuta', 'info');
@@ -75,7 +75,7 @@ class QuotesPresenter extends BasePresenter
 
         if (!$this->checkQuote($quote)) throw new BadRequestException();
 
-        $this->quoteRepository->approve($quote);
+        $quote->approve();
         $this->em->flush();
 
         $this->flashMessage('Citace byla schválena', 'success');

@@ -22,6 +22,7 @@ services:
 
     # services
     - App\Model\Services\AuthenticationService
+    - App\Model\Events\QuoteListener
 
     # factories
     - App\RouterFactory

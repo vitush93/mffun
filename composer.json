@@ -6,6 +6,6 @@
         "ezyang/htmlpurifier": "dev-master",
         "kollarovic/thumbnail": "dev-master",
         "mrclay/minify": "dev-master",
-      "kdyby/doctrine": "~2.1"
+      "kdyby/doctrine": "~2.3"
     }
 }

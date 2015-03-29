@@ -92,28 +92,6 @@ class QuoteRepository extends Object
     }
 
     /**
-     * Approve the quote and decrease authored user's c-rank.
-     *
-     * @param Quote $quote
-     */
-    public function deny(Quote $quote)
-    {
-        $quote->deny();
-        $quote->getUser()->decreaseCrank();
-    }
-
-    /**
-     * Approve the quote and increase authored user's c-rank.
-     *
-     * @param Quote $quote
-     */
-    public function approve(Quote $quote)
-    {
-        $quote->approve();
-        $quote->getUser()->increaseCrank();
-    }
-
-    /**
      * Remove the quote by id and flush.
      *
      * @param $id

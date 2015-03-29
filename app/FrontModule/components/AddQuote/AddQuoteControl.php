@@ -112,7 +112,12 @@ class AddQuoteControl extends Control
         $this->quoteRepository->create($quote, $data['tags']);
         $this->em->flush();
 
-        $this->presenter->flashMessage('Citace byla přidána.', 'success');
+        if ($quote->isApproved()) {
+            $this->presenter->flashMessage('Citace byla přidána.', 'success');
+        } else {
+            $this->presenter->flashMessage('Citace byla odeslána ke schválení.', 'info');
+        }
+
         $this->presenter->redirect('this');
     }
 
