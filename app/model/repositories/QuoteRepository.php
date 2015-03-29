@@ -160,7 +160,19 @@ class QuoteRepository extends Object
      */
     public function findAllByDateDesc($limit = 10)
     {
-        return $this->quoteDao->findBy(['status' => Quote::STATUS_APPROVED], ['approved' => 'DESC'], $limit);
+        $q = $this->em->createQuery('
+        select q, t, s
+        from App\Model\Entities\Quote q
+        left join q.teacher t
+        left join q.subject s
+        where q.status=:status
+        group by q.id
+        order by q.approved DESC
+        ')->setMaxResults($limit);
+
+        $q->setParameter('status', Quote::STATUS_APPROVED);
+
+        return $q->getResult();
     }
 
     /**
