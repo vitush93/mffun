@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
+use App\Model\Repositories\QuoteRepository;
 use Kdyby\Doctrine\EntityManager;
 use Kollarovic\Thumbnail\AbstractGenerator;
 use Model;
@@ -20,6 +21,9 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
     /** @var IAddQuoteControlFactory @inject */
     public $addQuoteFactory;
+
+    /** @var QuoteRepository @inject */
+    public $quoteRepository;
 
     /** @var EntityManager @inject */
     public $em;

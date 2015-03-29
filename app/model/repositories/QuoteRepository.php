@@ -19,6 +19,7 @@ class QuoteRepository extends Object
     /** @var \Kdyby\Doctrine\EntityDao */
     private $quoteDao;
 
+    /** @var \Kdyby\Doctrine\EntityDao */
     private $commentDao;
 
     public function __construct(EntityManager $entityManager)
@@ -28,6 +29,10 @@ class QuoteRepository extends Object
         $this->commentDao = $entityManager->getDao(Comment::getClassName());
     }
 
+    /**
+     * @param $qid
+     * @return static
+     */
     public function findTopLevelComments($qid)
     {
         return $this->find($qid)->getComments()->matching(

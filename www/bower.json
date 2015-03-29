@@ -5,6 +5,7 @@
     "bootstrap": "",
     "font-awesome": "",
     "jquery": "",
+    "jquery-ui": "",
     "gsap": "",
     "nette.ajax.js": ""
   }

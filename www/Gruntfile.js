@@ -1,5 +1,7 @@
 // will be combined and minified in specific order
 var styleSheets = [
+    'bower_components/jquery-ui/themes/smoothness/jquery-ui.css',
+    'bower_components/jquery-ui/themes/smoothness/theme.css',
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/font-awesome/css/font-awesome.css',
     'dev/css/reset.css',
@@ -9,13 +11,15 @@ var styleSheets = [
 // will be combined and minified in specific order
 var scripts = [
     'bower_components/jquery/dist/jquery.js',
+    'bower_components/jquery-ui/jquery-ui.js',
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'bower_components/gsap/src/uncompressed/TweenMax.js',
     'bower_components/gsap/src/uncompressed/jquery.gsap.js',
     'bower_components/nette.ajax.js/nette.ajax.js',
     'dev/js/jquery.bootstrap-autohidingnavbar.js',
     'dev/js/live-form-validation.js',
-    'dev/js/script.js'
+    'dev/js/script.js',
+    'dev/js/autocomplete.js'
 ];
 
 

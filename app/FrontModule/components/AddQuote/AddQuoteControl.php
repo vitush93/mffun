@@ -9,6 +9,7 @@ use App\Model\Entities\Subject;
 use App\Model\Entities\Teacher;
 use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
+use App\Model\Services\AutocompleteService;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
@@ -38,15 +39,19 @@ class AddQuoteControl extends Control
     /** @var \Kdyby\Doctrine\EntityDao */
     private $subjectDao;
 
+    /** @var AutocompleteService */
+    private $autocompleteService;
+
     /** @var \Kdyby\Doctrine\EntityDao */
     private $teacherDao;
 
-    public function __construct(EntityManager $entityManager, QuoteRepository $quoteRepository)
+    public function __construct(EntityManager $entityManager, QuoteRepository $quoteRepository, AutocompleteService $autocompleteService)
     {
         parent::__construct();
 
         $this->quoteRepository = $quoteRepository;
         $this->em = $entityManager;
+        $this->autocompleteService = $autocompleteService;
         $this->userDao = $entityManager->getDao(User::getClassName());
         $this->subjectDao = $entityManager->getDao(Subject::getClassName());
         $this->teacherDao = $entityManager->getDao(Teacher::getClassName());
@@ -122,6 +127,30 @@ class AddQuoteControl extends Control
     }
 
     /**
+     *  Subjects for jquery autocomplete.
+     */
+    public function handleSubjectJson()
+    {
+        $this->presenter->sendJson($this->autocompleteService->getSubjectsAsArray());
+    }
+
+    /**
+     * Tags for jquery autocomplete.
+     */
+    public function handleTagsJson()
+    {
+        $this->presenter->sendJson($this->autocompleteService->getTagsAsArray());
+    }
+
+    /**
+     * Teacher for jquery autocomplete.
+     */
+    public function handleTeacherJson()
+    {
+        $this->presenter->sendJson($this->autocompleteService->getTeachersAsArray());
+    }
+
+    /**
      * AddQuoteForm factory.
      *
      * @return Form
@@ -151,8 +180,19 @@ class AddQuoteControl extends Control
             $control->getControlPrototype()->class('form-input');
         }
 
-        $form->addSubmit('process', 'přidat citát');
+        // add class for subject autocomplete
+        $orig_class = $form['subject']->getControlPrototype()->class;
+        $form['subject']->getControlPrototype()->class = $orig_class . ' subject-autocomplete';
 
+        // add class for teacher autocomplete
+        $orig_class = $form['teacher']->getControlPrototype()->class;
+        $form['teacher']->getControlPrototype()->class = $orig_class . ' teacher-autocomplete';
+
+        // add class for tags autocomplete
+        $orig_class = $form['tags']->getControlPrototype()->class;
+        $form['tags']->getControlPrototype()->class = $orig_class . ' tags-autocomplete';
+
+        $form->addSubmit('process', 'přidat citát');
 
         $form->onSuccess[] = $this->processAddQuoteForm;
 

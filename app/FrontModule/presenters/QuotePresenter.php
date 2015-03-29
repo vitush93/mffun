@@ -9,14 +9,11 @@
 namespace App\FrontModule\Presenters;
 
 use App\Model\Entities\Comment;
-use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 
 class QuotePresenter extends BasePresenter
 {
-    /** @var QuoteRepository @inject */
-    public $quoteRepository;
     private $quote;
 
     public function actionDefault($id)
