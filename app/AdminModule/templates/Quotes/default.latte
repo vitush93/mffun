@@ -55,11 +55,29 @@
                                 {/if}
                             </td>
                             <td>
-                                {if $presenter->action != 'all'}<a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
-                                            class="fa fa-check"></i> Schválit</a>{/if}
-                                {if $presenter->action != 'denied'}<a href="{link deny! $q->id}"
-                                                                       class="btn btn-xs btn-default"><i
-                                            class="fa fa-times"></i> Zamítnout</a>{/if}
+                                {if $presenter->action == 'default'}
+                                    <a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
+                                                class="fa fa-check"></i> Schválit</a>
+                                    <a href="{link deny! $q->id}"
+                                       class="btn btn-xs btn-default"><i
+                                                class="fa fa-times"></i> Zamítnout</a>
+                                {/if}
+
+                                {if $presenter->action == 'denied'}
+                                    <a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
+                                                class="fa fa-check"></i> Schválit</a>
+                                {/if}
+
+                                {if $presenter->action == 'all'}
+                                    {if $q->isApproved()}
+                                        <a href="{link deny! $q->id}"
+                                           class="btn btn-xs btn-default"><i
+                                                    class="fa fa-times"></i> Zamítnout</a>
+                                    {else}
+                                        <a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
+                                                    class="fa fa-check"></i> Schválit</a>
+                                    {/if}
+                                {/if}
                             </td>
                         </tr>
                     {/foreach}

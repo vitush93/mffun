@@ -5,7 +5,6 @@ namespace App\Model\Entities;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 
@@ -150,21 +149,21 @@ class Quote extends BaseEntity
     }
 
     /**
-     * Approves the quote.
-     */
-    public function approveNoRankUp()
-    {
-        $this->approved = new DateTime();
-        $this->setStatus(self::STATUS_APPROVED);
-    }
-
-    /**
      * Approves the quote making it visible to the users and increase the poster's rank.
      */
     public function approve()
     {
         $this->approveNoRankUp();
         $this->user->increaseCrank();
+    }
+
+    /**
+     * Approves the quote.
+     */
+    public function approveNoRankUp()
+    {
+        $this->approved = new DateTime();
+        $this->setStatus(self::STATUS_APPROVED);
     }
 
     /**
@@ -185,6 +184,7 @@ class Quote extends BaseEntity
      */
     public function deny()
     {
+        $this->approved = NULL;
         $this->setStatus(self::STATUS_DENIED);
         $this->user->decreaseCrank();
     }
