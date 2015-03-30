@@ -11,7 +11,8 @@ doctrine:
     user: root
     password:
     dbname: rocnikac
-    metadataCache: default
+    metadataCache: array
+    queryCache: array
     metadata:
         App: %appDir%
 

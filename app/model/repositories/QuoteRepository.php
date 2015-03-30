@@ -30,25 +30,16 @@ class QuoteRepository extends Object
     }
 
     /**
-     * @param $qid
-     * @return static
+     * @param Quote $q
+     * @return array
      */
-    public function findTopLevelComments($qid)
+    public function getTopLevelComments(Quote $q)
     {
-        return $this->find($qid)->getComments()->matching(
+        return $q->getComments()->matching(
             Criteria::create()
                 ->where(Criteria::expr()->eq('parent', 0))
                 ->orderBy(['posted' => 'ASC'])
         );
-    }
-
-    /**
-     * @param $id
-     * @return null|Quote
-     */
-    public function find($id)
-    {
-        return $this->quoteDao->find($id);
     }
 
     /**
@@ -78,6 +69,15 @@ class QuoteRepository extends Object
         }
 
         $this->em->persist($comment);
+    }
+
+    /**
+     * @param $id
+     * @return null|Quote
+     */
+    public function find($id)
+    {
+        return $this->quoteDao->find($id);
     }
 
     /**
@@ -171,6 +171,8 @@ class QuoteRepository extends Object
         ')->setMaxResults($limit);
 
         $q->setParameter('status', Quote::STATUS_APPROVED);
+
+        $q->useQueryCache(true);
 
         return $q->getResult();
     }

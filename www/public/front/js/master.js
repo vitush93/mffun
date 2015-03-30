@@ -37254,59 +37254,55 @@ var teacherAutocomplete = {
     }
 };
 
-function split( val ) {
-    return val.split( /,\s*/ );
+function split(val) {
+    return val.split(/,\s*/);
 }
-function extractLast( term ) {
-    return split( term ).pop();
+function extractLast(term) {
+    return split(term).pop();
 }
 var tagAutocomplete = {
     init: function () {
         var selected = [];
-        $( '.tags-autocomplete' ).autocomplete({
-                source: function( request, response ) {
-                    $.getJSON(window.location.pathname + "?do=addQuoteControl-tagsJson", request, function (data, status, xhr) {
-                        var term = extractLast(request.term);
+        $('.tags-autocomplete').autocomplete({
+            source: function (request, response) {
+                $.getJSON(window.location.pathname + "?do=addQuoteControl-tagsJson", request, function (data, status, xhr) {
+                    var term = extractLast(request.term);
 
-                        if (selected.indexOf(term) > -1) {
-                            console.log("not found");
-                            response({});
-                        } else {
-                            console.log("found");
-                            selected.push(term);
-                            var results = $.ui.autocomplete.filter(data, term);
+                    if (selected.indexOf(term) > -1) {
+                        console.log("not found");
+                        response({});
+                    } else {
+                        console.log("found");
+                        selected.push(term);
+                        var results = $.ui.autocomplete.filter(data, term);
 
-                            response(results.slice(0, 10));
-                        }
-                    });
-
-                    //$.getJSON( window.location.pathname+"?do=addQuoteControl-tagsJson", {
-                    //    term: extractLast( request.term )
-                    //}, response );
-                },
-                search: function() {
-                    // custom minLength
-                    var term = extractLast( this.value );
-                    if ( term.length < 1 ) {
-                        return false;
+                        response(results.slice(0, 10));
                     }
-                },
-                focus: function() {
-                    // prevent value inserted on focus
-                    return false;
-                },
-                select: function( event, ui ) {
-                    var terms = split( this.value );
-                    // remove the current input
-                    terms.pop();
-                    // add the selected item
-                    terms.push( ui.item.value );
-                    // add placeholder to get the comma-and-space at the end
-                    terms.push( "" );
-                    this.value = terms.join( ", " );
+                });
+            },
+            search: function () {
+                // custom minLength
+                var term = extractLast(this.value);
+                if (term.length < 1) {
                     return false;
                 }
-            });
+            },
+            focus: function () {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function (event, ui) {
+                var terms = split(this.value);
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push(ui.item.value);
+                // add placeholder to get the comma-and-space at the end
+                terms.push("");
+                this.value = terms.join(", ");
+                return false;
+            }
+        });
     }
 };
 

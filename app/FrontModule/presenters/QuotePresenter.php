@@ -9,12 +9,19 @@
 namespace App\FrontModule\Presenters;
 
 use App\Model\Entities\Comment;
+use App\Model\Entities\Quote;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 
 class QuotePresenter extends BasePresenter
 {
+    /** @var Quote */
     private $quote;
+
+    /** @var  ArrayCollection */
+    private $comments;
 
     public function actionDefault($id)
     {
@@ -26,28 +33,52 @@ class QuotePresenter extends BasePresenter
 
     public function renderDefault($id)
     {
-        $em = $this->em;
-
         $this->template->q = $this->quote;
+        $this->template->comments = $this->quoteRepository->getTopLevelComments($this->quote);
 
-        $this->template->comments = $this->quoteRepository->findTopLevelComments($id);
-        $this->template->getReplies = function ($cid) use ($em) {
-            $dao = $em->getDao(Comment::getClassName());
+        $this->initRepliesLambda();
+        $this->initReplyUserLamda();
+    }
 
-            return $dao->findBy(['parent' => $cid], ['posted' => 'ASC']);
+    /**
+     * Initialize closure for template.
+     * getReplies closure will find replies for given comment id.
+     */
+    private function initRepliesLambda()
+    {
+        // comment responses closure - find responses to given comment
+        $this->template->getReplies = function ($cid) {
+//            return $this->quote->getComments()->matching( TODO reduce database queries
+//                Criteria::create()
+//                    ->where(Criteria::expr()->eq('parent', $cid))
+//                    ->orderBy(['posted' => 'ASC'])
+//            );
+            return $this->em->getRepository(Comment::class)->findBy(['parent' => $cid], ['posted' => 'ASC']);
         };
-        $this->template->getReplyTo = function ($cid) use ($em) {
-            $dao = $em->getDao(Comment::getClassName());
+    }
+
+    /**
+     * Initialize closure for template.
+     * getReplyTo closure will fetch the parent comment's poster username.
+     */
+    private function initReplyUserLamda()
+    {
+        // reply to closure
+        $this->template->getReplyTo = function ($cid) {
 
             /** @var Comment $c */
-            $c = $dao->find($cid);
+            $c = $this->quote->getComments()->matching(
+                Criteria::create()
+                    ->where(Criteria::expr()->eq('id', $cid))
+            )->first();
+
             return $c->getUser();
         };
     }
 
     /**
      * [CommentsForm]
-     * Post replies.
+     * Post reply.
      *
      * @param Form $form
      */
@@ -58,7 +89,8 @@ class QuotePresenter extends BasePresenter
         $parent_id = ($form->getHttpData($form::DATA_TEXT, 'reply-id'));
         $text = ($form->getHttpData($form::DATA_TEXT, 'reply-content'));
 
-        $this->quoteRepository->postComment($text,
+        $this->quoteRepository->postComment(
+            $text,
             $this->getParameter('id'),
             $this->user->getId(),
             $parent_id);
@@ -66,8 +98,7 @@ class QuotePresenter extends BasePresenter
         $this->em->flush();
 
         if ($this->isAjax()) {
-            $this->redrawControl('comments');
-            $this->redrawControl('counts');
+            $this->redrawControl();
         } else {
             $this->redirect('this');
         }
@@ -106,8 +137,7 @@ class QuotePresenter extends BasePresenter
         $this->em->flush();
 
         if ($this->isAjax()) {
-            $this->redrawControl('comments');
-            $this->redrawControl('counts');
+            $this->redrawControl();
         } else {
             $this->redirect('this');
         }
