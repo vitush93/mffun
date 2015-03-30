@@ -6,6 +6,7 @@ use App\Model\Entities\Comment;
 use App\Model\Entities\Quote;
 use App\Model\Entities\Tag;
 use App\Model\Entities\User;
+use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
@@ -26,6 +27,21 @@ class QuoteRepository extends Object
         $this->em = $entityManager;
         $this->quoteDao = $entityManager->getDao(Quote::getClassName());
         $this->commentDao = $entityManager->getDao(Comment::getClassName());
+    }
+
+    /**
+     * @return array
+     */
+    public function getTagCloud()
+    {
+        $q = $this->em->createQuery('
+        select t, size(t.quotations) as density
+        from App\Model\Entities\Tag t
+        where size(t.quotations) > 0
+        ');
+
+
+        return $q->getResult();
     }
 
     /**

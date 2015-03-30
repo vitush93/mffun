@@ -23,5 +23,6 @@ class HomepagePresenter extends BasePresenter
     public function renderDefault()
     {
         $this->template->quotations = $this->quoteRepository->findAllByDateDesc();
+        $this->template->tags = $this->quoteRepository->getTagCloud();
     }
 }
