@@ -6,7 +6,6 @@ use App\Model\Entities\Comment;
 use App\Model\Entities\Quote;
 use App\Model\Entities\Tag;
 use App\Model\Entities\User;
-use Doctrine\Common\Collections\Criteria;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
@@ -27,19 +26,6 @@ class QuoteRepository extends Object
         $this->em = $entityManager;
         $this->quoteDao = $entityManager->getDao(Quote::getClassName());
         $this->commentDao = $entityManager->getDao(Comment::getClassName());
-    }
-
-    /**
-     * @param Quote $q
-     * @return array
-     */
-    public function getTopLevelComments(Quote $q)
-    {
-        return $q->getComments()->matching(
-            Criteria::create()
-                ->where(Criteria::expr()->eq('parent', 0))
-                ->orderBy(['posted' => 'ASC'])
-        );
     }
 
     /**

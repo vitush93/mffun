@@ -5,6 +5,7 @@ namespace App\Model\Entities;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 
@@ -283,6 +284,52 @@ class Quote extends BaseEntity
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Returns collection of top level comments (parent = 0).
+     *
+     * @return \Doctrine\Common\Collections\Collection|static
+     */
+    public function getTopLevelComments()
+    {
+        return $this->comments->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->eq('parent', 0))
+                ->orderBy(['posted' => 'ASC'])
+        );
+    }
+
+    /**
+     * Returns the username of parent comment's poster.
+     *
+     * @param int $cid
+     * @return User
+     */
+    public function getParentPosterUser($cid)
+    {
+        /** @var Comment $c */
+        $c = $this->comments->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->eq('id', $cid))
+        )->first();
+
+        return $c->getUser();
+    }
+
+    /**
+     * Returns collection of replies to specified comment.
+     *
+     * @param int $cid parent comment's id
+     * @return \Doctrine\Common\Collections\Collection|static
+     */
+    public function getChildComments($cid)
+    {
+        return $this->comments->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->eq('parent', $cid))
+                ->orderBy(['posted' => 'ASC'])
+        );
     }
 
     /**
