@@ -15,7 +15,7 @@
     {block assets}{/block}
 </head>
 <body>
-{* TODO
+
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -24,8 +24,9 @@
         js.id = id;
         js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&appId=249336298524816&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    *}
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div id="scroll-top">
     <i class="fa fa-angle-double-up fa-fw fa-4x"></i></div>
 <footer role="contentinfo" id="footer">
@@ -126,7 +127,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-9 col-sm-9 clearfix">
-                {* TODO
                 <div id="bar-social">
                     <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/"
                          data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
@@ -157,7 +157,6 @@
                             }
                         }(document, "script", "twitter-wjs");
                     </script>
-                *}
                 </div>
                 {if $presenter->name == 'Front:Homepage'}<a href="" id="filter-button"><i class="fa fa-cogs fa-fw"></i></a>{/if}
             </div>

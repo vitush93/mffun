@@ -2,25 +2,12 @@
 
 namespace App\AdminModule\Presenters;
 
+
 use App\Model\Entities\User;
-use Nette,
-    Model;
-use Kdyby\Doctrine\EntityManager;
-use Nette\Application\UI\Presenter;
 use Nette\Security\IUserStorage;
 
-abstract class BasePresenter extends Presenter
+trait BasePresenterTrait
 {
-    /** @var EntityManager @inject */
-    public $em;
-
-    protected function startup()
-    {
-        parent::startup();
-
-        $this->detectAccess();
-    }
-
     public function handleLogout()
     {
         $this->logout();
@@ -33,6 +20,13 @@ abstract class BasePresenter extends Presenter
         if ($this->user->isLoggedIn()) {
             $this->template->userInfo = $this->em->find(User::getClassName(), $this->getUser()->getId());
         }
+    }
+
+    protected function startup()
+    {
+        parent::startup();
+
+        $this->detectAccess();
     }
 
     /**
@@ -73,5 +67,4 @@ abstract class BasePresenter extends Presenter
             $this->getUser()->logout();
         }
     }
-
 }

@@ -2,27 +2,21 @@
 
 namespace App\FrontModule\Presenters;
 
-class HomepagePresenter extends BasePresenter
+use App\Model\Repositories\QuoteRepository;
+use Nette\Application\UI\Presenter;
+
+class HomepagePresenter extends Presenter
 {
 
-    public function actionDefault()
-    {
-        /*
-        $em = $this->em;
-        $dao = $em->getDao(Comment::getClassName());
-        $comment = new Comment();
-        $comment->setQuote($this->quoteRepository->find(8));
-        $comment->setText("some comment text");
-        $comment->setUser($em->find(User::getClassName(), 3));
+    /** @var QuoteRepository @inject */
+    public $quoteRepository;
 
-        $em->persist($comment);
-        $em->flush();
-        */
-    }
+    use BasePresenterTrait;
 
     public function renderDefault()
     {
-        $this->template->quotations = $this->quoteRepository->findAllByDateDesc();
+        $this->template->quotations = $this->quoteRepository->findAllByDateDesc(5);
         $this->template->tags = $this->quoteRepository->getTagCloud();
     }
+
 }

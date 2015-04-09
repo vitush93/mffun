@@ -1,21 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Vít
- * Date: 1/21/2015
- * Time: 12:19 AM
- */
 
 namespace App\FrontModule\Presenters;
 
 use App\Model\Entities\Quote;
+use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Presenter;
 
-class QuotePresenter extends BasePresenter
+class QuotePresenter extends Presenter
 {
+    /** @var QuoteRepository @inject */
+    public $quoteRepository;
+
     /** @var Quote */
     private $quote;
+
+    use BasePresenterTrait;
 
     /**
      * @param $id

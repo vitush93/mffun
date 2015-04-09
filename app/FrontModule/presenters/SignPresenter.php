@@ -4,13 +4,20 @@ namespace App\FrontModule\Presenters;
 
 
 use App\Model\Repositories\UserRepository;
-use Kdyby\Doctrine\DuplicateEntryException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Presenter;
 
-class SignPresenter extends BasePresenter
+class SignPresenter extends Presenter
 {
+    /** @var EntityManager @inject */
+    public $em;
+
     /** @var UserRepository @inject */
     public $userRepository;
+
+    use BasePresenterTrait;
 
     /**
      * [RegisterForm]
@@ -27,7 +34,7 @@ class SignPresenter extends BasePresenter
 
             $this->flashMessage("Registrace proběhla úspěšně. Nyní se můžeš přihlásit.", "success");
             $this->redirect("Homepage:default");
-        } catch (DuplicateEntryException $e) {
+        } catch (UniqueConstraintViolationException $e) {
             $this['registerForm']->addError("Uživatel s tímto uživatelským jménem nebo e-mailem již existuje.");
         }
     }

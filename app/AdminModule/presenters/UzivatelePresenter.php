@@ -6,18 +6,21 @@ use App\Libs\BootstrapForm;
 use App\Libs\DoctrineForm;
 use App\Model\Entities\User;
 use App\Model\Repositories\UserRepository;
-use Kdyby\Doctrine\DuplicateEntryException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Presenter;
 
-class UzivatelePresenter extends BasePresenter
+class UzivatelePresenter extends Presenter
 {
     /** @var UserRepository @inject */
     public $userRepository;
 
     /** @var EntityManager @inject */
     public $em;
+
+    use BasePresenterTrait;
 
     public function actionDefault()
     {
@@ -101,7 +104,7 @@ class UzivatelePresenter extends BasePresenter
 
             $this->flashMessage('Změny byly uloženy.', 'success');
             $this->redirect('default');
-        } catch (DuplicateEntryException $e) {
+        } catch (UniqueConstraintViolationException $e) {
             $form->addError('Uživatel s tímto uživatelským jménem již existuje.');
         }
     }
@@ -128,7 +131,7 @@ class UzivatelePresenter extends BasePresenter
 
             $this->flashMessage('Uživatel byl vytvořen.', 'success');
             $this->redirect('default');
-        } catch (DuplicateEntryException $e) {
+        } catch (UniqueConstraintViolationException $e) {
             $form->addError('Uživatel s tímto uživatelským jménem nebo e-mailem již existuje.');
         }
     }
