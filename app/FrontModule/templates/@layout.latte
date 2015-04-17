@@ -172,25 +172,25 @@
                 <div class="col-lg-12" id="filter">
                     <div class="row">
                         <h2>Učitelé</h2>
-                        {* TODO
-                        {for $i = 0; $i < 15; $i++}
+
+                        {foreach $teachers as $t}
                             <p class="col-lg-2 col-md-2 col-sm-3">
-                                <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
-                                <label for="ucitel-{$i}">{$tags[$i]}</label>
+                                <input type="checkbox" id="ucitel-{$t->id}" class="filter-checkbox">
+                                <label for="ucitel-{$t->id}">{$t->name}</label>
                             </p>
-                        {/for}
-            *}
+                        {/foreach}
+
                     </div>
                     <div class="row">
                         <h2>Předměty</h2>
-                        {* TODO
-                        {for $i = 15; $i < 35; $i++}
+
+                        {foreach $subjects as $s}
                             <p class="col-lg-2 col-md-2 col-sm-3">
-                                <input type="checkbox" id="ucitel-{$i}" class="filter-checkbox">
-                                <label for="ucitel-{$i}">{$tags[$i]}</label>
+                                <input type="checkbox" id="ucitel-{$s->id}" class="filter-checkbox">
+                                <label for="ucitel-{$s->id}">{$s->name}</label>
                             </p>
-                        {/for}
-            *}
+                        {/foreach}
+
                     </div>
                 </div>
             </div>

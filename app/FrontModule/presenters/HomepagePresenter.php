@@ -13,8 +13,10 @@ class HomepagePresenter extends Presenter
 
     use BasePresenterTrait;
 
-    public function renderDefault()
+    public function beforeRender()
     {
+        $this->template->teachers = $this->quoteRepository->findTeachers();
+        $this->template->subjects = $this->quoteRepository->findSubjects();
         $this->template->quotations = $this->quoteRepository->findAllByDateDesc(5);
         $this->template->tags = $this->quoteRepository->getTagCloud();
     }

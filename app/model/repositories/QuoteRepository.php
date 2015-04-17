@@ -4,7 +4,9 @@ namespace App\Model\Repositories;
 
 use App\Model\Entities\Comment;
 use App\Model\Entities\Quote;
+use App\Model\Entities\Subject;
 use App\Model\Entities\Tag;
+use App\Model\Entities\Teacher;
 use App\Model\Entities\User;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
@@ -80,6 +82,26 @@ class QuoteRepository extends Object
     public function find($id)
     {
         return $this->quoteDao->find($id);
+    }
+
+    /**
+     * Returns array of Teacher object ordered by name.
+     *
+     * @return array
+     */
+    public function findTeachers()
+    {
+        return $this->em->getRepository(Teacher::class)->findBy([], ['name' => 'ASC']);
+    }
+
+    /**
+     * Returns array of Subject object ordered by name.
+     *
+     * @return array
+     */
+    public function findSubjects()
+    {
+        return $this->em->getRepository(Subject::class)->findBy([], ['name' => 'ASC']);
     }
 
     /**
