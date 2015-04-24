@@ -38,12 +38,14 @@ class Quote extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="quotations", cascade={"persist"})
+     * @ORM\JoinColumn(name="teacher_id", referencedColumnName="id", onDelete="SET NULL")
      * @var Teacher
      */
     private $teacher;
 
     /**
      * @ORM\ManyToOne(targetEntity="Subject", inversedBy="quotations", cascade={"persist"})
+     * @ORM\JoinColumn(name="subject_id", referencedColumnName="id", onDelete="SET NULL")
      * @var Subject
      */
     private $subject;
@@ -92,6 +94,12 @@ class Quote extends BaseEntity
     private $approved;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $title;
+
+    /**
      * @ORM\Column(type="text")
      * @var string
      */
@@ -121,6 +129,22 @@ class Quote extends BaseEntity
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->tags = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**

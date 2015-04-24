@@ -4,8 +4,8 @@ namespace App\Model\Entities;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
@@ -32,9 +32,13 @@ class Subject extends BaseEntity
      */
     private $name;
 
-    public function __construct()
+    /**
+     * @param string $name
+     */
+    public function __construct($name)
     {
         $this->quotations = new ArrayCollection();
+        $this->name = $name;
     }
 
     /**

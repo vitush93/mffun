@@ -94,16 +94,14 @@ class AddQuoteControl extends Control
         // set teacher, add new teacher if not exists
         $teacher = $this->teacherDao->findOneBy(array('name' => $data['teacher']));
         if ($teacher == NULL) {
-            $teacher = new Teacher();
-            $teacher->setName($data['teacher']);
+            $teacher = new Teacher($data['teacher']);
         }
         $quote->setTeacher($teacher);
 
         // set subject, add new subject if not exists
         $subject = $this->subjectDao->findOneBy(array('name' => $data['subject']));
         if ($subject == NULL) {
-            $subject = new Subject();
-            $subject->setName($data['subject']);
+            $subject = new Subject($data['subject']);
         }
         $quote->setSubject($subject);
 

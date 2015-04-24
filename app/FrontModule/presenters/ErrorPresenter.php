@@ -4,14 +4,13 @@ namespace App\FrontModule\Presenters;
 
 use Model;
 use Nette;
-use Nette\Application\UI\Presenter;
 use Tracy\Debugger;
 
 
 /**
  * Error presenter.
  */
-class ErrorPresenter extends Presenter
+class ErrorPresenter extends BasePresenter
 {
     /**
      * @param  Exception

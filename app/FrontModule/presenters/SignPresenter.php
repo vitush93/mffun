@@ -5,19 +5,13 @@ namespace App\FrontModule\Presenters;
 
 use App\Model\Repositories\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Form;
-use Nette\Application\UI\Presenter;
 
-class SignPresenter extends Presenter
+class SignPresenter extends BasePresenter
 {
-    /** @var EntityManager @inject */
-    public $em;
 
     /** @var UserRepository @inject */
     public $userRepository;
-
-    use BasePresenterTrait;
 
     /**
      * [RegisterForm]

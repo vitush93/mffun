@@ -5,12 +5,9 @@ namespace App\AdminModule\Presenters;
 use Model;
 use Nette;
 use Nette\Application\UI\Form;
-use Nette\Application\UI\Presenter;
 
-class SignPresenter extends Presenter
+class SignPresenter extends BasePresenter
 {
-
-    use BasePresenterTrait;
 
     public function renderDefault()
     {

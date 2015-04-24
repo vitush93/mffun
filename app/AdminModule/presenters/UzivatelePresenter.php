@@ -7,20 +7,13 @@ use App\Libs\DoctrineForm;
 use App\Model\Entities\User;
 use App\Model\Repositories\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Kdyby\Doctrine\EntityManager;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
-use Nette\Application\UI\Presenter;
 
-class UzivatelePresenter extends Presenter
+class UzivatelePresenter extends BasePresenter
 {
     /** @var UserRepository @inject */
     public $userRepository;
-
-    /** @var EntityManager @inject */
-    public $em;
-
-    use BasePresenterTrait;
 
     public function actionDefault()
     {

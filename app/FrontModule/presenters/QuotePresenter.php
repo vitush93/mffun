@@ -6,17 +6,14 @@ use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
-use Nette\Application\UI\Presenter;
 
-class QuotePresenter extends Presenter
+class QuotePresenter extends BasePresenter
 {
     /** @var QuoteRepository @inject */
     public $quoteRepository;
 
     /** @var Quote */
     private $quote;
-
-    use BasePresenterTrait;
 
     /**
      * @param $id

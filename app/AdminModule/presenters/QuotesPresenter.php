@@ -4,19 +4,12 @@ namespace App\AdminModule\Presenters;
 
 use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
-use Kdyby\Doctrine\EntityManager;
 use Nette\Application\BadRequestException;
-use Nette\Application\UI\Presenter;
 
-class QuotesPresenter extends Presenter
+class QuotesPresenter extends BasePresenter
 {
     /** @var QuoteRepository @inject */
     public $quoteRepository;
-
-    /** @var EntityManager @inject */
-    public $em;
-
-    use BasePresenterTrait;
 
     public function renderDefault()
     {

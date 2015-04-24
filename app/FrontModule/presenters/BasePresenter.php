@@ -4,20 +4,19 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
-use Kollarovic\Thumbnail\AbstractGenerator;
+use Kdyby\Doctrine\EntityManager;
 use Model;
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Presenter;
 
-
-trait BasePresenterTrait
+class BasePresenter extends Presenter
 {
-
-    /** @var AbstractGenerator @inject */
-    public $thumbGenerator;
-
     /** @var IAddQuoteControlFactory @inject */
     public $addQuoteFactory;
+
+    /** @var EntityManager @inject */
+    public $em;
 
     /**
      * [LoginForm]
@@ -88,7 +87,6 @@ trait BasePresenterTrait
     protected function createTemplate($class = NULL)
     {
         $template = parent::createTemplate($class);
-        $template->registerHelper('thumbnail', $this->thumbGenerator->thumbnail);
         $template->registerHelper('minifyhtml', function ($in) {
             return \Minify_HTML::minify($in);
         });

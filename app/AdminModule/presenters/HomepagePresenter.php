@@ -2,15 +2,9 @@
 
 namespace App\AdminModule\Presenters;
 
-use Kdyby\Doctrine\EntityManager;
 use Model;
 use Nette;
-use Nette\Application\UI\Presenter;
 
-class HomepagePresenter extends Presenter
+class HomepagePresenter extends BasePresenter
 {
-    /** @var EntityManager @inject */
-    public $em;
-
-    use BasePresenterTrait;
 }

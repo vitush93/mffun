@@ -2,12 +2,16 @@
 
 namespace App\AdminModule\Presenters;
 
-
 use App\Model\Entities\User;
+use Kdyby\Doctrine\EntityManager;
+use Nette\Application\UI\Presenter;
 use Nette\Security\IUserStorage;
 
-trait BasePresenterTrait
+class BasePresenter extends Presenter
 {
+    /** @var EntityManager @inject */
+    public $em;
+
     public function handleLogout()
     {
         $this->logout();
