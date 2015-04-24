@@ -96,8 +96,6 @@ class AddQuoteControl extends Control
         if ($teacher == NULL) {
             $teacher = new Teacher();
             $teacher->setName($data['teacher']);
-
-            $this->teacherDao->save($teacher);
         }
         $quote->setTeacher($teacher);
 
@@ -106,8 +104,6 @@ class AddQuoteControl extends Control
         if ($subject == NULL) {
             $subject = new Subject();
             $subject->setName($data['subject']);
-
-            $this->subjectDao->save($subject);
         }
         $quote->setSubject($subject);
 

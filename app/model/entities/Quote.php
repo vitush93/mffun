@@ -37,13 +37,13 @@ class Quote extends BaseEntity
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="quotations")
+     * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="quotations", cascade={"persist"})
      * @var Teacher
      */
     private $teacher;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Subject", inversedBy="quotations")
+     * @ORM\ManyToOne(targetEntity="Subject", inversedBy="quotations", cascade={"persist"})
      * @var Subject
      */
     private $subject;
