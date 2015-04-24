@@ -81,6 +81,7 @@ class AddQuoteControl extends Control
 
             return;
         }
+        $quote->setTitle($data['title']);
         $quote->setText($data['text']);
         $quote->setUserEmail($data['user_email']);
 
@@ -92,18 +93,22 @@ class AddQuoteControl extends Control
         $quote->setUser($author);
 
         // set teacher, add new teacher if not exists
-        $teacher = $this->teacherDao->findOneBy(array('name' => $data['teacher']));
-        if ($teacher == NULL) {
-            $teacher = new Teacher($data['teacher']);
+        if ($data['teacher']) {
+            $teacher = $this->teacherDao->findOneBy(array('name' => $data['teacher']));
+            if ($teacher == NULL) {
+                $teacher = new Teacher($data['teacher']);
+            }
+            $quote->setTeacher($teacher);
         }
-        $quote->setTeacher($teacher);
 
         // set subject, add new subject if not exists
-        $subject = $this->subjectDao->findOneBy(array('name' => $data['subject']));
-        if ($subject == NULL) {
-            $subject = new Subject($data['subject']);
+        if ($data['subject']) {
+            $subject = $this->subjectDao->findOneBy(array('name' => $data['subject']));
+            if ($subject == NULL) {
+                $subject = new Subject($data['subject']);
+            }
+            $quote->setSubject($subject);
         }
-        $quote->setSubject($subject);
 
         Utils::safeExplodeByComma($data['tags']);
 
@@ -153,13 +158,12 @@ class AddQuoteControl extends Control
     {
         $form = new Form();
 
+        $form->addText('title', 'Titulek')->setRequired('Vyplňte prosím.');
+        $form->addTextArea('text', 'Text citace')->setRequired('Vyplňte prosím.');
         $form->addText('subject', 'Předmět')
-            ->setRequired('Vyplňte prosím.')
             ->setAttribute('placeholder', 'Matematická analýza');
         $form->addText('teacher', 'Vyučující')
-            ->setRequired('Vyplňte prosím.')
             ->setAttribute('placeholder', 'Luděk Zajíček');
-        $form->addTextArea('text', 'Text citace')->setRequired('Vyplňte prosím.');
         $form->addText('tags', 'Tagy')
             ->setAttribute('placeholder', 'analýza, zajíček, derivace');
         $form->addText('date', 'Datum výroku')
