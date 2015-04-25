@@ -7,6 +7,7 @@ use App\Model\Entities\Quote;
 use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use App\Model\Services\RatingService;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -53,13 +54,11 @@ class QuoteListener
 
     /**
      * @param Quote $quote
-     * @param PreFlushEventArgs $args
+     * @param LifecycleEventArgs|PreFlushEventArgs $args
      */
-    public function preFlush(Quote $quote, PreFlushEventArgs $args)
+    public function prePersist(Quote $quote, LifecycleEventArgs $args)
     {
-        if (!$quote->isApproved()) {
-            $this->autoApprove($quote);
-        }
+        $this->autoApprove($quote);
     }
 
 }
