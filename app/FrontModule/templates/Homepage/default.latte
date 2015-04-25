@@ -45,7 +45,8 @@
                                 {foreach $q->getComments() as $comment}
                                     {breakIf $iterator->getCounter() > 2}
                                     <div class="top-comment clearfix">
-                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt=""
+                                             title="{$comment->user->username}"
                                              class="img-circle">
 
                                         <div class="comment-body">

@@ -37216,7 +37216,7 @@ function searchBoxControl() {
 }
 
 $('#top-nav').autoHidingNavbar({
-    hideOffset: -60
+    hideOffset: 100
 });
 var autocomplete = {
     create: function (selector, url) {

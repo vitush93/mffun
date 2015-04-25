@@ -123,12 +123,25 @@ class Quote extends BaseEntity
      */
     private $status = self::STATUS_NEED_APPROVAL;
 
-    public function __construct()
+    /**
+     * @param string $title
+     * @param string $text
+     * @param DateTime $date
+     */
+    public function __construct($title, $text, DateTime $date = null)
     {
         $this->posted = new DateTime();
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->title = $title;
+        $this->text = $text;
+
+        if ($date) {
+            $this->date = $date;
+        } else {
+            $this->date = new DateTime();
+        }
     }
 
     /**

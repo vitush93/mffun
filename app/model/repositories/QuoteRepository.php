@@ -59,10 +59,9 @@ class QuoteRepository extends Object
         if (strlen($text) == 0) return;
 
         $quote = $this->find($qid);
-        $user = $this->em->find(User::getClassName(), $uid);
 
         $comment = new Comment();
-        $comment->setUser($user);
+        $comment->setUser($this->em->getReference(User::class, $uid));
         $comment->setText($text);
         $comment->setQuote($quote);
 

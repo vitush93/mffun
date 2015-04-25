@@ -14,8 +14,13 @@
                         <a href=""><i class="fa fa-thumbs-up"></i></a>
                     </div>
                     {snippet counts}
-                        <h2><a href="{link Quote:default $q->getId()}">{$q->getSubject()->getName()}</a>
-                            <small><a href="">{$q->getTeacher()->getName(true)}</a></small>
+                        <h2><a href="{link Quote:default $q->getId()}">
+                                {if $q->title}{$q->title}
+                                {elseif $q->subject}{$q->subject->name}
+                                {else}Title goes here
+                                {/if}
+                            </a>
+                            <small n:if="$q->teacher"><a href="">{$q->getTeacher()->getName(true)}</a></small>
                             <br>
                         </h2>
                         <span><a href="{link Quote:default $q->getId()}">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a
@@ -36,12 +41,12 @@
 
 
 
-                    <div class="comments">
+                    <div class="comments" id="comments">
                         <h3>Komentáře</h3>
                         {if !$user->isLoggedIn()}<p class="notice">Pro komentování musíš být přihlášený.</p>{/if}
                         {if $user->isLoggedIn()}
                             {form postCommentForm, class=>'new-comment-form ajax'}
-                                <div class="comment clearfix">
+                                <div class="comment newcomment clearfix">
                                     <div class="comment-left">
                                         <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
                                              class="img-circle">
@@ -55,7 +60,11 @@
                         {/if}
                         {form commentsForm, class=>'new-reply-form ajax'}
                         {snippet comments}
-                        {foreach $q->getTopLevelComments() as $comment}
+                            {*foreach $q->getTopLevelComments() as $comment*}
+                        {foreach
+                        $em->getRepository(\App\Model\Entities\Comment::class)
+                        ->findBy(['quote' => $q, 'parent' => 0])
+                        as $comment}
                             <div class="comment clearfix">
                                 <div class="comment-left">
                                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
@@ -78,7 +87,20 @@
                                     </div>
                                 </div>
                             </div>
-                            {foreach $q->getChildComments($comment->id) as $reply}
+                            {*foreach $q->getChildComments($comment->id) as $reply*}
+                            {foreach
+                            $em->getRepository(\App\Model\Entities\Comment::class)
+                            ->createQueryBuilder()
+                            ->select('c')
+                            ->from('\App\Model\Entities\Comment', 'c')
+                            ->where('c.parent = :parent')
+                            ->andWhere('c.quote = :q')
+                            ->setParameter('q', $q)
+                            ->setParameter('parent', $comment->id)
+                            ->getQuery()
+                            ->getResult()
+                            as $reply}
+
                                 <div class="comment child clearfix">
                                     <div class="comment-left">
                                         <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""

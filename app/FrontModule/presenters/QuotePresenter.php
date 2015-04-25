@@ -33,6 +33,7 @@ class QuotePresenter extends BasePresenter
     public function renderDefault($id)
     {
         $this->template->q = $this->quote;
+        $this->template->em = $this->em;
     }
 
     /**
@@ -73,7 +74,7 @@ class QuotePresenter extends BasePresenter
         $form = new Form();
 
         $form->onSuccess[] = $this->commentsFormSucceeded;
-        $form->addProtection();
+        //$form->addProtection();
 
         return $form;
     }

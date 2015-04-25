@@ -13,7 +13,6 @@ use App\Model\Services\AutocompleteService;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
-use Nette\Utils\DateTime;
 
 interface IAddQuoteControlFactory
 {
@@ -73,24 +72,19 @@ class AddQuoteControl extends Control
     {
         $data = $form->getValues(true);
 
-        $quote = new Quote();
-        try {
-            $quote->setDate(DateTime::from($data['date']));
-        } catch (\Exception $e) {
-            $this->presenter->flashMessage("Datum je ve špatném formátu.", "error");
+        $quote = new Quote($data['title'], $data['text']);
 
-            return;
-        }
-        $quote->setTitle($data['title']);
-        $quote->setText($data['text']);
-        $quote->setUserEmail($data['user_email']);
-
+        // author & author's email
         if ($this->presenter->getUser()->isLoggedIn()) {
+            /** @var User $author */
             $author = $this->userDao->find($this->presenter->getUser()->getId());
+            $user_email = $author->getEmail();
         } else {
             $author = $this->userDao->findOneBy(array('username' => 'unknown'));
+            $user_email = $data['user_email'];
         }
         $quote->setUser($author);
+        $quote->setUserEmail($user_email);
 
         // set teacher, add new teacher if not exists
         if ($data['teacher']) {
@@ -158,21 +152,19 @@ class AddQuoteControl extends Control
     {
         $form = new Form();
 
-        $form->addText('title', 'Titulek')->setRequired('Vyplňte prosím.');
-        $form->addTextArea('text', 'Text citace')->setRequired('Vyplňte prosím.');
+        $form->addText('title', 'Titulek (povinné)')->setRequired('Vyplňte prosím.');
+        $form->addTextArea('text', 'Text citace (povinné)')->setRequired('Vyplňte prosím.');
         $form->addText('subject', 'Předmět')
             ->setAttribute('placeholder', 'Matematická analýza');
         $form->addText('teacher', 'Vyučující')
             ->setAttribute('placeholder', 'Luděk Zajíček');
         $form->addText('tags', 'Tagy')
             ->setAttribute('placeholder', 'analýza, zajíček, derivace');
-        $form->addText('date', 'Datum výroku')
-            ->setDefaultValue(date('j.n.Y'))
-            ->setRequired('Vyplňte prosím.')
-            ->getControlPrototype()->class('datepicker');
-        $form->addText('user_email', 'Tvůj e-mail')
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
+        if (!$this->presenter->user->isLoggedIn()) {
+            $form->addText('user_email', 'Tvůj e-mail')
+                ->addCondition(Form::FILLED)
+                ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
+        }
 
         foreach ($form->getControls() as $control) {
             $control->getControlPrototype()->class('form-input');

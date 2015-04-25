@@ -1127,12 +1127,17 @@ p.notice {
     &.child .comment-left img {
       max-width: 30px;
     }
+    &.newcomment img {
+      top: 0 !important;
+    }
     .comment-left {
       width: 10%;
       float: left;
       img {
+        position: relative;
         float: right;
         margin-right: 10px;
+        top: 7px;
         width: 100%;
         max-width: 50px;
       }
