@@ -7,7 +7,7 @@
                 <section>
                     {control rateQuote, q => $q->id}
                     {snippet counts}
-                        <h2><a href="{link Quote:default $q->getId()}">
+                        <h2><a href="{link Quote:default $q->getId()}" n:block="title">
                                 {if $q->title}{$q->title}
                                 {elseif $q->subject}{$q->subject->name}
                                 {else}Title goes here
