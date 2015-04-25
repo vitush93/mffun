@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vitush
- * Date: 3/29/15
- * Time: 1:41 PM
- */
 
 namespace App\Model\Events;
 
@@ -12,7 +6,8 @@ namespace App\Model\Events;
 use App\Model\Entities\Quote;
 use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use App\Model\Services\RatingService;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 class QuoteListener {
@@ -20,9 +15,17 @@ class QuoteListener {
     /** @var QuoteRepository */
     private $quoteRepository;
 
-    public function __construct(QuoteRepository $quoteRepository)
+    /** @var RatingService */
+    private $ratingService;
+
+    /**
+     * @param QuoteRepository $quoteRepository
+     * @param RatingService $ratingService
+     */
+    public function __construct(QuoteRepository $quoteRepository, RatingService $ratingService)
     {
         $this->quoteRepository = $quoteRepository;
+        $this->ratingService = $ratingService;
     }
 
     /**
@@ -31,11 +34,8 @@ class QuoteListener {
      * If the quote is approved automatically, user's crank will be increased.
      *
      * @param Quote $quote
-     * @param LifecycleEventArgs $args
-     *
-     * @ORM\PrePersist
      */
-    public function preFlush(Quote $quote, LifecycleEventArgs $args)
+    private function autoApprove(Quote $quote)
     {
         if ($quote->getUser()->getUsername() === 'unknown') return;
 
@@ -48,6 +48,15 @@ class QuoteListener {
         if ($quote->getUser()->getCrank() > 0) {
             $quote->approveNoRankUp();
         }
+    }
+
+    /**
+     * @param Quote $quote
+     * @param PreFlushEventArgs $args
+     */
+    public function preFlush(Quote $quote, PreFlushEventArgs $args)
+    {
+        $this->autoApprove($quote);
     }
 
 }

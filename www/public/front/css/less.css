@@ -273,6 +273,10 @@ h6 {
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
 }
+#main .article article.content-item section div.social a.disabled {
+  background: #ccc !important;
+  cursor: default !important;
+}
 #main .article article.content-item section div.social a + a + a {
   background: #dd4b39;
 }
@@ -335,7 +339,8 @@ h6 {
   position: relative;
   top: -1px;
 }
-#main .article article.content-item section div.social a + a + a + a + a:hover {
+#main .article article.content-item section div.social a + a + a + a + a:hover,
+#main .article article.content-item section div.social a + a + a + a + a.active {
   -webkit-transition: 0.1s ease-in-out;
   -moz-transition: 0.1s ease-in-out;
   -ms-transition: 0.1s ease-in-out;
@@ -343,14 +348,16 @@ h6 {
   transition: 0.1s ease-in-out;
   background: #e05866;
 }
-#main .article article.content-item section div.social a + a + a + a + a:hover:hover {
+#main .article article.content-item section div.social a + a + a + a + a:hover:hover,
+#main .article article.content-item section div.social a + a + a + a + a.active:hover {
   -webkit-transition: 0.1s ease-in-out;
   -moz-transition: 0.1s ease-in-out;
   -ms-transition: 0.1s ease-in-out;
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
 }
-#main .article article.content-item section div.social a + a + a + a + a + a:hover {
+#main .article article.content-item section div.social a + a + a + a + a + a:hover,
+#main .article article.content-item section div.social a + a + a + a + a + a.active {
   -webkit-transition: 0.1s ease-in-out;
   -moz-transition: 0.1s ease-in-out;
   -ms-transition: 0.1s ease-in-out;
@@ -358,7 +365,8 @@ h6 {
   transition: 0.1s ease-in-out;
   background: #45B29D;
 }
-#main .article article.content-item section div.social a + a + a + a + a + a:hover:hover {
+#main .article article.content-item section div.social a + a + a + a + a + a:hover:hover,
+#main .article article.content-item section div.social a + a + a + a + a + a.active:hover {
   -webkit-transition: 0.1s ease-in-out;
   -moz-transition: 0.1s ease-in-out;
   -ms-transition: 0.1s ease-in-out;
@@ -1407,6 +1415,11 @@ input.login {
   color: #3c3c3c;
   font-size: 14px;
 }
+@media (min-width: 768px) {
+  #add-quote-modal .modal-dialog {
+    width: 400px;
+  }
+}
 #add-quote-modal .modal-content {
   border-radius: 3px;
 }
@@ -1497,19 +1510,18 @@ p.notice {
 .comments .comment.child .comment-left img {
   max-width: 30px;
 }
-
 .comments .comment.newcomment img {
-    top: 0 !important;
+  top: 0 !important;
 }
 .comments .comment .comment-left {
   width: 10%;
   float: left;
 }
 .comments .comment .comment-left img {
-    position: relative;
+  position: relative;
   float: right;
   margin-right: 10px;
-    top: 7px;
+  top: 7px;
   width: 100%;
   max-width: 50px;
 }
@@ -1624,5 +1636,5 @@ p.notice {
   margin-top: 10px;
 }
 ul.ui-autocomplete {
-    z-index: 9999 !important;
+  z-index: 9999 !important;
 }

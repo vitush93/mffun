@@ -2,6 +2,7 @@
 
 namespace App\FrontModule\Presenters;
 
+use App\FrontModule\Components\IRateQuoteControlFactory;
 use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
@@ -9,6 +10,9 @@ use Nette\Application\UI\Form;
 
 class QuotePresenter extends BasePresenter
 {
+    /** @var IRateQuoteControlFactory @inject */
+    public $rateQuoteFactory;
+
     /** @var QuoteRepository @inject */
     public $quoteRepository;
 
@@ -58,7 +62,7 @@ class QuotePresenter extends BasePresenter
         $this->em->flush();
 
         if ($this->isAjax()) {
-            $this->redrawControl(); // FIXME nette bug - redraw doesn't work
+            $this->redrawControl();
         } else {
             $this->redirect('this');
         }
@@ -121,5 +125,15 @@ class QuotePresenter extends BasePresenter
         $form->addProtection();
 
         return $form;
+    }
+
+    /**
+     * RateQuote factory.
+     *
+     * @return \App\FrontModule\Components\RateQuoteControl
+     */
+    protected function createComponentRateQuote()
+    {
+        return $this->rateQuoteFactory->create();
     }
 }

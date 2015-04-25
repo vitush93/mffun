@@ -64,7 +64,7 @@ class Quote extends BaseEntity
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote")
+     * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="quote", cascade={"persist"})
      * @var ArrayCollection
      */
     private $ratings;
@@ -433,7 +433,7 @@ class Quote extends BaseEntity
      */
     public function getRating()
     {
-        return $this->rating * 1000;
+        return $this->rating;
     }
 
     /**
@@ -450,6 +450,15 @@ class Quote extends BaseEntity
     public function getTags()
     {
         return $this->tags;
+    }
+
+    public function hasUserRated($user_id)
+    {
+        /** @var QuoteRating $r */
+        foreach ($this->ratings as $r) {
+            if ($r->getUser()->getId() == $user_id) return true;
+        }
+        return false;
     }
 
 }

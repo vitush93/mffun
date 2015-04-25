@@ -42,7 +42,7 @@ class User extends BaseEntity
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="QuoteRating", mappedBy="user", cascade={"persist"})
      */
     private $quote_ratings;
 

@@ -3,15 +3,14 @@
 namespace App\Model\Entities;
 
 
-use Kdyby\Doctrine\Entities\BaseEntity;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToOne;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="quote_ratings")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="quote_ratings", uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"quote_id", "user_id"})})
+ * @ORM\EntityListeners({"App\Model\Events\QuoteRatingListener"})
  */
 class QuoteRating extends BaseEntity
 {
@@ -29,13 +28,13 @@ class QuoteRating extends BaseEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Quote", inversedBy="ratings")
+     * @ORM\ManyToOne(targetEntity="Quote", inversedBy="ratings", cascade={"persist"})
      * @var Quote
      */
     private $quote;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="quote_ratings")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="quote_ratings", cascade={"persist"})
      * @var User
      */
     private $user;
@@ -52,21 +51,15 @@ class QuoteRating extends BaseEntity
      */
     private $value;
 
-    public function __construct()
+    /**
+     * @param User $user
+     * @param Quote $quote
+     */
+    public function __construct(User $user, Quote $quote)
     {
         $this->rated = new DateTime();
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function updateQuoteRatingPrePersist()
-    {
-        $sum = 0;
-        foreach ($this->quote->getRatings() as $r) {
-            $sum += $r->getValue();
-        }
-        $this->quote->setRating($sum / ($this->quote->getRatings()->count() * 10));
+        $this->setUser($user);
+        $this->setQuote($quote);
     }
 
     /**
@@ -149,5 +142,13 @@ class QuoteRating extends BaseEntity
         return $this->value;
     }
 
+    public function isPositive()
+    {
+        return $this->value == QuoteRating::POSITIVE;
+    }
 
+    public function isNegative()
+    {
+        return $this->value == QuoteRating::NEGATIVE;
+    }
 } 

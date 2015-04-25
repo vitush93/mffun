@@ -154,12 +154,10 @@ class AddQuoteControl extends Control
 
         $form->addText('title', 'Titulek (povinné)')->setRequired('Vyplňte prosím.');
         $form->addTextArea('text', 'Text citace (povinné)')->setRequired('Vyplňte prosím.');
-        $form->addText('subject', 'Předmět')
-            ->setAttribute('placeholder', 'Matematická analýza');
-        $form->addText('teacher', 'Vyučující')
-            ->setAttribute('placeholder', 'Luděk Zajíček');
+        $form->addText('subject', 'Předmět');
+        $form->addText('teacher', 'Vyučující');
         $form->addText('tags', 'Tagy')
-            ->setAttribute('placeholder', 'analýza, zajíček, derivace');
+            ->setAttribute('placeholder', 'analýza, kolej, karlín');
         if (!$this->presenter->user->isLoggedIn()) {
             $form->addText('user_email', 'Tvůj e-mail')
                 ->addCondition(Form::FILLED)

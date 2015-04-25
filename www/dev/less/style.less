@@ -199,6 +199,10 @@ h1, h2, h3, h4, h5, h6 {
               .transition(0.1s);
               background: #3B5998 + 20;
             }
+            &.disabled {
+              background: #ccc !important;
+              cursor: default !important;
+            }
           }
           a + a + a {
             background: #dd4b39;
@@ -228,11 +232,11 @@ h1, h2, h3, h4, h5, h6 {
             }
             background: @textcolor + 80;
             float: right;
-            &:hover {
+            &:hover, &.active {
               .transition(0.1s);
               background: #CC4452 + 20;
             }
-            & + a:hover {
+            & + a:hover, & + a.active {
               .transition(0.1s);
               background: #45B29D;
             }
@@ -1024,6 +1028,11 @@ input.login {
 }
 
 #add-quote-modal {
+  @media (min-width: 768px) {
+    .modal-dialog {
+      width: 400px;
+    }
+  }
   .modal-content {
     border-radius: 3px;
   }

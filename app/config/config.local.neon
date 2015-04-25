@@ -15,17 +15,3 @@ doctrine:
     queryCache: array
     metadata:
         App: %appDir%
-
-services:
-    # repositories
-    - App\Model\Repositories\QuoteRepository
-    - App\Model\Repositories\UserRepository
-
-    # services
-    - App\Model\Services\AuthenticationService
-    - App\Model\Events\QuoteListener
-    - App\Model\Services\AutocompleteService
-
-    # factories
-    - App\RouterFactory
-    - App\FrontModule\Components\AddQuote\IAddQuoteControlFactory

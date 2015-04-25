@@ -1,0 +1,18 @@
+services:
+    # repositories
+    - App\Model\Repositories\QuoteRepository
+    - App\Model\Repositories\UserRepository
+
+    # services
+    - App\Model\Services\AuthenticationService
+    - App\Model\Services\AutocompleteService
+    - App\Model\Services\RatingService
+
+    # entity listeners
+    - App\Model\Events\QuoteListener
+    - App\Model\Events\QuoteRatingListener
+
+    # factories
+    - App\RouterFactory
+    - App\FrontModule\Components\AddQuote\IAddQuoteControlFactory
+    - App\FrontModule\Components\IRateQuoteControlFactory

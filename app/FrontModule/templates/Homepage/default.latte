@@ -7,14 +7,7 @@
                 </div>
                 <div class="col-lg-10 col-md-12 col-sm-12 article-content">
                     <section>
-                        <div class="social">
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-twitter"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-pinterest"></i></a>
-                            <a href=""><i class="fa fa-thumbs-down"></i></a>
-                            <a href=""><i class="fa fa-thumbs-up"></i></a>
-                        </div>
+                        {control rateQuote, q => $q->id}
 
                         <h2>
                             <a href="{link Quote:default $q->getId()}">
@@ -26,7 +19,9 @@
                             <small n:if="$q->teacher"><a href="">{$q->getTeacher()->getName(true)}</a></small>
                             <br>
                         </h2>
-                        <span><a href="{link Quote:default $q->getId()}">{$q->getRating()} bodů</a> &nbsp;·&nbsp; <a
+                        <span>
+                            <a href="{link Quote:default $q->getId()}"><span
+                                        id="q-rating-{$q->id}">{$q->getRating()}</span> bodů</a> &nbsp;·&nbsp; <a
                                     href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
                                 komentářů</a></span>
 

@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
+use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Model;
 use Nette;

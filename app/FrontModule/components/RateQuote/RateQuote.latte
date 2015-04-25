@@ -1,0 +1,19 @@
+<div class="social">
+    <a href=""><i class="fa fa-facebook"></i></a>
+    <a href=""><i class="fa fa-twitter"></i></a>
+    <a href=""><i class="fa fa-google-plus"></i></a>
+    <a href=""><i class="fa fa-pinterest"></i></a>
+    <a href="{link down!, qid => $q}"
+       data-qid="{$q}"
+       data-rate="down"
+       class="q-rate q-rate-down {if !$presenter->user->isLoggedIn()}disabled{/if} {if $down}active{/if}"
+       {if !$presenter->user->isLoggedIn()}title="pro hodnocení se musíš přihlásit"{/if}>
+        <i class="fa fa-thumbs-down"></i>
+    </a>
+    <a href="{link up!, qid => $q}"
+       data-qid="{$q}" data-rate="up"
+       class="q-rate q-rate-up {if !$presenter->user->isLoggedIn()}disabled{/if} {if $up}active{/if}"
+       {if !$presenter->user->isLoggedIn()}title="pro hodnocení se musíš přihlásit"{/if}>
+        <i class="fa fa-thumbs-up"></i>
+    </a>
+</div>
