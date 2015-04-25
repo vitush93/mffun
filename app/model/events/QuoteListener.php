@@ -10,7 +10,8 @@ use App\Model\Services\RatingService;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
-class QuoteListener {
+class QuoteListener
+{
 
     /** @var QuoteRepository */
     private $quoteRepository;
@@ -56,7 +57,9 @@ class QuoteListener {
      */
     public function preFlush(Quote $quote, PreFlushEventArgs $args)
     {
-        $this->autoApprove($quote);
+        if (!$quote->isApproved()) {
+            $this->autoApprove($quote);
+        }
     }
 
 }
