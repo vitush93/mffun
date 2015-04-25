@@ -6,14 +6,14 @@
     {$pageSubtitle = 'Zamítnuté'}
 {/if}
 
-
-
 {block assets}
     <script type="text/javascript">
         $('#example1').dataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/725b2a2115b/i18n/Czech.json'
-            }
+                url: '//cdn.datatables.net/plug-ins/725b2a2115b/i18n/Czech.json',
+            },
+            pageLength: 25,
+            "order": [[0, "desc"]]
         });
     </script>
 {/block}

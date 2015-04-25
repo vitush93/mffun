@@ -16,3 +16,4 @@ services:
     - App\RouterFactory
     - App\FrontModule\Components\AddQuote\IAddQuoteControlFactory
     - App\FrontModule\Components\IRateQuoteControlFactory
+    - App\FrontModule\Components\IRateCommentControlFactory

@@ -13,11 +13,6 @@ $('#filter-button').on('click', function (e) {
     }
 });
 
-$('.rate').click(function () {
-    $(this).addClass('active');
-    $(this).removeAttr('href');
-});
-
 
 // QUOTE
 $('.new-reply-form').on('click', '.reply', function (e) {

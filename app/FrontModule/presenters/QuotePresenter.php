@@ -2,7 +2,10 @@
 
 namespace App\FrontModule\Presenters;
 
+use App\FrontModule\Components\IRateCommentControlFactory;
 use App\FrontModule\Components\IRateQuoteControlFactory;
+use App\FrontModule\Components\RateCommentControl;
+use App\FrontModule\Components\RateQuoteControl;
 use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
@@ -12,6 +15,9 @@ class QuotePresenter extends BasePresenter
 {
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteFactory;
+
+    /** @var IRateCommentControlFactory @inject */
+    public $rateCommentFactory;
 
     /** @var QuoteRepository @inject */
     public $quoteRepository;
@@ -108,6 +114,16 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
+     * RateComment factory.
+     *
+     * @return RateCommentControl
+     */
+    public function createComponentRateComment()
+    {
+        return $this->rateCommentFactory->create();
+    }
+
+    /**
      * PostCommentForm factory.
      *
      * @return Form
@@ -130,7 +146,7 @@ class QuotePresenter extends BasePresenter
     /**
      * RateQuote factory.
      *
-     * @return \App\FrontModule\Components\RateQuoteControl
+     * @return RateQuoteControl
      */
     protected function createComponentRateQuote()
     {

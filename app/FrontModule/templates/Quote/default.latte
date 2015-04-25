@@ -7,7 +7,7 @@
                 <section>
                     {control rateQuote, q => $q->id}
                     {snippet counts}
-                        <h2><a href="{link Quote:default $q->getId()}" n:block="title">
+                        <h2><a href="{link Quote:default $q->getId()}">
                                 {if $q->title}{$q->title}
                                 {elseif $q->subject}{$q->subject->name}
                                 {else}Title goes here
@@ -71,10 +71,7 @@
                                     </p>
 
                                     <div class="comment-controls">
-                                        <a href="" class="rate up"><i
-                                                    class="fa fa-thumbs-up"></i> {$comment->getRatingUp()}</a>
-                                        <a href="" class="rate down"><i
-                                                    class="fa fa-thumbs-down"></i> {-1*$comment->getRatingDown()}</a>
+                                        {control rateComment, cid => $comment->id, up => $comment->getRatingUp(), down => $comment->getRatingDown()}
                                         {if $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
                                                 reagovat</a>{/if}
                                     </div>
@@ -106,10 +103,7 @@
                                         </p>
 
                                         <div class="comment-controls">
-                                            <a href="" class="rate up"><i
-                                                        class="fa fa-thumbs-up"></i> {$reply->getRatingUp()}</a>
-                                            <a href="" class="rate down"><i
-                                                        class="fa fa-thumbs-down"></i> {-1*$reply->getRatingDown()}</a>
+                                            {control rateComment, cid => $reply->id, up => $reply->getRatingUp(), down => $reply->getRatingDown()}
                                         </div>
                                     </div>
                                 </div>

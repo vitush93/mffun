@@ -21,6 +21,7 @@ var scripts = [
     'dev/js/script.js',
     'dev/js/scrollLoad.js',
     'dev/js/quoteRate.js',
+    'dev/js/commentRate.js',
     'dev/js/autocomplete.js'
 ];
 
