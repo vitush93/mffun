@@ -1,70 +1,13 @@
+{block footScripts}
+    <script>
+        var sl = new ScrollLoad('#content', '#loader-container', 500, 1000);
+    </script>
+{/block}
+
 {block content}
 
-    {foreach $quotations as $q}
-        <div class="row article {if $iterator->isLast()}last{/if}">
-            <article class="content-item">
-                <div class="col-lg-2 visible-lg">
-                </div>
-                <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                    <section>
-                        {control rateQuote, q => $q->id}
-
-                        <h2>
-                            <a href="{link Quote:default $q->getId()}">
-                                {if $q->title}{$q->title}
-                                {elseif $q->subject}{$q->subject->name}
-                                {else}Title goes here
-                                {/if}
-                            </a>
-                            <small n:if="$q->teacher"><a href="">{$q->getTeacher()->getName(true)}</a></small>
-                            <br>
-                        </h2>
-                        <span>
-                            <a href="{link Quote:default $q->getId()}"><span
-                                        id="q-rating-{$q->id}">{$q->getRating()}</span> bodů</a> &nbsp;·&nbsp; <a
-                                    href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
-                                komentářů</a></span>
-
-                        <p>{$q->getText()}</p>
-
-                        <div class="item-tags">
-                            <a href="" class="tag" n:if="$q->teacher">{$q->getTeacher()->getName(true)}</a>
-                            <a href="" class="tag" n:if="$q->subject">{$q->getSubject()->getName(true)}</a>
-                            {foreach $q->getTags() as $tag}
-                                <a href="" class="tag">#{$tag->getTag()}</a>
-                            {/foreach}
-                        </div>
-
-                        {if $q->getComments()->count() > 0}
-                            <footer>
-                                {foreach $q->getComments() as $comment}
-                                    {breakIf $iterator->getCounter() > 2}
-                                    <div class="top-comment clearfix">
-                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt=""
-                                             title="{$comment->user->username}"
-                                             class="img-circle">
-
-                                        <div class="comment-body">
-                                            <p>
-                                                {$comment->getText()|truncate:65}
-                                            </p>
-                                            <span><i class="fa fa-thumbs-up"></i> {$comment->getRatingUp()}</span>
-                                            <span><i class="fa fa-thumbs-down"></i> {-1*$comment->getRatingDown()}</span>
-                                        </div>
-
-                                    </div>
-                                {/foreach}
-                                <p><i class="fa fa-angle-right"></i> <a
-                                            href="{link Quote:default $q->getId()}#comments">všechny
-                                        komentáře</a></p>
-                            </footer>
-                        {/if}
-                    </section>
-                </div>
-            </article>
-        </div>
-    {/foreach}
-    <div class="row">
+    {include 'loop.latte'}
+    <div class="row" id="loader-container">
         <div class="col-lg-2 col-md-2 col-sm-12"></div>
         <div class="col-lg-10 col-md-10 col-sm-12 article-content">
             <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>

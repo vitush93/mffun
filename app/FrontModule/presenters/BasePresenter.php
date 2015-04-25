@@ -19,6 +19,12 @@ class BasePresenter extends Presenter
     /** @var EntityManager @inject */
     public $em;
 
+    public function beforeRender()
+    {
+        $template = $this->template;
+        $template->tags = $this->quoteRepository->getTagCloud();
+    }
+
     /**
      * [LoginForm]
      * Validates the user's credentials.

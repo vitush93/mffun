@@ -10848,6 +10848,12 @@ aside[role="complementary"] .tag-cloud a {
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
   right: 0px;
 }
+#loader-container {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 #loader {
   padding: 40px;
   text-align: center;
@@ -11425,4 +11431,8 @@ p.notice {
 }
 ul.ui-autocomplete {
   z-index: 9999 !important;
+}
+#content {
+  padding-bottom: 113px;
+  position: relative;
 }

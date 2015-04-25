@@ -179,9 +179,10 @@ class QuoteRepository extends Object
      * Get all quotations sorted by date descending.
      *
      * @param int $limit LIMIT statement part parameter
+     * @param int $offset
      * @return array
      */
-    public function findAllByDateDesc($limit = 10)
+    public function findAllByDateDesc($limit, $offset)
     {
         $q = $this->em->createQuery('
         select q, t, s
@@ -191,7 +192,7 @@ class QuoteRepository extends Object
         where q.status=:status
         group by q.id
         order by q.approved DESC
-        ')->setMaxResults($limit);
+        ')->setFirstResult($offset)->setMaxResults($limit);
 
         $q->setParameter('status', Quote::STATUS_APPROVED);
 
