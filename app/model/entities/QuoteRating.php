@@ -9,7 +9,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="quote_ratings", uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"quote_id", "user_id"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"quote_id", "user_id"})})
  * @ORM\EntityListeners({"App\Model\Events\QuoteRatingListener"})
  */
 class QuoteRating extends BaseEntity

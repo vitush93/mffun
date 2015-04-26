@@ -2,16 +2,13 @@
 
 namespace App\Model\Entities;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
-use DateTime;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="comments")
  */
 class Comment extends BaseEntity
 {

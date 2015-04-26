@@ -4,12 +4,11 @@ namespace App\Model\Entities;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tags")
  */
 class Tag extends BaseEntity
 {

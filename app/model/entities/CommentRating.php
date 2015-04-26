@@ -4,14 +4,12 @@
 namespace App\Model\Entities;
 
 
-use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 use Nette\Utils\DateTime;
-use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="comment_ratings")
  * @ORM\HasLifecycleCallbacks
  */
 class CommentRating extends BaseEntity

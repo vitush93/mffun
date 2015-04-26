@@ -1,7 +1,5 @@
 <?php
 
-// TODO
-
 require_once '../vendor/autoload.php';
 
 \Tracy\Debugger::enable();
@@ -42,11 +40,9 @@ foreach ($context->table('mff_subjects') as $subject) {
 
 // quotes
 foreach ($context->table('mff_quotes') as $q) {
-    $quote = new \App\Model\Entities\Quote();
-    $quote->setDate($q->quoteDate);
+    $quote = new \App\Model\Entities\Quote('', $q->quoteText, new DateTime($q->quoteDate));
     $quote->setUser($em->getRepository(\App\Model\Entities\User::class)->findOneBy(['username' => 'unknown']));
     $quote->approve();
-    $quote->setText($q->quoteText);
     $quote->setUserEmail($q->senderEmail);
 
     $tname = $context->table('mff_teachers')->get($q->teacherId);

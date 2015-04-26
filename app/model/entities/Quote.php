@@ -11,7 +11,6 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="quotations")
  * @ORM\EntityListeners({"App\Model\Events\QuoteListener"})
  */
 class Quote extends BaseEntity

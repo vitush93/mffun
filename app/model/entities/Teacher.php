@@ -9,7 +9,6 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="teachers")
  */
 class Teacher extends BaseEntity
 {

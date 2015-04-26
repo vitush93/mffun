@@ -12,7 +12,6 @@ use Nette\Security\Passwords;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="users")
  */
 class User extends BaseEntity
 {

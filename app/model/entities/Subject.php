@@ -9,7 +9,6 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="subjects")
  */
 class Subject extends BaseEntity
 {
