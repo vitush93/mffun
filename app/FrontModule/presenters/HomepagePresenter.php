@@ -8,6 +8,7 @@ use Nette\Utils\Paginator;
 class HomepagePresenter extends BasePresenter
 {
     const ITEMS_PER_PAGE = 10;
+    const MAX_PAGES_LOAD = 10;
 
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
@@ -20,6 +21,10 @@ class HomepagePresenter extends BasePresenter
 
     public function handleLoad($page)
     {
+        if ($page == self::MAX_PAGES_LOAD) {
+            $this->sendJson(['more' => true]); // TODO
+        }
+
         $paginator = new Paginator();
         $paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
         $paginator->setPage($page);

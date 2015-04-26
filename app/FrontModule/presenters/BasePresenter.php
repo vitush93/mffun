@@ -25,6 +25,8 @@ class BasePresenter extends Presenter
 
     public function beforeRender()
     {
+        if ($this->isAjax()) return; // skip for ajax requests
+
         $template = $this->template;
         $template->tags = $this->quoteRepository->getTagCloud();
     }
