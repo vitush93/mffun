@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
+use App\Model\Repositories\QuoteRepository;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Model;
@@ -15,6 +16,9 @@ class BasePresenter extends Presenter
 {
     /** @var IAddQuoteControlFactory @inject */
     public $addQuoteFactory;
+
+    /** @var QuoteRepository @inject */
+    public $quoteRepository;
 
     /** @var EntityManager @inject */
     public $em;

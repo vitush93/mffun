@@ -3,7 +3,6 @@
 namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\IRateQuoteControlFactory;
-use App\Model\Repositories\QuoteRepository;
 use Nette\Utils\Paginator;
 
 class HomepagePresenter extends BasePresenter
@@ -12,9 +11,6 @@ class HomepagePresenter extends BasePresenter
 
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
-
-    /** @var QuoteRepository @inject */
-    public $quoteRepository;
 
     public function renderDefault()
     {
