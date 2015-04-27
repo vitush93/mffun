@@ -195,6 +195,42 @@ class QuoteRepository extends Object
         }
     }
 
+    public function findAllBySubject($subject, $limit, $offset)
+    {
+        return $this->em->createQueryBuilder()
+            ->select('q,t,s')
+            ->from('App\Model\Entities\Quote', 'q')
+            ->leftJoin('q.teacher', 't')
+            ->leftJoin('q.subject', 's')
+            ->where('s.name = :subject')
+            ->andWhere('q.status = :status')
+            ->groupBy('q.id')
+            ->orderBy('q.approved', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->setParameter('subject', $subject)
+            ->setParameter('status', Quote::STATUS_APPROVED)
+            ->getQuery()->getResult();
+    }
+
+    public function findAllByTeacher($teacher, $limit, $offset)
+    {
+        return $this->em->createQueryBuilder()
+            ->select('q,t,s')
+            ->from('App\Model\Entities\Quote', 'q')
+            ->leftJoin('q.teacher', 't')
+            ->leftJoin('q.subject', 's')
+            ->where('t.name = :teacher')
+            ->andWhere('q.status = :status')
+            ->groupBy('q.id')
+            ->orderBy('q.approved', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->setParameter('teacher', $teacher)
+            ->setParameter('status', Quote::STATUS_APPROVED)
+            ->getQuery()->getResult();
+    }
+
     public function findAllByTag($tag, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
@@ -250,7 +286,7 @@ class QuoteRepository extends Object
      */
     public function findAllApproved($limit, $offset, $o)
     {
-        if($o == 'random') return $this->getRandomQuotes($limit);
+        if ($o == 'random') return $this->getRandomQuotes($limit);
 
         $q = $this->em->createQuery("
         select q, t, s, count(com.id) as hidden c

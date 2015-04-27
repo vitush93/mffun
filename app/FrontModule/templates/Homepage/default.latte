@@ -5,16 +5,26 @@
 {/block}
 
 {block content}
-    {if isset($tag)}
+    {var $title = ''}
+    {if isset($tag)}{? $title = $tag}{/if}
+    {if isset($teacher)}
+        {?
+    $title = $asTag($teacher);
+    }
+    {/if}
+    {if isset($subject)}
+        {?
+    $title = $asTag($subject);
+    }
+    {/if}
+    {if $title}
         <div class="row">
             <div class="col-lg-2 visible-lg"></div>
             <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                <h1 id="page-title">#{$tag}</h1>
+                <h1 id="page-title">#{$title}</h1>
             </div>
         </div>
-
     {/if}
-
     <div id="content-load">
         {include 'loop.latte'}
     </div>
@@ -28,7 +38,13 @@
         <div class="col-lg-2 visible-lg"></div>
         <div class="col-lg-10 col-md-12 col-sm-12 article-content">
             {if isset($tag)}
-                <a href="{link Homepage:tag $tag, page=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+                <a href="{link Homepage:tag $tag, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+            {elseif isset($teacher)}
+                <a href="{link Homepage:teacher $teacher, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
+                    další</a>
+            {elseif isset($subject)}
+                <a href="{link Homepage:subject $subject, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
+                    další</a>
             {else}
                 <a href="{link Homepage:page $more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
             {/if}

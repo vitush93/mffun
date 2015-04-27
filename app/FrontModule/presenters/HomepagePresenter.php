@@ -8,7 +8,7 @@ use Nette\Utils\Paginator;
 class HomepagePresenter extends BasePresenter
 {
     const ITEMS_PER_PAGE = 10;
-    const MAX_PAGES_LOAD = 10;
+    const MAX_PAGES_LOAD = 4;
 
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
@@ -45,6 +45,14 @@ class HomepagePresenter extends BasePresenter
         $template = $this->template;
         $template->quotations = $quotes;
         $template->more = $this->getMore() + 1;
+        $template->asTag = function ($name) {
+            $tag = explode(' ', $name);
+            for ($i = 0; $i < count($tag); $i++) {
+                $tag[$i] = ucfirst($tag[$i]);
+            }
+            $tag = implode('', $tag);
+            return $tag;
+        };
     }
 
     private function getMore()
@@ -58,32 +66,54 @@ class HomepagePresenter extends BasePresenter
         if ($this->tag) {
             $quotes = $this->quoteRepository->findAllByTag($this->tag, self::ITEMS_PER_PAGE, $this->paginator->getOffset());
         } else if ($this->teacher) {
-
+            $quotes = $this->quoteRepository->findAllByTeacher($this->teacher, self::ITEMS_PER_PAGE, $this->paginator->getOffset());
         } else if ($this->subject) {
-
+            $quotes = $this->quoteRepository->findAllBySubject($this->subject, self::ITEMS_PER_PAGE, $this->paginator->getOffset());
         } else {
             $quotes = $this->quoteRepository->findAllApproved(self::ITEMS_PER_PAGE, $this->paginator->getOffset(), $this->quotes);
         }
 
-        if (empty($quotes)) {
+        if ($this->isAjax() && empty($quotes)) {
             $this->sendJson(['nomore' => true]);
         }
 
         return $quotes;
     }
 
-    public function actionTag($id, $page)
+    public function actionSubject($id, $p)
+    {
+        $this->subject = $id;
+        $this->setView('default');
+        $this->resolvePage($p);
+        $this->template->subject = $id;
+    }
+
+    public function actionTeacher($id, $p)
+    {
+        $this->teacher = $id;
+        $this->setView('default');
+        $this->resolvePage($p);
+        $this->template->teacher = $id;
+    }
+
+    public function actionTag($id, $p)
     {
         $this->tag = $id;
         $this->setView('default');
+        $this->resolvePage($p);
+        $this->template->tag = $id;
+    }
+
+    private function resolvePage($page)
+    {
         if ($page) {
             $page = (int)$page;
             $this->paginator->setPage($page);
             $this->template->initPage = $page + 1;
         } else {
+            $this->paginator->setPage(1);
             $this->template->initPage = 2;
         }
-        $this->template->tag = $id;
     }
 
     public function actionDefault()
