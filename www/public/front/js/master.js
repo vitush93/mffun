@@ -37239,7 +37239,7 @@ $('#top-nav').autoHidingNavbar({
 var ScrollLoad = function (container, loader, bottomOffset, interval) {
     this.lock = false;
     this.bottomOffset = bottomOffset;
-    this.currentPage = 1;
+    this.currentPage = 2;
     this.interval = interval;
     this.container = container;
     this.loader = loader;
