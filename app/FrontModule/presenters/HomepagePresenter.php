@@ -8,7 +8,7 @@ use Nette\Utils\Paginator;
 class HomepagePresenter extends BasePresenter
 {
     const ITEMS_PER_PAGE = 10;
-    const MAX_PAGES_LOAD = 10;
+    const MAX_PAGES_LOAD = 4;
 
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
@@ -26,8 +26,27 @@ class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
+        $quotes = $this->getQuotes();
+
         $template = $this->template;
-        $template->quotations = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $this->paginator->getOffset());
+        $template->quotations = $quotes;
+        $template->more = $this->getMore() + 1;
+    }
+
+    private function getMore()
+    {
+        $displayedPage = ceil($this->paginator->getPage() / self::MAX_PAGES_LOAD);
+        return $displayedPage * self::MAX_PAGES_LOAD;
+    }
+
+    private function getQuotes()
+    {
+        $quotes = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $this->paginator->getOffset());
+        if (empty($quotes)) {
+            $this->sendJson(['nomore' => true]);
+        }
+
+        return $quotes;
     }
 
     public function actionDefault()
@@ -50,16 +69,12 @@ class HomepagePresenter extends BasePresenter
     {
         $page = (int)$page;
 
-        if ($page == self::MAX_PAGES_LOAD) {
+        if ($page > $this->getMore()) {
             $this->sendJson(['more' => true]); // TODO
         }
 
         $this->paginator->setPage($page);
-
-        $quotes = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $this->paginator->getOffset());
-        if (empty($quotes)) {
-            $this->sendJson(['end' => true]);
-        }
+        $quotes = $this->getQuotes();
 
         $this->setView('loop');
         $this->template->quotations = $quotes;

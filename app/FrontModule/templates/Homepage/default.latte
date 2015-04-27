@@ -1,16 +1,29 @@
 {block footScripts}
     <script>
-        var sl = new ScrollLoad('#content', '#loader-container', 500, 1000, {!$initPage});
+        var sl = new ScrollLoad('#content-load', '#loader-container', '#more-button', '#end-msg', 500, 1000, {!$initPage});
     </script>
 {/block}
 
 {block content}
-
-    {include 'loop.latte'}
+    <div id="content-load">
+        {include 'loop.latte'}
+    </div>
     <div class="row" id="loader-container">
         <div class="col-lg-2 col-md-2 col-sm-12"></div>
         <div class="col-lg-10 col-md-10 col-sm-12 article-content">
             <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+        </div>
+    </div>
+    <div class="row" id="more-button">
+        <div class="col-lg-2 col-md-2 col-sm-12"></div>
+        <div class="col-lg-10 col-md-10 col-sm-12 article-content">
+            <a href="{link Homepage:page $more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+        </div>
+    </div>
+    <div class="row" id="end-msg">
+        <div class="col-lg-2 col-md-2 col-sm-12"></div>
+        <div class="col-lg-10 col-md-10 col-sm-12 article-content">
+            <p>víc už tu není :(</p>
         </div>
     </div>
 {/block}
