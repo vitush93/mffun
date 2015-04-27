@@ -8,7 +8,7 @@ use Nette\Utils\Paginator;
 class HomepagePresenter extends BasePresenter
 {
     const ITEMS_PER_PAGE = 10;
-    const MAX_PAGES_LOAD = 4;
+    const MAX_PAGES_LOAD = 10;
 
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
@@ -16,12 +16,26 @@ class HomepagePresenter extends BasePresenter
     /** @var Paginator */
     private $paginator;
 
+    /** @persistent */
+    public $quotes = 'latest';
+
+    private $tag = NULL;
+    private $teacher = NULL;
+    private $subject = NULL;
+
     protected function startup()
     {
         parent::startup();
 
         $this->paginator = new Paginator();
         $this->paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
+    }
+
+    public function beforeRender()
+    {
+        parent::beforeRender();
+
+        $this->template->section = $this->quotes;
     }
 
     public function renderDefault()
@@ -41,12 +55,28 @@ class HomepagePresenter extends BasePresenter
 
     private function getQuotes()
     {
-        $quotes = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $this->paginator->getOffset());
+        if ($this->tag) {
+            $quotes = $this->quoteRepository->findAllByTag($this->tag, self::ITEMS_PER_PAGE, $this->paginator->getOffset());
+        } else if ($this->teacher) {
+
+        } else if ($this->subject) {
+
+        } else {
+            $quotes = $this->quoteRepository->findAllApproved(self::ITEMS_PER_PAGE, $this->paginator->getOffset(), $this->quotes);
+        }
+
         if (empty($quotes)) {
             $this->sendJson(['nomore' => true]);
         }
 
         return $quotes;
+    }
+
+    public function actionTag($id)
+    {
+        $this->tag = $id;
+        $this->setView('default');
+        $this->template->initPage = 2;
     }
 
     public function actionDefault()

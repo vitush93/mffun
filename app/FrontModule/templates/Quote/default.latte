@@ -25,8 +25,8 @@
                     <p>{$q->getText()}</p>
                     {if $q->getTags()->count() > 0}
                         <div class="item-tags">
-                            <a href="" class="tag">{$q->getTeacher()->getName(true)}</a>
-                            <a href="" class="tag">{$q->getSubject()->getName(true)}</a>
+                            <a href="" class="tag" n:if="$q->teacher">{$q->getTeacher()->getName(true)}</a>
+                            <a href="" class="tag" n:if="$q->subject">{$q->getSubject()->getName(true)}</a>
                             {foreach $q->getTags() as $tag}
                                 <a href="" class="tag">#{$tag->getTag()}</a>
                             {/foreach}

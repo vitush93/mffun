@@ -24,6 +24,12 @@ class QuoteRepository extends Object
     /** @var \Kdyby\Doctrine\EntityDao */
     private $commentDao;
 
+    private $order = [
+        'latest' => 'order by q.approved DESC',
+        'top' => 'order by q.rating DESC, q.approved DESC',
+        'mostcommented' => 'order by c DESC, q.approved DESC'
+    ];
+
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
@@ -175,24 +181,74 @@ class QuoteRepository extends Object
         }
     }
 
+    public function findAllByTag($tag, $limit, $offset)
+    {
+        return $this->em->createQueryBuilder()
+            //->select('q.title, q.text, s.name as subject, t.name as teacher')
+            ->select('q,t,s')
+            ->from('App\Model\Entities\Quote', 'q')
+            ->leftJoin('q.tags', 'tg')
+            ->leftJoin('q.teacher', 't')
+            ->leftJoin('q.subject', 's')
+            ->where("tg.tag = :tag")
+            ->andWhere('q.status = :status')
+            ->groupBy('q.id')
+            ->orderBy('q.approved', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->setParameter('tag', $tag)
+            ->setParameter('status', Quote::STATUS_APPROVED)
+            ->getQuery()->getResult();
+    }
+
+    public function getRandomQuotes($limit)
+    {
+        $ids = $this->em->createQueryBuilder()
+            ->select('q.id')
+            ->from('App\Model\Entities\Quote', 'q')
+            ->where('q.status = :status')
+            ->setParameter('status', Quote::STATUS_APPROVED)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+        $ids = array_map('current', $ids);
+        $ids = array_rand($ids, $limit);
+
+        return $this->em->createQueryBuilder()
+            ->select('q,t,s')
+            ->from('App\Model\Entities\Quote', 'q')
+            ->leftJoin('q.tags', 'tg')
+            ->leftJoin('q.teacher', 't')
+            ->leftJoin('q.subject', 's')
+            ->where('q.id IN (:ids)')
+            ->andWhere('q.status = :status')
+            ->groupBy('q.id')
+            ->setParameter('status', Quote::STATUS_APPROVED)
+            ->setParameter('ids', $ids)
+            ->getQuery()->getResult();
+    }
+
     /**
      * Get all quotations sorted by date descending.
      *
      * @param int $limit LIMIT statement part parameter
      * @param int $offset
+     * @param string $o
      * @return array
      */
-    public function findAllByDateDesc($limit, $offset)
+    public function findAllApproved($limit, $offset, $o)
     {
-        $q = $this->em->createQuery('
-        select q, t, s
+        if($o == 'random') return $this->getRandomQuotes($limit);
+
+        $q = $this->em->createQuery("
+        select q, t, s, count(com.id) as hidden c
         from App\Model\Entities\Quote q
         left join q.teacher t
         left join q.subject s
+        left join q.comments com
         where q.status=:status
         group by q.id
-        order by q.approved DESC
-        ')->setFirstResult($offset)->setMaxResults($limit);
+        {$this->order[$o]}
+        ")->setFirstResult($offset)->setMaxResults($limit);
 
         $q->setParameter('status', Quote::STATUS_APPROVED);
 

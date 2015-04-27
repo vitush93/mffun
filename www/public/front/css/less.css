@@ -7053,9 +7053,15 @@ h6 {
   transition: 0.1s ease-in-out;
 }
 #main .article article.content-item section div.social a + a + a + a {
-  background: #cb2027;
+  background: #7c8ea0;
+  float: right;
 }
-#main .article article.content-item section div.social a + a + a + a:hover {
+#main .article article.content-item section div.social a + a + a + a i {
+  position: relative;
+  top: -1px;
+}
+#main .article article.content-item section div.social a + a + a + a:hover,
+#main .article article.content-item section div.social a + a + a + a.active {
   -webkit-transition: 0.1s;
   -o-transition: 0.1s;
   transition: 0.1s;
@@ -7064,22 +7070,15 @@ h6 {
   -ms-transition: 0.1s ease-in-out;
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
-  background: #df343b;
+  background: #e05866;
 }
-#main .article article.content-item section div.social a + a + a + a:hover:hover {
+#main .article article.content-item section div.social a + a + a + a:hover:hover,
+#main .article article.content-item section div.social a + a + a + a.active:hover {
   -webkit-transition: 0.1s ease-in-out;
   -moz-transition: 0.1s ease-in-out;
   -ms-transition: 0.1s ease-in-out;
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
-}
-#main .article article.content-item section div.social a + a + a + a + a {
-  background: #7c8ea0;
-  float: right;
-}
-#main .article article.content-item section div.social a + a + a + a + a i {
-  position: relative;
-  top: -1px;
 }
 #main .article article.content-item section div.social a + a + a + a + a:hover,
 #main .article article.content-item section div.social a + a + a + a + a.active {
@@ -7091,30 +7090,10 @@ h6 {
   -ms-transition: 0.1s ease-in-out;
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
-  background: #e05866;
+  background: #45B29D;
 }
 #main .article article.content-item section div.social a + a + a + a + a:hover:hover,
 #main .article article.content-item section div.social a + a + a + a + a.active:hover {
-  -webkit-transition: 0.1s ease-in-out;
-  -moz-transition: 0.1s ease-in-out;
-  -ms-transition: 0.1s ease-in-out;
-  -o-transition: 0.1s ease-in-out;
-  transition: 0.1s ease-in-out;
-}
-#main .article article.content-item section div.social a + a + a + a + a + a:hover,
-#main .article article.content-item section div.social a + a + a + a + a + a.active {
-  -webkit-transition: 0.1s;
-  -o-transition: 0.1s;
-  transition: 0.1s;
-  -webkit-transition: 0.1s ease-in-out;
-  -moz-transition: 0.1s ease-in-out;
-  -ms-transition: 0.1s ease-in-out;
-  -o-transition: 0.1s ease-in-out;
-  transition: 0.1s ease-in-out;
-  background: #45B29D;
-}
-#main .article article.content-item section div.social a + a + a + a + a + a:hover:hover,
-#main .article article.content-item section div.social a + a + a + a + a + a.active:hover {
   -webkit-transition: 0.1s ease-in-out;
   -moz-transition: 0.1s ease-in-out;
   -ms-transition: 0.1s ease-in-out;
