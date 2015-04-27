@@ -13,23 +13,50 @@ class HomepagePresenter extends BasePresenter
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
 
+    /** @var Paginator */
+    private $paginator;
+
+    protected function startup()
+    {
+        parent::startup();
+
+        $this->paginator = new Paginator();
+        $this->paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
+    }
+
     public function renderDefault()
     {
         $template = $this->template;
-        $template->quotations = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, 0);
+        $template->quotations = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $this->paginator->getOffset());
+    }
+
+    public function actionDefault()
+    {
+        $this->paginator->setPage(1);
+        $this->template->initPage = 2;
+    }
+
+    public function actionPage($id)
+    {
+        $id = (int)$id;
+
+        $this->setView('default');
+        $this->paginator->setPage($id);
+        $template = $this->template;
+        $template->initPage = $id + 1;
     }
 
     public function handleLoad($page)
     {
+        $page = (int)$page;
+
         if ($page == self::MAX_PAGES_LOAD) {
             $this->sendJson(['more' => true]); // TODO
         }
 
-        $paginator = new Paginator();
-        $paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
-        $paginator->setPage($page);
+        $this->paginator->setPage($page);
 
-        $quotes = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $paginator->getOffset());
+        $quotes = $this->quoteRepository->findAllByDateDesc(self::ITEMS_PER_PAGE, $this->paginator->getOffset());
         if (empty($quotes)) {
             $this->sendJson(['end' => true]);
         }
