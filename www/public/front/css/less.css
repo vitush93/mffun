@@ -8773,3 +8773,13 @@ ul.ui-autocomplete {
   cursor: default;
   display: none;
 }
+#page-title {
+  font-size: 50px;
+  color: #9d9d9d;
+  padding-bottom: 40px;
+}
+@media (max-width: 767px) {
+  #page-title {
+    font-size: 30px;
+  }
+}

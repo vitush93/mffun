@@ -37,6 +37,22 @@ class QuoteRepository extends Object
         $this->commentDao = $entityManager->getDao(Comment::getClassName());
     }
 
+    public function getMinTag()
+    {
+        return $this->em->createQueryBuilder()
+            ->select('min(size(t.quotations)) as mm')
+            ->from('App\Model\Entities\Tag', 't')
+            ->getQuery()->getScalarResult();
+    }
+
+    public function getMaxTag()
+    {
+        return $this->em->createQueryBuilder()
+            ->select('max(size(t.quotations)) as mx')
+            ->from('App\Model\Entities\Tag', 't')
+            ->getQuery()->getScalarResult();
+    }
+
     /**
      * @return array
      */
@@ -171,20 +187,17 @@ class QuoteRepository extends Object
             if (array_key_exists($tag, $ex)) {
                 $t = $ex[$tag];
             } else {
-                $t = new Tag();
-                $t->setTag($tag);
+                $t = new Tag($tag);
                 $this->em->persist($t);
             }
 
             $t->assignToQuote($quote);
-            $quote->addTag($t);
         }
     }
 
     public function findAllByTag($tag, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
-            //->select('q.title, q.text, s.name as subject, t.name as teacher')
             ->select('q,t,s')
             ->from('App\Model\Entities\Quote', 'q')
             ->leftJoin('q.tags', 'tg')

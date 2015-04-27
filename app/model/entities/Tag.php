@@ -32,8 +32,12 @@ class Tag extends BaseEntity
      */
     private $tag;
 
-    public function __construct()
+    /**
+     * @param string $tag
+     */
+    public function __construct($tag)
     {
+        $this->setTag($tag);
         $this->quotations = new ArrayCollection();
     }
 
@@ -43,6 +47,7 @@ class Tag extends BaseEntity
     public function assignToQuote($quote)
     {
         $this->quotations[] = $quote;
+        $quote->addTag($this);
     }
 
     /**

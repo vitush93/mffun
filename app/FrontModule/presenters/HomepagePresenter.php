@@ -72,11 +72,18 @@ class HomepagePresenter extends BasePresenter
         return $quotes;
     }
 
-    public function actionTag($id)
+    public function actionTag($id, $page)
     {
         $this->tag = $id;
         $this->setView('default');
-        $this->template->initPage = 2;
+        if ($page) {
+            $page = (int)$page;
+            $this->paginator->setPage($page);
+            $this->template->initPage = $page + 1;
+        } else {
+            $this->template->initPage = 2;
+        }
+        $this->template->tag = $id;
     }
 
     public function actionDefault()

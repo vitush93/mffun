@@ -29,6 +29,8 @@ class BasePresenter extends Presenter
 
         $template = $this->template;
         $template->tags = $this->quoteRepository->getTagCloud();
+        $template->minTag = $this->quoteRepository->getMinTag()[0]['mm'];
+        $template->maxTag = $this->quoteRepository->getMaxTag()[0]['mx'];
     }
 
     /**

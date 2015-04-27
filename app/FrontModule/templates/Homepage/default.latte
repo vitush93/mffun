@@ -5,24 +5,38 @@
 {/block}
 
 {block content}
+    {if isset($tag)}
+        <div class="row">
+            <div class="col-lg-2 visible-lg"></div>
+            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                <h1 id="page-title">#{$tag}</h1>
+            </div>
+        </div>
+
+    {/if}
+
     <div id="content-load">
         {include 'loop.latte'}
     </div>
     <div class="row" id="loader-container">
-        <div class="col-lg-2 col-md-2 col-sm-12"></div>
-        <div class="col-lg-10 col-md-10 col-sm-12 article-content">
+        <div class="col-lg-2 visible-lg"></div>
+        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
             <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
         </div>
     </div>
     <div class="row" id="more-button">
-        <div class="col-lg-2 col-md-2 col-sm-12"></div>
-        <div class="col-lg-10 col-md-10 col-sm-12 article-content">
-            <a href="{link Homepage:page $more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+        <div class="col-lg-2 visible-lg"></div>
+        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+            {if isset($tag)}
+                <a href="{link Homepage:tag $tag, page=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+            {else}
+                <a href="{link Homepage:page $more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+            {/if}
         </div>
     </div>
     <div class="row" id="end-msg">
-        <div class="col-lg-2 col-md-2 col-sm-12"></div>
-        <div class="col-lg-10 col-md-10 col-sm-12 article-content">
+        <div class="col-lg-2 visible-lg"></div>
+        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
             <p>víc už tu není :(</p>
         </div>
     </div>
