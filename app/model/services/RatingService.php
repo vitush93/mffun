@@ -27,7 +27,7 @@ class RatingService extends Object
         /** @var QuoteRating $rating */
         $rating = $this->em->getRepository(QuoteRating::class)->findOneBy(['user' => $user, 'quote' => $quote]);
         if ($rating) {
-            $positive ? $rating->setPositive() : $rating->setNegative();
+            $this->em->remove($rating);
         } else {
             $rating = new QuoteRating($user, $quote);
             $positive ? $rating->setPositive() : $rating->setNegative();
@@ -43,6 +43,11 @@ class RatingService extends Object
      */
     public function updateQuoteRating(Quote $quote)
     {
+        if ($quote->getRatings()->count() == 0) {
+            $quote->setRating(0);
+            return;
+        }
+
         $sum = 0;
         foreach ($quote->getRatings() as $r) {
             $sum += $r->getValue();

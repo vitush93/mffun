@@ -11,7 +11,6 @@ var QuoteRating = function (rating, up, down, callback) {
     this.callback = callback;
     this.up = up;
     this.down = down;
-    this.lock = []; // prevent ajax request spam
 
     this.init();
 };
@@ -26,14 +25,6 @@ QuoteRating.prototype = {
      * @param rate up/down
      */
     rate: function (qid, rate) {
-        if (this.lock[qid] !== null) { // rating is locked
-            if (this.lock[qid] != rate) { // user changed his mind?
-                this.lock[qid] = null;
-            } else { // user is clicking same button multiple times
-                return;
-            }
-        }
-
         var context = this;
 
         $.ajax({
@@ -42,7 +33,6 @@ QuoteRating.prototype = {
             data: 'rateQuote-qid=' + qid + '&do=rateQuote-' + rate
         }).done(function (data) {
             context.callback(data);
-            context.lock[qid] = rate;
         });
     },
 
@@ -53,8 +43,12 @@ QuoteRating.prototype = {
      */
     activeToggle: function ($elem) {
         var qid = $elem.data('qid');
-        $('a[data-qid=' + qid + ']').removeClass('active');
-        $elem.toggleClass('active');
+        if ($elem.hasClass('active')) {
+            $elem.removeClass('active');
+        } else {
+            $('a[data-qid=' + qid + ']').removeClass('active');
+            $elem.addClass('active');
+        }
     },
 
     /**

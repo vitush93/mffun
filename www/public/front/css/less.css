@@ -8771,3 +8771,18 @@ ul.ui-autocomplete {
   padding-bottom: 113px;
   position: relative;
 }
+#more-button {
+  display: none;
+}
+#more-button a {
+  background: #3498db;
+  border-radius: 3px;
+  border: 1px solid #2084c7;
+}
+#end-msg {
+  text-align: center;
+  font-size: 36px;
+  color: #c5c5c5;
+  cursor: default;
+  display: none;
+}

@@ -37236,23 +37236,25 @@ function searchBoxControl() {
 $('#top-nav').autoHidingNavbar({
     hideOffset: 100
 });
-var ScrollLoad = function (container, loader, bottomOffset, interval, initialPage) {
+var ScrollLoad = function (container, loader, moreButton, endmsg, bottomOffset, interval, initialPage) {
     this.lock = false;
     this.bottomOffset = bottomOffset;
     this.currentPage = initialPage;
     this.interval = interval;
     this.container = container;
     this.loader = loader;
-
+    this.moreButton = moreButton;
+    this.endmsg = endmsg;
     this.init();
 };
 
 ScrollLoad.prototype = {
 
     load: function (page) {
-        console.log('loading page ' + page + '..');
         var $loader = $(this.loader);
+        var $more = $(this.moreButton);
         var $container = $(this.container);
+        var $endmsg = $(this.endmsg);
         var context = this;
         $.ajax({
             type: 'GET',
@@ -37260,9 +37262,18 @@ ScrollLoad.prototype = {
             data: 'do=load&page=' + page
         }).done(function (data) {
             $container.append(data);
-
-            context.lock = false;
-            context.currentPage++;
+            if (data.more) {
+                $loader.hide();
+                $more.show();
+                context.lock = true;
+            } else if (data.nomore) {
+                $loader.hide();
+                $endmsg.show();
+                context.lock = true;
+            } else {
+                context.lock = false;
+                context.currentPage++;
+            }
         });
     },
 
@@ -37291,7 +37302,6 @@ var QuoteRating = function (rating, up, down, callback) {
     this.callback = callback;
     this.up = up;
     this.down = down;
-    this.lock = []; // prevent ajax request spam
 
     this.init();
 };
@@ -37306,14 +37316,6 @@ QuoteRating.prototype = {
      * @param rate up/down
      */
     rate: function (qid, rate) {
-        if (this.lock[qid] !== null) { // rating is locked
-            if (this.lock[qid] != rate) { // user changed his mind?
-                this.lock[qid] = null;
-            } else { // user is clicking same button multiple times
-                return;
-            }
-        }
-
         var context = this;
 
         $.ajax({
@@ -37322,7 +37324,6 @@ QuoteRating.prototype = {
             data: 'rateQuote-qid=' + qid + '&do=rateQuote-' + rate
         }).done(function (data) {
             context.callback(data);
-            context.lock[qid] = rate;
         });
     },
 
@@ -37333,8 +37334,12 @@ QuoteRating.prototype = {
      */
     activeToggle: function ($elem) {
         var qid = $elem.data('qid');
-        $('a[data-qid=' + qid + ']').removeClass('active');
-        $elem.toggleClass('active');
+        if ($elem.hasClass('active')) {
+            $elem.removeClass('active');
+        } else {
+            $('a[data-qid=' + qid + ']').removeClass('active');
+            $elem.addClass('active');
+        }
     },
 
     /**

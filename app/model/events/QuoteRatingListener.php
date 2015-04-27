@@ -33,4 +33,12 @@ class QuoteRatingListener
     {
         $this->ratingService->updateQuoteRating($quoteRating->getQuote());
     }
+
+    public function preRemove(QuoteRating $quoteRating, LifecycleEventArgs $args)
+    {
+        $quote = $quoteRating->getQuote();
+        $quote->getRatings()->removeElement($quoteRating);
+
+        $this->ratingService->updateQuoteRating($quote);
+    }
 }
