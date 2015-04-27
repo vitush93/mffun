@@ -35,25 +35,15 @@
 
 {control addQuoteControl}
 
-<nav id="mobile-menu" class="hidden-lg hidden-md hidden-sm">
-    <div class="container">
-        <a href="" id="mobile-add"  data-toggle="modal" data-target="#add-quote-modal"><i class="fa fa-plus"></i></a>
-        <a href="{link Homepage:default}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
-        <a href="" id="toggle-button">
+<nav role="navigation" id="top-nav">
+    <div class="container" id="nav-container">
+        <a href="" id="toggle-button" class="visible-xs">
             <span></span>
             <span></span>
             <span></span>
         </a>
-
-        <div class="row">
-
-        </div>
-    </div>
-</nav>
-<nav role="navigation" id="top-nav" class="hidden-xs">
-    <div class="container" id="nav-container">
         <a href="{link Homepage:default}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
-        <ul>
+        <ul id="top-menu">
             <li><a href="{link Homepage:default}" {ifCurrent Homepage:Default}class="active"{/ifCurrent}><i class="fa fa-lightbulb-o fa-fw"></i> <span
                             class="hidden-md hidden-sm">nejnovější</span></a></li>
             <li><a href="{link Homepage:toprated}"><i class="fa fa-trophy fa-fw"></i> <span class="hidden-md hidden-sm">top</span></a>
@@ -62,11 +52,26 @@
             </li>
             <li><a href="{link Homepage:random}"><i class="fa fa-random fa-fw"></i> <span class="hidden-md hidden-sm">náhodné</span></a>
             </li>
+            <li id="mobile-login" class="visible-xs">
+                {if $user->isLoggedIn()}
+                    <a href=""><i class="fa fa-user fa-fw"></i> Můj účet</a>
+                    <a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
+                {else}
+                    {form loginForm}
+                        <p>{label username /}</p>
+                        <p>{input username class =>'form-input'}</p>
+                        <p>{label password /}</p>
+                        <p>{input password class => 'form-input'}</p>
+                        <p>{input process class => 'btn btn-block btn-primary mobile-login-button'}</p>
+                    {/form}
+                {/if}
+            </li>
         </ul>
-        <div>
-            <a href="" id="add-quote-button" data-toggle="modal" data-target="#add-quote-modal">přidat citát</a>
-        </div>
-        <ul id="user-cp">
+        <a href="" id="add-quote-button" data-toggle="modal" data-target="#add-quote-modal">
+            <i class="fa fa-plus visible-xs"></i>
+            <span class="hidden-xs">přidat citát</span>
+        </a>
+        <ul id="user-cp" class="hidden-xs">
             <li>
                 <a href="" id="user-controls-toggle">
                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
@@ -113,7 +118,7 @@
                 </div>
             </li>
         </ul>
-        <div id="page-search">
+        <div id="page-search" class="hidden-xs">
             <a href="" id="page-search-button"><i class="fa fa-search fa-fw"></i></a>
 
             <form>

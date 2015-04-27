@@ -8,8 +8,8 @@ class LoginForm extends Form
 {
     public function __construct()
     {
-        $this->addText('username', '');
-        $this->addPassword('password', '');
+        $this->addText('username', 'login');
+        $this->addPassword('password', 'heslo');
         $this->addCheckbox('remember', '')->setDefaultValue(true);
         $this->addSubmit('process', 'přihlásit');
     }

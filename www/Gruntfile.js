@@ -2,7 +2,6 @@
 var styleSheets = [
     'bower_components/jquery-ui/themes/smoothness/jquery-ui.css',
     'bower_components/jquery-ui/themes/smoothness/theme.css',
-    'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/font-awesome/css/font-awesome.css',
     'dev/css/reset.css',
     'public/front/css/less.css'

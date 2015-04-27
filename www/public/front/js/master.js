@@ -37152,6 +37152,29 @@ $('#user-controls-toggle').on('click', function (e) {
     userCpControl();
 });
 
+$('body').on('click', '#toggle-button', function (e) {
+    e.preventDefault();
+    var topMenu = $('#top-menu');
+    if ($(this).hasClass('active')) {
+        $('#top-nav').attr('style', 'top:0px');
+        topMenu.hide();
+        topMenu.height(54);
+        $(this).removeClass('active');
+    } else {
+        $('#top-nav').attr('style', 'top: 0px !important');
+        topMenu.show();
+        topMenu.height($(window).height() - 54);
+        $(this).addClass('active');
+    }
+});
+$('body').on('click', '#optional-toggle', function () {
+    if ($(this).hasClass('active')) {
+        $('#optional-content').hide();
+    } else {
+        $('#optional-content').show();
+    }
+    $(this).toggleClass('active');
+});
 
 $('html').on('click', function (e) {
     var target = $(e.target);
@@ -37199,7 +37222,7 @@ function searchBoxControl() {
         });
     } else {
         box.animate({
-            width: box.offset().left - $('#nav-container').offset().left - 15 - $('#logo').outerWidth() - 30 + 2,
+            width: box.offset().left - $('#nav-container').offset().left - $('#logo').outerWidth() - 15,
             paddingLeft: 15,
             paddingRight: 15
         }, 100, function () {

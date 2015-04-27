@@ -158,11 +158,10 @@ class AddQuoteControl extends Control
         $form->addText('teacher', 'Vyučující');
         $form->addText('tags', 'Tagy')
             ->setAttribute('placeholder', 'analýza, kolej, karlín');
-        if (!$this->presenter->user->isLoggedIn()) {
-            $form->addText('user_email', 'Tvůj e-mail')
-                ->addCondition(Form::FILLED)
-                ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
-        }
+        $form->addText('user_email', 'Tvůj e-mail')
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
+
 
         foreach ($form->getControls() as $control) {
             $control->getControlPrototype()->class('form-input');

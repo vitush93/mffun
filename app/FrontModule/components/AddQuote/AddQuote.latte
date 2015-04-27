@@ -10,12 +10,51 @@
                     <legend>přidat citát</legend>
                     <p n:if="!$user->isLoggedIn()" class="notice">Nejsi přihlášen - citace bude nejprve zaslána ke
                         schválení.</p>
+
+
+                    <div class="required">
+                        {label title /}
+                        {input title}
+                    </div>
+                    <div class="required">
+                        {label text /}
+                        {input text}
+                    </div>
+
+                    <span id="optional-toggle">metadata <i class="fa fa-caret-down"></i></span>
+
+                    <div id="optional-content">
+                        <div>
+                            {label subject /}
+                            {input subject}
+                        </div>
+                        <div>
+                            {label teacher /}
+                            {input teacher}
+                        </div>
+                        <div>
+                            {label tags /}
+                            {input tags}
+                        </div>
+                        {if !$presenter->user->isLoggedIn()}
+                            <div>
+                                {label user_email /}
+                                {input user_email}
+                            </div>
+                        {/if}
+                    </div>
+                    <div>
+                        {input process}
+                    </div>
+
+                    {*
                     {foreach $form->getControls() as $control}
                         <div n:class="$control->isRequired() ? required">
                             {label $control /}
                             {input $control}
                         </div>
                     {/foreach}
+                    *}
                 </fieldset>
             {/form}
         </div>
