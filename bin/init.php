@@ -24,19 +24,3 @@ buildDir('../log');
 buildDir('../www/upload');
 buildDir('../www/temp');
 
-// add dummy user
-$container = require __DIR__ . '/../app/bootstrap.php';
-
-$dummy_user = new \App\Model\Entities\User();
-$dummy_user->setUsername('unknown');
-$dummy_user->setPassword('123');
-$dummy_user->setRole('user');
-$dummy_user->setEmail('unk@unk.com');
-$dummy_user->setActive(false);
-$dummy_user->setCrank(0);
-
-$em = $container->getByType('Kdyby\Doctrine\EntityManager');
-
-$em->persist($dummy_user);
-$em->flush();
-

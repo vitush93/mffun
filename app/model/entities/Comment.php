@@ -60,13 +60,13 @@ class Comment extends BaseEntity
      * @ORM\Column(type="integer")
      * @var integer
      */
-    private $rating_up = 0;
+    private $ratingUp = 0;
 
     /**
      * @ORM\Column(type="integer")
      * @var integer
      */
-    private $rating_down = 0;
+    private $ratingDown = 0;
 
     public function __construct()
     {
@@ -173,11 +173,11 @@ class Comment extends BaseEntity
     }
 
     /**
-     * @param int $rating_down
+     * @param int $ratingDown
      */
-    public function setRatingDown($rating_down)
+    public function setRatingDown($ratingDown)
     {
-        $this->rating_down = $rating_down;
+        $this->ratingDown = $ratingDown;
     }
 
     /**
@@ -185,15 +185,15 @@ class Comment extends BaseEntity
      */
     public function getRatingDown()
     {
-        return $this->rating_down;
+        return $this->ratingDown;
     }
 
     /**
-     * @param int $rating_up
+     * @param int $ratingUp
      */
-    public function setRatingUp($rating_up)
+    public function setRatingUp($ratingUp)
     {
-        $this->rating_up = $rating_up;
+        $this->ratingUp = $ratingUp;
     }
 
     /**
@@ -201,7 +201,7 @@ class Comment extends BaseEntity
      */
     public function getRatingUp()
     {
-        return $this->rating_up;
+        return $this->ratingUp;
     }
 
 

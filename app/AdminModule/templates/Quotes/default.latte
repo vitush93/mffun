@@ -50,7 +50,7 @@
                             <td>{$q->posted|date:'j.n.Y H:i'}</td>
                             <td>{$q->text}</td>
                             <td>
-                                {if $q->user->username === 'unknown'} anonym {else}
+                                {if !$q->user} anonym {else}
                                     {$q->user->username} ({$q->user->crank})
                                 {/if}
                             </td>

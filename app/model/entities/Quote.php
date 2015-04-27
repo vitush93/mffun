@@ -57,7 +57,7 @@ class Quote extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="quote")
-     * @ORM\OrderBy({"rating_up" = "DESC"})
+     * @ORM\OrderBy({"ratingUp" = "DESC"})
      * @var ArrayCollection
      */
     private $comments;
@@ -191,7 +191,9 @@ class Quote extends BaseEntity
     public function approve()
     {
         $this->approveNoRankUp();
-        $this->user->increaseCrank();
+        if ($this->user) {
+            $this->user->increaseCrank();
+        }
     }
 
     /**
@@ -223,7 +225,9 @@ class Quote extends BaseEntity
     {
         $this->approved = NULL;
         $this->setStatus(self::STATUS_DENIED);
-        $this->user->decreaseCrank();
+        if ($this->user) {
+            $this->user->decreaseCrank();
+        }
     }
 
     /**
@@ -323,9 +327,23 @@ class Quote extends BaseEntity
     }
 
     /**
-     * Returns collection of top level comments (parent = 0).
+     * Returns collection of top level comments with at least 1 positive rating.
      *
      * @return \Doctrine\Common\Collections\Collection|static
+     */
+    public function getBestComments()
+    {
+        return $this->getTopLevelComments()->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->gt('ratingUp', 0))
+                ->orderBy(['ratingUp' => 'DESC'])
+        );
+    }
+
+    /**
+     * Returns collection of top level comments (parent = 0).
+     *
+     * @return ArrayCollection
      */
     public function getTopLevelComments()
     {
@@ -385,11 +403,13 @@ class Quote extends BaseEntity
     }
 
     /**
-     * @param User $user
+     * @param User|null $user
      */
     public function setUser($user)
     {
-        $user->addQuote($this);
+        if ($user != null) {
+            $user->addQuote($this);
+        }
         $this->user = $user;
     }
 

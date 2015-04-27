@@ -37236,10 +37236,10 @@ function searchBoxControl() {
 $('#top-nav').autoHidingNavbar({
     hideOffset: 100
 });
-var ScrollLoad = function (container, loader, bottomOffset, interval) {
+var ScrollLoad = function (container, loader, bottomOffset, interval, initialPage) {
     this.lock = false;
     this.bottomOffset = bottomOffset;
-    this.currentPage = 2;
+    this.currentPage = initialPage;
     this.interval = interval;
     this.container = container;
     this.loader = loader;

@@ -80,7 +80,7 @@ class AddQuoteControl extends Control
             $author = $this->userDao->find($this->presenter->getUser()->getId());
             $user_email = $author->getEmail();
         } else {
-            $author = $this->userDao->findOneBy(array('username' => 'unknown'));
+            $author = NULL;
             $user_email = $data['user_email'];
         }
         $quote->setUser($author);

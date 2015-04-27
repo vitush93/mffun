@@ -39,7 +39,7 @@ class QuoteListener
      */
     private function autoApprove(Quote $quote)
     {
-        if ($quote->getUser()->getUsername() === 'unknown') return;
+        if (!$quote->getUser()) return; // anonymous user (null value)
 
         if ($quote->getUser()->getRole() == User::ROLE_ADMIN || $quote->getUser()->getRole() == User::ROLE_MODERATOR) {
             $quote->approveNoRankUp();
