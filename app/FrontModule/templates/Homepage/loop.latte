@@ -19,7 +19,7 @@
                     </h2>
                         <span>
                             <a href="{link Quote:default $q->getId()}"><span
-                                        id="q-rating-{$q->id}">{$q->getRating()}</span> bodů</a> &nbsp;·&nbsp; <a
+                                        id="q-rating-{$q->id}">{$q->getRating()|number:0:'':' '}</span> bodů</a> &nbsp;·&nbsp; <a
                                     href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
                                 komentářů</a></span>
 
