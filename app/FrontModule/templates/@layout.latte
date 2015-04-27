@@ -42,7 +42,7 @@
             <span></span>
             <span></span>
         </a>
-        <a href="{link Homepage:default}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <a href="{link Homepage:default, quotes=>'latest'}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
         <ul id="top-menu">
             <li>
                 <a href="{link Homepage:default, quotes=>'latest'}"
@@ -137,7 +137,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-9 col-sm-9 clearfix">
-                {* TODO socialbar
                 <div id="bar-social">
                     <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/"
                          data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
@@ -169,48 +168,10 @@
                         }(document, "script", "twitter-wjs");
                     </script>
                 </div>
-                *}
-                {* {if $presenter->name == 'Front:Homepage'}<a href="" id="filter-button"><i class="fa fa-cogs fa-fw"></i></a>{/if} *}
             </div>
             <div class="col-lg-4 col-md-3 col-sm-3 clearfix">
-                {* TODO feature removal
-                <div id="filter-buttons" class="clearfix">
-                    <a href="" class="button red" id="checkbox-reset">Resetovat</a>
-                    <a href="" class="button blue">Uložit</a>
-                </div>
-                *}
             </div>
         </div>
-        {* TODO feature removal
-        {if $presenter->name == 'Front:Homepage'}
-            <div class="row" id="filter-container">
-                <div class="col-lg-12" id="filter">
-                    <div class="row">
-                        <h2>Učitelé</h2>
-
-                        {foreach $teachers as $t}
-                            <p class="col-lg-3">
-                                <input type="checkbox" id="ucitel-{$t->id}" class="filter-checkbox">
-                                <label for="ucitel-{$t->id}">{$t->name}</label>
-                            </p>
-                        {/foreach}
-
-                    </div>
-                    <div class="row">
-                        <h2>Předměty</h2>
-
-                        {foreach $subjects as $s}
-                            <p class="col-lg-3">
-                                <input type="checkbox" id="ucitel-{$s->id}" class="filter-checkbox">
-                                <label for="ucitel-{$s->id}">{$s->name}</label>
-                            </p>
-                        {/foreach}
-
-                    </div>
-                </div>
-            </div>
-        {/if}
-        *}
     </div>
 </div>
 <div class="container" id="main">
@@ -233,7 +194,7 @@
                 {if $presenter->name == 'Front:Homepage'}
                 <div class="tag-cloud">
                     {foreach $tags as $t}
-                        <a href="" style="font-size:16px">#{$t[0]->getTag()}</a>
+                        <a href="{link Homepage:tag $t[0]->tag}" style="font-size:16px">#{$t[0]->getTag()}</a>
                     {/foreach}
                 </div>
                 {/if}

@@ -28,7 +28,7 @@
                             <a href="" class="tag" n:if="$q->teacher">{$q->getTeacher()->getName(true)}</a>
                             <a href="" class="tag" n:if="$q->subject">{$q->getSubject()->getName(true)}</a>
                             {foreach $q->getTags() as $tag}
-                                <a href="" class="tag">#{$tag->getTag()}</a>
+                                <a href="{link Homepage:tag $tag->tag}" class="tag">#{$tag->getTag()}</a>
                             {/foreach}
                         </div>
                     {/if}
