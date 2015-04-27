@@ -70,7 +70,7 @@ class HomepagePresenter extends BasePresenter
         $page = (int)$page;
 
         if ($page > $this->getMore()) {
-            $this->sendJson(['more' => true]); // TODO
+            $this->sendJson(['more' => true]);
         }
 
         $this->paginator->setPage($page);

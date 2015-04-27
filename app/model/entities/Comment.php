@@ -79,7 +79,7 @@ class Comment extends BaseEntity
      */
     public function addRating($commentRating)
     {
-        $this->ratings[] = $commentRating;
+        $this->ratings->add($commentRating);
     }
 
     /**

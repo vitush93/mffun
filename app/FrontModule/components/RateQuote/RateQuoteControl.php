@@ -6,7 +6,6 @@ use App\Model\Entities\Quote;
 use App\Model\Entities\QuoteRating;
 use App\Model\Entities\User;
 use App\Model\Services\RatingService;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 
@@ -46,21 +45,16 @@ class RateQuoteControl extends Control
         /** @var User $user */
         $user = $this->em->find(User::class, $this->presenter->user->id);
 
-        $this->ratingService->rate($quote, $user, true);
+        $this->ratingService->rateQuote($quote, $user, true);
+        $this->em->flush();
 
-        try {
-            $this->em->flush();
-
-            $this->presenter->sendJson(
-                [
-                    'qid' => $qid,
-                    'rate' => 'up',
-                    'rating' => $quote->getRating(),
-                ]
-            );
-        } catch (UniqueConstraintViolationException $e) {
-            $this->presenter->sendJson([]);
-        }
+        $this->presenter->sendJson(
+            [
+                'qid' => $qid,
+                'rate' => 'up',
+                'rating' => $quote->getRating(),
+            ]
+        );
     }
 
     public function handleDown($qid)
@@ -73,21 +67,16 @@ class RateQuoteControl extends Control
         /** @var User $user */
         $user = $this->em->find(User::class, $this->presenter->user->id);
 
-        $this->ratingService->rate($quote, $user, false);
+        $this->ratingService->rateQuote($quote, $user, false);
+        $this->em->flush();
 
-        try {
-            $this->em->flush();
-
-            $this->presenter->sendJson(
-                [
-                    'qid' => $qid,
-                    'rate' => 'down',
-                    'rating' => $quote->getRating(),
-                ]
-            );
-        } catch (UniqueConstraintViolationException $e) {
-            $this->presenter->sendJson([]);
-        }
+        $this->presenter->sendJson(
+            [
+                'qid' => $qid,
+                'rate' => 'down',
+                'rating' => $quote->getRating(),
+            ]
+        );
     }
 
     public function render($q)

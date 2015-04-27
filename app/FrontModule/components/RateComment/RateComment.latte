@@ -1,9 +1,11 @@
-<a href="" class="rate up" data-cid="{$cid}" data-rate="up">
-    <i class="fa fa-thumbs-up"></i>
-    {$up}
+<a href="" class="rate up {if !$presenter->user->isLoggedIn()}disabled{/if} {if $ratedUp}active{/if}" data-cid="{$cid}"
+   data-rate="up">
+    <i class="fa fa-thumbs-up" {if !$presenter->user->isLoggedIn()}title="pro hodnocení se musíš přihlásit"{/if}></i>
+    <span id="c-ups-{$cid}">{$up}</span>
 </a>
 
-<a href="" class="rate down" data-cid="{$cid}" data-rate="down">
-    <i class="fa fa-thumbs-down"></i>
-    {-1*$down}
+<a href="" class="rate down {if !$presenter->user->isLoggedIn()}disabled{/if} {if $ratedDown}active{/if}"
+   data-cid="{$cid}" data-rate="down">
+    <i class="fa fa-thumbs-down" {if !$presenter->user->isLoggedIn()}title="pro hodnocení se musíš přihlásit"{/if}></i>
+    <span id="c-downs-{$cid}">{$down}</span>
 </a>

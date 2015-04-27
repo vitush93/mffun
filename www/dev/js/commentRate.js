@@ -1,7 +1,6 @@
 var CommentRate = function (up, down, callback) {
     this.up = up;
     this.down = down;
-    this.lock = [];
     this.callback = callback;
 
     this.init();
@@ -16,9 +15,12 @@ CommentRate.prototype = {
      */
     activeToggle: function ($el) {
         var cid = $el.data('cid');
-        $('a[data-cid=' + cid + "]").removeClass('active');
-        $el.toggleClass('active');
-
+        if ($el.hasClass('active')) {
+            $el.removeClass('active');
+        } else {
+            $('a[data-cid=' + cid + "]").removeClass('active');
+            $el.addClass('active');
+        }
     },
 
     /**
@@ -44,14 +46,6 @@ CommentRate.prototype = {
      * @param rate
      */
     rate: function (cid, rate) {
-        if (this.lock[cid] !== null) { // rating is locked
-            if (this.lock[cid] != rate) { // user changed his mind?
-                this.lock[cid] = null;
-            } else { // user is clicking same button multiple times
-                return;
-            }
-        }
-
         var context = this;
         $.ajax({
             method: 'GET',
@@ -59,7 +53,6 @@ CommentRate.prototype = {
             data: 'rateComment-cid=' + cid + '&do=rateComment-' + rate
         }).done(function (data) {
             context.callback(data);
-            context.lock[cid] = rate;
         });
     },
 
@@ -73,5 +66,6 @@ CommentRate.prototype = {
 };
 
 var cr = new CommentRate('.rate.up', '.rate.down', function (data) {
-    console.log(data);
+    $('#c-ups-' + data.cid).html(data.ups);
+    $('#c-downs-' + data.cid).html(data.downs);
 });

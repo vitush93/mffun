@@ -11,6 +11,7 @@ services:
     # entity listeners
     - App\Model\Events\QuoteListener
     - App\Model\Events\QuoteRatingListener
+    - App\Model\Events\CommentRatingListener
 
     # factories
     - App\RouterFactory

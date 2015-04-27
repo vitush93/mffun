@@ -29,11 +29,6 @@ class QuoteRatingListener
         $this->ratingService->updateQuoteRating($quoteRating->getQuote());
     }
 
-    public function postUpdate(QuoteRating $quoteRating, LifecycleEventArgs $args)
-    {
-        $this->ratingService->updateQuoteRating($quoteRating->getQuote());
-    }
-
     public function preRemove(QuoteRating $quoteRating, LifecycleEventArgs $args)
     {
         $quote = $quoteRating->getQuote();

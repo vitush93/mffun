@@ -49,10 +49,8 @@ var tagAutocomplete = {
                     var term = extractLast(request.term);
 
                     if (selected.indexOf(term) > -1) {
-                        console.log("not found");
                         response({});
                     } else {
-                        console.log("found");
                         selected.push(term);
                         var results = $.ui.autocomplete.filter(data, term);
 

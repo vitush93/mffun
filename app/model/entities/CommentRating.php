@@ -10,7 +10,8 @@ use Nette\Utils\DateTime;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"comment_id", "user_id"})})
+ * @ORM\EntityListeners({"App\Model\Events\CommentRatingListener"})
  */
 class CommentRating extends BaseEntity
 {
@@ -51,8 +52,14 @@ class CommentRating extends BaseEntity
      */
     private $value;
 
-    public function __construct()
+    /**
+     * @param User $user
+     * @param Comment $comment
+     */
+    public function __construct(User $user, Comment $comment)
     {
+        $this->setUser($user);
+        $this->setComment($comment);
         $this->rated = new \DateTime();
     }
 
@@ -124,6 +131,15 @@ class CommentRating extends BaseEntity
         $this->value = CommentRating::NEGATIVE;
     }
 
+    public function isNegative()
+    {
+        return ($this->value == CommentRating::NEGATIVE);
+    }
+
+    public function isPositive()
+    {
+        return ($this->value == CommentRating::POSITIVE);
+    }
 
     /**
      * @param $value
@@ -143,39 +159,6 @@ class CommentRating extends BaseEntity
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function updateCommentRatingUpPrePersist()
-    {
-        $rating = $this->calculateRating(CommentRating::POSITIVE);
-        $this->comment->setRatingUp($rating);
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function updateCommentRatingDownPrePersist()
-    {
-        $rating = $this->calculateRating(CommentRating::NEGATIVE);
-        $this->comment->setRatingDown($rating);
-    }
-
-    /**
-     * @param int $value
-     * @return int
-     */
-    private function calculateRating($value)
-    {
-        $sum = 0;
-        foreach ($this->comment->getRatings() as $r) {
-            if ($r->getValue() === $value) {
-                $sum += $r->getValue();
-            }
-        }
-        return $sum;
     }
 
 
