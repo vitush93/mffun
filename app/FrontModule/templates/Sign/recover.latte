@@ -4,10 +4,19 @@
             <div class="col-lg-10 col-md-12 col-sm-12 article-content">
                 <section>
                     <h1>Obnovení zapomenutého hesla</h1>
-
-                    <p class="notice">Na uvedenou e-mailovou adresu vám bude zaslán odkaz pro obnovení hesla.</p>
-
-                    {control recoverForm}
+                    {if isset($step3)}
+                        <br>
+                        {control recoveryForm}
+                    {else}
+                        {if isset($step2)}
+                            <p class="notice">Na uvedenou e-mailovou adresu ti byl zaslán odkaz pro obnovení hesla.</p>
+                            <a href="{link Homepage:default}" class="button blue"
+                               style="max-width: 100px;">pokračovat</a>
+                        {else}
+                            <p class="notice">Na uvedenou e-mailovou adresu ti bude zaslán odkaz pro obnovení hesla.</p>
+                            {control recoverForm}
+                        {/if}
+                    {/if}
                 </section>
             </div>
         </article>

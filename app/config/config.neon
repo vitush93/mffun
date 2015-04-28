@@ -30,10 +30,10 @@ nette:
                 expiration: 14 days
         mailer:
                 smtp: true
-                host: "host"
-                port: "110"
-                username: "username"
-                password: "password"
+                host: "smtp.host.com"
+                username: "user@host.com"
+                password: "asdasdasd"
+                secure: "ssl"
 
 
 services:
