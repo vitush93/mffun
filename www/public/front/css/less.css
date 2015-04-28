@@ -8783,3 +8783,93 @@ ul.ui-autocomplete {
     font-size: 30px;
   }
 }
+.ucp-button {
+  display: block;
+  padding: 10px;
+  color: #333;
+  font-size: 13px;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.ucp-button:hover {
+  text-decoration: none;
+  color: #666;
+}
+.ucp-button:first-child {
+  margin-top: 0;
+}
+.ucp-button.active {
+  background: #48acef;
+  color: #fff;
+}
+#ucp-menu {
+  background: #fff;
+  box-shadow: 0 2px 0px 1px #dedede;
+  border-radius: 2px;
+}
+form.accForm .error-message {
+  display: block;
+  padding-top: 5px;
+}
+form.accForm .form-input {
+  padding-top: 0;
+}
+form.accForm label {
+  margin-top: 20px;
+}
+form.accForm input[type=submit] {
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+form.accForm img.avatar-pick {
+  margin: 10px;
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
+}
+form.accForm #avatar-picker {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+form.accForm #avatar-picker img.active {
+  box-shadow: 0 0 0 4px #3498db;
+  opacity: 1;
+}
+form.accForm #avatar-picker img {
+  border-radius: 50%;
+  opacity: 0.8;
+  -webkit-transition: 0.1s;
+  -o-transition: 0.1s;
+  transition: 0.1s;
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+form.accForm #avatar-picker img:hover {
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+form.accForm #avatar-picker img:hover {
+  -webkit-transition: 0.1s;
+  -o-transition: 0.1s;
+  transition: 0.1s;
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+  opacity: 1;
+}
+form.accForm #avatar-picker img:hover:hover {
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
