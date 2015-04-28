@@ -4,7 +4,7 @@
     </script>
 {/block}
 
-{block content}
+{block full}
     {var $title = ''}
     {if isset($tag)}{? $title = $tag}{/if}
     {if isset($teacher)}
@@ -19,12 +19,18 @@
     {/if}
     {if $title}
         <div class="row">
-            <div class="col-lg-2 visible-lg"></div>
-            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                <h1 id="page-title">#{$title}</h1>
+            <div class="col-lg-8">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-10">
+                    <h1 id="page-title">#{$title}</h1>
+                </div>
             </div>
+            <div class="col-lg-4"></div>
         </div>
     {/if}
+{/block}
+
+{block content}
     <div id="content-load">
         {include 'loop.latte'}
     </div>

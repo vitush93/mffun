@@ -6,6 +6,7 @@ use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
 use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
+use App\Model\Services\AutocompleteService;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Model;
@@ -20,6 +21,9 @@ class BasePresenter extends Presenter
 
     /** @var QuoteRepository @inject */
     public $quoteRepository;
+
+    /** @var AutocompleteService @inject */
+    public $autocompleteService;
 
     /** @var EntityManager @inject */
     public $em;
@@ -67,6 +71,11 @@ class BasePresenter extends Presenter
         } catch (Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage(), 'error');
         }
+    }
+
+    public function handleSearchJson()
+    {
+        $this->sendJson($this->autocompleteService->getSearchBoxData());
     }
 
     /**

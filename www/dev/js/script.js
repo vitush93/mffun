@@ -79,7 +79,7 @@ $('body').on('click', '#optional-toggle', function () {
 $('html').on('click', function (e) {
     var target = $(e.target);
     if ($('#page-search-button').hasClass('active')) {
-        if (target.parents('#top-nav').size() == 0) {
+        if (target.parents('#top-nav').size() == 0 && target.parents('.ui-autocomplete').size() == 0) {
             searchBoxControl();
         }
     }
@@ -117,12 +117,14 @@ function searchBoxControl() {
     var box = $('#page-search-box');
 
     if (button.hasClass('active')) {
+        $('#top-nav').attr('style', 'top:0px');
         button.removeClass('active');
         box.animate({width: 0, paddingLeft: 0, paddingRight: 0}, 100, function () {
             box.val('');
             box.focus();
         });
     } else {
+        $('#top-nav').attr('style', 'top: 0px !important');
         box.animate({
             width: box.offset().left - $('#nav-container').offset().left - $('#logo').outerWidth() - 15,
             paddingLeft: 15,

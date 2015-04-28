@@ -8017,9 +8017,9 @@ aside[role="complementary"] .tag-cloud a {
 }
 #control-bar {
   margin-bottom: 40px;
-  padding-bottom: 40px;
+  padding-top: 69px;
+  padding-bottom: 10px;
   width: 100%;
-  height: 95px;
   background: #fff;
   box-shadow: 0 2px 0px 1px #dedede;
 }
@@ -8059,7 +8059,6 @@ aside[role="complementary"] .tag-cloud a {
   top: -3px;
 }
 #control-bar #bar-social {
-  height: 40px;
   float: left;
   *zoom: 1;
 }
@@ -8098,12 +8097,9 @@ aside[role="complementary"] .tag-cloud a {
   clear: both;
 }
 #control-bar #bar-social .fb-like {
-  margin-top: 10px;
-  margin-right: 10px;
-}
-#control-bar #bar-social .fb-like + iframe {
   position: relative;
-  top: 1px;
+  margin-right: 35px;
+  top: -3px;
 }
 #control-bar #filter-button {
   float: right;
@@ -8773,13 +8769,13 @@ ul.ui-autocomplete {
   display: none;
 }
 #page-title {
-  font-size: 50px;
+  font-size: 35px;
   color: #9d9d9d;
   padding-bottom: 40px;
 }
 @media (max-width: 767px) {
   #page-title {
-    font-size: 30px;
+    font-size: 26px;
   }
 }
 .ucp-button {
@@ -8871,4 +8867,65 @@ form.accForm #avatar-picker img:hover:hover {
   -ms-transition: 0.1s ease-in-out;
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
+}
+ul.page-search {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+ul.page-search.ui-widget-content {
+  border: none;
+  background: none;
+  color: #333;
+}
+ul.page-search .ui-menu-item,
+ul.page-search .ui-state-focus {
+  list-style-image: none !important;
+  background: none;
+}
+ul.page-search .ui-menu-item.ui-state-focus {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  border: none;
+  list-style-image: none !important;
+  background: none;
+  background: #fff;
+  padding: 15px 10px;
+  border-bottom: 1px solid #ccc;
+  background: #fafafa;
+}
+ul.page-search .ui-menu-item.ui-state-focus p {
+  margin: 0;
+  padding: 0;
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+ul.page-search .ui-menu-item.ui-state-focus p span {
+  margin-top: 7px;
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #777;
+}
+ul.page-search .ui-menu-item {
+  background: #fff;
+  padding: 15px 10px;
+  border-bottom: 1px solid #ccc;
+}
+ul.page-search .ui-menu-item p {
+  margin: 0;
+  padding: 0;
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+ul.page-search .ui-menu-item p span {
+  margin-top: 7px;
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #777;
 }
