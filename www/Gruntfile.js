@@ -18,6 +18,7 @@ var scripts = [
     'dev/js/jquery.bootstrap-autohidingnavbar.js',
     'dev/js/live-form-validation.js',
     'dev/js/script.js',
+    'dev/js/footer.js',
     'dev/js/keyboard.js',
     'dev/js/scrollLoad.js',
     'dev/js/quoteRate.js',
