@@ -8,7 +8,7 @@ use Nette\Utils\Paginator;
 class HomepagePresenter extends BasePresenter
 {
     const ITEMS_PER_PAGE = 10;
-    const MAX_PAGES_LOAD = 4;
+    const MAX_PAGES_LOAD = 10;
 
     /** @var IRateQuoteControlFactory @inject */
     public $rateQuoteControlFactory;
