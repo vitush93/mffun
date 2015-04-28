@@ -8220,14 +8220,15 @@ aside[role="complementary"] .tag-cloud a {
 }
 footer[role="contentinfo"] {
   display: none;
-}
-footer[role="contentinfo"] span {
-  font-family: 'Lobster';
-  font-size: 13px;
   position: fixed;
   left: 20px;
   bottom: 20px;
-  color: #7c8ea0;
+  z-index: 999;
+}
+footer[role="contentinfo"] span {
+  font-family: 'Lobster';
+  font-size: 11px;
+  color: #687a8c;
 }
 .button {
   outline: none;
@@ -8288,8 +8289,9 @@ footer[role="contentinfo"] span {
   background: #5cc0ff;
 }
 .flash {
+  max-width: 420px;
   border-radius: 3px;
-  margin: 20px;
+  margin: 20px auto;
   padding: 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
@@ -8308,24 +8310,20 @@ footer[role="contentinfo"] span {
   cursor: pointer;
 }
 .flash.success {
-  color: #319e89;
-  background: rgba(69, 178, 157, 0.05);
-  box-shadow: 0 3px 0 1px rgba(19, 128, 107, 0.15);
+  color: #27947f;
+  background: rgba(69, 178, 157, 0.15);
 }
 .flash.warning {
-  color: #e67e22;
-  background: rgba(230, 126, 34, 0.05);
-  box-shadow: 0 3px 0 1px rgba(164, 77, 0, 0.15);
+  color: #c86004;
+  background: rgba(230, 126, 34, 0.15);
 }
 .flash.error {
-  color: #e05866;
-  background: rgba(224, 88, 102, 0.05);
-  box-shadow: 0 3px 0 1px rgba(174, 38, 52, 0.15);
+  color: #c23a48;
+  background: rgba(224, 88, 102, 0.15);
 }
 .flash.info {
-  color: #3498db;
-  background: rgba(52, 152, 219, 0.05);
-  box-shadow: 0 3px 0 1px rgba(2, 102, 169, 0.15);
+  color: #167abd;
+  background: rgba(52, 152, 219, 0.15);
 }
 #error-page {
   font-family: 'Roboto', sans-serif !important;

@@ -949,8 +949,9 @@ footer[role="contentinfo"] {
 }
 
 .flash {
+  max-width: 420px;
   border-radius: 3px;
-  margin: 20px;
+  margin: 20px auto;
   padding: 20px;
   font-family: @proxima;
   font-size: 14px;
@@ -968,24 +969,20 @@ footer[role="contentinfo"] {
     }
   }
   &.success {
-    color: @green - 20;
-    background: fade(@green, 5%);
-    box-shadow: 0 3px 0 1px fade(@green - 50, 15%);
+    color: @green - 30;
+    background: fade(@green, 15%);
   }
   &.warning {
-    color: @orange;
-    background: fade(@orange, 5%);
-    box-shadow: 0 3px 0 1px fade(@orange - 50, 15%);
+    color: @orange - 30;
+    background: fade(@orange, 15%);
   }
   &.error {
-    color: @redish;
-    background: fade(@redish, 5%);
-    box-shadow: 0 3px 0 1px fade(@redish - 50, 15%);
+    color: @redish - 30;
+    background: fade(@redish, 15%);
   }
   &.info {
-    color: @blue;
-    background: fade(@blue, 5%);
-    box-shadow: 0 3px 0 1px fade(@blue - 50, 15%);
+    color: @blue - 30;
+    background: fade(@blue, 15%);
   }
 }
 
