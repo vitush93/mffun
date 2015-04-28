@@ -1,0 +1,94 @@
+{block footScripts}
+    <script>
+        $('img[data-avatar="{!$info->avatar}"]').addClass('active');
+    </script>
+{/block}
+
+{block main}
+
+    {include flashes}
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-3" id="ucp-menu">
+            <a href="{link default, setup=>'acc'}" class="ucp-button{if $setup == 'acc'} active{/if}">Účet</a>
+            <a href="{link default, setup=>'avatar'}" class="ucp-button{if $setup == 'avatar'} active{/if}">Avatar</a>
+            <a href="{link default, setup=>'pass'}" class="ucp-button{if $setup == 'pass'} active{/if}">Heslo</a>
+        </div>
+
+
+        <div class="article">
+            <article class="content-item">
+                <div class="col-lg-6 col-md-7 col-sm-8 article-content">
+                    <section>
+                        {if $setup == 'acc'}{include acc}{/if}
+                        {if $setup == 'pass'}{include pass}{/if}
+                        {if $setup == 'avatar'}{include avatar}{/if}
+                    </section>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-lg-4 col-md-3 col-sm-1"></div>
+    </div>
+{/block}
+
+{block acc}
+    <h1>Můj účet</h1>
+    {form accForm, class=>'accForm'}
+        <ul class=error n:if="$form->ownErrors">
+            <li n:foreach="$form->ownErrors as $error">{$error}</li>
+        </ul>
+        <div>
+            {label username /}<br>
+            {input username, class=>'form-input btn-block'}
+        </div>
+        <div>
+            {label name /}<br>
+            {input name, class=>'form-input btn-block'}
+        </div>
+        <div>
+            {label email /}<br>
+            {input email, class=>'form-input btn-block'}
+        </div>
+        <div>
+            {input process}
+        </div>
+    {/form}
+{/block}
+
+{block pass}
+    <h1>Změna hesla</h1>
+    {form passForm, class=>'accForm'}
+        <ul class=error n:if="$form->ownErrors">
+            <li n:foreach="$form->ownErrors as $error">{$error}</li>
+        </ul>
+        <div>
+            {label old /}<br>
+            {input old, class=>'form-input btn-block'}
+        </div>
+        <div>
+            {label password /}<br>
+            {input password, class=>'form-input btn-block'}
+        </div>
+        <div>
+            {label password2 /}<br>
+            {input password2, class=>'form-input btn-block'}
+        </div>
+        <div>
+            {input process}
+        </div>
+    {/form}
+{/block}
+
+{block avatar}
+    <h1>Avatar</h1>
+    {form avatarForm, class=>'accForm'}
+        <div id="avatar-picker">
+            {foreach App\Model\Entities\User::$AVATARS as $a}
+                <img src="{$basePath}/public/front/avatars/{$a}" alt="" title="" data-avatar="{$a}" class="avatar-pick">
+            {/foreach}
+        </div>
+        <div>
+            {input process}
+        </div>
+    {/form}
+{/block}

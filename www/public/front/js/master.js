@@ -37198,12 +37198,14 @@ $('#page-search-button').click(function (e) {
 function userCpControl() {
     var c = $('#user-controls');
     if (c.hasClass('active')) {
+        $('#top-nav').attr('style', 'top:0px');
         c.stop().animate({top: 50, opacity: 0}, 150, function () {
             $(this).hide();
         });
         c.removeClass('active');
         $('#user-controls-toggle').removeClass('active');
     } else {
+        $('#top-nav').attr('style', 'top: 0px !important');
         c.stop().show().animate({top: 60, opacity: 1}, 150);
         c.addClass('active');
         $('#user-controls-toggle').addClass('active');
@@ -37235,6 +37237,13 @@ function searchBoxControl() {
 
 $('#top-nav').autoHidingNavbar({
     hideOffset: 100
+});
+
+$('body').on('click', '.avatar-pick', function () {
+    $('.avatar-pick').removeClass('active');
+    $(this).addClass('active');
+    $('.acc-avatar-input').val($(this).data('avatar'));
+
 });
 var ScrollLoad = function (container, loader, moreButton, endmsg, bottomOffset, interval, initialPage) {
     this.lock = false;

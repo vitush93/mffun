@@ -79,11 +79,15 @@
         <ul id="user-cp" class="hidden-xs">
             <li>
                 <a href="" id="user-controls-toggle">
+                    {if $user->isLoggedIn()}
+                        <img src="{$basePath}/public/front/avatars/{$info->avatar}" alt="" title="" class="img-circle">
+                    {else}
                     <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title="" class="img-circle">
+                    {/if}
                     {if $user->isLoggedIn()}<span>
                         <small>přihlášen</small>
                         <br>
-                        {$user->getIdentity()->username}</span>{else}
+                        {$info->username}</span>{else}
                         <span><small>nepřihlášen</small><br>uživatel</span>
                     {/if}
                     <i class="fa fa-caret-down"></i>
@@ -92,7 +96,7 @@
                 <div id="user-controls">
                     <div class="caret-arrow"></div>
                     {if $user->isLoggedIn()}
-                        <a href=""><i class="fa fa-user fa-fw"></i> Můj účet</a>
+                        <a href="{link Usercp:default}"><i class="fa fa-user fa-fw"></i> Můj účet</a>
                         <a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
                     {else}
                         <div><i class="fa fa-lock fa-fw"></i> Přihlásit se</div>
@@ -174,16 +178,20 @@
         </div>
     </div>
 </div>
+
+
 <div class="container" id="main">
     {block main}
-        <div class="row">
-            <div class="col-lg-12">
-                {if count($flashes) > 0}
-                    <div n:foreach="$flashes as $flash" class="clearfix flash {$flash->type}">{$flash->message} <i
-                                class="fa fa-times"></i></div>
-                {/if}
+        {block flashes}
+            <div class="row">
+                <div class="col-lg-12">
+                    {if count($flashes) > 0}
+                        <div n:foreach="$flashes as $flash" class="clearfix flash {$flash->type}">{$flash->message} <i
+                                    class="fa fa-times"></i></div>
+                    {/if}
+                </div>
             </div>
-        </div>
+        {/block}
         <div class="row">
             <section role="main" class="col-lg-8 col-md-8 col-sm-9 col-xs-12">
                 <div id="content">
@@ -209,3 +217,4 @@
 </body>
 </html>
 {/block}
+

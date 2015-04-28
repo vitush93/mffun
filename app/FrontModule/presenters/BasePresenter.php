@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\FrontModule\Forms\LoginForm;
+use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
@@ -22,6 +23,17 @@ class BasePresenter extends Presenter
 
     /** @var EntityManager @inject */
     public $em;
+
+    protected function startup()
+    {
+        parent::startup();
+
+        if ($this->user->isLoggedIn()) {
+            /** @var User $user */
+            $user = $this->em->find(User::class, $this->user->id);
+            $this->template->info = $user;
+        }
+    }
 
     public function beforeRender()
     {

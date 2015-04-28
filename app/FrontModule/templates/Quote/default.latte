@@ -64,7 +64,7 @@
                         as $comment}
                             <div class="comment clearfix">
                                 <div class="comment-left">
-                                    <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                    <img src="{$basePath}/public/front/avatars/{$comment->user->avatar}" alt="" title=""
                                          class="img-circle">
                                 </div>
                                 <div class="comment-right">
@@ -96,7 +96,8 @@
 
                                 <div class="comment child clearfix">
                                     <div class="comment-left">
-                                        <img src="{$basePath}/public/front/img/avatar.jpg" alt="" title=""
+                                        <img src="{$basePath}/public/front/avatars/{$reply->user->avatar}" alt=""
+                                             title=""
                                              class="img-circle">
                                     </div>
                                     <div class="comment-right">

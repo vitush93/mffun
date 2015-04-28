@@ -138,3 +138,10 @@ function searchBoxControl() {
 $('#top-nav').autoHidingNavbar({
     hideOffset: 100
 });
+
+$('body').on('click', '.avatar-pick', function () {
+    $('.avatar-pick').removeClass('active');
+    $(this).addClass('active');
+    $('.acc-avatar-input').val($(this).data('avatar'));
+
+});

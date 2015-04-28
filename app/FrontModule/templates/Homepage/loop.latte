@@ -42,7 +42,7 @@
                             {foreach $q->getBestComments() as $comment}
                                 {breakIf $iterator->getCounter() > 2}
                                 <div class="top-comment clearfix">
-                                    <img src="{$basePath}/public/front/img/avatar.jpg" alt=""
+                                    <img src="{$basePath}/public/front/avatars/{$comment->user->avatar}" alt=""
                                          title="{$comment->user->username}"
                                          class="img-circle">
 
