@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Nette,
-    Nette\Application\Routers\RouteList,
-    Nette\Application\Routers\Route;
+use Nette;
+use Nette\Application\Routers\Route;
+use Nette\Application\Routers\RouteList;
 
 /**
  * Router factory.
@@ -25,9 +25,7 @@ class RouterFactory
         $adminRouter[] = new Route('admin/<presenter>/<action>[/<id>]', 'Homepage:default');
 
         $router[] = $frontRouter = new RouteList('Front');
-        $frontRouter[] = new Route('o-nas', 'Static:about');
         $frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
-
 
         return $router;
     }

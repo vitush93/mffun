@@ -3,6 +3,9 @@
 namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\IRateQuoteControlFactory;
+use App\Model\Entities\Subject;
+use App\Model\Entities\Teacher;
+use Nette\Application\BadRequestException;
 use Nette\Utils\Paginator;
 
 class HomepagePresenter extends BasePresenter
@@ -82,18 +85,28 @@ class HomepagePresenter extends BasePresenter
 
     public function actionSubject($id, $p)
     {
+        /** @var Subject $subj */
+        $subj = $this->em->find(Subject::class, $id);
+        if (!$subj) throw new BadRequestException;
+
         $this->subject = $id;
         $this->setView('default');
         $this->resolvePage($p);
-        $this->template->subject = $id;
+        $this->template->subject = $subj->getName();
+        $this->template->subjectId = $subj->getId();
     }
 
     public function actionTeacher($id, $p)
     {
+        /** @var Teacher $teacher */
+        $teacher = $this->em->find(Teacher::class, $id);
+        if (!$teacher) throw new BadRequestException;
+
         $this->teacher = $id;
         $this->setView('default');
         $this->resolvePage($p);
-        $this->template->teacher = $id;
+        $this->template->teacher = $teacher->getName();
+        $this->template->teacherId = $teacher->getId();
     }
 
     public function actionTag($id, $p)

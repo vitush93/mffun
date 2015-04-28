@@ -40,10 +40,10 @@
             {if isset($tag)}
                 <a href="{link Homepage:tag $tag, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
             {elseif isset($teacher)}
-                <a href="{link Homepage:teacher $teacher, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
+                <a href="{link Homepage:teacher $teacherId, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
                     další</a>
             {elseif isset($subject)}
-                <a href="{link Homepage:subject $subject, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
+                <a href="{link Homepage:subject $subjectId, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
                     další</a>
             {else}
                 <a href="{link Homepage:page $more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>

@@ -15,7 +15,7 @@
                             {/if}
                         </a>
                         <small n:if="$q->teacher"><a
-                                    href="{link Homepage:teacher $q->teacher->name}">{$q->getTeacher()->getName(true)}</a>
+                                    href="{link Homepage:teacher $q->teacher->id}">{$q->getTeacher()->getName(true)}</a>
                         </small>
                         <br>
                     </h2>
@@ -28,9 +28,9 @@
                     <p>{$q->getText()}</p>
 
                     <div class="item-tags">
-                        <a href="{link Homepage:teacher $q->teacher->name}" class="tag"
+                        <a href="{link Homepage:teacher $q->teacher->id}" class="tag"
                            n:if="$q->teacher">{$q->getTeacher()->getName(true)}</a>
-                        <a href="{link Homepage:subject $q->subject->name}" class="tag"
+                        <a href="{link Homepage:subject $q->subject->id}" class="tag"
                            n:if="$q->subject">{$q->getSubject()->getName(true)}</a>
                         {foreach $q->getTags() as $tag}
                             <a href="{link Homepage:tag $tag->tag}" class="tag">#{$tag->getTag()}</a>
