@@ -204,5 +204,20 @@ class Comment extends BaseEntity
         return $this->ratingUp;
     }
 
+    public function getDiff()
+    {
+        $now = new DateTime();
+        $diff = $now->diff($this->posted);
+
+        if ($diff->d > 0) {
+            return $diff->d . 'd';
+        } else if ($diff->h > 0) {
+            return $diff->h . 'h ' . $diff->i . 'm';
+        } else if ($diff->i > 0) {
+            return $diff->i . 'm ' . $diff->s . 's';
+        } else {
+            return $diff->s . 's';
+        }
+    }
 
 }

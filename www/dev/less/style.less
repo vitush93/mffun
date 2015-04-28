@@ -1176,7 +1176,11 @@ p.notice {
     }
   }
   .comment {
-    margin-bottom: 20px;
+    margin-top: 30px;
+    &.child {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
     &.child .comment-left img {
       max-width: 30px;
     }
@@ -1190,15 +1194,30 @@ p.notice {
         position: relative;
         float: right;
         margin-right: 10px;
-        top: 7px;
+        top: 2px;
         width: 100%;
         max-width: 50px;
       }
     }
     .comment-right {
       > a {
+        cursor: default;
         color: @textcolor;
         font-weight: bold;
+        &:hover {
+          text-decoration: none;
+        }
+        span {
+          font-weight: normal;
+          font-size: 12px;
+          color: #999;
+          margin-left: 5px;
+        }
+      }
+      p {
+        margin: 0;
+        padding: 0;
+        margin-top: 2px;
       }
       textarea {
         border: 1px solid @grey + 80;
@@ -1215,8 +1234,9 @@ p.notice {
       width: 90%;
       float: left;
       .comment-controls {
-        margin-top: 7px;
+        margin-top: 5px;
         a {
+          font-size: 12px;
           margin-right: 10px;
           color: @grey + 60;
           .transition(0.1s);
@@ -1231,6 +1251,12 @@ p.notice {
             color: @grey;
             text-decoration: none;
             .transition(0.2s);
+          }
+          &.reply {
+            font-size: 14px;
+          }
+          &.up {
+            margin-right: 5px;
           }
         }
         .rate.up.active {

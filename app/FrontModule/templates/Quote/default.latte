@@ -68,7 +68,8 @@
                                          class="img-circle">
                                 </div>
                                 <div class="comment-right">
-                                    <a href="">{$comment->getUser()->getUsername()}</a>
+                                    {var $now = new DateTime()}
+                                    <a>{$comment->getUser()->getUsername()} <span>{$comment->getDiff()}</span></a>
 
                                     <p>
                                         {$comment->getText()}
@@ -101,7 +102,7 @@
                                              class="img-circle">
                                     </div>
                                     <div class="comment-right">
-                                        <a href="">{$reply->getUser()->getUsername()}</a>
+                                        <a>{$reply->getUser()->getUsername()} <span>{$reply->getDiff()}</span></a>
 
                                         <p>
                                             {$reply->getText()}
