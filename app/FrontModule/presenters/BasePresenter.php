@@ -101,6 +101,23 @@ class BasePresenter extends Presenter
     }
 
     /**
+     * SearchForm factory.
+     *
+     * @return Form
+     */
+    protected function createComponentSearchForm()
+    {
+        $form = new Form();
+
+        $form->onSubmit[] = function (Form $form) {
+            $query = $form->getHttpData($form::DATA_TEXT, 'query');
+            $this->redirect('Homepage:search', $query);
+        };
+
+        return $form;
+    }
+
+    /**
      * LoginForm factory
      *
      * @return LoginForm

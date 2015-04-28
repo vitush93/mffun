@@ -34,6 +34,12 @@ class HomepagePresenter extends BasePresenter
         $this->paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
     }
 
+    public function actionSearch($id)
+    {
+        $this->setView('default');
+        $this->template->initPage = null;
+    }
+
     public function beforeRender()
     {
         parent::beforeRender();
@@ -43,7 +49,12 @@ class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $quotes = $this->getQuotes();
+        if ($this->action == 'search') {
+            $quotes = $this->quoteRepository->search($this->getParameter('id'));
+        } else {
+            $quotes = $this->getQuotes();
+        }
+
 
         $template = $this->template;
         $template->quotations = $quotes;
@@ -54,7 +65,7 @@ class HomepagePresenter extends BasePresenter
                 $tag[$i] = ucfirst($tag[$i]);
             }
             $tag = implode('', $tag);
-            return $tag;
+            return '#' . $tag;
         };
     }
 

@@ -9,6 +9,7 @@
     {include flashes}
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-3" id="ucp-menu">
+            <a href="{link default, setup=>'sum'}" class="ucp-button{if $setup == 'sum'} active{/if}">Přehled</a>
             <a href="{link default, setup=>'acc'}" class="ucp-button{if $setup == 'acc'} active{/if}">Účet</a>
             <a href="{link default, setup=>'avatar'}" class="ucp-button{if $setup == 'avatar'} active{/if}">Avatar</a>
             <a href="{link default, setup=>'pass'}" class="ucp-button{if $setup == 'pass'} active{/if}">Heslo</a>
@@ -19,6 +20,7 @@
             <article class="content-item">
                 <div class="col-lg-6 col-md-7 col-sm-8 article-content">
                     <section>
+                        {if $setup == 'sum'}{include sum}{/if}
                         {if $setup == 'acc'}{include acc}{/if}
                         {if $setup == 'pass'}{include pass}{/if}
                         {if $setup == 'avatar'}{include avatar}{/if}
@@ -29,6 +31,32 @@
 
         <div class="col-lg-4 col-md-3 col-sm-1"></div>
     </div>
+{/block}
+
+{block sum}
+    <h1>Přehled</h1>
+    <table class="summary">
+        <tr>
+            <th>Zaslaných citací:</th>
+            <td>{$numq}</td>
+        </tr>
+        <tr>
+            <th>Komentáře:</th>
+            <td>{$numc}</td>
+        </tr>
+        <tr>
+            <th>Trust bodů:</th>
+            <td>{$rank}</td>
+        </tr>
+    </table>
+    <p class="notice">
+        Trust bodů má každý po registraci 5.
+        Když pošleš citaci, kterou následně admin či moderátor, z jakýchkoliv důvodů, zamítne o body přicházíš.
+        Pokud budeš mít méně než 1 bod, tak další tvoje příspěvky budou vyžadovat schválení; za schválené citace pak
+        opět body získáš.
+        <br><br>
+        Za automaticky schválené citace nezískáváš žádné body.
+    </p>
 {/block}
 
 {block acc}

@@ -71,7 +71,7 @@ class Tag extends BaseEntity
      */
     public function setTag($tag)
     {
-        $this->tag = $tag;
+        $this->tag = substr($tag, 0, 15);
     }
 
     /**

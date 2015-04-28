@@ -195,6 +195,22 @@ class QuoteRepository extends Object
         }
     }
 
+    public function search($query)
+    {
+        return $this->em->createQueryBuilder()
+            ->select('q,t,s')
+            ->from('App\Model\Entities\Quote', 'q')
+            ->leftJoin('q.teacher', 't')
+            ->leftJoin('q.subject', 's')
+            ->where('q.status = :status')
+            ->andWhere('q.title LIKE :query OR q.text LIKE :query')
+            ->groupBy('q.id')
+            ->setMaxResults(50)
+            ->setParameter('status', Quote::STATUS_APPROVED)
+            ->setParameter('query', "%{$query}%")
+            ->getQuery()->getResult();
+    }
+
     public function findAllBySubject($subject, $limit, $offset)
     {
         return $this->em->createQueryBuilder()

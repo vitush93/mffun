@@ -16,7 +16,7 @@ class UsercpPresenter extends BasePresenter
     private $info;
 
     /** @persistent */
-    public $setup = 'acc';
+    public $setup = 'sum';
 
     protected function startup()
     {
@@ -25,6 +25,9 @@ class UsercpPresenter extends BasePresenter
         if (!$this->user->isLoggedIn()) throw new BadRequestException;
 
         $this->info = $this->template->info;
+        $this->template->numq = $this->info->getQuotations()->count();
+        $this->template->numc = $this->info->getComments()->count();
+        $this->template->rank = $this->info->getCrank();
     }
 
     public function beforeRender()

@@ -8929,3 +8929,15 @@ ul.page-search .ui-menu-item p span {
   font-weight: 400;
   color: #777;
 }
+table.summary {
+  width: 100%;
+  table-layout: fixed;
+  margin: 20px 0;
+}
+table.summary tr td,
+table.summary tr th {
+  padding: 10px 0;
+}
+table.summary tr th {
+  font-weight: bold;
+}
