@@ -8589,7 +8589,11 @@ p.notice {
   display: none;
 }
 .comments .comment {
-  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.comments .comment.child {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .comments .comment.child .comment-left img {
   max-width: 30px;
@@ -8605,7 +8609,7 @@ p.notice {
   position: relative;
   float: right;
   margin-right: 10px;
-  top: 7px;
+  top: 2px;
   width: 100%;
   max-width: 50px;
 }
@@ -8614,8 +8618,23 @@ p.notice {
   float: left;
 }
 .comments .comment .comment-right > a {
+  cursor: default;
   color: #2c3e50;
   font-weight: bold;
+}
+.comments .comment .comment-right > a:hover {
+  text-decoration: none;
+}
+.comments .comment .comment-right > a span {
+  font-weight: normal;
+  font-size: 12px;
+  color: #999;
+  margin-left: 5px;
+}
+.comments .comment .comment-right p {
+  margin: 0;
+  padding: 0;
+  margin-top: 2px;
 }
 .comments .comment .comment-right textarea {
   border: 1px solid #b4b4b4;
@@ -8658,9 +8677,10 @@ p.notice {
   transition: 0.1s ease-in-out;
 }
 .comments .comment .comment-right .comment-controls {
-  margin-top: 7px;
+  margin-top: 5px;
 }
 .comments .comment .comment-right .comment-controls a {
+  font-size: 12px;
   margin-right: 10px;
   color: #a0a0a0;
   -webkit-transition: 0.1s;
@@ -8704,6 +8724,12 @@ p.notice {
   -ms-transition: 0.2s ease-in-out;
   -o-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
+}
+.comments .comment .comment-right .comment-controls a.reply {
+  font-size: 14px;
+}
+.comments .comment .comment-right .comment-controls a.up {
+  margin-right: 5px;
 }
 .comments .comment .comment-right .comment-controls .rate.up.active {
   -webkit-transition: 0.1s;

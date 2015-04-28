@@ -216,7 +216,11 @@ class Comment extends BaseEntity
         } else if ($diff->i > 0) {
             return $diff->i . 'm ' . $diff->s . 's';
         } else {
-            return $diff->s . 's';
+            if ($diff->s < 20) {
+                return "právě teď";
+            } else {
+                return $diff->s . 's';
+            }
         }
     }
 
