@@ -60,7 +60,7 @@
                         {snippet comments}
                         {foreach
                         $em->getRepository(\App\Model\Entities\Comment::class)
-                        ->findBy(['quote' => $q, 'parent' => 0])
+                        ->findBy(['quote' => $q, 'parent' => 0], ['posted' => 'DESC'])
                         as $comment}
                             <div class="comment clearfix">
                                 <div class="comment-left">
@@ -91,6 +91,7 @@
                             ->andWhere('c.quote = :q')
                             ->setParameter('q', $q)
                             ->setParameter('parent', $comment->id)
+                            ->orderBy('c.posted')
                             ->getQuery()
                             ->getResult()
                             as $reply}
