@@ -1498,3 +1498,27 @@ table.summary {
     }
   }
 }
+
+.q-rate-up, .q-rate-down {
+  @media (max-width: @screen-md-max) {
+    &:hover {
+      background: #7c8ea0 !important;
+    }
+  }
+}
+
+.q-rate-up.active {
+  @media (max-width: @screen-md-max) {
+    &:hover {
+      background: #45B29D !important;
+    }
+  }
+}
+
+.q-rate-down.active {
+  @media (max-width: @screen-md-max) {
+    &:hover {
+      background: #e05866 !important;
+    }
+  }
+}
