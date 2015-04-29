@@ -85,7 +85,6 @@ class QuotePresenter extends BasePresenter
         $form = new Form();
 
         $form->onSuccess[] = $this->commentsFormSucceeded;
-        //$form->addProtection();
 
         return $form;
     }
@@ -140,7 +139,6 @@ class QuotePresenter extends BasePresenter
         $form->addSubmit('process', '');
 
         $form->onSuccess[] = $this->postCommentFormSucceeded;
-        $form->addProtection();
 
         return $form;
     }

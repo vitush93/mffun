@@ -123,7 +123,6 @@ class SignPresenter extends BasePresenter
             ->getControlPrototype()->class('form-input');
 
         $form->onSuccess[] = $this->recoverFormSucceeded;
-        $form->addProtection();
 
         $form = BootstrapForm::makeBootstrap($form);
         foreach ($form->getControls() as $control) {
@@ -173,7 +172,6 @@ class SignPresenter extends BasePresenter
             $this->redirect('Homepage:default');
             $this->flashMessage('Vaše heslo bylo změněno.', 'info');
         };
-        $form->addProtection();
 
         return $form;
     }
@@ -206,7 +204,6 @@ class SignPresenter extends BasePresenter
             ->addRule(Form::MAX_LENGTH, 'Jméno nesmí být delší než %d znaků.', 35);
 
         $form->onSuccess[] = $this->registerFormSucceeded;
-        $form->addProtection();
 
         $form = BootstrapForm::makeBootstrap($form);
         foreach ($form->getControls() as $control) {

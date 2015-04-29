@@ -129,7 +129,6 @@ class BasePresenter extends Presenter
     {
         $form = new LoginForm();
         $form->onSuccess[] = $this->processLoginForm;
-        $form->addProtection();
 
         return $form;
     }
