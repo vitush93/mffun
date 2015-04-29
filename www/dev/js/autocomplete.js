@@ -30,14 +30,14 @@ $("#page-search-box").autocomplete({
         var term = request.term;
         if (term in cache) {
             var r = $.ui.autocomplete.filter(cache[term], term);
-            response(r.slice(0, 10));
+            response(r.slice(0, 4));
             return;
         }
         $.getJSON(window.location.pathname + "?do=searchJson", request, function (data, status, xhr) {
             cache[term] = data;
 
             var results = $.ui.autocomplete.filter(data, term);
-            response(results.slice(0, 10));
+            response(results.slice(0, 4));
         });
     },
     select: function (event, ui) {
