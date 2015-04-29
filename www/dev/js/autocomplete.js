@@ -24,7 +24,8 @@ var autocomplete = {
 };
 var cache = [];
 var getUrl = window.location;
-var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+
 $("#page-search-box").autocomplete({
     source: function (request, response) {
         var term = request.term;
@@ -41,7 +42,7 @@ $("#page-search-box").autocomplete({
         });
     },
     select: function (event, ui) {
-        var target = baseUrl + "/homepage/" + ui.item.type + "/" + ui.item.id;
+        var target = baseUrl + "homepage/" + ui.item.type + "/" + ui.item.id;
         window.location.replace(target);
     },
     minLength: 1
