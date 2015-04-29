@@ -47,7 +47,7 @@
             </li>
             <li id="mobile-login" class="visible-xs">
                 {if $user->isLoggedIn()}
-                    <a href=""><i class="fa fa-user fa-fw"></i> Můj účet</a>
+                    <a href="{link Usercp:}"><i class="fa fa-user fa-fw"></i> Můj účet</a>
                     <a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
                 {else}
                     {form loginForm}
