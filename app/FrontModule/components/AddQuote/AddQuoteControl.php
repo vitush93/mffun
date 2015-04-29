@@ -71,6 +71,15 @@ class AddQuoteControl extends Control
     public function processAddQuoteForm(Form $form)
     {
         $data = $form->getValues(true);
+        $text = '';
+        for ($i = 0; $i < strlen($data['text']); $i++) {
+            if ($data['text'][$i] == "\n") {
+
+            } else {
+            }
+        }
+        dump(str_replace("\n", "<br><br>", $data['text']));
+        die;
 
         $quote = new Quote($data['title'], $data['text']);
 

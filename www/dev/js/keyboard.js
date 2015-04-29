@@ -1,24 +1,4 @@
-var keyScroller = {
-    init: function () {
-        $(document).on('keyup', function (e) {
-            var j = 74;
-            var k = 75;
-
-            if (e.keyCode == j) {
-                $('html, body').animate({
-                    scrollTop: $(".article").offset().top
-                }, 200);
-            }
-            if (e.keyCode == k) {
-
-            }
-            console.log(e.keyCode);
-        });
-    }
-};
-
-
-jQuery(function ($) {
+var keyboardShort = function() {
 
     var $sections = $('.article'),
         $animContainer = $('html, body'),
@@ -68,6 +48,8 @@ jQuery(function ($) {
 
     // Handle keyboard input.
     $document.keyup(function (e) {
+        var el = e.currentTarget.activeElement.tagName;
+        if (el == 'INPUT' || el == 'TEXTAREA') return;
         if (e.keyCode === 75) {
             handleAction('prev');
         } // Up arrow.
@@ -76,4 +58,4 @@ jQuery(function ($) {
         } // Down arrow.
     });
 
-});
+};

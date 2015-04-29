@@ -14,6 +14,7 @@ $('#filter-button').on('click', function (e) {
 });
 
 $('.comment-textarea').autogrow();
+$('#add-quote-modal textarea').autogrow();
 
 // QUOTE
 $('.new-reply-form').on('click', '.reply', function (e) {

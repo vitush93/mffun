@@ -171,7 +171,7 @@
 <script>
     $(document).ready(function(){
         $('#share-icons').bind('click mouseover', function () {
-            $('#bar-social').load('public/front/social.html');
+            $('#bar-social').load('{!$basePath}/public/front/social.html');
             $(this).unbind('click mouseover');
         });
     });

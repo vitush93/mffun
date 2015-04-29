@@ -8526,7 +8526,7 @@ input.login {
 }
 #add-quote-modal textarea {
   resize: none;
-  height: 100px;
+  min-height: 100px;
 }
 #add-quote-modal input[type="submit"] {
   display: block;
