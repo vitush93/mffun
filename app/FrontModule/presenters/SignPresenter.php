@@ -3,6 +3,7 @@
 namespace App\FrontModule\Presenters;
 
 
+use App\Libs\BootstrapForm;
 use App\Model\Entities\PasswordRecovery;
 use App\Model\Entities\User;
 use App\Model\Repositories\UserRepository;
@@ -116,15 +117,22 @@ class SignPresenter extends BasePresenter
     {
         $form = new Form();
 
-        $form->addText('email', 'E-mailová adresa')
+        $form->addText('email', 'E-mail')
             ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.')
             ->setRequired('Vyplňte prosím.')
             ->getControlPrototype()->class('form-input');
-        $form->addSubmit('process', 'Odeslat')
-            ->getControlPrototype()->class('button blue');
 
         $form->onSuccess[] = $this->recoverFormSucceeded;
         $form->addProtection();
+
+        $form = BootstrapForm::makeBootstrap($form);
+        foreach ($form->getControls() as $control) {
+            $control->getControlPrototype()->class('form-input');
+        }
+
+        $form->addSubmit('process', 'Registrovat')
+            ->getControlPrototype()->class('button blue');
+        $form->getElementPrototype()->class = 'form-horizontal register-form';
 
         return $form;
     }
@@ -179,8 +187,9 @@ class SignPresenter extends BasePresenter
     {
         $form = new Form();
 
-        $form->addText('username', 'Uživatelské jméno')
-            ->addRule(Form::MIN_LENGTH, 'Zadejte aspoň 3 znaky.', 3)
+        $form->addText('username', 'Login')
+            ->addRule(Form::MIN_LENGTH, 'Zadejte aspoň %d znaky.', 3)
+            ->addRule(Form::MAX_LENGTH, 'Maximální délka loginu je %d znaků.', 15)
             ->setRequired('Vyplňte prosím.');
         $form->addText('email', 'E-mail')
             ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.')
@@ -192,17 +201,21 @@ class SignPresenter extends BasePresenter
             ->setRequired('Vyplňte prosím.')
             ->addRule(Form::EQUAL, 'Hesla se neshodují.', $form['password'])
             ->setOmitted();
-        $form->addText('name', 'Jméno');
+        $form->addText('name', 'Jméno')
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::MAX_LENGTH, 'Jméno nesmí být delší než %d znaků.', 35);
 
+        $form->onSuccess[] = $this->registerFormSucceeded;
+        $form->addProtection();
+
+        $form = BootstrapForm::makeBootstrap($form);
         foreach ($form->getControls() as $control) {
             $control->getControlPrototype()->class('form-input');
         }
 
         $form->addSubmit('process', 'Registrovat')
             ->getControlPrototype()->class('button blue');
-
-        $form->onSuccess[] = $this->registerFormSucceeded;
-        $form->addProtection();
+        $form->getElementPrototype()->class = 'form-horizontal register-form';
 
         return $form;
     }

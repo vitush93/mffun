@@ -152,16 +152,26 @@ class AddQuoteControl extends Control
     {
         $form = new Form();
 
-        $form->addText('title', 'Titulek (povinné)')->setRequired('Vyplňte prosím.');
-        $form->addTextArea('text', 'Text citace (povinné)')->setRequired('Vyplňte prosím.');
-        $form->addText('subject', 'Předmět');
-        $form->addText('teacher', 'Vyučující');
+        $form->addText('title', 'Titulek (povinné)')
+            ->addRule(Form::MAX_LENGTH, 'Titulek nesmí být delší než %d znaků.', 80)
+            ->setRequired('Vyplňte prosím.');
+        $form->addTextArea('text', 'Text citace (povinné)')
+            ->addRule(Form::MAX_LENGTH, 'Text nesmí být delší než %d znaků.', 1000)
+            ->setRequired('Vyplňte prosím.');
+        $form->addText('subject', 'Předmět')
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::MAX_LENGTH, 'Zadej méně než %d znaků.', 70);
+        $form->addText('teacher', 'Vyučující')
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::MAX_LENGTH, 'Zadej méně než %d znaků.', 35);
         $form->addText('tags', 'Tagy')
-            ->setAttribute('placeholder', 'analýza, kolej, karlín');
+            ->addCondition(Form::FILLED)
+            ->addRule(Form::MAX_LENGTH, 'Moc moc :(', 50);
         $form->addText('user_email', 'Tvůj e-mail')
             ->addCondition(Form::FILLED)
             ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.');
 
+        $form['tags']->setAttribute('placeholder', 'analýza, kolej, karlín');
 
         foreach ($form->getControls() as $control) {
             $control->getControlPrototype()->class('form-input');

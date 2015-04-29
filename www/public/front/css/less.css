@@ -8506,6 +8506,13 @@ input.login {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
+#add-quote-modal label {
+  font-weight: 400;
+}
+#add-quote-modal div.required label {
+  font-weight: bold;
+  color: #3c3c3c;
+}
 #add-quote-modal input,
 #add-quote-modal textarea {
   display: block;
@@ -9088,4 +9095,27 @@ table.summary tr th {
 #mobile-login p label {
   margin: 0;
   font-size: 14px;
+}
+.register label {
+  font-weight: normal;
+}
+.register label.required {
+  font-weight: bold;
+}
+.register h1 {
+  margin-bottom: 40px;
+}
+.register form table {
+  table-layout: fixed;
+  width: 100%;
+}
+.register form .form-input {
+  width: 100%;
+}
+.register form span.error-message {
+  position: relative;
+  top: 5px;
+}
+.register form input[type=submit] {
+  margin-top: 20px;
 }
