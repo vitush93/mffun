@@ -45,20 +45,12 @@
             </li>
             <li><a href="{link Homepage:default, quotes=>'random'}" {if isset($section) && $section == 'random'}class="active"{/if}><i class="fa fa-random fa-fw"></i> <span class="hidden-md hidden-sm">náhodné</span></a>
             </li>
-            <li id="mobile-login" class="visible-xs">
-                {if $user->isLoggedIn()}
-                    <a href="{link Usercp:}"><i class="fa fa-user fa-fw"></i> Můj účet</a>
-                    <a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
-                {else}
-                    {form loginForm}
-                        <p>{label username /}</p>
-                        <p>{input username class =>'form-input'}</p>
-                        <p>{label password /}</p>
-                        <p>{input password class => 'form-input'}</p>
-                        <p>{input process class => 'btn btn-block btn-primary mobile-login-button'}</p>
-                    {/form}
-                {/if}
-            </li>
+            {if $user->isLoggedIn()}
+                <li class="visible-xs"><a href="{link Usercp:}"><i class="fa fa-user fa-fw"></i> Můj účet</a></li>
+                <li class="visible-xs"><a href="{link logout!}"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a></li>
+            {else}
+                <li><a href="{link Sign:in}"><i class="fa fa-sign-out fa-fw"></i> Přihlásit se</a></li>
+            {/if}
         </ul>
         <a href="" id="add-quote-button" data-toggle="modal" data-target="#add-quote-modal">
             <i class="fa fa-plus visible-xs"></i>

@@ -10548,64 +10548,6 @@ nav[role="navigation"] {
     box-shadow: none;
     background: #2a8ed1;
   }
-  nav[role="navigation"] #top-menu #mobile-login {
-    background: #fff;
-  }
-  nav[role="navigation"] #top-menu #mobile-login form {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p {
-    max-width: 200px;
-    margin: auto;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p input[type=text],
-  nav[role="navigation"] #top-menu #mobile-login p input[type=password] {
-    padding-top: 0;
-    margin-bottom: 20px;
-    width: 100%;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p input[type=submit] {
-    outline: none;
-    display: block;
-    font-size: 11px;
-    border: none;
-    padding-top: 11px;
-    color: #fff;
-    padding-bottom: 10px;
-    text-transform: uppercase;
-    border-radius: 2px;
-    text-align: center;
-    -webkit-transition: 0.1s;
-    transition: 0.1s;
-    -webkit-transition: 0.1s ease-in-out;
-    transition: 0.1s ease-in-out;
-    line-height: 11px;
-    background: #e74c3c;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p input[type=submit]:hover {
-    -webkit-transition: 0.1s ease-in-out;
-    transition: 0.1s ease-in-out;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p input[type=submit]:hover {
-    color: #fff;
-    text-decoration: none;
-    -webkit-transition: 0.1s;
-    transition: 0.1s;
-    -webkit-transition: 0.1s ease-in-out;
-    transition: 0.1s ease-in-out;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p input[type=submit]:hover:hover {
-    -webkit-transition: 0.1s ease-in-out;
-    transition: 0.1s ease-in-out;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p input[type=submit]:hover {
-    background: #fb6050;
-  }
-  nav[role="navigation"] #top-menu #mobile-login p label {
-    margin: 0;
-    font-size: 14px;
-  }
 }
 nav[role="navigation"] #toggle-button {
   float: left;
@@ -11837,6 +11779,12 @@ p.notice {
 .comments .comment.child .comment-left img {
   max-width: 30px;
 }
+@media (max-width: 767px) {
+  .comments .comment.child .comment-left img {
+    max-width: none;
+    width: 25px;
+  }
+}
 .comments .comment.newcomment img {
   top: 0 !important;
 }
@@ -11851,6 +11799,12 @@ p.notice {
   top: 2px;
   width: 100%;
   max-width: 50px;
+}
+@media (max-width: 767px) {
+  .comments .comment .comment-left img {
+    max-width: none;
+    width: 40px;
+  }
 }
 .comments .comment .comment-right {
   width: 90%;
@@ -12196,4 +12150,61 @@ table.summary tr th {
   .q-rate-down.active:hover {
     background: #e05866 !important;
   }
+}
+#mobile-login {
+  background: #fff;
+}
+#mobile-login form {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+#mobile-login p {
+  width: 100%;
+  margin: auto;
+}
+#mobile-login p .form-input {
+  width: 100%;
+}
+#mobile-login p input[type=text],
+#mobile-login p input[type=password] {
+  padding-top: 0;
+  margin-bottom: 20px;
+  width: 100%;
+}
+#mobile-login p input[type=submit] {
+  outline: none;
+  display: block;
+  font-size: 11px;
+  border: none;
+  padding-top: 11px;
+  color: #fff;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  text-align: center;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+  line-height: 11px;
+}
+#mobile-login p input[type=submit]:hover {
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#mobile-login p input[type=submit]:hover {
+  color: #fff;
+  text-decoration: none;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#mobile-login p input[type=submit]:hover:hover {
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#mobile-login p label {
+  margin: 0;
+  font-size: 14px;
 }

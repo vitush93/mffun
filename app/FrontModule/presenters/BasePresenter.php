@@ -67,6 +67,9 @@ class BasePresenter extends Presenter
         try {
             $this->getUser()->login($values->username, $values->password);
             $this->flashMessage('Byl jsi úspěšně přihlášen!', 'success');
+            if ($this->presenter->action == 'in') {
+                $this->redirect('Homepage:default');
+            }
             $this->redirect('this');
         } catch (Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage(), 'error');

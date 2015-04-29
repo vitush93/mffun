@@ -59,12 +59,10 @@ $('body').on('click', '#toggle-button', function (e) {
     if ($(this).hasClass('active')) {
         $('#top-nav').attr('style', 'top:0px');
         topMenu.hide();
-        topMenu.height(54);
         $(this).removeClass('active');
     } else {
         $('#top-nav').attr('style', 'top: 0px !important');
         topMenu.show();
-        topMenu.height($(window).height() - 54);
         $(this).addClass('active');
     }
 });

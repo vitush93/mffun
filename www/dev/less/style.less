@@ -248,35 +248,6 @@ nav[role="navigation"] {
           }
         }
       }
-
-      #mobile-login {
-        form {
-          padding-top: 40px;
-          padding-bottom: 40px;
-        }
-        background: #fff;
-        p {
-          max-width: 200px;
-          margin: auto;
-          input[type=text], input[type=password] {
-            padding-top: 0;
-            margin-bottom: 20px;
-            width: 100%;
-          }
-          input[type=submit] {
-            .button;
-            line-height: 11px;
-            background: @red;
-            &:hover {
-              background: @red + 20;
-            }
-          }
-          label {
-            margin: 0;
-            font-size: 14px;
-          }
-        }
-      }
     }
   }
   #toggle-button {
@@ -1527,6 +1498,34 @@ table.summary {
   @media (max-width: @screen-md-max) {
     &:hover {
       background: #e05866 !important;
+    }
+  }
+}
+
+#mobile-login {
+  form {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  background: #fff;
+  p {
+    width: 100%;
+    margin: auto;
+    .form-input {
+      width: 100%;
+    }
+    input[type=text], input[type=password] {
+      padding-top: 0;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    input[type=submit] {
+      .button;
+      line-height: 11px;
+    }
+    label {
+      margin: 0;
+      font-size: 14px;
     }
   }
 }

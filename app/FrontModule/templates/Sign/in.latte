@@ -1,0 +1,18 @@
+{block content}
+    <div class="row article">
+        <article class="content-item">
+            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                <section id="mobile-login">
+                    <h1>Přihlásit se</h1>
+                    {form loginForm}
+                        <p>{label username /}</p>
+                        <p>{input username class =>'form-input'}</p>
+                        <p>{label password /}</p>
+                        <p>{input password class => 'form-input'}</p>
+                        <p>{input process class => 'btn btn-block btn-primary mobile-login-button'}</p>
+                    {/form}
+                </section>
+            </div>
+        </article>
+    </div>
+{/block}

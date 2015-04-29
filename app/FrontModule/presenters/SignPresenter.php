@@ -21,6 +21,13 @@ class SignPresenter extends BasePresenter
     /** @var UserRepository @inject */
     public $userRepository;
 
+    public function actionIn()
+    {
+        if ($this->user->isLoggedIn()) {
+            $this->redirect('Homepage:default');
+        }
+    }
+
     public function actionRecovery($id)
     {
         /** @var PasswordRecovery $rec */
