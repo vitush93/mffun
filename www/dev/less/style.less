@@ -1224,6 +1224,10 @@ p.notice {
     }
     &.child .comment-left img {
       max-width: 30px;
+      @media (max-width: @screen-xs-max) {
+        max-width: none;
+        width: 25px;
+      }
     }
     &.newcomment img {
       top: 0 !important;
@@ -1232,6 +1236,10 @@ p.notice {
       width: 10%;
       float: left;
       img {
+        @media (max-width: @screen-xs-max) {
+          max-width: none;
+          width: 40px;
+        }
         position: relative;
         float: right;
         margin-right: 10px;
