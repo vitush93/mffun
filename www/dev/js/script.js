@@ -18,6 +18,7 @@ $('#filter-button').on('click', function (e) {
 $('.new-reply-form').on('click', '.reply', function (e) {
     e.preventDefault();
     $(this).parent('div').append('<input type="hidden" value="' + $(this).data('reply') + '" name="reply-id"><textarea name="reply-content"></textarea>');
+    $('textarea').focus();
 });
 
 $(".new-comment-form textarea").keypress(function (event) {
