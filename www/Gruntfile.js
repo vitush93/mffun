@@ -17,6 +17,7 @@ var scripts = [
     'bower_components/nette.ajax.js/nette.ajax.js',
     'dev/js/jquery.bootstrap-autohidingnavbar.js',
     'dev/js/live-form-validation.js',
+    'dev/js/autogrow.js',
     'dev/js/script.js',
     'dev/js/footer.js',
     'dev/js/keyboard.js',

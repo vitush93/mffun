@@ -58,6 +58,7 @@ class QuotePresenter extends BasePresenter
 
         $parent_id = ($form->getHttpData($form::DATA_TEXT, 'reply-id'));
         $text = ($form->getHttpData($form::DATA_TEXT, 'reply-content'));
+        if (strlen($text) > 250) return;
 
         $this->quoteRepository->postComment(
             $text,
@@ -134,7 +135,8 @@ class QuotePresenter extends BasePresenter
 
         $form->addTextArea('text', '')
             ->setAttribute('placeholder', 'napiš něco..')
-            ->setRequired('');
+            ->setRequired('')
+            ->addRule(Form::MAX_LENGTH, ' ', 250);
         $form->addSubmit('process', '');
 
         $form->onSuccess[] = $this->postCommentFormSucceeded;

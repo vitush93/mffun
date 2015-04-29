@@ -13,12 +13,14 @@ $('#filter-button').on('click', function (e) {
     }
 });
 
+$('.comment-textarea').autogrow();
 
 // QUOTE
 $('.new-reply-form').on('click', '.reply', function (e) {
     e.preventDefault();
-    $(this).parent('div').append('<input type="hidden" value="' + $(this).data('reply') + '" name="reply-id"><textarea name="reply-content"></textarea>');
+    $(this).parent('div').append('<input type="hidden" value="' + $(this).data('reply') + '" name="reply-id"><textarea maxlength="250" name="reply-content"></textarea>');
     $('textarea').focus();
+    $('textarea').autogrow();
 });
 
 $(".new-comment-form textarea").keypress(function (event) {
