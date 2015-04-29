@@ -186,20 +186,25 @@ class SignPresenter extends BasePresenter
         $form = new Form();
 
         $form->addText('username', 'Login')
-            ->addRule(Form::MIN_LENGTH, 'Zadejte aspoň %d znaky.', 3)
+            ->addRule(Form::MIN_LENGTH, 'Zadej aspoň %d znaky.', 3)
             ->addRule(Form::MAX_LENGTH, 'Maximální délka loginu je %d znaků.', 15)
-            ->setRequired('Vyplňte prosím.');
+            ->setRequired('Vyplňte prosím.')
+            ->setOption('description', 'Login musí mít alespoň 3 znaky.');
         $form->addText('email', 'E-mail')
             ->addRule(Form::EMAIL, 'Zadejte platnou e-mailovou adresu.')
-            ->setRequired('Vyplňte prosím.');
+            ->setRequired('Vyplňte prosím.')
+            ->setOption('description', 'E-mail pro oznámení. Nebudeme ti posílat spam.');
         $form->addPassword('password', 'Heslo')
             ->addRule(Form::MIN_LENGTH, 'Zadejte aspoň 6 znaků.', 6)
-            ->setRequired('Vyplňte prosím.');
+            ->setRequired('Vyplňte prosím.')
+            ->setOption('description', 'Heslo musí mít alespoň 6 znaků.');
         $form->addPassword('password2', 'Heslo znovu')
             ->setRequired('Vyplňte prosím.')
             ->addRule(Form::EQUAL, 'Hesla se neshodují.', $form['password'])
-            ->setOmitted();
+            ->setOmitted()
+            ->setOption('description', 'Zadej heslo znovu pro kontrolu.');
         $form->addText('name', 'Jméno')
+            ->setOption('description', 'Tvoje celé jméno. Nepovinné pole.')
             ->addCondition(Form::FILLED)
             ->addRule(Form::MAX_LENGTH, 'Jméno nesmí být delší než %d znaků.', 35);
 
