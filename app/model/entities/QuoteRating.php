@@ -15,8 +15,8 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 class QuoteRating extends BaseEntity
 {
     const
-        POSITIVE = 10,
-        NEGATIVE = 0;
+        POSITIVE = 1,
+        NEGATIVE = -1;
     public static $ALLOWED_RATINGS = array(self::POSITIVE, self::NEGATIVE);
 
     /**

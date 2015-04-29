@@ -103,7 +103,7 @@ class RatingService extends Object
         foreach ($quote->getRatings() as $r) {
             $sum += $r->getValue();
         }
-        $ratio = $sum / ($quote->getRatings()->count() * 10);
-        $quote->setRating($ratio * 100);
+
+        $quote->setRating($sum);
     }
 }

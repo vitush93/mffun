@@ -9119,3 +9119,9 @@ table.summary tr th {
 .register form input[type=submit] {
   margin-top: 20px;
 }
+
+input,
+textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
