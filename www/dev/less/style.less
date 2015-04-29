@@ -1406,6 +1406,18 @@ form.accForm {
     padding-right: 20px;
   }
   img.avatar-pick {
+    @media (max-width: @screen-md-max) {
+      width: 60px;
+      height: 60px;
+    }
+    @media (max-width: @screen-sm-max) {
+      width: 50px;
+      height: 50px;
+    }
+    @media (max-width: @screen-xs-max) {
+      width: 40px;
+      height: 40px;
+    }
     margin: 10px;
     cursor: pointer;
     width: 70px;
