@@ -8582,7 +8582,7 @@ p.notice {
   height: 50px;
 }
 .comments form.new-comment-form .comment-right {
-  height: 50px;
+  min-height: 50px;
 }
 .comments form.new-comment-form .comment-right input[type="submit"] {
   display: none;
@@ -8649,7 +8649,7 @@ p.notice {
 }
 .comments .comment .comment-right textarea {
   border: 1px solid #b4b4b4;
-  height: 50px;
+  min-height: 50px;
   resize: none;
   width: 100%;
   outline: none;
