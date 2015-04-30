@@ -6,6 +6,7 @@ use App\Model\Entities\QuoteRating;
 use App\Model\Services\RatingService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class QuoteRatingListener
 {
@@ -22,13 +23,35 @@ class QuoteRatingListener
 
     /**
      * @param QuoteRating $quoteRating
+     * @param PreUpdateEventArgs $args
+     */
+    public function preUpdate(QuoteRating $quoteRating, PreUpdateEventArgs $args)
+    {
+
+    }
+
+    /**
+     * @param QuoteRating $quoteRating
      * @param PreFlushEventArgs $args
      */
     public function preFlush(QuoteRating $quoteRating, PreFlushEventArgs $args)
     {
-        $this->ratingService->updateQuoteRating($quoteRating->getQuote());
+
     }
 
+    /**
+     * @param QuoteRating $quoteRating
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(QuoteRating $quoteRating, LifecycleEventArgs $args)
+    {
+
+    }
+
+    /**
+     * @param QuoteRating $quoteRating
+     * @param LifecycleEventArgs $args
+     */
     public function preRemove(QuoteRating $quoteRating, LifecycleEventArgs $args)
     {
         $quote = $quoteRating->getQuote();

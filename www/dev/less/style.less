@@ -126,13 +126,16 @@ h1, h2, h3, h4, h5, h6 {
             width: 30px;
             height: 30px;
             text-align: center;
-            line-height: 34px;
             background: #3B5998;
             color: #fff;
             margin-left: 5px;
             margin-right: 5px;
             margin-bottom: 15px;
             border-radius: 15px;
+            i {
+              position: relative;
+              top: 6px;
+            }
             &:hover {
               .transition(0.1s);
               background: #3B5998 + 20;
@@ -157,10 +160,6 @@ h1, h2, h3, h4, h5, h6 {
             }
           }
           a + a + a + a {
-            i {
-              position: relative;
-              top: -1px;
-            }
             background: @textcolor + 80;
             float: right;
             &:hover, &.active {
@@ -472,7 +471,7 @@ nav[role="navigation"] {
         margin-top: 20px;
       }
       .caret-arrow {
-        background: url('../../public/front/img/disc-arrow-up.png') center no-repeat;
+        background: url('../img/disc-arrow-up.png') center no-repeat;
         background-size: 20px 20px;
         width: 100%;
         height: 20px;
@@ -1281,6 +1280,7 @@ p.notice {
           }
           &.reply {
             font-size: 14px;
+            color: @blue;
           }
           &.up {
             margin-right: 5px;

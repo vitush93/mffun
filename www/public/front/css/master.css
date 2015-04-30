@@ -10860,13 +10860,17 @@ h1, h2, h3, h4, h5, h6 {
     width: 30px;
     height: 30px;
     text-align: center;
-    line-height: 34px;
     background: #3b5998;
     color: #fff;
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 15px;
     border-radius: 15px
+}
+
+#main .article article.content-item section div.social a i {
+    position: relative;
+    top: 6px
 }
 
 #main .article article.content-item section div.social a:hover {
@@ -10897,11 +10901,6 @@ h1, h2, h3, h4, h5, h6 {
 #main .article article.content-item section div.social a + a + a + a {
     background: #7c8ea0;
     float: right
-}
-
-#main .article article.content-item section div.social a + a + a + a i {
-    position: relative;
-    top: -1px
 }
 
 #main .article article.content-item section div.social a + a + a + a.active, #main .article article.content-item section div.social a + a + a + a:hover {
@@ -11271,7 +11270,7 @@ nav[role=navigation] ul#user-cp #user-controls div + i + a {
 }
 
 nav[role=navigation] ul#user-cp #user-controls .caret-arrow {
-    background: url(../../public/front/img/disc-arrow-up.png) center no-repeat;
+    background: url(../img/disc-arrow-up.png) center no-repeat;
     background-size: 20px 20px;
     width: 100%;
     height: 20px;
@@ -12223,7 +12222,8 @@ p.notice {
 }
 
 .comments .comment .comment-right .comment-controls a.reply {
-    font-size: 14px
+    font-size: 14px;
+    color: #3498db
 }
 
 .comments .comment .comment-right .comment-controls a.up {

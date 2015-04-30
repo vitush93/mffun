@@ -9,6 +9,7 @@ use App\Model\Repositories\QuoteRepository;
 use App\Model\Services\RatingService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 class QuoteListener
@@ -50,6 +51,24 @@ class QuoteListener
         if ($quote->getUser()->getCrank() > 0) {
             $quote->approveNoRankUp();
         }
+    }
+
+    /**
+     * @param Quote $quote
+     * @param PreUpdateEventArgs $args
+     */
+    public function preUpdate(Quote $quote, PreUpdateEventArgs $args)
+    {
+
+    }
+
+    /**
+     * @param Quote $quote
+     * @param PreFlushEventArgs $args
+     */
+    public function preFlush(Quote $quote, PreFlushEventArgs $args)
+    {
+
     }
 
     /**

@@ -41,6 +41,8 @@ class RatingService extends Object
             $this->em->persist($rating);
         }
 
+        // recalculate rating
+        $this->updateCommentRating($comment);
     }
 
     public function rateQuote(Quote $quote, User $user, $positive)
@@ -59,6 +61,9 @@ class RatingService extends Object
 
             $this->em->persist($rating);
         }
+
+        // recalculate rating
+        $this->updateQuoteRating($quote);
     }
 
     /**
@@ -101,7 +106,7 @@ class RatingService extends Object
         $sum = 0;
         /** @var QuoteRating $r */
         foreach ($quote->getRatings() as $r) {
-            $sum += $r->getValue();
+            $sum += (int)$r->getValue();
         }
 
         $quote->setRating($sum);
