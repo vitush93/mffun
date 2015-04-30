@@ -4,6 +4,7 @@
     "ezyang/htmlpurifier": "dev-master",
     "kollarovic/thumbnail": "dev-master",
     "mrclay/minify": "dev-master",
-    "kdyby/doctrine": "dev-master"
+    "kdyby/doctrine": "dev-master",
+    "texy/texy": "dev-master"
   }
 }

@@ -25,7 +25,9 @@
                                     href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
                                 komentářů</a></span>
 
-                    <p>{$q->getText()}</p>
+                    <div class="quote-text">
+                        {!$q->getText()}
+                    </div>
 
                     <div class="item-tags">
                         <a href="{link Homepage:teacher $q->teacher->id}" class="tag"

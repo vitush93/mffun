@@ -6842,7 +6842,8 @@ h6 {
 #main .article article.content-item:after {
   clear: both;
 }
-#main .article article.content-item section > p {
+
+#main .article article.content-item section .quote-text {
   font-size: 15px;
   margin-top: 20px;
   margin-bottom: 25px;
@@ -8103,14 +8104,16 @@ aside[role="complementary"] .tag-cloud a {
   }
 }
 @media (min-width: 767px) and (max-width: 992px) {
-  #main .article article.content-item section > p {
+    #main .article article.content-item section > .quote-text {
     padding: 0;
     padding-bottom: 20px;
   }
-  #main .article article.content-item section > p:before {
+
+    #main .article article.content-item section > .quote-text:before {
     display: none;
   }
-  #main .article article.content-item section > p:after {
+
+    #main .article article.content-item section > .quote-text:after {
     display: none;
   }
 }
@@ -8118,14 +8121,17 @@ aside[role="complementary"] .tag-cloud a {
   body {
     padding-top: 85px;
   }
-  #main .article article.content-item section > p {
+
+    #main .article article.content-item section > .quote-text {
     padding: 0;
     padding-bottom: 20px;
   }
-  #main .article article.content-item section > p:before {
+
+    #main .article article.content-item section > .quote-text:before {
     display: none;
   }
-  #main .article article.content-item section > p:after {
+
+    #main .article article.content-item section > .quote-text:after {
     display: none;
   }
   #main .article article.content-item footer div.top-comment {

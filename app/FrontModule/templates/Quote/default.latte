@@ -24,7 +24,10 @@
                             komentářů</a></span>
                     {/snippet}
 
-                    <p>{$q->getText()}</p>
+                    <div class="quote-text">
+                        {!$q->getText()}
+                    </div>
+
                     {if $q->getTags()->count() > 0}
                         <div class="item-tags">
                             <a href="{link Homepage:teacher $q->teacher->id}" class="tag"
