@@ -33,7 +33,7 @@
                         <a href="{link Homepage:subject $q->subject->id}" class="tag"
                            n:if="$q->subject">{$q->getSubject()->getName(true)}</a>
                         {foreach $q->getTags() as $tag}
-                            <a href="{link Homepage:tag $tag->tag}" class="tag">#{$tag->getTag()}</a>
+                            <a href="{link Homepage:tag $tag->id}" class="tag">#{$tag->getTag()}</a>
                         {/foreach}
                     </div>
 
