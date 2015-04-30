@@ -1,0 +1,19 @@
+<div class="comment {$class} clearfix">
+    <div class="comment-left">
+        <img src="{$basePath}/public/front/avatars/{$comment->user->avatar}" alt="" title=""
+             class="img-circle">
+    </div>
+    <div class="comment-right">
+        <a>{$comment->getUser()->getUsername()} <span>{$comment->getDiff()}</span></a>
+
+        <p>
+            {$comment->getText()}
+        </p>
+
+        <div class="comment-controls">
+            {control rateComment, cid => $comment->id, up => $comment->getRatingUp(), down => $comment->getRatingDown()}
+            {if $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
+                    reagovat</a>{/if}
+        </div>
+    </div>
+</div>

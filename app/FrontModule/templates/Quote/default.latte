@@ -56,32 +56,17 @@
                                 </div>
                             {/form}
                         {/if}
+
                         {form commentsForm, class=>'new-reply-form ajax'}
+
                         {snippet comments}
                         {foreach
                         $em->getRepository(\App\Model\Entities\Comment::class)
                         ->findBy(['quote' => $q, 'parent' => 0], ['posted' => 'DESC'])
                         as $comment}
-                            <div class="comment clearfix">
-                                <div class="comment-left">
-                                    <img src="{$basePath}/public/front/avatars/{$comment->user->avatar}" alt="" title=""
-                                         class="img-circle">
-                                </div>
-                                <div class="comment-right">
-                                    {var $now = new DateTime()}
-                                    <a>{$comment->getUser()->getUsername()} <span>{$comment->getDiff()}</span></a>
 
-                                    <p>
-                                        {$comment->getText()}
-                                    </p>
+                            {include 'comment.latte' comment => $comment, class => ''}
 
-                                    <div class="comment-controls">
-                                        {control rateComment, cid => $comment->id, up => $comment->getRatingUp(), down => $comment->getRatingDown()}
-                                        {if $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
-                                                reagovat</a>{/if}
-                                    </div>
-                                </div>
-                            </div>
                             {foreach
                             $em->getRepository(\App\Model\Entities\Comment::class)
                             ->createQueryBuilder()
@@ -96,24 +81,8 @@
                             ->getResult()
                             as $reply}
 
-                                <div class="comment child clearfix">
-                                    <div class="comment-left">
-                                        <img src="{$basePath}/public/front/avatars/{$reply->user->avatar}" alt=""
-                                             title=""
-                                             class="img-circle">
-                                    </div>
-                                    <div class="comment-right">
-                                        <a>{$reply->getUser()->getUsername()} <span>{$reply->getDiff()}</span></a>
+                                {include 'comment.latte' comment => $reply, class => 'child'}
 
-                                        <p>
-                                            {$reply->getText()}
-                                        </p>
-
-                                        <div class="comment-controls">
-                                            {control rateComment, cid => $reply->id, up => $reply->getRatingUp(), down => $reply->getRatingDown()}
-                                        </div>
-                                    </div>
-                                </div>
                             {/foreach}
                         {/foreach}
                         {/snippet}
