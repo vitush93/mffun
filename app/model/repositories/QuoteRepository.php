@@ -255,7 +255,7 @@ class QuoteRepository extends Object
             ->leftJoin('q.tags', 'tg')
             ->leftJoin('q.teacher', 't')
             ->leftJoin('q.subject', 's')
-            ->where("tg.tag = :tag")
+            ->where("tg.id = :tag")
             ->andWhere('q.status = :status')
             ->groupBy('q.id')
             ->orderBy('q.approved', 'DESC')

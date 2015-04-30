@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\IRateQuoteControlFactory;
 use App\Model\Entities\Subject;
+use App\Model\Entities\Tag;
 use App\Model\Entities\Teacher;
 use Nette\Application\BadRequestException;
 use Nette\Utils\Paginator;
@@ -122,10 +123,14 @@ class HomepagePresenter extends BasePresenter
 
     public function actionTag($id, $p)
     {
+        /** @var Tag $tag */
+        $tag = $this->em->find(Tag::class, $id);
+        if (!$tag) throw new BadRequestException;
+
         $this->tag = $id;
         $this->setView('default');
         $this->resolvePage($p);
-        $this->template->tag = $id;
+        $this->template->tag = $tag->getTag();
     }
 
     private function resolvePage($page)
