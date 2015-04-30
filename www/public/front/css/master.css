@@ -11750,8 +11750,8 @@ footer[role=contentinfo] span {
     font-size: 14px
 }
 
-#add-quote-modal #optional-toggle, .form-container, .form-input {
-    padding-bottom: 10px;
+.form-container, .form-input {
+    font-size: 15px;
     padding-top: 10px
 }
 
@@ -11908,7 +11908,7 @@ input.login {
     border: 0;
     outline: 0;
     box-shadow: inset 0 -1px #d9d9d9;
-    font-size: 15px
+    padding-bottom: 10px
 }
 
 .form-input.has-error:focus, .form-input.has-error:focus:hover {
@@ -11938,7 +11938,7 @@ input.login {
     border: 0;
     outline: 0;
     box-shadow: inset 0 -1px #d9d9d9;
-    font-size: 15px;
+    padding-bottom: 10px;
     -webkit-transition: .1s ease-in-out;
     transition: .1s ease-in-out
 }
@@ -11985,7 +11985,8 @@ input.login {
     text-align: center;
     font-size: 13px;
     cursor: pointer;
-    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     font-weight: 600
 }
 

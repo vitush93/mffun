@@ -6987,7 +6987,6 @@ h6 {
   -o-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
 }
-
 #main .article article.content-item section div.social a i {
     position: relative;
     top: 6px;
@@ -8483,9 +8482,8 @@ input.login {
   text-align: center;
   font-size: 13px;
   cursor: pointer;
-  margin-top: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   font-weight: 600;
 }
 #add-quote-modal #optional-content {
