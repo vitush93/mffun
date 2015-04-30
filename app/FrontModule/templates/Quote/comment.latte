@@ -12,7 +12,7 @@
 
         <div class="comment-controls">
             {control rateComment, cid => $comment->id, up => $comment->getRatingUp(), down => $comment->getRatingDown()}
-            {if $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
+            {if !$class && $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
                     reagovat</a>{/if}
         </div>
     </div>
