@@ -94,14 +94,14 @@ class SignPresenter extends BasePresenter
 
         // send e-mail
         $mail = new Message;
-        $mail->setFrom('MFFun <noreply@beinshop.cz>')
+        $mail->setFrom('MFFun <noreply@vithabada.cz>')
             ->addTo($rec->getEmail())
-            ->setSubject('Obnova hesla')
+            ->setSubject('MFFun: Obnova hesla')
             ->setHtmlBody("
             Dobrý den,<br>
             na tuto e-mailovou adresu byl vyžádán odkaz pro obnovu hesla k účtu na MFFun. Pokud si chcete obnovit heslo klikněte na odkaz níže (platnost odkazu je 14 dní).
             <br><br>
-            <a href=\"{$this->link('Sign:recovery', $rec->getToken())}\">{$this->link('Sign:recovery', $rec->getToken())}</a>
+            <a href=\"{$this->link('//Sign:recovery', $rec->getToken())}\">{$this->link('//Sign:recovery', $rec->getToken())}</a>
             ");
         $this->mailer->send($mail);
 
