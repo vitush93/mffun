@@ -47,7 +47,7 @@ class BasePresenter extends Presenter
                 }
                 $this->redirect('Sign:default');
             } else {
-                if (!$this->getUser()->isAllowed('Admin:*')) {
+                if (!$this->getUser()->isAllowed($this->name)) {
                     $this->flashMessage('Přístup odmítnut.', 'danger');
                     $this->logout();
                     $this->redirect('Sign:default');
@@ -55,7 +55,7 @@ class BasePresenter extends Presenter
             }
         } else {
             if ($this->getUser()->isLoggedIn()) {
-                if ($this->getUser()->isInRole(User::ROLE_ADMIN)) {
+                if ($this->getUser()->isInRole(User::ROLE_ADMIN) || $this->getUser()->isInRole(User::ROLE_MODERATOR)) {
                     $this->redirect('Homepage:default');
                 }
             }

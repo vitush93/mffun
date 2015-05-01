@@ -316,6 +316,7 @@
             </li>
             *}
             {var $isQuotes = $presenter->name == 'Admin:Quotes'}
+            {if $user->isAllowed('Admin:Quotes')}
             <li class="treeview{if $isQuotes} active{/if}">
                 <a href="#">
                     <i class="fa fa-quote-right"></i>
@@ -328,11 +329,14 @@
                     <li n:class="$isQuotes && $presenter->action == 'all' ? active"><a href="{link Quotes:all}"><i class="fa fa-angle-double-right"></i> Všechny</a></li>
                 </ul>
             </li>
+            {/if}
+            {if $user->isAllowed('Admin:Uzivatele')}
             <li {if $presenter->name == 'Admin:Uzivatele'}class="active"{/if}>
                 <a href="{link Uzivatele:default}">
                     <i class="fa fa-users"></i> <span>Uživatelé</span>
                 </a>
             </li>
+            {/if}
         </ul>
 
         {*

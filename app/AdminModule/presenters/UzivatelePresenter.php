@@ -89,6 +89,7 @@ class UzivatelePresenter extends BasePresenter
 
             $user = $this->userRepository->find($this->getParameter('id'));
             $user->setUsername($values->username);
+            $user->setRole($values->role);
             if (strlen($values->password) > 5) {
                 $user->setPassword($values->password);
             }
@@ -118,7 +119,7 @@ class UzivatelePresenter extends BasePresenter
             $new->setUsername($data->username);
             $new->setPassword($data->password);
             $new->setEmail($data->email);
-            $new->setRole('user');
+            $new->setRole($data->role);
 
             $this->em->persist($new);
             $this->em->flush();
@@ -150,7 +151,7 @@ class UzivatelePresenter extends BasePresenter
             User::ROLE_USER => User::ROLE_USER,
             User::ROLE_MODERATOR => User::ROLE_MODERATOR,
             User::ROLE_ADMIN => User::ROLE_ADMIN
-        ]);
+        ])->setPrompt('-vyberte-')->setRequired('Vyberte.');
 
         $form->addPassword('password', 'Heslo');
 

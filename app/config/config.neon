@@ -37,9 +37,14 @@ services:
         setup:
             - addRole('guest')
             - addRole('user')
+            - addRole('moderator')
             - addRole('admin')
-            - addResource('Admin:*')
+            - addResource('Admin:Homepage')
+            - addResource('Admin:Quotes')
+            - addResource('Admin:Uzivatele')
             - allow('admin')
+            - allow('moderator', 'Admin:Homepage')
+            - allow('moderator', 'Admin:Quotes')
     router: @App\RouterFactory::createRouter
     imap:
         class: App\Libs\IMAPMail
