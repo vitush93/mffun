@@ -39,6 +39,7 @@ class UzivatelePresenter extends BasePresenter
         if (!$form->isAnchored() || !$form->isSubmitted()) {
             $form['username']->setValue($user->getUsername());
             $form['email']->setValue($user->getEmail());
+            $form['role']->setValue($user->getRole());
         }
     }
 
@@ -145,6 +146,11 @@ class UzivatelePresenter extends BasePresenter
         $form->addText('email', 'E-mail')
             ->setRequired('Vyplňte prosím.')
             ->addRule(Form::EMAIL, 'Zadejte platný e-mail');
+        $form->addSelect('role','Role', [
+            User::ROLE_USER => User::ROLE_USER,
+            User::ROLE_MODERATOR => User::ROLE_MODERATOR,
+            User::ROLE_ADMIN => User::ROLE_ADMIN
+        ]);
 
         $form->addPassword('password', 'Heslo');
 
