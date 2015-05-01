@@ -1,0 +1,7 @@
+nette:
+    mailer:
+        smtp: true
+        host: "smtp.host.com"
+        username: "user@host.com"
+        password: "asdasdasd"
+        secure: "ssl"

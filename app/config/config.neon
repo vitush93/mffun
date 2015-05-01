@@ -29,12 +29,6 @@ nette:
 
         session:
                 expiration: 14 days
-        mailer:
-                smtp: true
-                host: "smtp.host.com"
-                username: "user@host.com"
-                password: "asdasdasd"
-                secure: "ssl"
 
 
 services:
