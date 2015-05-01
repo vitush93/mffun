@@ -72,7 +72,10 @@ class AddQuoteControl extends Control
     {
         $data = $form->getValues(true);
         $text = \HTMLPurifier::getInstance()->purify($data['text']);
-        $text = Utils::texy($text);
+        if (strlen($text) == 0) {
+            $this->presenter->flashMessage('Nelze přidat citaci s prázdným textem.', 'error');
+            return;
+        }
 
         $quote = new Quote($data['title'], $text);
 

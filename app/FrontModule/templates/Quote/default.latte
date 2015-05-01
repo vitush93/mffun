@@ -25,7 +25,7 @@
                     {/snippet}
 
                     <div class="quote-text">
-                        {!$q->getText()}
+                        {!App\Libs\Utils::texy($q->getText())}
                     </div>
 
                     {if $q->getTags()->count() > 0}

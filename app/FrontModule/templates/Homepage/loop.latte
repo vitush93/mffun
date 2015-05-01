@@ -26,7 +26,7 @@
                                 komentářů</a></span>
 
                     <div class="quote-text">
-                        {!$q->getText()}
+                        {!App\Libs\Utils::texy($q->getText())}
                     </div>
 
                     <div class="item-tags">
