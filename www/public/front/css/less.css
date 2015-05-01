@@ -8106,7 +8106,6 @@ aside[role="complementary"] .tag-cloud a {
 @media (min-width: 767px) and (max-width: 992px) {
   #main .article article.content-item section > .quote-text {
     padding: 0;
-    padding-bottom: 20px;
   }
   #main .article article.content-item section > .quote-text:before {
     display: none;

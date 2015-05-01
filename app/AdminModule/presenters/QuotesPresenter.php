@@ -31,20 +31,29 @@ class QuotesPresenter extends BasePresenter
     /**
      * Deny quote with given id.
      *
-     * @param $id
+     * @param $qid
      * @throws BadRequestException
      */
-    public function handleDeny($id)
+    public function handleDeny($qid)
     {
-        $quote = $this->quoteRepository->find($id);
+        $quote = $this->quoteRepository->find($qid);
 
         if (!$this->checkQuote($quote)) throw new BadRequestException();
 
         $quote->deny();
         $this->em->flush();
 
-        $this->flashMessage('Citace byla odmítnuta', 'info');
-        $this->redirect('this');
+        if ($this->isAjax()) {
+            if ($this->action == 'default') {
+                $this->sendJson(['hide' => true]);
+            } else {
+                $this->setView('approve');
+                $this->template->q = $quote;
+            }
+        } else {
+            $this->flashMessage('Citace byla odmítnuta', 'info');
+            $this->redirect('this');
+        }
     }
 
     /**
@@ -60,20 +69,29 @@ class QuotesPresenter extends BasePresenter
     /**
      * Approve quote with given id.
      *
-     * @param $id
+     * @param $qid
      * @throws BadRequestException
      */
-    public function handleApprove($id)
+    public function handleApprove($qid)
     {
-        $quote = $this->quoteRepository->find($id);
+        $quote = $this->quoteRepository->find($qid);
 
         if (!$this->checkQuote($quote)) throw new BadRequestException();
 
         $quote->approve();
         $this->em->flush();
 
-        $this->flashMessage('Citace byla schválena', 'success');
-        $this->redirect('this');
+        if ($this->isAjax()) {
+            if ($this->action == 'default' || $this->action == 'denied') {
+                $this->sendJson(['hide' => true]);
+            } else {
+                $this->setView('deny');
+                $this->template->q = $quote;
+            }
+        } else {
+            $this->flashMessage('Citace byla schválena', 'info');
+            $this->redirect('this');
+        }
     }
 
     /**

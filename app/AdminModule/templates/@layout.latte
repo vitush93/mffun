@@ -309,29 +309,31 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li {ifCurrent Homepage:default}class="active"{/ifCurrent}>
+            {*<li {ifCurrent Homepage:default}class="active"{/ifCurrent}>
                 <a href="{link Homepage:default}">
                     <i class="fa fa-dashboard"></i> <span>Nástěnka</span>
                 </a>
             </li>
-            <li {if $presenter->name == 'Admin:Uzivatele'}class="active"{/if}>
-                <a href="{link Uzivatele:default}">
-                    <i class="fa fa-users"></i> <span>Uživatelé</span>
-                </a>
-            </li>
-            <li class="treeview{if $presenter->name == 'Admin:Quotes'} active{/if}">
+            *}
+            {var $isQuotes = $presenter->name == 'Admin:Quotes'}
+            <li class="treeview{if $isQuotes} active{/if}">
                 <a href="#">
                     <i class="fa fa-quote-right"></i>
                     <span>Citace</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{link Quotes:default}"><i class="fa fa-angle-double-right"></i> Ke schválení</a></li>
-                    <li><a href="{link Quotes:denied}"><i class="fa fa-angle-double-right"></i> Zamítnuté</a></li>
-                    <li><a href="{link Quotes:all}"><i class="fa fa-angle-double-right"></i> Všechny</a></li>
+                    <li n:class="$isQuotes && $presenter->action == 'default' ? active"><a href="{link Quotes:default}"><i class="fa fa-angle-double-right"></i> Ke schválení</a></li>
+                    <li n:class="$isQuotes && $presenter->action == 'denied' ? active"><a href="{link Quotes:denied}"><i class="fa fa-angle-double-right"></i> Zamítnuté</a></li>
+                    <li n:class="$isQuotes && $presenter->action == 'all' ? active"><a href="{link Quotes:all}"><i class="fa fa-angle-double-right"></i> Všechny</a></li>
+                </ul>
+            </li>
+            <li {if $presenter->name == 'Admin:Uzivatele'}class="active"{/if}>
+                <a href="{link Uzivatele:default}">
+                    <i class="fa fa-users"></i> <span>Uživatelé</span>
+                </a>
             </li>
         </ul>
-        </li>
 
         {*
         <li>
@@ -495,6 +497,7 @@
 <script src="{$basePath}/public/admin/js/dataTables.bootstrap.js" type="text/javascript"></script>
 
 <script src="{$basePath}/public/admin/js/nette.ajax.js"></script>
+<script src="{$basePath}/public/admin/js/script.js"></script>
 <script src="{$basePath}/public/admin/js/live-form-validation.js"></script>
 
 <!-- AdminLTE App -->

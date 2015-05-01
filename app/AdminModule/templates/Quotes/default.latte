@@ -10,10 +10,15 @@
     <script type="text/javascript">
         $('#example1').dataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/725b2a2115b/i18n/Czech.json',
+                url: '//cdn.datatables.net/plug-ins/725b2a2115b/i18n/Czech.json'
             },
             pageLength: 25,
-            "order": [[0, "desc"]]
+            "order": [[0, "asc"]]
+        });
+    </script>
+    <script>
+        $('body').on('click', '', function () {
+
         });
     </script>
 {/block}
@@ -39,6 +44,7 @@
                     <thead>
                     <tr>
                         <th>Datum</th>
+                        <th>Titulek</th>
                         <th>Text</th>
                         <th>Zaslal (C-rank)</th>
                         <th>Akce</th>
@@ -46,8 +52,9 @@
                     </thead>
                     <tbody>
                     {foreach $quotes as $q}
-                        <tr>
+                        <tr id="row-q-{$q->id}">
                             <td>{$q->posted|date:'j.n.Y H:i'}</td>
+                            <td>{$q->title}</td>
                             <td>{$q->text}</td>
                             <td>
                                 {if !$q->user} anonym {else}
@@ -55,29 +62,23 @@
                                 {/if}
                             </td>
                             <td>
-                                {if $presenter->action == 'default'}
-                                    <a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
-                                                class="fa fa-check"></i> Schválit</a>
-                                    <a href="{link deny! $q->id}"
-                                       class="btn btn-xs btn-default"><i
-                                                class="fa fa-times"></i> Zamítnout</a>
-                                {/if}
-
-                                {if $presenter->action == 'denied'}
-                                    <a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
-                                                class="fa fa-check"></i> Schválit</a>
-                                {/if}
-
-                                {if $presenter->action == 'all'}
-                                    {if $q->isApproved()}
-                                        <a href="{link deny! $q->id}"
-                                           class="btn btn-xs btn-default"><i
-                                                    class="fa fa-times"></i> Zamítnout</a>
-                                    {else}
-                                        <a href="{link approve! $q->id}" class="btn btn-xs btn-default"><i
-                                                    class="fa fa-check"></i> Schválit</a>
+                                <div id="action-q-{$q->id}">
+                                    {if $presenter->action == 'default'}
+                                        {include 'both.latte' q => $q}
                                     {/if}
-                                {/if}
+
+                                    {if $presenter->action == 'denied'}
+                                        {include 'approve.latte' q => $q}
+                                    {/if}
+
+                                    {if $presenter->action == 'all'}
+                                        {if $q->isApproved()}
+                                            {include 'deny.latte' q => $q}
+                                        {else}
+                                            {include 'approve.latte' q => $q}
+                                        {/if}
+                                    {/if}
+                                </div>
                             </td>
                         </tr>
                     {/foreach}
@@ -85,6 +86,7 @@
                     <tfoot>
                     <tr>
                         <th>Datum</th>
+                        <th>Titulek</th>
                         <th>Text</th>
                         <th>Zaslal (C-rank)</th>
                         <th>Akce</th>
