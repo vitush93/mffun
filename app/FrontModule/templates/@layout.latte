@@ -7,10 +7,23 @@
     <meta name="robots" content="index,follow">
     <meta name="description" content="Freelance Webdesigner a Web Developer - Tvorba Webových Stránek a Aplikací">
     <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
-    <title>{block title|striptags}{/block} Web Database of Professor Quotations</title>
+    <title>{block title|striptags}{/block} MFFun</title>
     <link rel="icon" type="image/png" href="{$basePath}/public/front/img/favicon.png">
     <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto:400,400italic,700|Oswald:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{$basePath}/public/front/css/master.css">
+
+    {if isset($og)}
+        <!-- Open Graph data -->
+        <meta property="og:title" content="{$og->title}">
+        <meta property="og:type" content="article">
+        {if $presenter->name == 'Front:Homepage'}
+            <meta property="og:url" content="{link //Homepage:default}">
+        {else}
+            <meta property="og:url" content="{link //this}">
+        {/if}
+        <meta property="og:image" content="{link //Homepage:default}public/img/favicon.png">
+        <meta property="og:description" content="{$og->desc}">
+    {/if}
 
     {block assets}{/block}
 </head>

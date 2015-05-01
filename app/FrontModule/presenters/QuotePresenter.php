@@ -10,6 +10,7 @@ use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 
 class QuotePresenter extends BasePresenter
 {
@@ -44,6 +45,13 @@ class QuotePresenter extends BasePresenter
     {
         $this->template->q = $this->quote;
         $this->template->em = $this->em;
+
+        $og = new ArrayHash();
+        $og->title = $this->quote->getTitle() . ' - MFFun';
+        $og->desc = substr($this->quote->getText(), 0, 197);
+        if (strlen($og->desc) == 197) $og->desc = $og->desc . '...';
+
+        $this->template->og = $og;
     }
 
     /**

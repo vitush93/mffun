@@ -7,6 +7,7 @@ use App\Model\Entities\Subject;
 use App\Model\Entities\Tag;
 use App\Model\Entities\Teacher;
 use Nette\Application\BadRequestException;
+use Nette\Utils\ArrayHash;
 use Nette\Utils\Paginator;
 
 class HomepagePresenter extends BasePresenter
@@ -46,6 +47,10 @@ class HomepagePresenter extends BasePresenter
         parent::beforeRender();
 
         $this->template->section = $this->quotes;
+        $og = new ArrayHash();
+        $og->title = 'MFFun';
+        $og->desc = 'Databáze vtipných citací profesorů z matfyzu.';
+        $this->template->og = $og;
     }
 
     public function renderDefault()
