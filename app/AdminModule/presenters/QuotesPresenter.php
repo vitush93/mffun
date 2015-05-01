@@ -2,14 +2,20 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
+use App\Libs\BootstrapForm;
 use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
+use Nette\Application\UI\Form;
 
 class QuotesPresenter extends BasePresenter
 {
     /** @var QuoteRepository @inject */
     public $quoteRepository;
+
+    /** @var IAddQuoteControlFactory @inject */
+    public $addQuoteControlFactory;
 
     public function renderDefault()
     {
@@ -104,5 +110,20 @@ class QuotesPresenter extends BasePresenter
         $this->quoteRepository->delete($id);
         $this->flashMessage("Položka byla smazána.", "info");
         $this->redirect('this');
+    }
+
+    /**
+     * @return Form
+     */
+    protected function createComponentAddQuote()
+    {
+        $control = $this->addQuoteControlFactory->create();
+        $closure = function () use ($control) {
+            $form = $control->getForm();
+            BootstrapForm::makeBootstrap($form);
+        };
+        $control->modifyForm($closure);
+
+        return $control;
     }
 }

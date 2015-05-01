@@ -149,6 +149,22 @@ class AddQuoteControl extends Control
     }
 
     /**
+     * @param callable $callable
+     */
+    public function modifyForm(callable $callable)
+    {
+        $callable($this['quoteForm']);
+    }
+
+    /**
+     * @return Form
+     */
+    public function getForm()
+    {
+        return $this['quoteForm'];
+    }
+
+    /**
      * AddQuoteForm factory.
      *
      * @return Form
