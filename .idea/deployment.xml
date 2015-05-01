@@ -2,10 +2,10 @@
 <project version="4">
   <component name="PublishConfigData" uploadOnCheckin="ceb1e987-57b8-4d3f-a6ff-057487d8c9d0">
     <serverData>
-      <paths name="vithabada">
+      <paths name="home">
         <serverdata>
           <mappings>
-            <mapping deploy="www/subdom/mffun" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/www/subdom/mffun" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

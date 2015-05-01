@@ -129,7 +129,7 @@ class SignPresenter extends BasePresenter
             $control->getControlPrototype()->class('form-input');
         }
 
-        $form->addSubmit('process', 'Registrovat')
+        $form->addSubmit('process', 'Odeslat')
             ->getControlPrototype()->class('button blue');
         $form->getElementPrototype()->class = 'form-horizontal register-form';
 
@@ -158,7 +158,7 @@ class SignPresenter extends BasePresenter
             $control->getControlPrototype()->class('form-input');
         }
 
-        $form->addSubmit('process', 'Registrovat')
+        $form->addSubmit('process', 'Odeslat')
             ->getControlPrototype()->class('button blue');
 
         $form->onSuccess[] = function (Form $form, ArrayHash $values) {
