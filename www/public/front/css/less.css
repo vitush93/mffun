@@ -9124,3 +9124,9 @@ textarea {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+#reload-button-content {
+  display: none;
+}
+#reload-button-content #reload-button {
+  border-radius: 3px;
+}
