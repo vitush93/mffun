@@ -113,7 +113,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['buildcss', 'buildjs']);
     grunt.registerTask('release', ['less', 'concat:css', 'cssc', 'autoprefixer', 'cssmin', 'buildjs', 'uglify']);
 
-    grunt.registerTask('buildcss', ['less', 'concat:css', 'autoprefixer']);
+    grunt.registerTask('buildcss', ['less', 'concat:css']);
     grunt.registerTask('buildjs', ['concat:js']);
 
     grunt.registerTask('deploy', ['release', 'ftp-deploy']);

@@ -6842,9 +6842,9 @@ h6 {
 #main .article article.content-item:after {
   clear: both;
 }
-
 #main .article article.content-item section .quote-text {
-  font-size: 15px;
+  line-height: 1.5;
+  font-size: 17px;
   margin-top: 20px;
   margin-bottom: 25px;
   position: relative;
@@ -6989,8 +6989,8 @@ h6 {
   transition: 0.1s ease-in-out;
 }
 #main .article article.content-item section div.social a i {
-    position: relative;
-    top: 6px;
+  position: relative;
+  top: 6px;
 }
 #main .article article.content-item section div.social a:hover {
   -webkit-transition: 0.1s;
@@ -7564,7 +7564,7 @@ nav[role="navigation"] ul#user-cp #user-controls div + i + a {
   margin-top: 20px;
 }
 nav[role="navigation"] ul#user-cp #user-controls .caret-arrow {
-    background: url('../img/disc-arrow-up.png') center no-repeat;
+  background: url('../img/disc-arrow-up.png') center no-repeat;
   background-size: 20px 20px;
   width: 100%;
   height: 20px;
@@ -8104,16 +8104,14 @@ aside[role="complementary"] .tag-cloud a {
   }
 }
 @media (min-width: 767px) and (max-width: 992px) {
-    #main .article article.content-item section > .quote-text {
+  #main .article article.content-item section > .quote-text {
     padding: 0;
     padding-bottom: 20px;
   }
-
-    #main .article article.content-item section > .quote-text:before {
+  #main .article article.content-item section > .quote-text:before {
     display: none;
   }
-
-    #main .article article.content-item section > .quote-text:after {
+  #main .article article.content-item section > .quote-text:after {
     display: none;
   }
 }
@@ -8121,17 +8119,14 @@ aside[role="complementary"] .tag-cloud a {
   body {
     padding-top: 85px;
   }
-
-    #main .article article.content-item section > .quote-text {
+  #main .article article.content-item section > .quote-text {
     padding: 0;
     padding-bottom: 20px;
   }
-
-    #main .article article.content-item section > .quote-text:before {
+  #main .article article.content-item section > .quote-text:before {
     display: none;
   }
-
-    #main .article article.content-item section > .quote-text:after {
+  #main .article article.content-item section > .quote-text:after {
     display: none;
   }
   #main .article article.content-item footer div.top-comment {
@@ -8488,8 +8483,8 @@ input.login {
   text-align: center;
   font-size: 13px;
   cursor: pointer;
-    padding-top: 20px;
-    padding-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   font-weight: 600;
 }
 #add-quote-modal #optional-content {
@@ -8742,7 +8737,7 @@ p.notice {
 }
 .comments .comment .comment-right .comment-controls a.reply {
   font-size: 14px;
-    color: #3498db;
+  color: #3498db;
 }
 .comments .comment .comment-right .comment-controls a.up {
   margin-right: 5px;
@@ -9126,6 +9121,6 @@ table.summary tr th {
 }
 input,
 textarea {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
