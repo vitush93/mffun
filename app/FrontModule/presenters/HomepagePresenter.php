@@ -135,7 +135,8 @@ class HomepagePresenter extends BasePresenter
         $this->tag = $id;
         $this->setView('default');
         $this->resolvePage($p);
-        $this->template->tag = $tag->getId();
+        $this->template->tag = $tag->getTag();
+        $this->template->tagId = $tag->getId();
     }
 
     private function resolvePage($page)
