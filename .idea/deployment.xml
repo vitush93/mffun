@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" uploadOnCheckin="2429a6d5-ba48-412b-8777-c1640872ccc3">
+  <component name="PublishConfigData" uploadOnCheckin="ceb1e987-57b8-4d3f-a6ff-057487d8c9d0">
     <serverData>
       <paths name="vithabada">
         <serverdata>
@@ -10,6 +10,6 @@
         </serverdata>
       </paths>
     </serverData>
-    <option name="myUploadOnCheckinName" value="home" />
+    <option name="myUploadOnCheckinName" value="vithabada" />
   </component>
 </project>
