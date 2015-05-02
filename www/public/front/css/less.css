@@ -8120,7 +8120,6 @@ aside[role="complementary"] .tag-cloud a {
   }
   #main .article article.content-item section > .quote-text {
     padding: 0;
-    padding-bottom: 20px;
   }
   #main .article article.content-item section > .quote-text:before {
     display: none;
