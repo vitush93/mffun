@@ -150,7 +150,7 @@ class User extends BaseEntity
      * @ORM\Column(type="integer")
      * @var int
      */
-    private $crank = 5;
+    private $crank = 0;
 
     /**
      * @ORM\Column(type="string", nullable=true)
