@@ -66,7 +66,7 @@ ScrollLoad.prototype = {
 
         setInterval(function () {
             if (context.lock) return;
-            var diff = document.body.offsetHeight - (window.innerHeight + window.scrollY);
+            var diff = $(document).height() - ($(window).height() + $(document).scrollTop());
             if (diff < context.bottomOffset) {
                 context.lock = true;
                 context.load(context.currentPage);
