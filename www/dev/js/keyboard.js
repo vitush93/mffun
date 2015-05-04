@@ -50,10 +50,10 @@ var keyboardShort = function() {
     $document.keyup(function (e) {
         var el = e.currentTarget.activeElement.tagName;
         if (el == 'INPUT' || el == 'TEXTAREA') return;
-        if (e.keyCode === 75) {
+        if (e.keyCode === 75 || e.keyCode == 37) {
             handleAction('prev');
         } // Up arrow.
-        if (e.keyCode === 74) {
+        if (e.keyCode === 74 || e.keyCode == 39) {
             handleAction('next');
         } // Down arrow.
     });

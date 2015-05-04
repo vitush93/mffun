@@ -47,7 +47,7 @@ class QuotePresenter extends BasePresenter
         $this->template->em = $this->em;
 
         $og = new ArrayHash();
-        $og->title = $this->quote->getTitle() . ' - MFFun';
+        $og->title = 'MFFun - citace z matfyzu';
         $og->desc = substr($this->quote->getText(), 0, 197);
         if (strlen($og->desc) == 197) $og->desc = $og->desc . '...';
 

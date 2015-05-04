@@ -177,6 +177,14 @@ h1, h2, h3, h4, h5, h6 {
           font-family: @oswald;
           font-size: 24px;
           font-weight: 700;
+          a.q-hash {
+            margin: 0;
+            color: fade(#405264, 50%);
+            &:hover {
+              text-decoration: underline;
+              color: fade(#405264, 50%);
+            }
+          }
           > a {
             margin-right: 8px;
             .transition(0.1s);

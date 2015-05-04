@@ -14,25 +14,22 @@
 
 
                     <div class="required">
-                        {label title /}
-                        {input title}
-                    </div>
-                    <div class="required">
                         {label text /}
                         {input text}
+                    </div>
+                    <div>
+                        {label subject /}
+                        {input subject}
+                    </div>
+                    <div>
+                        {label teacher /}
+                        {input teacher}
                     </div>
 
                     <span id="optional-toggle">metadata <i class="fa fa-caret-down"></i></span>
 
                     <div id="optional-content">
-                        <div>
-                            {label subject /}
-                            {input subject}
-                        </div>
-                        <div>
-                            {label teacher /}
-                            {input teacher}
-                        </div>
+
                         <div>
                             {label tags /}
                             {input tags}
@@ -47,15 +44,6 @@
                     <div>
                         {input process}
                     </div>
-
-                    {*
-                    {foreach $form->getControls() as $control}
-                        <div n:class="$control->isRequired() ? required">
-                            {label $control /}
-                            {input $control}
-                        </div>
-                    {/foreach}
-                    *}
                 </fieldset>
             {/form}
         </div>

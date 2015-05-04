@@ -80,7 +80,7 @@ class AddQuoteControl extends Control
             return;
         }
 
-        $quote = new Quote($data['title'], $text);
+        $quote = new Quote($text);
 
         // author & author's email
         if ($this->presenter->getUser()->isLoggedIn()) {
@@ -176,9 +176,6 @@ class AddQuoteControl extends Control
     {
         $form = new Form();
 
-        $form->addText('title', 'Titulek (povinné)')
-            ->addRule(Form::MAX_LENGTH, 'Titulek nesmí být delší než %d znaků.', 80)
-            ->setRequired('Vyplňte prosím.');
         $form->addTextArea('text', 'Text citace (povinné)')
             ->addRule(Form::MAX_LENGTH, 'Text nesmí být delší než %d znaků.', 1000)
             ->setRequired('Vyplňte prosím.');

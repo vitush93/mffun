@@ -8,14 +8,16 @@
                     {control rateQuote, q => $q->id}
 
                     <h2>
+                        <a n:if="$q->subject" href="{link Homepage:subject $q->subject->id}" class="q-hash">#</a>
                         <a href="{link Quote:default $q->getId()}" target="_blank">
-                            {if $q->title}{$q->title}
-                            {*elseif $q->teacher}{$q->teacher->name*}
-                            {else}Title goes here
+                            {if $q->subject}
+                                {$q->subject->name}
+                            {else}
+                                Předmět neuveden
                             {/if}
                         </a>
-                        <small n:if="$q->subject"><a
-                                    href="{link Homepage:subject $q->subject->id}">{$q->getSubject()->getName(true)}</a>
+                        <small n:if="$q->teacher"><a
+                                    href="{link Homepage:teacher $q->teacher->id}">{$q->teacher->getName(true)}</a>
                         </small>
                         <br>
                     </h2>
@@ -30,10 +32,6 @@
                     </div>
 
                     <div class="item-tags">
-                        <a href="{link Homepage:teacher $q->teacher->id}" class="tag"
-                           n:if="$q->teacher">{$q->getTeacher()->getName(true)}</a>
-                        <a href="{link Homepage:subject $q->subject->id}" class="tag"
-                           n:if="$q->subject">{$q->getSubject()->getName(true)}</a>
                         {foreach $q->getTags() as $tag}
                             <a href="{link Homepage:tag $tag->id}" class="tag">#{$tag->getTag()}</a>
                         {/foreach}

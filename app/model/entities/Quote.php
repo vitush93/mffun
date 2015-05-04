@@ -93,12 +93,6 @@ class Quote extends BaseEntity
     private $approved;
 
     /**
-     * @ORM\Column(type="string")
-     * @var string
-     */
-    private $title;
-
-    /**
      * @ORM\Column(type="text")
      * @var string
      */
@@ -123,17 +117,15 @@ class Quote extends BaseEntity
     private $status = self::STATUS_NEED_APPROVAL;
 
     /**
-     * @param string $title
      * @param string $text
      * @param DateTime $date
      */
-    public function __construct($title, $text, DateTime $date = null)
+    public function __construct($text, DateTime $date = null)
     {
         $this->posted = new DateTime();
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->title = $title;
         $this->text = $text;
 
         if ($date) {
@@ -141,22 +133,6 @@ class Quote extends BaseEntity
         } else {
             $this->date = new DateTime();
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
     }
 
     /**

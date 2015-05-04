@@ -7105,6 +7105,14 @@ h6 {
   font-size: 24px;
   font-weight: 700;
 }
+#main .article article.content-item section h2 a.q-hash {
+  margin: 0;
+  color: rgba(64, 82, 100, 0.5);
+}
+#main .article article.content-item section h2 a.q-hash:hover {
+  text-decoration: underline;
+  color: rgba(64, 82, 100, 0.5);
+}
 #main .article article.content-item section h2 > a {
   margin-right: 8px;
   -webkit-transition: 0.1s;
