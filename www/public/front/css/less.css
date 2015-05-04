@@ -7553,10 +7553,11 @@ nav[role="navigation"] ul#user-cp #user-controls .onoffswitch {
   float: left;
 }
 nav[role="navigation"] ul#user-cp #user-controls div + i {
-  position: absolute;
-  top: 170px;
-  left: 59px;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 7px;
   color: #546678;
+  font-size: 12px;
 }
 nav[role="navigation"] ul#user-cp #user-controls div + i + a {
   float: right;
