@@ -55,15 +55,15 @@
                         <td>{$u->crank}</td>
                         <td>{$u->getRole()}</td>
                         <td>
-                            <a href="{link Uzivatele:edit $u->getId()}" class="btn btn-xs btn-default"><i class="fa fa-pencil"></i> Upravit</a>
+                            <a href="{link Uzivatele:edit $u->getId()}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Upravit</a>
                             {if $u->role == App\Model\Entities\User::ROLE_USER}
                                 {if $u->isBanned()}
-                                    <a href="{link Uzivatele:ban $u->getId()}" class="btn btn-xs btn-default" onclick="return confirm('Opravdu?')"><i class="fa fa-check"></i> Odbanovat</a>
+                                    <a href="{link Uzivatele:ban $u->getId()}" class="btn btn-sm btn-primary" onclick="return confirm('Opravdu?')"><i class="fa fa-check"></i> Odbanovat</a>
                                 {else}
-                                    <a href="{link Uzivatele:ban $u->getId()}" class="btn btn-xs btn-default" onclick="return confirm('Opravdu?')"><i class="fa fa-times"></i> Zabanovat</a>
+                                    <a href="{link Uzivatele:ban $u->getId()}" class="btn btn-sm btn-primary" onclick="return confirm('Opravdu?')"><i class="fa fa-times"></i> Zabanovat</a>
                                 {/if}
                             {/if}
-                            <a href="{link Uzivatele:delete $u->getId()}" class="btn btn-xs btn-default" onclick="return confirm('Opravdu?')"><i class="fa fa-trash-o"></i> Smazat</a>
+                            <a href="{link Uzivatele:delete $u->getId()}" class="btn btn-sm btn-danger" onclick="return confirm('Opravdu?')"><i class="fa fa-trash-o"></i> Smazat</a>
                         </td>
                     </tr>
                     {/foreach}
