@@ -4,9 +4,9 @@ namespace App\Model\Services;
 
 use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
-use Nette,
-    Nette\Security\Passwords;
+use Nette;
 use Nette\Object;
+use Nette\Security\Passwords;
 
 class AuthenticationService extends Object implements Nette\Security\IAuthenticator
 {
@@ -33,6 +33,7 @@ class AuthenticationService extends Object implements Nette\Security\IAuthentica
     {
         list($username, $password) = $credentials;
 
+        /** @var User $row */
         $row = $this->usersDao->findOneBy(array(
             'username' => $username,
             'active' => TRUE
@@ -46,6 +47,8 @@ class AuthenticationService extends Object implements Nette\Security\IAuthentica
             $row->update(array(
                 'password' => Passwords::hash($password),
             ));
+        } elseif ($row->isBanned()) {
+            throw new Nette\Security\AuthenticationException('Byl jsi zabanován. Napiš adminovi na ' . $row->getBan() . '.', self::NOT_APPROVED);
         }
 
         $arr = array(

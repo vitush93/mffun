@@ -23,6 +23,25 @@ class UzivatelePresenter extends BasePresenter
             ->setRequired('Vyplňte prosím.');
     }
 
+    public function actionBan($id)
+    {
+        $user = $this->userRepository->find($id);
+        self::checkUser($user);
+        if ($user->getRole() != User::ROLE_USER) throw new BadRequestException;
+
+        if ($user->isBanned()) {
+            $user->setBan(NULL);
+        } else {
+            $admin_email = $this->userRepository->find($this->user->id)->getEmail();
+            $user->setBan($admin_email);
+        }
+
+        $this->em->flush();
+
+        $this->flashMessage("Uživatel {$user->getUsername()} byl zabanován/odbanován.", 'info');
+        $this->redirect('default');
+    }
+
     public function actionEdit($id)
     {
         $user = $this->userRepository->find($id);
@@ -147,7 +166,7 @@ class UzivatelePresenter extends BasePresenter
         $form->addText('email', 'E-mail')
             ->setRequired('Vyplňte prosím.')
             ->addRule(Form::EMAIL, 'Zadejte platný e-mail');
-        $form->addSelect('role','Role', [
+        $form->addSelect('role', 'Role', [
             User::ROLE_USER => User::ROLE_USER,
             User::ROLE_MODERATOR => User::ROLE_MODERATOR,
             User::ROLE_ADMIN => User::ROLE_ADMIN

@@ -43,6 +43,7 @@
                     <thead>
                     <tr>
                         <th>Uživatelské jméno</th>
+                        <th>Trust</th>
                         <th>Role</th>
                         <th>Akce</th>
                     </tr>
@@ -51,9 +52,17 @@
                     {foreach $users as $u}
                     <tr>
                         <td>{$u->getUsername()}</td>
+                        <td>{$u->crank}</td>
                         <td>{$u->getRole()}</td>
                         <td>
                             <a href="{link Uzivatele:edit $u->getId()}" class="btn btn-xs btn-default"><i class="fa fa-pencil"></i> Upravit</a>
+                            {if $u->role == App\Model\Entities\User::ROLE_USER}
+                                {if $u->isBanned()}
+                                    <a href="{link Uzivatele:ban $u->getId()}" class="btn btn-xs btn-default" onclick="return confirm('Opravdu?')"><i class="fa fa-check"></i> Odbanovat</a>
+                                {else}
+                                    <a href="{link Uzivatele:ban $u->getId()}" class="btn btn-xs btn-default" onclick="return confirm('Opravdu?')"><i class="fa fa-times"></i> Zabanovat</a>
+                                {/if}
+                            {/if}
                             <a href="{link Uzivatele:delete $u->getId()}" class="btn btn-xs btn-default" onclick="return confirm('Opravdu?')"><i class="fa fa-trash-o"></i> Smazat</a>
                         </td>
                     </tr>
@@ -62,6 +71,7 @@
                     <tfoot>
                     <tr>
                         <th>Uživatelské jméno</th>
+                        <th>Trust</th>
                         <th>Role</th>
                         <th>Akce</th>
                     </tr>

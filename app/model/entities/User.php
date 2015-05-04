@@ -152,6 +152,12 @@ class User extends BaseEntity
      */
     private $crank = 5;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var null|string
+     */
+    private $ban = NULL;
+
     public function __construct()
     {
         $this->registered = new DateTime();
@@ -160,6 +166,30 @@ class User extends BaseEntity
         $this->comment_ratings = new ArrayCollection();
         $this->quote_ratings = new ArrayCollection();
         $this->avatar = self::$AVATARS[rand(0, count(self::$AVATARS) - 1)];
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getBan()
+    {
+        return $this->ban;
+    }
+
+    /**
+     * @param null|string $ban
+     */
+    public function setBan($ban)
+    {
+        $this->ban = $ban;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBanned()
+    {
+        return $this->ban != NULL;
     }
 
     /**
