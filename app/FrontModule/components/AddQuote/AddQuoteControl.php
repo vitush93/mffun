@@ -59,6 +59,9 @@ class AddQuoteControl extends Control
     public function render()
     {
         $this->template->setFile(__DIR__ . '/AddQuote.latte');
+        if ($this->presenter->user->isLoggedIn()) {
+            $this->template->u = $this->em->find(User::class, $this->presenter->user->id);
+        }
         $this->template->render();
     }
 
