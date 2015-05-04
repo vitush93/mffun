@@ -40,7 +40,9 @@
                         </div>
                     {/if}
 
-
+                    <div class="item-details">
+                        <p>{if $q->user}{$q->user->username}{else}anonym{/if} &middot; {$q->posted->format('j.n.Y')}</p>
+                    </div>
 
                     <div class="comments" id="comments">
                         <h3>Komentáře</h3>
