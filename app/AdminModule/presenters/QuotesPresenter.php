@@ -2,20 +2,17 @@
 
 namespace App\AdminModule\Presenters;
 
-use App\FrontModule\Components\AddQuote\IAddQuoteControlFactory;
 use App\Libs\BootstrapForm;
 use App\Model\Entities\Quote;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 
 class QuotesPresenter extends BasePresenter
 {
     /** @var QuoteRepository @inject */
     public $quoteRepository;
-
-    /** @var IAddQuoteControlFactory @inject */
-    public $addQuoteControlFactory;
 
     public function renderDefault()
     {
@@ -32,6 +29,22 @@ class QuotesPresenter extends BasePresenter
     {
         $this->setView('default');
         $this->template->quotes = $this->quoteRepository->findAll();
+    }
+
+    public function handleEdit($qid)
+    {
+        $quote = $this->quoteRepository->find($qid);
+        if (!$quote) throw new BadRequestException;
+
+        $form = $this['editForm'];
+        $form['text']->setDefaultValue($quote->getText());
+        $form['qid']->setDefaultValue($qid);
+
+        if ($this->isAjax()) {
+            $this->redrawControl();
+        } else {
+            $this->redirect('default');
+        }
     }
 
     /**
@@ -115,15 +128,24 @@ class QuotesPresenter extends BasePresenter
     /**
      * @return Form
      */
-    protected function createComponentAddQuote()
+    protected function createComponentEditForm()
     {
-        $control = $this->addQuoteControlFactory->create();
-        $closure = function () use ($control) {
-            $form = $control->getForm();
-            BootstrapForm::makeBootstrap($form);
-        };
-        $control->modifyForm($closure);
+        $form = new Form();
 
-        return $control;
+        $form->addTextArea('text', 'Text')
+            ->setRequired()
+            ->getControlPrototype()->style = "height: 300px";
+        $form->addHidden('qid', '');
+
+        $form->addSubmit('process', 'Uložit');
+        $form->onSuccess[] = function (Form $form, ArrayHash $values) {
+            $q = $this->quoteRepository->find($values->qid);
+            $q->setText($values->text);
+
+            $this->em->flush();
+            $this->redirect('this');
+        };
+
+        return BootstrapForm::makeBootstrap($form);
     }
 }

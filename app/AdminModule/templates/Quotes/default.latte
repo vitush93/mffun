@@ -13,18 +13,30 @@
                 url: '//cdn.datatables.net/plug-ins/725b2a2115b/i18n/Czech.json'
             },
             pageLength: 25,
-            "order": [[0, "asc"]]
+            "order": [[0, "desc"]]
         });
     </script>
     <script>
-        $('body').on('click', '', function () {
+        $('body').on('click', '.edit-q', function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
 
+            $.ajax({
+                type: 'GET',
+                url: href
+            }).done(function (data) {
+                $('#snippet--modal').html(data.snippets['snippet--modal']);
+                $('#myModal').modal({ show: true });
+            });
         });
     </script>
 {/block}
 
 {block content}
-    {include 'modal.latte'}
+
+    {snippet modal}
+        {include 'modal.latte'}
+    {/snippet}
     <div class="col-lg-12">
 
         <div class="box">
@@ -45,9 +57,8 @@
                     <thead>
                     <tr>
                         <th>Datum</th>
-                        <th>Titulek</th>
                         <th>Text</th>
-                        <th>Zaslal (C-rank)</th>
+                        <th>Zaslal (trust)</th>
                         <th style="width: 140px">Akce</th>
                     </tr>
                     </thead>
@@ -55,7 +66,6 @@
                     {foreach $quotes as $q}
                         <tr id="row-q-{$q->id}">
                             <td>{$q->posted|date:'j.n.Y H:i'}</td>
-                            <td>{$q->title}</td>
                             <td>{$q->text}</td>
                             <td>
                                 {if !$q->user} anonym {else}
@@ -87,7 +97,6 @@
                     <tfoot>
                     <tr>
                         <th>Datum</th>
-                        <th>Titulek</th>
                         <th>Text</th>
                         <th>Zaslal (C-rank)</th>
                         <th>Akce</th>
