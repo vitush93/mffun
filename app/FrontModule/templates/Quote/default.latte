@@ -9,12 +9,12 @@
                     {snippet counts}
                         <h2><a href="{link Quote:default $q->getId()}">
                                 {if $q->title}{$q->title}
-                                {elseif $q->subject}{$q->subject->name}
+                                {*elseif $q->subject}{$q->subject->name*}
                                 {else}Title goes here
                                 {/if}
                             </a>
-                            <small n:if="$q->teacher"><a
-                                        href="{link Homepage:teacher $q->teacher->id}">{$q->getTeacher()->getName(true)}</a>
+                            <small n:if="$q->subject"><a
+                                        href="{link Homepage:subject $q->subject->id}">{$q->getSubject()->getName(true)}</a>
                             </small>
                             <br>
                         </h2>
