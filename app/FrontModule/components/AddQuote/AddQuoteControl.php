@@ -195,7 +195,7 @@ class AddQuoteControl extends Control
         $form['tags']->setAttribute('placeholder', 'analýza, kolej, karlín');
 
         foreach ($form->getControls() as $control) {
-            $control->getControlPrototype()->class('form-input');
+            $control->getControlPrototype()->class('uid-input');
         }
 
         // add class for subject autocomplete

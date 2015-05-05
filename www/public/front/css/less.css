@@ -8495,7 +8495,9 @@ input.login {
   color: #3c3c3c;
   font-size: 14px;
 }
-#add-quote-modal #optional-toggle {
+
+#add-quote-modal #optional-toggle,
+#ldapModal #optional-toggle {
   color: #999;
   text-align: center;
   font-size: 13px;
@@ -8504,46 +8506,65 @@ input.login {
   padding-bottom: 20px;
   font-weight: 600;
 }
-#add-quote-modal #optional-content {
+
+#add-quote-modal #optional-content,
+#ldapModal #optional-content {
   display: none;
 }
 @media (min-width: 768px) {
-  #add-quote-modal .modal-dialog {
+    #add-quote-modal .modal-dialog,
+    #ldapModal .modal-dialog {
     width: 400px;
   }
 }
-#add-quote-modal .modal-content {
+
+#add-quote-modal .modal-content,
+#ldapModal .modal-content {
   border-radius: 3px;
 }
-#add-quote-modal legend {
+
+#add-quote-modal legend,
+#ldapModal legend {
   display: block;
   font-size: 20px;
   color: #000;
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
-#add-quote-modal label {
+
+#add-quote-modal label,
+#ldapModal label {
   font-weight: 400;
 }
-#add-quote-modal div.required label {
+
+#add-quote-modal div.required label,
+#ldapModal div.required label {
   color: #3c3c3c;
 }
 #add-quote-modal input,
-#add-quote-modal textarea {
+#ldapModal input,
+#add-quote-modal textarea,
+#ldapModal textarea {
   display: block;
   color: #646464;
   width: 100%;
 }
-#add-quote-modal form span {
+
+#add-quote-modal form span,
+#ldapModal form span {
   font-size: 12px;
   margin-top: 7px;
   display: block;
 }
-#add-quote-modal textarea {
+
+#add-quote-modal textarea,
+#ldapModal textarea {
   resize: none;
   min-height: 100px;
 }
-#add-quote-modal input[type="submit"] {
+
+#add-quote-modal input[type="submit"],
+#ldapModal input[type="submit"] {
   display: block;
   width: 50%;
   margin: auto;
@@ -8558,7 +8579,9 @@ input.login {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
   margin-top: 40px;
 }
-#add-quote-modal .form-container {
+
+#add-quote-modal .form-container,
+#ldapModal .form-container {
   padding: 20px;
 }
 form table tr td {
@@ -9210,7 +9233,19 @@ textarea {
   font-size: 16px;
   outline: none;
   width: 100%;
-  background: #fcfcfc;
-  margin-top: 40px;
-  margin-bottom: 40px;
+    background: #fafafa;
+}
+
+.uid-input:last-child {
+    margin-bottom: 30px;
+}
+
+.uid-input:focus {
+    background: #fff;
+}
+
+.uid-label {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 20px;
 }

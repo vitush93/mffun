@@ -48,7 +48,20 @@
             <th>Trust bodů:</th>
             <td>{$rank}</td>
         </tr>
+        <tr>
+            <th>Ověřený matfyzák:</th>
+            <td>
+                {if $u->mff == NULL}
+                    ne (
+                    <a href="" data-toggle="modal" data-target="#ldapModal">ověřit</a>
+                    )
+                {else}
+                    ano
+                {/if}
+            </td>
+        </tr>
     </table>
+    {control ldapCheck}
 {/block}
 
 {block acc}

@@ -18,3 +18,4 @@ services:
     - App\FrontModule\Components\AddQuote\IAddQuoteControlFactory
     - App\FrontModule\Components\IRateQuoteControlFactory
     - App\FrontModule\Components\IRateCommentControlFactory
+    - App\FrontModule\Components\CheckLdap\ILdapCheckControlFactory

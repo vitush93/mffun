@@ -7,11 +7,11 @@
 
                     {if isset($check)}
                         <p id="register-notice">
-                            <i class="fa fa-check"></i> Vítej matfyzáku!
+                            <i class="fa fa-check"></i> Vítej matfyzáku! (<a n:href="cancelLdap!">zrušit</a>)
                         </p>
                     {else}
                         <p id="register-notice">
-                            Jsi matfyzák? <a href="" data-toggle="modal" data-target="#myModal">Zadej</a> svoje <abbr
+                            Jsi matfyzák? <a href="" data-toggle="modal" data-target="#ldapModal">Zadej</a> svoje <abbr
                                     title="Univerzita Karlova, číslo osoby">UKČO</abbr> nebo login do
                             SISu a dostaneš navíc <a n:href="Static:about">trust body</a> do začátku spolu s právem
                             vystupovat jako ověřený matfyzák!.
@@ -23,27 +23,5 @@
             </div>
         </article>
     </div>
-    <!-- Modal -->
-    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                {form ldapForm}
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Ověřit matfyzáka</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        {input uid, class => 'uid-input', placeholder => 'UKČO nebo login do SISu'}
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
-                        {input process class=>'btn btn-primary', style=>'margin:0;width:100px'}
-                    </div>
-                {/form}
-            </div>
-        </div>
-    </div>
+    {control ldapCheck}
 {/block}

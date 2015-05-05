@@ -1088,7 +1088,7 @@ input.login {
   }
 }
 
-#add-quote-modal {
+#add-quote-modal, #ldapModal {
   #optional-toggle {
     color: #999;
     text-align: center;
@@ -1634,7 +1634,17 @@ input, textarea {
   font-size: 16px;
   outline: none;
   width: 100%;
-  background: #fcfcfc;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  background: #fafafa;
+  &:last-child {
+    margin-bottom: 30px;
+  }
+  &:focus {
+    background: #fff;
+  }
+}
+
+.uid-label {
+  font-size: 16px;
+  font-weight: normal;
+  margin-top: 20px;
 }

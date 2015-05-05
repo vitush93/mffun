@@ -4,6 +4,8 @@ namespace App\Libs;
 
 
 use Nette\Object;
+use Vitush\Ldap;
+use Vitush\LdapException;
 
 class Utils extends Object
 {
@@ -22,6 +24,49 @@ class Utils extends Object
         $t = self::getTexy()->process($text);
 
         return $t;
+    }
+
+    /**
+     * Fetches numeric (ISIC number) uid by SIS login (uid).
+     *
+     * @param $uid
+     * @param null|Ldap $ldap use existing connection
+     * @return array
+     * @throws LdapException
+     */
+    public static function getMffLdapNumericUid($uid, $ldap = NULL)
+    {
+        if (!$ldap) {
+            $ldap = new Ldap("ldaps://ldap.cuni.cz");
+        }
+
+        $result = $ldap->connect()
+            ->ldapSearch("ou=people,dc=cuni,dc=cz", "(&(objectClass=person)(uid={$uid}))")
+            ->getSearchResult();
+        $ldap->close();
+
+        // check if such user exists and if so, is he associated with MFF?
+        if ($result->isEmpty() || !$result->contains("mff")) {
+            throw new LdapException;
+        }
+
+        // if user entered SIS login instead of UKCO, fetch UKCO first (needed for auth)
+        $ukco = $uid;
+        if (!is_numeric($ukco)) {
+
+            $uids = $result->get("uid", TRUE);
+            for ($i = 0; $i < $uids['count']; $i++) {
+                if (is_numeric($uids[$i])) {
+                    $ukco = $uids[$i];
+                    break;
+                }
+            }
+        }
+
+        return [
+            'ukco' => $ukco,
+            'result' => $result
+        ];
     }
 
     /**

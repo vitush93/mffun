@@ -3,10 +3,13 @@
 namespace App\FrontModule\Presenters;
 
 
+use App\FrontModule\Components\CheckLdap\ILdapCheckControlFactory;
 use App\Model\Entities\User;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Http\Session;
+use Nette\Http\SessionSection;
 use Nette\Security\Passwords;
 use Nette\Utils\ArrayHash;
 
@@ -18,6 +21,15 @@ class UsercpPresenter extends BasePresenter
     /** @persistent */
     public $setup = 'sum';
 
+    /** @var ILdapCheckControlFactory @inject */
+    public $ldapCheckControlFactory;
+
+    /** @var Session @inject */
+    public $session;
+
+    /** @var SessionSection */
+    public $section;
+
     protected function startup()
     {
         parent::startup();
@@ -28,11 +40,29 @@ class UsercpPresenter extends BasePresenter
         $this->template->numq = $this->info->getQuotations()->count();
         $this->template->numc = $this->info->getComments()->count();
         $this->template->rank = $this->info->getCrank();
+        $this->template->u = $this->info;
+
+        $this->section = $this->session->getSection('mff');
     }
 
     public function beforeRender()
     {
         parent::beforeRender();
+
+        if (isset($this->section->data)) {
+            $u = $this->em->getRepository(User::class)->findOneBy(['mff' => $this->section->data->uid]);
+            if ($u) {
+                $this->flashMessage('Jiný uživatel již má účet propojený s UK těmito LDAP údaji.', 'error');
+            } else {
+                $this->info->setMff($this->section->data->uid);
+                $this->em->flush();
+
+                $this->flashMessage('Nyní jsi ověřený matfyzák!', 'success');
+            }
+
+            unset($this->section->data);
+            $this->redirect('this');
+        }
 
         $this->template->setup = $this->setup;
 
@@ -125,6 +155,14 @@ class UsercpPresenter extends BasePresenter
 
 
         return $form;
+    }
+
+    /**
+     * @return \App\FrontModule\Components\CheckLdap\LdapCheckControl
+     */
+    protected function createComponentLdapCheck()
+    {
+        return $this->ldapCheckControlFactory->create();
     }
 
 

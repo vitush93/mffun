@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal" id="ldapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content form-container">
+            {form ldapForm}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <fieldset>
+                    <legend>ověřit matfyzáka</legend>
+                    <div>
+                        {label uid, class => 'uid-label' /}
+                        {input uid, class => 'uid-input', placeholder => '12345678'}
+                    </div>
+
+                    <div>
+                        {label password, class => 'uid-label' /}
+                        {input password, class => 'uid-input'}
+                    </div>
+
+                    {input process class=>'btn btn-primary'}
+                </fieldset>
+            {/form}
+        </div>
+    </div>
+</div>

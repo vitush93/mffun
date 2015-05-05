@@ -161,7 +161,7 @@ class User extends BaseEntity
     /**
      * Is this user authorized MFF student? If so, this field contains student' UID.
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", unique=true, nullable=true)
      * @var string
      */
     private $mff = NULL;

@@ -41,7 +41,7 @@ class Ldap
      */
     public function connect()
     {
-        $res = ldap_connect($this->server);
+        $res = @ldap_connect($this->server);
         if (!$res) throw new LdapException("Could not connect: " . $res);
 
         $this->connection = $res;
@@ -50,16 +50,22 @@ class Ldap
     }
 
     /**
-     * @return $this
+     * @param $username
+     * @param $password
+     * @return bool
      * @throws LdapException
      */
-    public function bind()
+    public function bind($username, $password)
     {
         if (!$this->connection) throw new LdapException("Cannot bind: not connected to server.");
 
-        ldap_bind($this->connection);
+        $r = @ldap_bind($this->connection, $username, $password);
+        return $r;
+    }
 
-        return $this;
+    public function unbind()
+    {
+        ldap_unbind($this->connection);
     }
 
     public function close()
@@ -74,7 +80,7 @@ class Ldap
      */
     public function ldapSearch($base_dn, $filter)
     {
-        $this->lastSearch = ldap_search($this->connection, $base_dn, $filter);
+        $this->lastSearch = @ldap_search($this->connection, $base_dn, $filter);
 
         return $this;
     }
@@ -84,7 +90,7 @@ class Ldap
      */
     public function getSearchResult()
     {
-        $result = ldap_get_entries($this->connection, $this->lastSearch);
+        $result = @ldap_get_entries($this->connection, $this->lastSearch);
 
         return new LdapSearchResult($result);
     }
