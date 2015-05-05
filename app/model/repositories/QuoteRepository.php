@@ -203,7 +203,7 @@ class QuoteRepository extends Object
             ->leftJoin('q.teacher', 't')
             ->leftJoin('q.subject', 's')
             ->where('q.status = :status')
-            ->andWhere('q.title LIKE :query OR q.text LIKE :query')
+            ->andWhere('q.text LIKE :query')
             ->groupBy('q.id')
             ->setMaxResults(50)
             ->setParameter('status', Quote::STATUS_APPROVED)

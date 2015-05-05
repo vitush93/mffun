@@ -56,9 +56,11 @@
 
                                 </div>
                             {/foreach}
+                            {if $q->getBestComments()->count() > 0}
                             <p><i class="fa fa-angle-right"></i> <a
                                         href="{link Quote:default $q->getId()}#comments" target="_blank">všechny
                                     komentáře</a></p>
+                            {/if}
                         </footer>
                     {/if}
                 </section>

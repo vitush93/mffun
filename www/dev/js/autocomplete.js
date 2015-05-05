@@ -7,7 +7,7 @@ var autocomplete = {
                 var term = request.term;
                 if (term in cache) {
                     var results = $.ui.autocomplete.filter(cache[term], term);
-                    response(results.slice(0, 10));
+                    response(results.slice(0, 5));
 
                     return;
                 }
@@ -16,7 +16,7 @@ var autocomplete = {
                     cache[term] = data;
 
                     var results = $.ui.autocomplete.filter(data, term);
-                    response(results.slice(0, 10));
+                    response(results.slice(0, 5));
                 });
             }
         }).autocomplete('widget').addClass(customClass);
@@ -31,14 +31,14 @@ $("#page-search-box").autocomplete({
         var term = request.term;
         if (term in cache) {
             var r = $.ui.autocomplete.filter(cache[term], term);
-            response(r.slice(0, 4));
+            response(r.slice(0, 5));
             return;
         }
         $.getJSON(window.location.pathname + "?do=searchJson", request, function (data, status, xhr) {
             cache[term] = data;
 
             var results = $.ui.autocomplete.filter(data, term);
-            response(results.slice(0, 4));
+            response(results.slice(0, 5));
         });
     },
     select: function (event, ui) {
@@ -48,8 +48,16 @@ $("#page-search-box").autocomplete({
     minLength: 1
 }).autocomplete('widget').addClass('page-search');
 $('#page-search-box').data("ui-autocomplete")._renderItem = function (ul, item) {
+    var icon = "";
+    if(item.type == 'subject') {
+        icon = '<i class="fa fa-book"></i>';
+    }
+    if(item.type == 'teacher') {
+        icon = '<i class="fa fa-user"></i>'
+    }
+
     return $('<li class="result-item">')
-        .append('<p>' + item.label + '<span>' + item.desc + '</span></p>')
+        .append('<p>' + icon + item.label + '<span>' + item.desc + '</span></p>')
         .appendTo(ul);
 };
 

@@ -7106,7 +7106,7 @@ h6 {
   font-weight: 700;
 }
 #main .article article.content-item section h2 a.q-hash {
-  margin: 0;
+  margin-right: -4px;
   color: rgba(64, 82, 100, 0.5);
 }
 #main .article article.content-item section h2 a.q-hash:hover {
@@ -8526,7 +8526,6 @@ input.login {
   font-weight: 400;
 }
 #add-quote-modal div.required label {
-  font-weight: bold;
   color: #3c3c3c;
 }
 #add-quote-modal input,
@@ -8986,6 +8985,9 @@ ul.page-search .ui-menu-item.ui-state-focus p {
   font-size: 18px;
   color: #333;
 }
+ul.page-search .ui-menu-item.ui-state-focus p i {
+  margin-right: 10px;
+}
 ul.page-search .ui-menu-item.ui-state-focus p span {
   margin-top: 7px;
   display: block;
@@ -9006,6 +9008,9 @@ ul.page-search .ui-menu-item p {
   font-size: 18px;
   color: #333;
 }
+ul.page-search .ui-menu-item p i {
+  margin-right: 10px;
+}
 ul.page-search .ui-menu-item p span {
   margin-top: 7px;
   display: block;
@@ -9013,6 +9018,10 @@ ul.page-search .ui-menu-item p span {
   font-size: 14px;
   font-weight: 400;
   color: #777;
+}
+.ui-autocomplete .ui-menu-item {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 table.summary {
   width: 100%;

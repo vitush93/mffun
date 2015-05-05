@@ -10,7 +10,7 @@
                     <legend>přidat citát</legend>
                     <p n:if="!$user->isLoggedIn()" class="notice">Nejsi přihlášen - citace bude nejprve zaslána ke
                         schválení.</p>
-                    <p n:if="$user->isLoggedIn() && $u->getCrank() <= 0" class="notice">Nemáš dostatek trust bodů - citace bude nejprve zaslána ke schválení. Trust body dostaneš za schválené citace.</p>
+                    <p n:if="$user->isLoggedIn() && $u->getCrank() <= 0 && $u->role == App\Model\Entities\User::ROLE_USER" class="notice">Nemáš dostatek trust bodů - citace bude nejprve zaslána ke schválení. Trust body dostaneš za schválené citace.</p>
 
 
                     <div class="required">
