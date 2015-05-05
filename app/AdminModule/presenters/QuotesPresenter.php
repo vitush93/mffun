@@ -4,15 +4,21 @@ namespace App\AdminModule\Presenters;
 
 use App\Libs\BootstrapForm;
 use App\Model\Entities\Quote;
+use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Mail\IMailer;
+use Nette\Mail\Message;
 use Nette\Utils\ArrayHash;
 
 class QuotesPresenter extends BasePresenter
 {
     /** @var QuoteRepository @inject */
     public $quoteRepository;
+
+    /** @var IMailer @inject */
+    public $mailer;
 
     public function renderDefault()
     {
@@ -47,6 +53,17 @@ class QuotesPresenter extends BasePresenter
         }
     }
 
+    public function sendMail($to, $subject, $message)
+    {
+        $mail = new Message();
+        $mail->setFrom('MFFun <noreply@vithabada.cz>')
+            ->addTo($to)
+            ->setSubject($subject)
+            ->setHtmlBody($message);
+
+        $this->mailer->send($mail);
+    }
+
     /**
      * Deny quote with given id.
      *
@@ -61,6 +78,20 @@ class QuotesPresenter extends BasePresenter
 
         $quote->deny();
         $this->em->flush();
+
+        /** @var User $admin */
+        $admin = $this->em->find(User::class, $this->user->id);
+
+        if ($quote->getUserEmail()) {
+            // send e-mail
+            $recipient = $quote->getUserEmail();
+            $subject = 'MFFun - Vaše citace byla zamítnuta';
+            $message = '
+        Vaše citace byla zamítnuta administrátorem ' . $admin->getUsername() . '. Následuje text citace:<br><br>
+        ' . $quote->getText() . '
+        ';
+            $this->sendMail($recipient, $subject, $message);
+        }
 
         if ($this->isAjax()) {
             if ($this->action == 'default') {
@@ -99,6 +130,20 @@ class QuotesPresenter extends BasePresenter
 
         $quote->approve();
         $this->em->flush();
+
+        /** @var User $admin */
+        $admin = $this->em->find(User::class, $this->user->id);
+
+        if ($quote->getUserEmail()) {
+            // send e-mail
+            $recipient = $quote->getUserEmail();
+            $subject = 'MFFun - Vaše citace byla schválena';
+            $message = '
+        Vaše citace byla schválena administrátorem ' . $admin->getUsername() . '. Následuje text citace:<br><br>
+        ' . $quote->getText() . '
+        ';
+            $this->sendMail($recipient, $subject, $message);
+        }
 
         if ($this->isAjax()) {
             if ($this->action == 'default' || $this->action == 'denied') {
