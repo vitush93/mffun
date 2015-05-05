@@ -330,6 +330,13 @@
                 </ul>
             </li>
             {/if}
+            {if $user->isAllowed('Admin:Comments')}
+                <li {if $presenter->name == 'Admin:Comments'}class="active"{/if}>
+                    <a href="{link Comments:default}">
+                        <i class="fa fa-comments"></i> <span>Komentáře</span>
+                    </a>
+                </li>
+            {/if}
             {if $user->isAllowed('Admin:Uzivatele')}
             <li {if $presenter->name == 'Admin:Uzivatele'}class="active"{/if}>
                 <a href="{link Uzivatele:default}">

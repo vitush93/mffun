@@ -42,9 +42,11 @@ services:
             - addResource('Admin:Homepage')
             - addResource('Admin:Quotes')
             - addResource('Admin:Uzivatele')
+            - addResource('Admin:Comments')
             - allow('admin')
             - allow('moderator', 'Admin:Homepage')
             - allow('moderator', 'Admin:Quotes')
+            - allow('moderator', 'Admin:Comments')
     router: @App\RouterFactory::createRouter
     imap:
         class: App\Libs\IMAPMail

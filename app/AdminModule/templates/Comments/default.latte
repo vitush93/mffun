@@ -1,0 +1,68 @@
+{var $pageTitle = 'Komentáře'}
+{var $pageSubtitle = 'Správa komentářů'}
+
+{block assets}
+    <script>
+        $('body').on('click', '.delete-comment', function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            var id = $(this).data('id');
+
+            $.ajax({
+                type: 'GET',
+                url: href
+            }).done(function (data) {
+                $('#c-id-' + id).remove();
+            });
+        });
+    </script>
+{/block}
+
+{block content}
+    <div class="col-lg-12">
+
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Existující uživatelé</h3>
+            </div>
+
+
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Autor (role)</th>
+                        <th>Text</th>
+                        <th>Akce</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach $comments as $c}
+                        <tr id="c-id-{$c->id}">
+                            <td>{$c->user->username} ({$c->user->role})</td>
+                            <td>{$c->text}</td>
+                            <td>
+                                <a href="{link delete! $c->id}" data-id="{$c->id}"
+                                   class="btn btn-sm btn-danger delete-comment" onclick="return confirm('Opravdu?')"><i
+                                            class="fa fa-trash-o"></i> Smazat</a>
+                            </td>
+                        </tr>
+                    {/foreach}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Autor</th>
+                        <th>Text</th>
+                        <th>Akce</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.box-body -->
+
+
+        </div>
+        <!-- /.box -->
+    </div>
+{/block}
