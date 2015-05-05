@@ -6,6 +6,7 @@ namespace App\Model\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
+use Nette\Utils\Strings;
 
 /**
  * @ORM\Entity
@@ -38,6 +39,14 @@ class Teacher extends BaseEntity
     {
         $this->quotations = new ArrayCollection();
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNormalized()
+    {
+        return Strings::toAscii($this->name);
     }
 
     /**

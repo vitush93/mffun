@@ -40,7 +40,8 @@ class AutocompleteService extends Object
         $i = 0;
         /** @var Subject $s */
         foreach ($subjects as $s) {
-            $result[$i]['label'] = $s->getName();
+            $result[$i]['value'] = $s->getName();
+            $result[$i]['label'] = $s->getNormalized().' '.$s->getName();
             $result[$i]['desc'] = self::tagize($s->getName());
             $result[$i]['type'] = 'subject';
             $result[$i++]['id'] = $s->getId();
@@ -48,7 +49,8 @@ class AutocompleteService extends Object
 
         /** @var Teacher $s */
         foreach ($teachers as $s) {
-            $result[$i]['label'] = $s->getName();
+            $result[$i]['value'] = $s->getName();
+            $result[$i]['label'] = $s->getNormalized().' '.$s->getName();
             $result[$i]['desc'] = self::tagize($s->getName());
             $result[$i]['type'] = 'teacher';
             $result[$i++]['id'] = $s->getId();
@@ -56,7 +58,8 @@ class AutocompleteService extends Object
 
         /** @var Tag $s */
         foreach ($tags as $s) {
-            $result[$i]['label'] = $s->getTag();
+            $result[$i]['value'] = $s->getTag();
+            $result[$i]['label'] = $s->getNormalized().' '.$s->getTag();
             $result[$i]['desc'] = self::tagize($s->getTag());
             $result[$i]['type'] = 'tag';
             $result[$i++]['id'] = $s->getId();

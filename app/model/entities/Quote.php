@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
+use Nette\Utils\Strings;
 
 /**
  * @ORM\Entity
@@ -99,6 +100,12 @@ class Quote extends BaseEntity
     private $text;
 
     /**
+     * @ORM\Column(type="text")
+     * @var string
+     */
+    private $normalized;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
@@ -126,7 +133,7 @@ class Quote extends BaseEntity
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->text = $text;
+        $this->setText($text);
 
         if ($date) {
             $this->date = $date;
@@ -271,10 +278,21 @@ class Quote extends BaseEntity
     }
 
     /**
+     * @return string
+     */
+    public function getNormalized()
+    {
+        return $this->normalized;
+    }
+
+    /**
      * @param string $text
      */
     public function setText($text)
     {
+        $norm = Strings::toAscii($text);
+        $this->normalized = $norm;
+
         $this->text = $text;
     }
 

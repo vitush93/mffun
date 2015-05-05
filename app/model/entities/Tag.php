@@ -6,6 +6,7 @@ namespace App\Model\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
+use Nette\Utils\Strings;
 
 /**
  * @ORM\Entity
@@ -64,6 +65,14 @@ class Tag extends BaseEntity
     public function getQuotations()
     {
         return $this->quotations;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNormalized()
+    {
+        return Strings::toAscii($this->tag);
     }
 
     /**

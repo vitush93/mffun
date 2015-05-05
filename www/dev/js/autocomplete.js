@@ -57,7 +57,7 @@ $('#page-search-box').data("ui-autocomplete")._renderItem = function (ul, item) 
     }
 
     return $('<li class="result-item">')
-        .append('<p>' + icon + item.label + '<span>' + item.desc + '</span></p>')
+        .append('<p>' + icon + item.value + '<span>' + item.desc + '</span></p>')
         .appendTo(ul);
 };
 

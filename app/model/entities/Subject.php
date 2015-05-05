@@ -6,6 +6,7 @@ namespace App\Model\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
+use Nette\Utils\Strings;
 
 /**
  * @ORM\Entity
@@ -62,6 +63,14 @@ class Subject extends BaseEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNormalized()
+    {
+        return Strings::toAscii($this->name);
     }
 
     /**
