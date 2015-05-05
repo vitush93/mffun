@@ -27,8 +27,10 @@ class UserRepository extends Object
      * Creates a new user from submitted data.
      *
      * @param ArrayHash $values
+     * @param int $crank
+     * @param bool $auth
      */
-    public function createUser(ArrayHash $values)
+    public function createUser(ArrayHash $values, $crank = 0, $auth = NULL)
     {
         $user = new User();
 
@@ -36,6 +38,10 @@ class UserRepository extends Object
         $user->setEmail($values->email);
         $user->setName($values->name);
         $user->setPassword($values->password);
+        $user->setCrank($crank);
+        if ($auth) {
+            $user->setMff($auth);
+        }
 
         $this->add($user);
     }

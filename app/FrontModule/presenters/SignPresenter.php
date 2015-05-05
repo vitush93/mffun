@@ -10,9 +10,13 @@ use App\Model\Repositories\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Http\Session;
+use Nette\Http\SessionSection;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 use Nette\Utils\ArrayHash;
+use Vitush\Ldap;
+use Vitush\LdapException;
 
 class SignPresenter extends BasePresenter
 {
@@ -21,6 +25,19 @@ class SignPresenter extends BasePresenter
 
     /** @var UserRepository @inject */
     public $userRepository;
+
+    /** @var Session @inject */
+    public $session;
+
+    /** @var SessionSection */
+    public $section;
+
+    protected function startup()
+    {
+        parent::startup();
+
+        $this->section = $this->session->getSection('mff');
+    }
 
     public function actionIn()
     {
@@ -51,6 +68,43 @@ class SignPresenter extends BasePresenter
     }
 
     /**
+     * @param Form $form
+     * @param ArrayHash $values
+     */
+    public function ldapCheck(Form $form, ArrayHash $values)
+    {
+        if (!$values->uid) {
+            $this->flashMessage('Uvedená identita neexistuje.', 'info');
+
+            return;
+        }
+
+        try {
+            $ldap = new Ldap("ldap.cuni.cz");
+            $result = $ldap->connect()
+                ->bind()
+                ->ldapSearch("ou=people,dc=cuni,dc=cz", "(&(objectClass=person)(uid={$values->uid}))")
+                ->getSearchResult();
+
+            if ($result->isEmpty() || !$result->contains("mff")) {
+                $this->flashMessage('Uvedená identita neexistuje.', 'info');
+
+                return;
+            }
+
+            $form = $this['registerForm'];
+            $form['name']->setDefaultValue($result->get("cn"));
+            $form['email']->setDefaultValue($result->get("mail"));
+
+            $this->template->check = true;
+            $this->section->uid = $values->uid;
+        } catch (LdapException $e) {
+            $this->flashMessage('K LDAPu se nepodařilo připojit.', 'danger');
+            $this->redirect('this');
+        }
+    }
+
+    /**
      * [RegisterForm]
      * Attempts to add a new user to the database.
      *
@@ -60,8 +114,15 @@ class SignPresenter extends BasePresenter
     public function registerFormSucceeded(Form $form, $values)
     {
         try {
-            $this->userRepository->createUser($values);
+            $crank = 0;
+            if (isset($this->section->uid)) {
+                $crank = 5;
+            }
+
+            $this->userRepository->createUser($values, $crank, $this->section->uid);
             $this->em->flush();
+
+            unset($this->section->uid);
 
             $this->flashMessage("Registrace proběhla úspěšně. Nyní se můžeš přihlásit.", "success");
             $this->redirect("Homepage:default");
@@ -172,6 +233,18 @@ class SignPresenter extends BasePresenter
             $this->redirect('Homepage:default');
             $this->flashMessage('Vaše heslo bylo změněno.', 'info');
         };
+
+        return $form;
+    }
+
+    protected function createComponentLdapForm()
+    {
+        $form = new Form();
+
+        $form->addText('uid', 'UKČO nebo SIS login');
+        $form->addSubmit('process', 'Ověřit');
+
+        $form->onSuccess[] = $this->ldapCheck;
 
         return $form;
     }

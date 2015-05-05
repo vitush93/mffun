@@ -158,6 +158,14 @@ class User extends BaseEntity
      */
     private $ban = NULL;
 
+    /**
+     * Is this user authorized MFF student? If so, this field contains student' UID.
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    private $mff = NULL;
+
     public function __construct()
     {
         $this->registered = new DateTime();
@@ -166,6 +174,30 @@ class User extends BaseEntity
         $this->comment_ratings = new ArrayCollection();
         $this->quote_ratings = new ArrayCollection();
         $this->avatar = self::$AVATARS[rand(0, count(self::$AVATARS) - 1)];
+    }
+
+    /**
+     * @return string
+     */
+    public function getMff()
+    {
+        return $this->mff;
+    }
+
+    /**
+     * @param string $mff
+     */
+    public function setMff($mff)
+    {
+        $this->mff = $mff;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isMff()
+    {
+        return $this->mff !== NULL;
     }
 
     /**

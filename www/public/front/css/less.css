@@ -9156,3 +9156,61 @@ textarea {
 #reload-button-content #reload-button {
   border-radius: 3px;
 }
+#about-button {
+  display: block;
+  height: 20px;
+  color: #aaa;
+  font-size: 20px;
+  -webkit-transition: 0.1s;
+  -o-transition: 0.1s;
+  transition: 0.1s;
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#about-button:hover {
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#about-button:hover {
+  text-decoration: none;
+  color: #666;
+  -webkit-transition: 0.1s;
+  -o-transition: 0.1s;
+  transition: 0.1s;
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#about-button:hover:hover {
+  -webkit-transition: 0.1s ease-in-out;
+  -moz-transition: 0.1s ease-in-out;
+  -ms-transition: 0.1s ease-in-out;
+  -o-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+#about-button i {
+  margin-top: -2px;
+  display: block;
+}
+#register-notice a {
+  text-decoration: underline;
+}
+.uid-input {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+  background: #fcfcfc;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
