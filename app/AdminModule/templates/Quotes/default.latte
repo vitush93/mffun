@@ -59,7 +59,7 @@
                         <th>Datum</th>
                         <th>Text</th>
                         <th>Zaslal (trust)</th>
-                        <th style="width: 140px">Akce</th>
+                        <th style="width: 220px">Akce</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,17 +76,21 @@
                                 <div id="action-q-{$q->id}">
                                     {if $presenter->action == 'default'}
                                         {include 'both.latte' q => $q}
+                                        {include 'edit.latte' q => $q}
                                     {/if}
 
                                     {if $presenter->action == 'denied'}
                                         {include 'approve.latte' q => $q}
+                                        {include 'edit.latte' q => $q}
                                     {/if}
 
                                     {if $presenter->action == 'all'}
                                         {if $q->isApproved()}
                                             {include 'deny.latte' q => $q}
+                                            {include 'edit.latte' q => $q}
                                         {else}
                                             {include 'approve.latte' q => $q}
+                                            {include 'edit.latte' q => $q}
                                         {/if}
                                     {/if}
                                 </div>
