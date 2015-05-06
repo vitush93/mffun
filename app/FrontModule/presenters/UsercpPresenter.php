@@ -54,7 +54,10 @@ class UsercpPresenter extends BasePresenter
             if ($u) {
                 $this->flashMessage('Jiný uživatel již má účet propojený s UK těmito LDAP údaji.', 'error');
             } else {
+                $current_crank = $this->info->getCrank();
+
                 $this->info->setMff($this->section->data->uid);
+                $this->info->setCrank($current_crank + 5);
                 $this->em->flush();
 
                 $this->flashMessage('Nyní jsi ověřený matfyzák!', 'success');
