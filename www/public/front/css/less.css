@@ -8664,6 +8664,18 @@ p.notice {
 .comments .comment .comment-right > a:hover {
   text-decoration: none;
 }
+.comments .comment .comment-right > a i {
+  font-size: 9px;
+}
+.comments .comment .comment-right > a i.flag-mff {
+  color: #d22d40;
+}
+.comments .comment .comment-right > a i.flag-mod {
+  color: #008d4c;
+}
+.comments .comment .comment-right > a i.flag-adm {
+  color: #d35400;
+}
 .comments .comment .comment-right > a span {
   font-weight: normal;
   font-size: 12px;
