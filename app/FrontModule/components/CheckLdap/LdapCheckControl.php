@@ -41,12 +41,6 @@ class LdapCheckControl extends Control
      */
     public function ldapCheck(Form $form, ArrayHash $values)
     {
-        if (!$values->uid) {
-            $this->presenter->flashMessage('Uvedená identita neexistuje.', 'danger');
-
-            return;
-        }
-
         try {
             try {
                 $x = Utils::getMffLdapNumericUid($values->uid);
