@@ -8,6 +8,10 @@ use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 use Nette\Utils\ArrayHash;
 
+/**
+ * Class UserRepository
+ * @package App\Model\Repositories
+ */
 class UserRepository extends Object
 {
     /** @var \Kdyby\Doctrine\EntityManager */
@@ -16,6 +20,9 @@ class UserRepository extends Object
     /** @var \Kdyby\Doctrine\EntityDao */
     private $userDao;
 
+    /**
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;

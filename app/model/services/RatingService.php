@@ -11,6 +11,12 @@ use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
+/**
+ * Provides basic Quote and Comment rating functionality.
+ *
+ * Class RatingService
+ * @package App\Model\Services
+ */
 class RatingService extends Object
 {
     /** @var EntityManager */
@@ -24,6 +30,14 @@ class RatingService extends Object
         $this->em = $entityManager;
     }
 
+    /**
+     * Rates the comment.
+     * Adds a new CommentRating instance to the Comment entity's collection.
+     *
+     * @param Comment $comment
+     * @param User $user
+     * @param bool $positive is the rating positive?
+     */
     public function rateComment(Comment $comment, User $user, $positive)
     {
         /** @var CommentRating $rating */
@@ -45,6 +59,14 @@ class RatingService extends Object
         $this->updateCommentRating($comment);
     }
 
+    /**
+     * Rates the quote.
+     * Adds a new QuoteRating instance to the Quote entity's collection.
+     *
+     * @param Quote $quote
+     * @param User $user
+     * @param bool $positive is the rating positive?
+     */
     public function rateQuote(Quote $quote, User $user, $positive)
     {
         /** @var QuoteRating $rating */
@@ -67,7 +89,7 @@ class RatingService extends Object
     }
 
     /**
-     * Comment rating algo.
+     * Regenerates calculates rating value for given Comment entity.
      *
      * @param Comment $comment
      */
@@ -79,6 +101,13 @@ class RatingService extends Object
         $comment->setRatingDown($downs);
     }
 
+    /**
+     * Comment rating algo.
+     *
+     * @param Comment $comment
+     * @param int $value
+     * @return int number of ratings of given value for given Comment entity.
+     */
     private function calculateCommentRatings(Comment $comment, $value)
     {
         $sum = 0;
@@ -88,11 +117,12 @@ class RatingService extends Object
                 $sum++;
             }
         }
+
         return $sum;
     }
 
     /**
-     * Temporary rating algorithm.
+     * Quote rating algorithm.
      *
      * @param Quote $quote
      */

@@ -8,6 +8,12 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
+/**
+ * Lifecycle event handler for QuoteRating entity.
+ *
+ * Class QuoteRatingListener
+ * @package App\Model\Events
+ */
 class QuoteRatingListener
 {
     /** @var RatingService */

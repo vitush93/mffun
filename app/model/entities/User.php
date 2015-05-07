@@ -117,12 +117,16 @@ class User extends BaseEntity
     private $password;
 
     /**
+     * Role of the user defines privileges across the application.
+     *
      * @ORM\Column(type="string")
      * @var string
      */
     private $role = self::ROLE_USER;
 
     /**
+     * Full name eg. John Doe
+     *
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
@@ -141,18 +145,25 @@ class User extends BaseEntity
     private $avatar;
 
     /**
+     * Boolean flag prepared for disabling user accounts.
+     * Application will log in only active users.
+     *
      * @ORM\Column(type="boolean")
      * @var int
      */
     private $active = TRUE;
 
     /**
+     * AKA Trust points.
+     *
      * @ORM\Column(type="integer")
      * @var int
      */
     private $crank = 0;
 
     /**
+     * Ban flag.
+     *
      * @ORM\Column(type="string", nullable=true)
      * @var null|string
      */

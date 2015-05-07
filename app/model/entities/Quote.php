@@ -100,6 +100,8 @@ class Quote extends BaseEntity
     private $text;
 
     /**
+     * Accent-folded and normalized copy of $text.
+     *
      * @ORM\Column(type="text")
      * @var string
      */

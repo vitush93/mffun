@@ -14,6 +14,12 @@ use App\Model\Services\RatingService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 
+/**
+ * Lifecycle event handler for CommentRating entity.
+ *
+ * Class CommentRatingListener
+ * @package App\Model\Events
+ */
 class CommentRatingListener
 {
     /** @var RatingService */

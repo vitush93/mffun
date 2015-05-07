@@ -12,6 +12,10 @@ use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
+/**
+ * Class QuoteRepository
+ * @package App\Model\Repositories
+ */
 class QuoteRepository extends Object
 {
 
@@ -30,6 +34,9 @@ class QuoteRepository extends Object
         'mostcommented' => 'order by c DESC, q.approved DESC'
     ];
 
+    /**
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
@@ -37,6 +44,9 @@ class QuoteRepository extends Object
         $this->commentDao = $entityManager->getDao(Comment::getClassName());
     }
 
+    /**
+     * @return array minimum Tag cardinality (of assigned quotes).
+     */
     public function getMinTag()
     {
         return $this->em->createQueryBuilder()
@@ -45,6 +55,9 @@ class QuoteRepository extends Object
             ->getQuery()->getScalarResult();
     }
 
+    /**
+     * @return array maximum Tag cardinality (of assigned quotes).
+     */
     public function getMaxTag()
     {
         return $this->em->createQueryBuilder()
@@ -54,7 +67,7 @@ class QuoteRepository extends Object
     }
 
     /**
-     * @return array
+     * @return array tags and their cardinalities.
      */
     public function getTagCloud()
     {
@@ -195,6 +208,12 @@ class QuoteRepository extends Object
         }
     }
 
+    /**
+     * Performs search for Quotes by given query.
+     *
+     * @param string $query search query
+     * @return array search results
+     */
     public function search($query)
     {
         return $this->em->createQueryBuilder()
@@ -211,6 +230,12 @@ class QuoteRepository extends Object
             ->getQuery()->getResult();
     }
 
+    /**
+     * @param int $subject Subject ID
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
     public function findAllBySubject($subject, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
@@ -229,6 +254,12 @@ class QuoteRepository extends Object
             ->getQuery()->getResult();
     }
 
+    /**
+     * @param int $teacher Teacher ID
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
     public function findAllByTeacher($teacher, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
@@ -247,6 +278,12 @@ class QuoteRepository extends Object
             ->getQuery()->getResult();
     }
 
+    /**
+     * @param int $tag Tag ID
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
     public function findAllByTag($tag, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
@@ -266,6 +303,10 @@ class QuoteRepository extends Object
             ->getQuery()->getResult();
     }
 
+    /**
+     * @param int $limit
+     * @return array random quotes
+     */
     public function getRandomQuotes($limit)
     {
         $ids = $this->em->createQueryBuilder()

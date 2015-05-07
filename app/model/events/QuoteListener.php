@@ -12,6 +12,12 @@ use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Lifecycle event handler for Quote entity.
+ *
+ * Class QuoteListener
+ * @package App\Model\Events
+ */
 class QuoteListener
 {
 

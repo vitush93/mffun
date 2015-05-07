@@ -8,6 +8,12 @@ use Nette;
 use Nette\Object;
 use Nette\Security\Passwords;
 
+/**
+ * Performs user authentication.
+ *
+ * Class AuthenticationService
+ * @package App\Model\Services
+ */
 class AuthenticationService extends Object implements Nette\Security\IAuthenticator
 {
     /** @var EntityManager */
@@ -16,6 +22,9 @@ class AuthenticationService extends Object implements Nette\Security\IAuthentica
     /** @var \Kdyby\Doctrine\EntityDao */
     private $usersDao;
 
+    /**
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;

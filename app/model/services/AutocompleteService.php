@@ -16,6 +16,12 @@ use App\Model\Repositories\QuoteRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
+/**
+ * Contains functions to retrieve entity data as plain arrays to be used in jQuery autocomplete plugin.
+ *
+ * Class AutocompleteService
+ * @package App\Model\Services
+ */
 class AutocompleteService extends Object
 {
     /** @var QuoteRepository */
@@ -24,12 +30,21 @@ class AutocompleteService extends Object
     /** @var EntityManager */
     private $em;
 
+    /**
+     * @param QuoteRepository $quoteRepository
+     * @param EntityManager $entityManager
+     */
     public function __construct(QuoteRepository $quoteRepository, EntityManager $entityManager)
     {
         $this->quoteRepository = $quoteRepository;
         $this->em = $entityManager;
     }
 
+    /**
+     * Returns an array to be parsed into JSON for site search box autocomplete.
+     *
+     * @return array array of subjects, teacher and tags combined.
+     */
     public function getSearchBoxData()
     {
         $subjects = $this->em->getRepository(Subject::class)->findAll();
@@ -68,6 +83,12 @@ class AutocompleteService extends Object
         return $result;
     }
 
+    /**
+     * Helper function for converting Teacher, Subject names to tags eg. John Doe -> #JohnDoe.
+     *
+     * @param string $item
+     * @return string
+     */
     private static function tagize($item)
     {
         $tag = explode(' ', $item);
@@ -80,7 +101,7 @@ class AutocompleteService extends Object
     }
 
     /**
-     * @return array
+     * @return array array of Tag entities.
      */
     public function getTagsAsArray()
     {
@@ -95,7 +116,7 @@ class AutocompleteService extends Object
     }
 
     /**
-     * @return array
+     * @return array array of Subject entities.
      */
     public function getSubjectsAsArray()
     {
@@ -110,7 +131,7 @@ class AutocompleteService extends Object
     }
 
     /**
-     * @return array
+     * @return array array of Teachers entities.
      */
     public function getTeachersAsArray()
     {
