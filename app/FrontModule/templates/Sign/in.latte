@@ -4,6 +4,7 @@
             <div class="col-lg-10 col-md-12 col-sm-12 article-content">
                 <section id="mobile-login">
                     <h1>Přihlásit se</h1>
+                    <p class="notice" style="margin-top: 20px;">Ještě nemáš účet? Registruj se <a href="{link Sign:register}">zde</a>.</p>
                     {form loginForm}
                         <p>{label username /}</p>
                         <p>{input username class =>'form-input'}</p>
@@ -11,6 +12,9 @@
                         <p>{input password class => 'form-input'}</p>
                         <p>{input process class => 'btn btn-block btn-primary mobile-login-button'}</p>
                     {/form}
+                    <p>
+                        <a href="{link Sign:recover}">Zapomněl jsem heslo</a>
+                    </p>
                 </section>
             </div>
         </article>
