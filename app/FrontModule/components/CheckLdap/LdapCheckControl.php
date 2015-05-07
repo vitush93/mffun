@@ -18,6 +18,12 @@ interface ILdapCheckControlFactory
     function create();
 }
 
+/**
+ * Performs user auth with LDAP.
+ *
+ * Class LdapCheckControl
+ * @package App\FrontModule\Components\CheckLdap
+ */
 class LdapCheckControl extends Control
 {
     /** @var SessionSection */

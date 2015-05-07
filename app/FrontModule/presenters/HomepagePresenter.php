@@ -10,9 +10,18 @@ use Nette\Application\BadRequestException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Paginator;
 
+/**
+ * Handles displaying a main content loop.
+ *
+ * Class HomepagePresenter
+ * @package App\FrontModule\Presenters
+ */
 class HomepagePresenter extends BasePresenter
 {
+    /** Items per loaded page */
     const ITEMS_PER_PAGE = 10;
+
+    /** Maximum of pages to load before displaying 'show more' button */
     const MAX_PAGES_LOAD = 10;
 
     /** @var IRateQuoteControlFactory @inject */
@@ -28,6 +37,9 @@ class HomepagePresenter extends BasePresenter
     private $teacher = NULL;
     private $subject = NULL;
 
+    /**
+     * Prepare paginator.
+     */
     protected function startup()
     {
         parent::startup();
@@ -36,12 +48,20 @@ class HomepagePresenter extends BasePresenter
         $this->paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
     }
 
+    /**
+     * Display search result.
+     *
+     * @param string $id search query
+     */
     public function actionSearch($id)
     {
         $this->setView('default');
         $this->template->initPage = null;
     }
 
+    /**
+     * Set OpenGraph data.
+     */
     public function beforeRender()
     {
         parent::beforeRender();
@@ -53,6 +73,9 @@ class HomepagePresenter extends BasePresenter
         $this->template->og = $og;
     }
 
+    /**
+     * Prepares quote data to render.
+     */
     public function renderDefault()
     {
         if ($this->action == 'search') {
@@ -75,12 +98,22 @@ class HomepagePresenter extends BasePresenter
         };
     }
 
+    /**
+     * Get offset for next 'show more' button.
+     *
+     * @return float
+     */
     private function getMore()
     {
         $displayedPage = ceil($this->paginator->getPage() / self::MAX_PAGES_LOAD);
         return $displayedPage * self::MAX_PAGES_LOAD;
     }
 
+    /**
+     * Fetches the quotes by current query.
+     *
+     * @return array
+     */
     private function getQuotes()
     {
         if ($this->tag) {
@@ -100,6 +133,16 @@ class HomepagePresenter extends BasePresenter
         return $quotes;
     }
 
+    /**
+     * Quotes by subject.
+     *
+     * @param int $id subject ID
+     * @param int $p post offset
+     * @throws BadRequestException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function actionSubject($id, $p)
     {
         /** @var Subject $subj */
@@ -113,6 +156,16 @@ class HomepagePresenter extends BasePresenter
         $this->template->subjectId = $subj->getId();
     }
 
+    /**
+     * Quotes by teacher.
+     *
+     * @param int $id teacher ID
+     * @param int $p post offset
+     * @throws BadRequestException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function actionTeacher($id, $p)
     {
         /** @var Teacher $teacher */
@@ -126,6 +179,16 @@ class HomepagePresenter extends BasePresenter
         $this->template->teacherId = $teacher->getId();
     }
 
+    /**
+     * Quotes by tag.
+     *
+     * @param int $id tag ID
+     * @param int $p post offset
+     * @throws BadRequestException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function actionTag($id, $p)
     {
         /** @var Tag $tag */
@@ -139,6 +202,11 @@ class HomepagePresenter extends BasePresenter
         $this->template->tagId = $tag->getId();
     }
 
+    /**
+     * Get page by quotes offset.
+     *
+     * @param int $page quote offset
+     */
     private function resolvePage($page)
     {
         if ($page) {
@@ -151,12 +219,20 @@ class HomepagePresenter extends BasePresenter
         }
     }
 
+    /**
+     * Homepage.
+     */
     public function actionDefault()
     {
         $this->paginator->setPage(1);
         $this->template->initPage = 2;
     }
 
+    /**
+     * Allows direct URLs to given page.
+     *
+     * @param int $id page number
+     */
     public function actionPage($id)
     {
         $id = (int)$id;
@@ -167,6 +243,11 @@ class HomepagePresenter extends BasePresenter
         $template->initPage = $id + 1;
     }
 
+    /**
+     * Handles AJAX load for endless scrolling.
+     *
+     * @param int $page
+     */
     public function handleLoad($page)
     {
         $page = (int)$page;

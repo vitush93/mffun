@@ -13,6 +13,12 @@ use Nette\Http\SessionSection;
 use Nette\Security\Passwords;
 use Nette\Utils\ArrayHash;
 
+/**
+ * Handles User Control Panel
+ *
+ * Class UsercpPresenter
+ * @package App\FrontModule\Presenters
+ */
 class UsercpPresenter extends BasePresenter
 {
     /** @var User */
@@ -30,6 +36,12 @@ class UsercpPresenter extends BasePresenter
     /** @var SessionSection */
     public $section;
 
+    /**
+     * Collects info about user.
+     * Instantiate the SessionSection.
+     *
+     * @throws BadRequestException
+     */
     protected function startup()
     {
         parent::startup();
@@ -45,6 +57,9 @@ class UsercpPresenter extends BasePresenter
         $this->section = $this->session->getSection('mff');
     }
 
+    /**
+     * Checks if there is a MFF authorization request (session) first.
+     */
     public function beforeRender()
     {
         parent::beforeRender();
@@ -76,6 +91,11 @@ class UsercpPresenter extends BasePresenter
         $this['avatarForm']['avatar']->setDefaultValue($this->info->getAvatar());
     }
 
+    /**
+     * PassForm factory.
+     *
+     * @return Form
+     */
     protected function createComponentPassForm()
     {
         $form = new Form();
@@ -109,6 +129,11 @@ class UsercpPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * AvatarForm factory.
+     *
+     * @return Form
+     */
     protected function createComponentAvatarForm()
     {
         $form = new Form();
@@ -127,6 +152,11 @@ class UsercpPresenter extends BasePresenter
         return $form;
     }
 
+    /**
+     * AccForm factory.
+     *
+     * @return Form
+     */
     protected function createComponentAccForm()
     {
         $form = new Form();
@@ -161,6 +191,8 @@ class UsercpPresenter extends BasePresenter
     }
 
     /**
+     * LdapCheckControl factory.
+     *
      * @return \App\FrontModule\Components\CheckLdap\LdapCheckControl
      */
     protected function createComponentLdapCheck()

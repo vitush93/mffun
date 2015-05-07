@@ -18,6 +18,12 @@ use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 use Nette\Utils\ArrayHash;
 
+/**
+ * Handles user login, registration, password recovery process.
+ *
+ * Class SignPresenter
+ * @package App\FrontModule\Presenters
+ */
 class SignPresenter extends BasePresenter
 {
     /** @var Session @inject */
@@ -35,6 +41,9 @@ class SignPresenter extends BasePresenter
     /** @var ILdapCheckControlFactory @inject */
     public $ldapCheckControlFactory;
 
+    /**
+     * Instantiate the SessionSection for MFF authorization.
+     */
     protected function startup()
     {
         parent::startup();
@@ -42,6 +51,9 @@ class SignPresenter extends BasePresenter
         $this->section = $this->session->getSection('mff');
     }
 
+    /**
+     * Displays separate sign in form (used for mobile users).
+     */
     public function actionIn()
     {
         if ($this->user->isLoggedIn()) {
@@ -49,6 +61,10 @@ class SignPresenter extends BasePresenter
         }
     }
 
+    /**
+     * Registration process.
+     * Fill register form with fetched data if there is a MFF auth in session and notify template about about successful acc pairing.
+     */
     public function actionRegister()
     {
         if (isset($this->section->data)) {
@@ -61,12 +77,21 @@ class SignPresenter extends BasePresenter
         }
     }
 
+    /**
+     * Flushes the MFF auth session.
+     */
     public function handleCancelLdap()
     {
         unset($this->section->data);
         $this->redirect('this');
     }
 
+    /**
+     * Handles password recovery.
+     *
+     * @param string $id SHA-1 token.
+     * @throws BadRequestException
+     */
     public function actionRecovery($id)
     {
         /** @var PasswordRecovery $rec */

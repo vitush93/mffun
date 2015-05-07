@@ -12,6 +12,12 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 
+/**
+ * Handles displaying a single quote.
+ *
+ * Class QuotePresenter
+ * @package App\FrontModule\Presenters
+ */
 class QuotePresenter extends BasePresenter
 {
     /** @var IRateQuoteControlFactory @inject */
@@ -27,7 +33,7 @@ class QuotePresenter extends BasePresenter
     private $quote;
 
     /**
-     * @param $id
+     * @param int $id quote ID
      * @throws BadRequestException
      */
     public function actionDefault($id)
@@ -39,7 +45,7 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * @param $id
+     * @param int $id quote ID
      */
     public function renderDefault($id)
     {

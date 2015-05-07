@@ -21,6 +21,8 @@ interface IAddQuoteControlFactory
 }
 
 /**
+ * Handles the add quote form.
+ *
  * Class AddQuoteControl
  * @package App\FrontModule\Components\AddQuote
  */

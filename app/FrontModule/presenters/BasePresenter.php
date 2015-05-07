@@ -14,6 +14,12 @@ use Nette;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 
+/**
+ * Base presenter for all application's presenter classes.
+ *
+ * Class BasePresenter
+ * @package App\FrontModule\Presenters
+ */
 class BasePresenter extends Presenter
 {
     /** @var IAddQuoteControlFactory @inject */
@@ -28,6 +34,13 @@ class BasePresenter extends Presenter
     /** @var EntityManager @inject */
     public $em;
 
+    /**
+     * Fetch user info if user is logged in.
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     protected function startup()
     {
         parent::startup();
@@ -39,6 +52,9 @@ class BasePresenter extends Presenter
         }
     }
 
+    /**
+     * Fetch global template data.
+     */
     public function beforeRender()
     {
         if ($this->isAjax()) return; // skip for ajax requests
@@ -76,6 +92,9 @@ class BasePresenter extends Presenter
         }
     }
 
+    /**
+     * For site search autocomplete.
+     */
     public function handleSearchJson()
     {
         $this->sendJson($this->autocompleteService->getSearchBoxData());
