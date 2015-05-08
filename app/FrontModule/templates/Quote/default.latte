@@ -40,7 +40,7 @@
                     {/if}
 
                     <div class="item-details">
-                        <p>{if $q->user}{$q->user->username}{else}anonym{/if} &middot; {$q->date->format('j.n.Y')}</p>
+                        <p>{if $q->user}{$q->user->username}{else}anonym{/if}{if $q->getDate()->diff(new \DateTime())->days < 20000} &middot; {$q->date->format('j.n.Y')}{/if}</p>
                     </div>
 
                     <div class="comments" id="comments">
