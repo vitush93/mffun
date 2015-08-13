@@ -1,7 +1,5 @@
-vendor/*
-!vendor/others
+vendor/
 nbproject/
-
 .DS_Store
 !.gitignore
 !.htaccess
@@ -9,3 +7,4 @@ nbproject/
 composer.lock
 www/bower_components/*
 www/node_modules/*
+.idea/
