@@ -172,7 +172,11 @@
                 {if $presenter->name == 'Front:Homepage'}
                 <div class="tag-cloud">
                     {foreach $tags as $t}
-                        {var $size = (($t[density] - $minTag)*(26 - 10))/($maxTag - $minTag) + 10}
+                        {if $maxTag == $minTag}
+                            {var $size = 14}
+                        {else}
+                            {var $size = (($t[density] - $minTag)*(26 - 10))/($maxTag - $minTag) + 10}
+                        {/if}
                         <a href="{link Homepage:tag $t[0]->id}" style="font-size:{floor($size)}px">#{$t[0]->getTag()}</a>
                     {/foreach}
                 </div>
