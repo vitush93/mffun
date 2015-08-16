@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="Freelance Webdesigner a Web Developer - Tvorba Webových Stránek a Aplikací">
+    <meta name="keywords" content="webdesign, web stránky, tvorba webu, mobilni web, html, programování php, seo">
+    <title>MFFun</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto:400,400italic,700|Oswald:400,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <meta property="og:title" content="MFFun">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://mffun.ms.mff.cuni.cz/">
+    <meta property="og:image" content="http://mffun.ms.mff.cuni.czimg/favicon.png">
+    <meta property="og:description" content="Databáze vtipných citací profesorů z matfyzu.">
+</head>
+<body>
+
+<!-- begin FOOTER -->
+<div id="scroll-top"><i class="fa fa-angle-double-up fa-fw fa-4x"></i></div>
+<footer role="contentinfo" id="footer">
+    <span>Handcrafted by <a href="http://vithabada.cz" target="_blank">Vít Habada</a></span>
+</footer>
+<!-- end FOOTER -->
+
+<!-- begin ADD QUOTE FORM -->
+<div id="add-quote-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content form-container">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <form action="/" method="post" id="frm-addQuoteControl-quoteForm">
+                <fieldset>
+                    <legend>přidat citát</legend>
+                    <p class="notice">Nejsi přihlášen - citace bude nejprve zaslána ke schválení.</p>
+
+                    <div class="required">
+                        <label for="frm-addQuoteControl-quoteForm-text">Text citace (povinné)</label><textarea name="text" maxlength="1000" class="uid-input" id="frm-addQuoteControl-quoteForm-text" required></textarea>
+                    </div>
+
+                    <div>
+                        <label for="frm-addQuoteControl-quoteForm-subject">Předmět</label>
+                        <input type="text" name="subject" class="uid-input subject-autocomplete" id="frm-addQuoteControl-quoteForm-subject">
+                    </div>
+
+                    <div>
+                        <label for="frm-addQuoteControl-quoteForm-teacher">Vyučující</label>
+                        <input type="text" name="teacher" class="uid-input teacher-autocomplete" id="frm-addQuoteControl-quoteForm-teacher">
+                    </div>
+
+                    <span id="optional-toggle">metadata <i class="fa fa-caret-down"></i></span>
+
+                    <div id="optional-content">
+                        <div>
+                            <label for="frm-addQuoteControl-quoteForm-tags">Tagy</label>
+                            <input type="text" name="tags" placeholder="analýza, kolej, karlín" class="uid-input tags-autocomplete" id="frm-addQuoteControl-quoteForm-tags">
+                        </div>
+                        <div>
+                            <label for="frm-addQuoteControl-quoteForm-user_email">Tvůj e-mail</label>
+                            <input type="text" name="user_email" class="uid-input" id="frm-addQuoteControl-quoteForm-user_email">
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="submit" name="process" value="přidat citát">
+                    </div>
+                </fieldset>
+                <input type="hidden" name="do" value="addQuoteControl-quoteForm-submit"></form>
+        </div>
+    </div>
+</div>
+<!-- end ADD QUOTE FORM -->
+
+
+<!-- begin NAVBAR -->
+<nav role="navigation" id="top-nav">
+    <div class="container" id="nav-container">
+        <button id="toggle-button" class="visible-xs">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="/" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <ul id="top-menu">
+            <li>
+                <a href="/" class="active">
+                    <i class="fa fa-lightbulb-o fa-fw"></i>
+                    <span class="hidden-md hidden-sm">nejnovější</span>
+                </a>
+            </li>
+            <li>
+                <a href="/?quotes=top">
+                    <i class="fa fa-trophy fa-fw"></i>
+                    <span class="hidden-md hidden-sm">top</span>
+                </a>
+            </li>
+            <li>
+                <a href="/?quotes=mostcommented">
+                    <i class="fa fa-comments fa-fw"></i>
+                    <span class="hidden-md hidden-sm">nejkomentovanější</span>
+                </a>
+            </li>
+            <li>
+                <a href="/?quotes=random">
+                    <i class="fa fa-random fa-fw"></i>
+                    <span class="hidden-md hidden-sm">náhodné</span>
+                </a>
+            </li>
+            <li class="visible-xs">
+                <a href="/sign/in">
+                    <i class="fa fa-sign-out fa-fw"></i> Přihlásit se
+                </a>
+            </li>
+        </ul>
+        <a href="" id="add-quote-button" data-toggle="modal" data-target="#add-quote-modal">
+            <i class="fa fa-plus visible-xs"></i>
+            <span class="hidden-xs">přidat citát</span>
+        </a>
+        <ul id="user-cp" class="hidden-xs">
+            <li>
+                <a href="" id="user-controls-toggle">
+                    <img src="img/avatar.jpg" alt="" title="" class="img-circle">
+                    <span><small>nepřihlášen</small><br>uživatel</span>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+
+                <div id="user-controls">
+                    <div class="caret-arrow"></div>
+                    <div><i class="fa fa-lock fa-fw"></i> Přihlásit se </div>
+                    <form action="/" method="post" id="frm-loginForm"><p>
+                        <input type="text" name="username" id="frm-loginForm-username" class="login form-input" placeholder="login">
+                        <i class="fa fa-user fa-fw"></i></p>
+
+                        <p>
+                            <input type="password" name="password" id="frm-loginForm-password" placeholder="heslo" class="login form-input">
+                            <i class="fa fa-key fa-fw"></i>
+                        </p>
+
+                        <div class="onoffswitch" title="zapamatovat přihlášení">
+                            <input type="checkbox" name="remember" id="frm-loginForm-remember" checked="" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="frm-loginForm-remember" id="login-switch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        <i class="fa fa-floppy-o" title="zapamatovat přihlášení"></i>
+                        <a href="/sign/recover" class="login">obnovit heslo</a>
+
+                        <div style="clear:both"></div>
+                        <input type="submit" name="process" value="přihlásit">
+                        <a href="/sign/register" class="login">vytvořit nový účet</a>
+                        <input type="hidden" name="do" value="loginForm-submit">
+                    </form>
+                </div>
+            </li>
+        </ul>
+        <div id="page-search" class="hidden-xs">
+            <a href="" id="page-search-button"><i class="fa fa-search fa-fw"></i></a>
+
+            <form action="/" method="post" id="frm-searchForm">
+                <input type="text" name="query" id="page-search-box">
+                <input type="hidden" name="do" value="searchForm-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- end NAVBAR -->
+
+
+<!-- begin CONTROL BAR -->
+<div id="control-bar" class="hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-9 col-sm-9 clearfix">
+                <div id="bar-social"><img src="img/social.png" alt="" title="" id="share-icons"></div>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-3 clearfix">
+                <a href="/static/about" id="about-button">
+                    <i class="fa fa-question-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end CONTROL BAR -->
+
+
+<!-- begin MAIN CONTENT -->
+<div class="container" id="main">
+    <div class="row">
+        <div class="col-lg-12"></div>
+    </div>
+    <div class="row">
+
+
+        <section role="main" class="col-lg-8 col-md-8 col-sm-9 col-xs-12">
+            <div id="content">
+
+                <!-- begin CONTENT LOOP CONTAINER -->
+                <div id="content-load">
+                    <!-- QUOTE LOOP -->
+                </div>
+                <!-- end CONTENT LOOP CONTAINER -->
+
+                <div id="loader-container">
+                    <div class="col-lg-2 visible-lg"></div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                        <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+                    </div>
+                </div>
+
+
+                <div class="row" id="more-button">
+                    <div class="col-lg-2 visible-lg"></div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                        <a href="/homepage/page/11" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
+                    </div>
+                </div>
+
+
+                <div class="row" id="reload-button-content">
+                    <div class="col-lg-2 visible-lg"></div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+                        <button class="btn btn-warning btn-lg btn-block" id="reload-button">zkusit znovu</button>
+                    </div>
+                </div>
+
+
+                <div class="row" id="end-msg">
+                    <div class="col-lg-2 visible-lg"></div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 article-content"><p>víc už tu není :(</p></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- begin SIDEBAR -->
+        <aside class="col-lg-4 col-md-4 col-sm-3 hidden-xs" role="complementary" id="tag-cloud">
+
+        </aside>
+        <!-- end SIDEBAR -->
+
+    </div>
+</div>
+
+
+<script src="js/bundle.js"></script>
+
+
+<!--<script>var sl = new ScrollLoad('#content-load', '#loader-container', '#more-button', '#end-msg', 1000, 200, 2);</script>-->
+<!--<script>keyboardShort();</script>-->
+<!--<script>$(document).ready(function () {-->
+    <!--$('#share-icons').bind('click mouseover', function () {-->
+        <!--$('#bar-social').load('social.html');-->
+        <!--$(this).unbind('click mouseover');-->
+    <!--});-->
+<!--});</script>-->
+<!--<script>(function (i, s, o, g, r, a, m) {-->
+    <!--i['GoogleAnalyticsObject'] = r;-->
+    <!--i[r] = i[r] || function () {-->
+            <!--(i[r].q = i[r].q || []).push(arguments)-->
+        <!--}, i[r].l = 1 * new Date();-->
+    <!--a = s.createElement(o),-->
+        <!--m = s.getElementsByTagName(o)[0];-->
+    <!--a.async = 1;-->
+    <!--a.src = g;-->
+    <!--m.parentNode.insertBefore(a, m)-->
+<!--})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');-->
+
+<!--ga('create', 'UA-65154224-1', 'auto');-->
+<!--ga('send', 'pageview');</script>-->
+</body>
+</html>

@@ -1,18 +1,29 @@
 {
-    "name": "frontend-less",
-    "description": "Frontend skeleton app",
-    "author": "Vit Habada",
-    "private": true,
-    "devDependencies": {
-        "grunt": "~0.4.0",
-        "grunt-contrib-cssmin": "*",
-        "grunt-contrib-less": "*",
-        "grunt-contrib-uglify": "*",
-        "grunt-contrib-watch": "*",
-        "grunt-contrib-concat": "*",
-        "grunt-autoprefixer": "*",
-        "grunt-cssc": "*",
-        "matchdep": "*",
-        "time-grunt": "~1.0.0"
-    }
+  "browser": {
+    "autogrow": "./assets/js/autogrow.js",
+    "autohidingnavbar": "./assets/js/jquery.bootstrap-autohidingnavbar.js",
+    "nette-live-form": "./assets/js/live-form-validation.js",
+    "nette": "./bower_components/nette.ajax.js/nette.ajax.js",
+    "jquery-ui": "./bower_components/jquery-ui/jquery-ui.js"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  },
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "grunt-browserify": "~4.0",
+    "grunt-contrib-handlebars": "~0.10.2",
+    "grunt-contrib-uglify": "~0.9.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-less": "~1.0.1",
+    "less-plugin-autoprefix": "~1.4.2",
+    "load-grunt-tasks": "~3.2.0",
+    "time-grunt": "~1.2.1",
+    "backbone": "~1.2.1",
+    "handlebars": "~3.0.3",
+    "underscore": "~1.8.3",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0"
+  }
 }

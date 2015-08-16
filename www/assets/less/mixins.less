@@ -1,0 +1,33 @@
+.clearfix {
+    *zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+.transition(@len) {
+    -webkit-transition: @len ease-in-out;
+    -moz-transition: @len ease-in-out;
+    -ms-transition: @len ease-in-out;
+    -o-transition: @len ease-in-out;
+    transition: @len ease-in-out;
+    &:hover {
+        -webkit-transition: @len ease-in-out;
+        -moz-transition: @len ease-in-out;
+        -ms-transition: @len ease-in-out;
+        -o-transition: @len ease-in-out;
+        transition: @len ease-in-out;
+    }
+}
+
+.item {
+    background: #fff;
+    box-shadow: 0 4px 0 1px #e4e6eb, 0 3px 0 #fff - 40;
+    border-radius: 2px;
+}

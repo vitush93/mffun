@@ -1,0 +1,20 @@
+var glob = ('undefined' === typeof window) ? global : window,
+
+Handlebars = glob.Handlebars || require('handlebars');
+
+this["App"] = this["App"] || {};
+this["App"]["Templates"] = this["App"]["Templates"] || {};
+
+this["App"]["Templates"]["quote"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var helper;
+
+  return "    <article class=\"content-item\">\n        <div class=\"col-lg-2 visible-lg\"></div>\n        <div class=\"col-lg-10 col-md-12 col-sm-12 article-content\">\n            <section>\n                <div class=\"social\">\n                    <a target=\"_blank\" href=\"https://www.facebook.com/sharer/sharer.php?u=http://mffun.ms.mff.cuni.cz/quote/default/570\"><i class=\"fa fa-facebook\"></i></a>\n                    <a target=\"_blank\" href=\"https://twitter.com/home?status=citace%20z%20MFF:%0Ahttp://mffun.ms.mff.cuni.cz/quote/default/570\"><i class=\"fa fa-twitter\"></i></a>\n                    <a target=\"_blank\" href=\"https://plus.google.com/share?url=http://mffun.ms.mff.cuni.cz/quote/default/570\"><i class=\"fa fa-google-plus\"></i></a>\n                    <a href=\"/?rateQuote-qid=570&amp;do=rateQuote-down\" data-qid=\"570\" data-rate=\"down\" class=\"q-rate q-rate-down disabled\" title=\"pro hodnocení se musíš přihlásit\"><i class=\"fa fa-thumbs-down\"></i></a>\n                    <a href=\"/?rateQuote-qid=570&amp;do=rateQuote-up\" data-qid=\"570\" data-rate=\"up\" class=\"q-rate q-rate-up disabled\" title=\"pro hodnocení se musíš přihlásit\"><i class=\"fa fa-thumbs-up\"></i></a>\n                </div>\n                <h2>\n                    <a href=\"/quote/default/570\" target=\"_blank\">"
+    + this.escapeExpression(((helper = (helper = helpers.subject || (depth0 != null ? depth0.subject : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"subject","hash":{},"data":data}) : helper)))
+    + "</a>\n                    <small><a href=\"/homepage/teacher/56\">#DoležalováDrahomíra</a></small>\n\n                    <br>\n                </h2>\n                <span>\n                    <a href=\"/quote/default/570\" target=\"_blank\"><span id=\"q-rating-570\">0</span> bodů</a> &nbsp;·&nbsp; <a href=\"/quote/default/570#comments\" target=\"_blank\">0 komentářů</a>\n                </span>\n\n                <div class=\"quote-text\"><p>Chcešli změnit svůj život, změn své okolí.</p></div>\n                <div class=\"item-tags\">\n                    <a href=\"\" class=\"tag\">#tagName</a>\n                </div>\n\n                <footer>\n\n                    <div class=\"top-comment clearfix\">\n                        <img src=\"avatars/bear_128px.png\" alt=\"\" title=\"Comment User\" class=\"img-circle\">\n\n                        <div class=\"comment-body\">\n                            <p>\n                                Lorem ipsum dolor sit amet\n                            </p>\n                            <span><i class=\"fa fa-thumbs-up\"></i> 10</span>\n                            <span><i class=\"fa fa-thumbs-down\"></i> 2</span>\n                        </div>\n                    </div>\n\n                    <p>\n                        <i class=\"fa fa-angle-right\"></i>\n                        <a href=\"/quote/default/570#comments\" target=\"_blank\">všechny komentáře</a>\n                    </p>\n                </footer>\n            </section>\n        </div>\n    </article>\n";
+},"useData":true});
+
+this["App"]["Templates"]["tag_cloud"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<div class=\"tag-cloud\">\n    <a href=\"\">#tag</a>\n</div>\n";
+},"useData":true});
+
+if (typeof exports === 'object' && exports) {module.exports = this["App"]["Templates"];}

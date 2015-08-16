@@ -1,9 +1,3 @@
-{block footScripts}
-    <script>
-        $('img[data-avatar="{!$info->avatar}"]').addClass('active');
-    </script>
-{/block}
-
 {block main}
 
     {include flashes}
@@ -117,7 +111,7 @@
     {form avatarForm, class=>'accForm'}
         <div id="avatar-picker">
             {foreach App\Model\Entities\User::$AVATARS as $a}
-                <img src="{$basePath}/public/front/avatars/{$a}" alt="" title="" data-avatar="{$a}" class="avatar-pick">
+                <img src="{$basePath}/public/front/avatars/{$a}" alt="" title="" data-avatar="{$a}" class="avatar-pick{if $a == $info->avatar} active{/if}">
             {/foreach}
         </div>
         <div>

@@ -2,11 +2,7 @@
   "name": "my-project",
   "version": "0.0.1",
   "dependencies": {
-    "bootstrap": "",
-    "font-awesome": "",
-    "jquery": "",
-    "jquery-ui": "",
-    "gsap": "",
-    "nette.ajax.js": ""
+    "jquery-ui": "~1.11",
+    "nette.ajax.js": "~2.0.0"
   }
 }

@@ -1,14 +1,3 @@
-{block footScripts}
-    {if $initPage}
-    <script>
-        var sl = new ScrollLoad('#content-load', '#loader-container', '#more-button', '#end-msg', 1000, 200, {!$initPage});
-    </script>
-    {/if}
-    <script>
-        keyboardShort();
-    </script>
-{/block}
-
 {block full}
     {var $title = ''}
     {if $presenter->action == 'search'}
