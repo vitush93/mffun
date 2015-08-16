@@ -8,3 +8,4 @@ composer.lock
 www/bower_components/*
 www/node_modules/*
 .idea/
+config.local.neon
