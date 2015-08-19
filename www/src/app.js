@@ -10,9 +10,11 @@ Backbone.history.start({
     root: '/'
 });
 
+window.$ = window.jQuery = require('jquery');
+require('bootstrap');
+
 require('./bindings/Nette')();
 require('./bindings/Navbar')();
-require('./bindings/Bootstrap')();
 require('./bindings/GoogleAnalytics')();
 require('./bindings/ScrollLoad')();
 require('./bindings/KeyboardShortcuts')();

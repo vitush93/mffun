@@ -40232,9 +40232,11 @@ Backbone.history.start({
     root: '/'
 });
 
+window.$ = window.jQuery = require('jquery');
+require('bootstrap');
+
 require('./bindings/Nette')();
 require('./bindings/Navbar')();
-require('./bindings/Bootstrap')();
 require('./bindings/GoogleAnalytics')();
 require('./bindings/ScrollLoad')();
 require('./bindings/KeyboardShortcuts')();
@@ -40245,7 +40247,7 @@ require('./bindings/AvatarPicker')();
 require('./bindings/Global')();
 require('./bindings/CommentRating')();
 require('./bindings/QuoteRating')();
-},{"./bindings/AddQuote":56,"./bindings/Autocomplete":57,"./bindings/AvatarPicker":58,"./bindings/Bootstrap":59,"./bindings/CommentRating":60,"./bindings/Comments":61,"./bindings/Global":62,"./bindings/GoogleAnalytics":63,"./bindings/KeyboardShortcuts":64,"./bindings/Navbar":65,"./bindings/Nette":66,"./bindings/QuoteRating":67,"./bindings/ScrollLoad":68,"./routers/AppRouter":72,"backbone":6}],56:[function(require,module,exports){
+},{"./bindings/AddQuote":56,"./bindings/Autocomplete":57,"./bindings/AvatarPicker":58,"./bindings/CommentRating":59,"./bindings/Comments":60,"./bindings/Global":61,"./bindings/GoogleAnalytics":62,"./bindings/KeyboardShortcuts":63,"./bindings/Navbar":64,"./bindings/Nette":65,"./bindings/QuoteRating":66,"./bindings/ScrollLoad":67,"./routers/AppRouter":71,"backbone":6,"bootstrap":7,"jquery":53}],56:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40419,15 +40421,6 @@ module.exports = function () {
 
 require('jquery');
 
-module.exports = function () {
-    require('bootstrap');
-};
-
-},{"bootstrap":7,"jquery":53}],60:[function(require,module,exports){
-'use strict';
-
-require('jquery');
-
 var CommentRate = function (up, down, callback) {
     this.up = up;
     this.down = down;
@@ -40504,7 +40497,7 @@ module.exports = function () {
 };
 
 
-},{"jquery":53}],61:[function(require,module,exports){
+},{"jquery":53}],60:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -40536,7 +40529,7 @@ module.exports = function () {
         }
     });
 };
-},{"autogrow":1,"jquery":53}],62:[function(require,module,exports){
+},{"autogrow":1,"jquery":53}],61:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40599,7 +40592,7 @@ var footerScroll = {
         }, 150);
     }
 };
-},{"jquery":53}],63:[function(require,module,exports){
+},{"jquery":53}],62:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -40618,7 +40611,7 @@ module.exports = function () {
     ga('create', 'UA-65154224-1', 'auto');
     ga('send', 'pageview');
 };
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -40690,7 +40683,7 @@ var keyboardShort = function() {
 
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":53}],65:[function(require,module,exports){
+},{"jquery":53}],64:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -40782,7 +40775,7 @@ function searchBoxControl() {
     }
 }
 
-},{"autohidingnavbar":2,"jquery":53}],66:[function(require,module,exports){
+},{"autohidingnavbar":2,"jquery":53}],65:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -40793,7 +40786,7 @@ module.exports = function () {
     $.nette.init();
 };
 
-},{"jquery":53,"nette":5,"nette-live-form":3}],67:[function(require,module,exports){
+},{"jquery":53,"nette":5,"nette-live-form":3}],66:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40883,7 +40876,7 @@ module.exports = function () {
     });
 };
 
-},{"jquery":53}],68:[function(require,module,exports){
+},{"jquery":53}],67:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -40970,7 +40963,7 @@ module.exports = function () {
     global.ScrollLoad = ScrollLoad;
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":53}],69:[function(require,module,exports){
+},{"jquery":53}],68:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -40981,7 +40974,7 @@ module.exports = Backbone.Collection.extend({
     model: Quote
 });
 
-},{"../models/Quote":71,"backbone":6}],70:[function(require,module,exports){
+},{"../models/Quote":70,"backbone":6}],69:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -40993,14 +40986,14 @@ module.exports = function () {
     view.render();
 };
 
-},{"../views/QuotesView":75,"jquery":53}],71:[function(require,module,exports){
+},{"../views/QuotesView":74,"jquery":53}],70:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend();
 
-},{"backbone":6}],72:[function(require,module,exports){
+},{"backbone":6}],71:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -41018,7 +41011,7 @@ module.exports = Backbone.Router.extend({
 
 });
 
-},{"../controllers/HomeController":70,"backbone":6}],73:[function(require,module,exports){
+},{"../controllers/HomeController":69,"backbone":6}],72:[function(require,module,exports){
 (function (global){
 var glob = ('undefined' === typeof window) ? global : window,
 
@@ -41037,7 +41030,7 @@ this["App"]["Templates"]["quote"] = Handlebars.template({"compiler":[6,">= 2.0.0
 
 if (typeof exports === 'object' && exports) {module.exports = this["App"]["Templates"];}
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"handlebars":41}],74:[function(require,module,exports){
+},{"handlebars":41}],73:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -41074,7 +41067,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../templates":73,"backbone":6}],75:[function(require,module,exports){
+},{"../templates":72,"backbone":6}],74:[function(require,module,exports){
 'use strict';
 
 var _ = require('underscore');
@@ -41108,4 +41101,4 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../collections/Quotes":69,"./QuoteView":74,"backbone":6,"underscore":54}]},{},[55]);
+},{"../collections/Quotes":68,"./QuoteView":73,"backbone":6,"underscore":54}]},{},[55]);
