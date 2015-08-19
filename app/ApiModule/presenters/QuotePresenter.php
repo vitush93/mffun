@@ -3,7 +3,6 @@
 namespace App\ApiModule\Presenters;
 
 use App\Model\Entities\Quote;
-use App\Model\Entities\Tag;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Presenter;
@@ -13,10 +12,28 @@ class QuotePresenter extends Presenter
     /** @var EntityManager @inject */
     public $em;
 
-    function actionDefault($offset)
+    function actionSingle($id)
     {
-        if (!$offset) $offset = 0;
 
+    }
+
+    function actionTag($id)
+    {
+
+    }
+
+    function actionTeacher($id)
+    {
+
+    }
+
+    function actionSubject($id)
+    {
+
+    }
+
+    function actionDefault($page)
+    {
         $quotes = $this->em->getRepository(Quote::getClassName())
             ->createQuery("SELECT PARTIAL q.{id, text, rating}, t, s, tags
                            FROM App\Model\Entities\Quote q
@@ -27,7 +44,6 @@ class QuotePresenter extends Presenter
                            ORDER BY q.id
                            ")
             ->setMaxResults(10)
-            ->setFirstResult($offset)
             ->setParameter('status', Quote::STATUS_APPROVED)
             ->getArrayResult();
 
