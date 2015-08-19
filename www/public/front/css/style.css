@@ -11546,7 +11546,6 @@ h6 {
 }
 #main .article article.content-item section div.social {
   position: relative;
-  z-index: 2;
   *zoom: 1;
 }
 #main .article article.content-item section div.social:before,

@@ -201,7 +201,47 @@
             <div class="col-lg-8 col-md-9 col-sm-9 clearfix">
                 <div id="bar-social">
 
-                    <img src="{$basePath}/public/front/img/social.png" alt="" title="" id="share-icons">
+                    {*<img src="{$basePath}/public/front/img/social.png" alt="" title="" id="share-icons">*}
+
+                    <div id="fb-root"></div>
+                    <script>(function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&appId=249336298524816&version=v2.0";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));
+                    </script>
+                    <div class="fb-like" data-href="http://mffun.ms.mff.cuni.cz/"
+                         data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                    <!-- Umístěte tuto značku na místo, kde se má widget tlačítko +1 zobrazit. -->
+                    <div class="g-plusone" data-size="medium" data-href="http://mffun.ms.mff.cuni.cz/"></div>
+
+                    <!-- Umístěte tuto značku za poslední značku tlačítko +1. -->
+                    <script type="text/javascript">
+                        window.___gcfg = { lang: 'cs' };
+
+                        (function () {
+                            var po = document.createElement('script');
+                            po.type = 'text/javascript';
+                            po.async = true;
+                            po.src = 'https://apis.google.com/js/platform.js';
+                            var s = document.getElementsByTagName('script')[0];
+                            s.parentNode.insertBefore(po, s);
+                        })();
+                    </script>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"></a>
+                    <script>!function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (!d.getElementById(id)) {
+                                js = d.createElement(s);
+                                js.id = id;
+                                js.src = "https://platform.twitter.com/widgets.js";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }
+                        }(document, "script", "twitter-wjs");
+                    </script>
 
                 </div>
             </div>
