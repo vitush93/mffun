@@ -35,7 +35,6 @@ CommentRate.prototype = {
     attach: function (selector) {
         var context = this;
         $('body').on('click', selector, function (e) {
-            console.log('clicked');
             e.preventDefault();
             var $el = $(this);
 

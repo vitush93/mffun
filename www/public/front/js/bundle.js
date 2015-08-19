@@ -97,221 +97,6 @@
 })(jQuery);
 
 },{}],2:[function(require,module,exports){
-/*
- *  Bootstrap Auto-Hiding Navbar - v1.0.0
- *  An extension for Bootstrap's fixed navbar which hides the navbar while the page is scrolling downwards and shows it the other way. The plugin is able to show/hide the navbar programmatically as well.
- *  http://www.virtuosoft.eu/code/bootstrap-autohidingnavbar/
- *
- *  Made by István Ujj-Mészáros
- *  Under Apache License v2.0 License
- */
-;(function($, window, document, undefined) {
-  var pluginName = 'autoHidingNavbar',
-      $window = $(window),
-      $document = $(document),
-      _scrollThrottleTimer = null,
-      _resizeThrottleTimer = null,
-      _throttleDelay = 70,
-      _lastScrollHandlerRun = 0,
-      _previousScrollTop = null,
-      _windowHeight = $window.height(),
-      _visible = true,
-      _hideOffset,
-      defaults = {
-        disableAutohide: false,
-        showOnUpscroll: true,
-        showOnBottom: true,
-        hideOffset: 'auto', // "auto" means the navbar height
-        animationDuration: 200
-      };
-
-  function AutoHidingNavbar(element, options) {
-    this.element = $(element);
-    this.settings = $.extend({}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
-    this.init();
-  }
-
-  function hide(autoHidingNavbar) {
-    if (!_visible) {
-      return;
-    }
-
-    autoHidingNavbar.element.addClass('navbar-hidden').animate({
-      top: -autoHidingNavbar.element.height()
-    }, {
-      queue: false,
-      duration: autoHidingNavbar.settings.animationDuration
-    });
-
-    $('.dropdown.open .dropdown-toggle', autoHidingNavbar.element).dropdown('toggle');
-
-    _visible = false;
-  }
-
-  function show(autoHidingNavbar) {
-    if (_visible) {
-      return;
-    }
-
-    autoHidingNavbar.element.removeClass('navbar-hidden').animate({
-      top: 0
-    }, {
-      queue: false,
-      duration: autoHidingNavbar.settings.animationDuration
-    });
-    _visible = true;
-  }
-
-  function detectState(autoHidingNavbar) {
-    var scrollTop = $window.scrollTop(),
-        scrollDelta = scrollTop - _previousScrollTop;
-
-    _previousScrollTop = scrollTop;
-
-    if (scrollDelta < 0) {
-      if (_visible) {
-        return;
-      }
-
-      if (autoHidingNavbar.settings.showOnUpscroll || scrollTop <= _hideOffset) {
-        show(autoHidingNavbar);
-      }
-    }
-    else if (scrollDelta > 0) {
-      if (!_visible) {
-        if (autoHidingNavbar.settings.showOnBottom && scrollTop + _windowHeight === $document.height()) {
-          show(autoHidingNavbar);
-        }
-        return;
-      }
-
-      if (scrollTop >= _hideOffset) {
-        hide(autoHidingNavbar);
-      }
-    }
-
-  }
-
-  function scrollHandler(autoHidingNavbar) {
-    if (autoHidingNavbar.settings.disableAutohide) {
-      return;
-    }
-
-    _lastScrollHandlerRun = new Date().getTime();
-
-    detectState(autoHidingNavbar);
-  }
-
-  function bindEvents(autoHidingNavbar) {
-    $document.on('scroll.' + pluginName, function() {
-      if (new Date().getTime() - _lastScrollHandlerRun > _throttleDelay) {
-        scrollHandler(autoHidingNavbar);
-      }
-      else {
-        clearTimeout(_scrollThrottleTimer);
-        _scrollThrottleTimer = setTimeout(function() {
-          scrollHandler(autoHidingNavbar);
-        }, _throttleDelay);
-      }
-    });
-
-    $window.on('resize.' + pluginName, function() {
-      clearTimeout(_resizeThrottleTimer);
-      _resizeThrottleTimer = setTimeout(function() {
-        _windowHeight = $window.height();
-      }, _throttleDelay);
-    });
-  }
-
-  function unbindEvents() {
-    $document.off('.' + pluginName);
-
-    $window.off('.' + pluginName);
-  }
-
-  AutoHidingNavbar.prototype = {
-    init: function() {
-      this.elements = {
-        navbar: this.element
-      };
-
-      this.setDisableAutohide(this.settings.disableAutohide);
-      this.setShowOnUpscroll(this.settings.showOnUpscroll);
-      this.setShowOnBottom(this.settings.showOnBottom);
-      this.setHideOffset(this.settings.hideOffset);
-      this.setAnimationDuration(this.settings.animationDuration);
-
-      _hideOffset = this.settings.hideOffset === 'auto' ? this.element.height() : this.settings.hideOffset;
-      bindEvents(this);
-
-      return this.element;
-    },
-    setDisableAutohide: function(value) {
-      this.settings.disableAutohide = value;
-      return this.element;
-    },
-    setShowOnUpscroll: function(value) {
-      this.settings.showOnUpscroll = value;
-      return this.element;
-    },
-    setShowOnBottom: function(value) {
-      this.settings.showOnBottom = value;
-      return this.element;
-    },
-    setHideOffset: function(value) {
-      this.settings.hideOffset = value;
-      return this.element;
-    },
-    setAnimationDuration: function(value) {
-      this.settings.animationDuration = value;
-      return this.element;
-    },
-    show: function() {
-      show(this);
-      return this.element;
-    },
-    hide: function() {
-      hide(this);
-      return this.element;
-    },
-    destroy: function() {
-      unbindEvents(this);
-      show(this);
-      $.data(this, 'plugin_' + pluginName, null);
-      return this.element;
-    }
-  };
-
-  $.fn[pluginName] = function(options) {
-    var args = arguments;
-
-    if (options === undefined || typeof options === 'object') {
-      return this.each(function() {
-        if (!$.data(this, 'plugin_' + pluginName)) {
-          $.data(this, 'plugin_' + pluginName, new AutoHidingNavbar(this, options));
-        }
-      });
-    } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
-      var returns;
-
-      this.each(function() {
-        var instance = $.data(this, 'plugin_' + pluginName);
-
-        if (instance instanceof AutoHidingNavbar && typeof instance[options] === 'function') {
-          returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
-        }
-      });
-
-      return returns !== undefined ? returns : this;
-    }
-
-  };
-
-})(jQuery, window, document);
-
-},{}],3:[function(require,module,exports){
 /**
  * Live Form Validation for Nette 2.2
  *
@@ -1106,7 +891,7 @@ Nette.webalize = function(s) {
 };
 
 Nette.webalizeTable = {\u00e1: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u0148: 'n', \u00f3: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z'};
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*! jQuery UI - v1.11.4 - 2015-03-11
 * http://jqueryui.com
 * Includes: core.js, widget.js, mouse.js, position.js, accordion.js, autocomplete.js, button.js, datepicker.js, dialog.js, draggable.js, droppable.js, effect.js, effect-blind.js, effect-bounce.js, effect-clip.js, effect-drop.js, effect-explode.js, effect-fade.js, effect-fold.js, effect-highlight.js, effect-puff.js, effect-pulsate.js, effect-scale.js, effect-shake.js, effect-size.js, effect-slide.js, effect-transfer.js, menu.js, progressbar.js, resizable.js, selectable.js, selectmenu.js, slider.js, sortable.js, spinner.js, tabs.js, tooltip.js
@@ -17724,7 +17509,7 @@ var tooltip = $.widget( "ui.tooltip", {
 
 
 }));
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  * AJAX Nette Framework plugin for jQuery
  *
@@ -18270,7 +18055,7 @@ $.nette.ext('init', {
 
 })(window, window.jQuery);
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.1
 
@@ -20147,7 +19932,7 @@ $.nette.ext('init', {
 }));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":53,"underscore":54}],7:[function(require,module,exports){
+},{"jquery":52,"underscore":53}],6:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -20161,7 +19946,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":8,"../../js/alert.js":9,"../../js/button.js":10,"../../js/carousel.js":11,"../../js/collapse.js":12,"../../js/dropdown.js":13,"../../js/modal.js":14,"../../js/popover.js":15,"../../js/scrollspy.js":16,"../../js/tab.js":17,"../../js/tooltip.js":18,"../../js/transition.js":19}],8:[function(require,module,exports){
+},{"../../js/affix.js":7,"../../js/alert.js":8,"../../js/button.js":9,"../../js/carousel.js":10,"../../js/collapse.js":11,"../../js/dropdown.js":12,"../../js/modal.js":13,"../../js/popover.js":14,"../../js/scrollspy.js":15,"../../js/tab.js":16,"../../js/tooltip.js":17,"../../js/transition.js":18}],7:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.5
  * http://getbootstrap.com/javascript/#affix
@@ -20325,7 +20110,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.5
  * http://getbootstrap.com/javascript/#alerts
@@ -20421,7 +20206,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.5
  * http://getbootstrap.com/javascript/#buttons
@@ -20543,7 +20328,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.5
  * http://getbootstrap.com/javascript/#carousel
@@ -20782,7 +20567,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.5
  * http://getbootstrap.com/javascript/#collapse
@@ -20995,7 +20780,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.5
  * http://getbootstrap.com/javascript/#dropdowns
@@ -21162,7 +20947,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.5
  * http://getbootstrap.com/javascript/#modals
@@ -21501,7 +21286,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.5
  * http://getbootstrap.com/javascript/#popovers
@@ -21611,7 +21396,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.5
  * http://getbootstrap.com/javascript/#scrollspy
@@ -21785,7 +21570,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.5
  * http://getbootstrap.com/javascript/#tabs
@@ -21942,7 +21727,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.5
  * http://getbootstrap.com/javascript/#tooltip
@@ -22458,7 +22243,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.5
  * http://getbootstrap.com/javascript/#transitions
@@ -22519,9 +22304,9 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -22749,7 +22534,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":22}],22:[function(require,module,exports){
+},{"_process":21}],21:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -22841,7 +22626,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -22905,7 +22690,7 @@ inst['default'] = inst;
 
 exports['default'] = inst;
 module.exports = exports['default'];
-},{"./handlebars.runtime":24,"./handlebars/compiler/ast":26,"./handlebars/compiler/base":27,"./handlebars/compiler/compiler":29,"./handlebars/compiler/javascript-compiler":31,"./handlebars/compiler/visitor":34,"./handlebars/no-conflict":37}],24:[function(require,module,exports){
+},{"./handlebars.runtime":23,"./handlebars/compiler/ast":25,"./handlebars/compiler/base":26,"./handlebars/compiler/compiler":28,"./handlebars/compiler/javascript-compiler":30,"./handlebars/compiler/visitor":33,"./handlebars/no-conflict":36}],23:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -22966,7 +22751,7 @@ inst['default'] = inst;
 
 exports['default'] = inst;
 module.exports = exports['default'];
-},{"./handlebars/base":25,"./handlebars/exception":36,"./handlebars/no-conflict":37,"./handlebars/runtime":38,"./handlebars/safe-string":39,"./handlebars/utils":40}],25:[function(require,module,exports){
+},{"./handlebars/base":24,"./handlebars/exception":35,"./handlebars/no-conflict":36,"./handlebars/runtime":37,"./handlebars/safe-string":38,"./handlebars/utils":39}],24:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -23240,7 +23025,7 @@ function createFrame(object) {
 }
 
 /* [args, ]options */
-},{"./exception":36,"./utils":40}],26:[function(require,module,exports){
+},{"./exception":35,"./utils":39}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -23393,7 +23178,7 @@ var AST = {
 // must modify the object to operate properly.
 exports['default'] = AST;
 module.exports = exports['default'];
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -23440,7 +23225,7 @@ function parse(input, options) {
   var strip = new _WhitespaceControl2['default']();
   return strip.accept(_parser2['default'].parse(input));
 }
-},{"../utils":40,"./ast":26,"./helpers":30,"./parser":32,"./whitespace-control":35}],28:[function(require,module,exports){
+},{"../utils":39,"./ast":25,"./helpers":29,"./parser":31,"./whitespace-control":34}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -23605,7 +23390,7 @@ exports['default'] = CodeGen;
 module.exports = exports['default'];
 
 /* NOP */
-},{"../utils":40,"source-map":42}],29:[function(require,module,exports){
+},{"../utils":39,"source-map":41}],28:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -24133,7 +23918,7 @@ function transformLiteralToPath(sexpr) {
     sexpr.path = new _AST2['default'].PathExpression(false, 0, [literal.original + ''], literal.original + '', literal.loc);
   }
 }
-},{"../exception":36,"../utils":40,"./ast":26}],30:[function(require,module,exports){
+},{"../exception":35,"../utils":39,"./ast":25}],29:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -24265,7 +24050,7 @@ function prepareBlock(openBlock, program, inverseAndProgram, close, inverted, lo
 
   return new this.BlockStatement(openBlock.path, openBlock.params, openBlock.hash, program, inverse, openBlock.strip, inverseStrip, close && close.strip, this.locInfo(locInfo));
 }
-},{"../exception":36}],31:[function(require,module,exports){
+},{"../exception":35}],30:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -25328,7 +25113,7 @@ function strictLookup(requireTerminal, compiler, parts, type) {
 
 exports['default'] = JavaScriptCompiler;
 module.exports = exports['default'];
-},{"../base":25,"../exception":36,"../utils":40,"./code-gen":28}],32:[function(require,module,exports){
+},{"../base":24,"../exception":35,"../utils":39,"./code-gen":27}],31:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -26007,7 +25792,7 @@ var handlebars = (function () {
     return new Parser();
 })();exports["default"] = handlebars;
 module.exports = exports["default"];
-},{}],33:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -26173,7 +25958,7 @@ PrintVisitor.prototype.HashPair = function (pair) {
   return pair.key + '=' + this.accept(pair.value);
 };
 /*eslint-enable new-cap */
-},{"./visitor":34}],34:[function(require,module,exports){
+},{"./visitor":33}],33:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -26306,7 +26091,7 @@ Visitor.prototype = {
 exports['default'] = Visitor;
 module.exports = exports['default'];
 /* content */ /* comment */ /* path */ /* string */ /* number */ /* bool */ /* literal */ /* literal */
-},{"../exception":36,"./ast":26}],35:[function(require,module,exports){
+},{"../exception":35,"./ast":25}],34:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -26519,7 +26304,7 @@ function omitLeft(body, i, multiple) {
 
 exports['default'] = WhitespaceControl;
 module.exports = exports['default'];
-},{"./visitor":34}],36:[function(require,module,exports){
+},{"./visitor":33}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26558,7 +26343,7 @@ Exception.prototype = new Error();
 
 exports['default'] = Exception;
 module.exports = exports['default'];
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -26579,7 +26364,7 @@ exports['default'] = function (Handlebars) {
 
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],38:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -26812,7 +26597,7 @@ function initData(context, data) {
   }
   return data;
 }
-},{"./base":25,"./exception":36,"./utils":40}],39:[function(require,module,exports){
+},{"./base":24,"./exception":35,"./utils":39}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26827,7 +26612,7 @@ SafeString.prototype.toString = SafeString.prototype.toHTML = function () {
 
 exports['default'] = SafeString;
 module.exports = exports['default'];
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26942,7 +26727,7 @@ function blockParams(params, ids) {
 function appendContextPath(contextPath, id) {
   return (contextPath ? contextPath + '.' : '') + id;
 }
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */
@@ -26969,7 +26754,7 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions['.hbs'] = extension;
 }
 
-},{"../dist/cjs/handlebars":23,"../dist/cjs/handlebars/compiler/printer":33,"fs":20}],42:[function(require,module,exports){
+},{"../dist/cjs/handlebars":22,"../dist/cjs/handlebars/compiler/printer":32,"fs":19}],41:[function(require,module,exports){
 /*
  * Copyright 2009-2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE.txt or:
@@ -26979,7 +26764,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-consumer":48,"./source-map/source-map-generator":49,"./source-map/source-node":50}],43:[function(require,module,exports){
+},{"./source-map/source-map-consumer":47,"./source-map/source-map-generator":48,"./source-map/source-node":49}],42:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -27078,7 +26863,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":51,"amdefine":52}],44:[function(require,module,exports){
+},{"./util":50,"amdefine":51}],43:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -27222,7 +27007,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./base64":45,"amdefine":52}],45:[function(require,module,exports){
+},{"./base64":44,"amdefine":51}],44:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -27266,7 +27051,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":52}],46:[function(require,module,exports){
+},{"amdefine":51}],45:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -27348,7 +27133,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":52}],47:[function(require,module,exports){
+},{"amdefine":51}],46:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -27436,7 +27221,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":51,"amdefine":52}],48:[function(require,module,exports){
+},{"./util":50,"amdefine":51}],47:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -28013,7 +27798,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":43,"./base64-vlq":44,"./binary-search":46,"./util":51,"amdefine":52}],49:[function(require,module,exports){
+},{"./array-set":42,"./base64-vlq":43,"./binary-search":45,"./util":50,"amdefine":51}],48:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -28415,7 +28200,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":43,"./base64-vlq":44,"./mapping-list":47,"./util":51,"amdefine":52}],50:[function(require,module,exports){
+},{"./array-set":42,"./base64-vlq":43,"./mapping-list":46,"./util":50,"amdefine":51}],49:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -28831,7 +28616,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./source-map-generator":49,"./util":51,"amdefine":52}],51:[function(require,module,exports){
+},{"./source-map-generator":48,"./util":50,"amdefine":51}],50:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -29152,7 +28937,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":52}],52:[function(require,module,exports){
+},{"amdefine":51}],51:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 1.0.0 Copyright (c) 2011-2015, The Dojo Foundation All Rights Reserved.
@@ -29457,7 +29242,7 @@ function amdefine(module, requireFn) {
 module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules\\handlebars\\node_modules\\source-map\\node_modules\\amdefine\\amdefine.js")
-},{"_process":22,"path":21}],53:[function(require,module,exports){
+},{"_process":21,"path":20}],52:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -38669,7 +38454,7 @@ return jQuery;
 
 }));
 
-},{}],54:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -40219,7 +40004,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -40247,7 +40032,7 @@ require('./bindings/AvatarPicker')();
 require('./bindings/Global')();
 require('./bindings/CommentRating')();
 require('./bindings/QuoteRating')();
-},{"./bindings/AddQuote":56,"./bindings/Autocomplete":57,"./bindings/AvatarPicker":58,"./bindings/CommentRating":59,"./bindings/Comments":60,"./bindings/Global":61,"./bindings/GoogleAnalytics":62,"./bindings/KeyboardShortcuts":63,"./bindings/Navbar":64,"./bindings/Nette":65,"./bindings/QuoteRating":66,"./bindings/ScrollLoad":67,"./routers/AppRouter":71,"backbone":6,"bootstrap":7,"jquery":53}],56:[function(require,module,exports){
+},{"./bindings/AddQuote":55,"./bindings/Autocomplete":56,"./bindings/AvatarPicker":57,"./bindings/CommentRating":58,"./bindings/Comments":59,"./bindings/Global":60,"./bindings/GoogleAnalytics":61,"./bindings/KeyboardShortcuts":62,"./bindings/Navbar":63,"./bindings/Nette":64,"./bindings/QuoteRating":65,"./bindings/ScrollLoad":66,"./routers/AppRouter":70,"backbone":5,"bootstrap":6,"jquery":52}],55:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40263,7 +40048,7 @@ module.exports = function () {
     });
 };
 
-},{"jquery":53}],57:[function(require,module,exports){
+},{"jquery":52}],56:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40402,7 +40187,7 @@ var tagAutocomplete = {
 
 
 
-},{"jquery":53,"jquery-ui":4}],58:[function(require,module,exports){
+},{"jquery":52,"jquery-ui":3}],57:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40416,7 +40201,7 @@ module.exports = function () {
     });
 };
 
-},{"jquery":53}],59:[function(require,module,exports){
+},{"jquery":52}],58:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40454,7 +40239,6 @@ CommentRate.prototype = {
     attach: function (selector) {
         var context = this;
         $('body').on('click', selector, function (e) {
-            console.log('clicked');
             e.preventDefault();
             var $el = $(this);
 
@@ -40497,7 +40281,7 @@ module.exports = function () {
 };
 
 
-},{"jquery":53}],60:[function(require,module,exports){
+},{"jquery":52}],59:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -40529,7 +40313,7 @@ module.exports = function () {
         }
     });
 };
-},{"autogrow":1,"jquery":53}],61:[function(require,module,exports){
+},{"autogrow":1,"jquery":52}],60:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40592,7 +40376,7 @@ var footerScroll = {
         }, 150);
     }
 };
-},{"jquery":53}],62:[function(require,module,exports){
+},{"jquery":52}],61:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -40611,7 +40395,7 @@ module.exports = function () {
     ga('create', 'UA-65154224-1', 'auto');
     ga('send', 'pageview');
 };
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -40683,17 +40467,12 @@ var keyboardShort = function() {
 
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":53}],64:[function(require,module,exports){
+},{"jquery":52}],63:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
-require('autohidingnavbar');
 
 module.exports = function () {
-    $('#top-nav').autoHidingNavbar({
-        hideOffset: 100
-    });
-
     $('body').on('click', '#toggle-button', function (e) {
         e.preventDefault();
         var topMenu = $('#top-menu');
@@ -40775,7 +40554,7 @@ function searchBoxControl() {
     }
 }
 
-},{"autohidingnavbar":2,"jquery":53}],65:[function(require,module,exports){
+},{"jquery":52}],64:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -40786,7 +40565,7 @@ module.exports = function () {
     $.nette.init();
 };
 
-},{"jquery":53,"nette":5,"nette-live-form":3}],66:[function(require,module,exports){
+},{"jquery":52,"nette":4,"nette-live-form":2}],65:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -40876,7 +40655,7 @@ module.exports = function () {
     });
 };
 
-},{"jquery":53}],67:[function(require,module,exports){
+},{"jquery":52}],66:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -40963,7 +40742,7 @@ module.exports = function () {
     global.ScrollLoad = ScrollLoad;
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":53}],68:[function(require,module,exports){
+},{"jquery":52}],67:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -40974,7 +40753,7 @@ module.exports = Backbone.Collection.extend({
     model: Quote
 });
 
-},{"../models/Quote":70,"backbone":6}],69:[function(require,module,exports){
+},{"../models/Quote":69,"backbone":5}],68:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -40986,14 +40765,14 @@ module.exports = function () {
     view.render();
 };
 
-},{"../views/QuotesView":74,"jquery":53}],70:[function(require,module,exports){
+},{"../views/QuotesView":73,"jquery":52}],69:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend();
 
-},{"backbone":6}],71:[function(require,module,exports){
+},{"backbone":5}],70:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -41011,7 +40790,7 @@ module.exports = Backbone.Router.extend({
 
 });
 
-},{"../controllers/HomeController":69,"backbone":6}],72:[function(require,module,exports){
+},{"../controllers/HomeController":68,"backbone":5}],71:[function(require,module,exports){
 (function (global){
 var glob = ('undefined' === typeof window) ? global : window,
 
@@ -41030,7 +40809,7 @@ this["App"]["Templates"]["quote"] = Handlebars.template({"compiler":[6,">= 2.0.0
 
 if (typeof exports === 'object' && exports) {module.exports = this["App"]["Templates"];}
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"handlebars":41}],73:[function(require,module,exports){
+},{"handlebars":40}],72:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backbone');
@@ -41067,7 +40846,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../templates":72,"backbone":6}],74:[function(require,module,exports){
+},{"../templates":71,"backbone":5}],73:[function(require,module,exports){
 'use strict';
 
 var _ = require('underscore');
@@ -41101,4 +40880,4 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../collections/Quotes":68,"./QuoteView":73,"backbone":6,"underscore":54}]},{},[55]);
+},{"../collections/Quotes":67,"./QuoteView":72,"backbone":5,"underscore":53}]},{},[54]);

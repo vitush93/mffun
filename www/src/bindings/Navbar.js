@@ -1,13 +1,8 @@
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
-require('autohidingnavbar');
 
 module.exports = function () {
-    $('#top-nav').autoHidingNavbar({
-        hideOffset: 100
-    });
-
     $('body').on('click', '#toggle-button', function (e) {
         e.preventDefault();
         var topMenu = $('#top-menu');
