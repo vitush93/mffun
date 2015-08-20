@@ -12862,12 +12862,28 @@ footer[role="contentinfo"] span {
   background: #5cc0ff;
 }
 .flash {
-  max-width: 420px;
+  width: 420px;
   border-radius: 3px;
   margin: 20px auto;
   padding: 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  margin-left: -210px;
+  top: 250px;
+}
+@media (max-width: 767px) {
+  .flash {
+    position: static;
+    margin: 20px auto;
+    z-index: auto;
+    left: auto;
+    top: auto;
+    max-width: 420px;
+    width: auto;
+  }
 }
 .flash:first-child {
   margin-top: 0;
@@ -12884,19 +12900,39 @@ footer[role="contentinfo"] span {
 }
 .flash.success {
   color: #27947f;
-  background: rgba(69, 178, 157, 0.15);
+  background: rgba(69, 178, 157, 0.3);
+}
+@media (max-width: 767px) {
+  .flash.success {
+    background: rgba(69, 178, 157, 0.15);
+  }
 }
 .flash.warning {
   color: #c86004;
-  background: rgba(230, 126, 34, 0.15);
+  background: rgba(230, 126, 34, 0.3);
+}
+@media (max-width: 767px) {
+  .flash.warning {
+    background: rgba(230, 126, 34, 0.15);
+  }
 }
 .flash.error {
   color: #c23a48;
-  background: rgba(224, 88, 102, 0.15);
+  background: rgba(224, 88, 102, 0.3);
+}
+@media (max-width: 767px) {
+  .flash.error {
+    background: rgba(224, 88, 102, 0.15);
+  }
 }
 .flash.info {
   color: #167abd;
-  background: rgba(52, 152, 219, 0.15);
+  background: rgba(52, 152, 219, 0.3);
+}
+@media (max-width: 767px) {
+  .flash.info {
+    background: rgba(52, 152, 219, 0.15);
+  }
 }
 #error-page {
   font-family: 'Roboto', sans-serif !important;

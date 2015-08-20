@@ -944,12 +944,26 @@ footer[role="contentinfo"] {
 }
 
 .flash {
-    max-width: 420px;
+    width: 420px;
     border-radius: 3px;
     margin: 20px auto;
     padding: 20px;
     font-family: @proxima;
     font-size: 14px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    margin-left: -210px;
+    top: 250px;
+    @media (max-width: @screen-xs-max) {
+        position: static;
+        margin: 20px auto;
+        z-index: auto;
+        left: auto;
+        top: auto;
+        max-width: 420px;
+        width: auto;
+    }
     &:first-child {
         margin-top: 0;
     }
@@ -965,19 +979,31 @@ footer[role="contentinfo"] {
     }
     &.success {
         color: @green - 30;
-        background: fade(@green, 15%);
+        @media (max-width: @screen-xs-max) {
+            background: fade(@green, 15%);
+        }
+        background: fade(@green, 30%);
     }
     &.warning {
         color: @orange - 30;
-        background: fade(@orange, 15%);
+        @media (max-width: @screen-xs-max) {
+            background: fade(@orange, 15%);
+        }
+        background: fade(@orange, 30%);
     }
     &.error {
         color: @redish - 30;
-        background: fade(@redish, 15%);
+        @media (max-width: @screen-xs-max) {
+            background: fade(@redish, 15%);
+        }
+        background: fade(@redish, 30%);
     }
     &.info {
         color: @blue - 30;
-        background: fade(@blue, 15%);
+        @media (max-width: @screen-xs-max) {
+            background: fade(@blue, 15%);
+        }
+        background: fade(@blue, 30%);
     }
 }
 
