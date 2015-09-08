@@ -12942,39 +12942,43 @@ footer[role="contentinfo"] span {
   cursor: pointer;
 }
 .flash.success {
-  color: #27947f;
-  background: rgba(69, 178, 157, 0.3);
+  color: #3c763d;
+  background: #dff0d8;
+  border: 1px solid #d6e9c6;
 }
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .flash.success {
-    background: rgba(69, 178, 157, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 }
 .flash.warning {
-  color: #c86004;
-  background: rgba(230, 126, 34, 0.3);
+  color: #8a6d3b;
+  background: #fcf8e3;
+  border: 1px solid #faebcc;
 }
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .flash.warning {
-    background: rgba(230, 126, 34, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 }
 .flash.error {
-  color: #c23a48;
-  background: rgba(224, 88, 102, 0.3);
+  color: #a94442;
+  background: #f2dede;
+  border: 1px solid #ebccd1;
 }
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .flash.error {
-    background: rgba(224, 88, 102, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 }
 .flash.info {
-  color: #167abd;
-  background: rgba(52, 152, 219, 0.3);
+  color: #31708f;
+  background: #d9edf7;
+  border: 1px solid #bce8f1;
 }
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .flash.info {
-    background: rgba(52, 152, 219, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 }
 #error-page {
