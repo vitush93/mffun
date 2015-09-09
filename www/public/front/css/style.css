@@ -11634,8 +11634,11 @@ h6 {
   transition: 0.1s ease-in-out;
 }
 #main .article article.content-item section div.social a.disabled {
-  background: #ccc !important;
+  color: #ccc !important;
   cursor: default !important;
+}
+#main .article article.content-item section div.social a.disabled:hover {
+  background: none;
 }
 #main .article article.content-item section div.social a + a + a {
   background: #dd4b39;
