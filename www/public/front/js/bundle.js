@@ -40760,9 +40760,7 @@ var $ = require('jquery');
 var QuotesView = require('../views/QuotesView');
 
 module.exports = function () {
-    var view = new QuotesView();
-
-    view.render();
+    console.log('home controller');
 };
 
 },{"../views/QuotesView":73,"jquery":52}],69:[function(require,module,exports){
@@ -40784,9 +40782,7 @@ module.exports = Backbone.Router.extend({
         '': 'homeRoute'
     },
 
-    homeRoute: function () {
-        // HomeController();
-    }
+    homeRoute: HomeController
 
 });
 

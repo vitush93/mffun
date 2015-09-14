@@ -9,8 +9,6 @@ module.exports = Backbone.Router.extend({
         '': 'homeRoute'
     },
 
-    homeRoute: function () {
-        // HomeController();
-    }
+    homeRoute: HomeController
 
 });
