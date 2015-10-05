@@ -15,6 +15,7 @@ use Nette\Object;
 /**
  * Class QuoteRepository
  * @package App\Model\Repositories
+ * @deprecated
  */
 class QuoteRepository extends Object
 {

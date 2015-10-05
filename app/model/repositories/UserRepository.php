@@ -11,6 +11,7 @@ use Nette\Utils\ArrayHash;
 /**
  * Class UserRepository
  * @package App\Model\Repositories
+ * @deprecated
  */
 class UserRepository extends Object
 {
