@@ -5,6 +5,7 @@
     "kollarovic/thumbnail": "~1.0.0",
     "mrclay/minify": "~2.2.1",
     "kdyby/doctrine": "~2.3.1",
+    "kdyby/redis": "~3.3.0",
     "texy/texy": "~2.6"
   },
   "require-dev": {
