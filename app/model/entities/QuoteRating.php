@@ -3,6 +3,7 @@
 namespace App\Model\Entities;
 
 
+use App\Libs\IRating;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
@@ -12,7 +13,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"quote_id", "user_id"})})
  * @ORM\EntityListeners({"App\Model\Events\QuoteRatingListener"})
  */
-class QuoteRating extends BaseEntity
+class QuoteRating extends BaseEntity implements IRating
 {
     const
         POSITIVE = 1,

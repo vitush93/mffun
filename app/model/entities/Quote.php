@@ -3,6 +3,7 @@
 namespace App\Model\Entities;
 
 
+use App\Libs\IRateable;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -14,7 +15,7 @@ use Nette\Utils\Strings;
  * @ORM\Entity
  * @ORM\EntityListeners({"App\Model\Events\QuoteListener"})
  */
-class Quote extends BaseEntity
+class Quote extends BaseEntity implements IRateable
 {
     const STATUS_APPROVED = 1;
     const STATUS_NEED_APPROVAL = 2;

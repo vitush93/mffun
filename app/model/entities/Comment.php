@@ -2,15 +2,17 @@
 
 namespace App\Model\Entities;
 
+use App\Libs\IRateable;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
+use Kdyby\Doctrine\NotImplementedException;
 
 /**
  * @ORM\Entity
  */
-class Comment extends BaseEntity
+class Comment extends BaseEntity implements IRateable
 {
     /**
      * @ORM\Id
@@ -222,6 +224,27 @@ class Comment extends BaseEntity
                 return $diff->s . 's';
             }
         }
+    }
+
+    /**
+     * Returns numeric representation of item's rating.
+     *
+     * @return number
+     */
+    function getRating()
+    {
+        throw new NotImplementedException;
+    }
+
+    /**
+     * Sets calculated numeric item's rating value.
+     *
+     * @param $value
+     * @return mixed
+     */
+    function setRating($value)
+    {
+        throw new NotImplementedException;
     }
 
 }

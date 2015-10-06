@@ -4,6 +4,7 @@
 namespace App\Model\Entities;
 
 
+use App\Libs\IRating;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Nette\Utils\DateTime;
@@ -13,7 +14,7 @@ use Nette\Utils\DateTime;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"comment_id", "user_id"})})
  * @ORM\EntityListeners({"App\Model\Events\CommentRatingListener"})
  */
-class CommentRating extends BaseEntity
+class CommentRating extends BaseEntity implements IRating
 {
     const
         POSITIVE = 1,

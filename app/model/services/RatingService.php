@@ -3,6 +3,8 @@
 namespace App\Model\Services;
 
 
+use App\Libs\BooleanRatingAlgorithm;
+use App\Libs\DifferenceRatingAlgorithm;
 use App\Model\Entities\Comment;
 use App\Model\Entities\CommentRating;
 use App\Model\Entities\Quote;
@@ -95,30 +97,14 @@ class RatingService extends Object
      */
     public function updateCommentRating(Comment $comment)
     {
-        $ups = $this->calculateCommentRatings($comment, CommentRating::POSITIVE);
-        $downs = $this->calculateCommentRatings($comment, CommentRating::NEGATIVE);
-        $comment->setRatingUp($ups);
-        $comment->setRatingDown($downs);
-    }
+        $booleanRating = new BooleanRatingAlgorithm($comment);
 
-    /**
-     * Comment rating algo.
-     *
-     * @param Comment $comment
-     * @param int $value
-     * @return int number of ratings of given value for given Comment entity.
-     */
-    private function calculateCommentRatings(Comment $comment, $value)
-    {
-        $sum = 0;
-        /** @var CommentRating $r */
-        foreach ($comment->getRatings() as $r) {
-            if ($r->getValue() == $value) {
-                $sum++;
-            }
-        }
-
-        return $sum;
+        $comment->setRatingUp(
+            $booleanRating->calculateBy(CommentRating::POSITIVE)->getResult()
+        );
+        $comment->setRatingDown(
+            $booleanRating->calculateBy(CommentRating::NEGATIVE)->getResult()
+        );
     }
 
     /**
@@ -128,17 +114,10 @@ class RatingService extends Object
      */
     public function updateQuoteRating(Quote $quote)
     {
-        if ($quote->getRatings()->count() == 0) {
-            $quote->setRating(0);
-            return;
-        }
+        $differenceRating = new DifferenceRatingAlgorithm($quote);
 
-        $sum = 0;
-        /** @var QuoteRating $r */
-        foreach ($quote->getRatings() as $r) {
-            $sum += (int)$r->getValue();
-        }
-
-        $quote->setRating($sum);
+        $quote->setRating(
+            $differenceRating->calculate()->getResult()
+        );
     }
 }

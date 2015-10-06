@@ -20,6 +20,8 @@ class ErrorPresenter extends Presenter
 
     public function __construct(ILogger $logger)
     {
+        parent::__construct();
+
         $this->logger = $logger;
     }
 
