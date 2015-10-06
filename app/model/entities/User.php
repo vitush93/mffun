@@ -298,7 +298,7 @@ class User extends BaseEntity
 
     public function decreaseCrank()
     {
-        $this->crank--;
+        $this->crank -= 2;
     }
 
     /**

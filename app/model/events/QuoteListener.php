@@ -40,7 +40,6 @@ class QuoteListener
     /**
      * Does the automatic approval.
      * Check if quote poster has enough crank to post this quote automatically.
-     * If the quote is approved automatically, user's crank will be increased.
      *
      * @param Quote $quote
      */
@@ -49,13 +48,13 @@ class QuoteListener
         if (!$quote->getUser()) return; // anonymous user (null value)
 
         if ($quote->getUser()->getRole() == User::ROLE_ADMIN || $quote->getUser()->getRole() == User::ROLE_MODERATOR) {
-            $quote->approveNoRankUp();
+            $quote->approve();
 
             return;
         }
 
         if ($quote->getUser()->getCrank() > 0) {
-            $quote->approveNoRankUp();
+            $quote->approve();
         }
     }
 
