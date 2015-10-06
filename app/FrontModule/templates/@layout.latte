@@ -204,7 +204,7 @@
                     {*<img src="{$basePath}/public/front/img/social.png" alt="" title="" id="share-icons">*}
 
                     <div id="fb-root"></div>
-                    <script>(function (d, s, id) {
+                    <script defer>(function (d, s, id) {
                             var js, fjs = d.getElementsByTagName(s)[0];
                             if (d.getElementById(id)) return;
                             js = d.createElement(s);
@@ -219,7 +219,7 @@
                     <div class="g-plusone" data-size="medium" data-href="http://mffun.ms.mff.cuni.cz/"></div>
 
                     <!-- Umístěte tuto značku za poslední značku tlačítko +1. -->
-                    <script type="text/javascript">
+                    <script type="text/javascript" defer>
                         window.___gcfg = { lang: 'cs' };
 
                         (function () {
@@ -232,7 +232,7 @@
                         })();
                     </script>
                     <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"></a>
-                    <script>!function (d, s, id) {
+                    <script defer>!function (d, s, id) {
                             var js, fjs = d.getElementsByTagName(s)[0];
                             if (!d.getElementById(id)) {
                                 js = d.createElement(s);
