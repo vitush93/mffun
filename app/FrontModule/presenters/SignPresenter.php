@@ -7,7 +7,6 @@ use App\FrontModule\Components\CheckLdap\ILdapCheckControlFactory;
 use App\Libs\BootstrapForm;
 use App\Model\Entities\PasswordRecovery;
 use App\Model\Entities\User;
-use App\Model\Repositories\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
@@ -34,9 +33,6 @@ class SignPresenter extends BasePresenter
 
     /** @var IMailer @inject */
     public $mailer;
-
-    /** @var UserRepository @inject */
-    public $userRepository;
 
     /** @var ILdapCheckControlFactory @inject */
     public $ldapCheckControlFactory;
@@ -133,7 +129,18 @@ class SignPresenter extends BasePresenter
             }
 
             $auth = isset($this->section->data) ? $this->section->data->uid : NULL;
-            $this->userRepository->createUser($values, $crank, $auth);
+            $user = new User();
+
+            $user->setUsername($values->username);
+            $user->setEmail($values->email);
+            $user->setName($values->name);
+            $user->setPassword($values->password);
+            $user->setCrank($crank);
+            if ($auth) {
+                $user->setMff($auth);
+            }
+
+            $this->em->persist($user);
             $this->em->flush();
 
             unset($this->section->data);

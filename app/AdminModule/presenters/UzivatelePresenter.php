@@ -5,15 +5,15 @@ namespace App\AdminModule\Presenters;
 use App\Libs\BootstrapForm;
 use App\Libs\DoctrineForm;
 use App\Model\Entities\User;
-use App\Model\Repositories\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Kdyby\Doctrine\EntityManager;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 
 class UzivatelePresenter extends BasePresenter
 {
-    /** @var UserRepository @inject */
-    public $userRepository;
+    /** @var  EntityManager @inject */
+    public $em;
 
     public function actionDefault()
     {
@@ -23,16 +23,28 @@ class UzivatelePresenter extends BasePresenter
             ->setRequired('Vyplňte prosím.');
     }
 
+    /**
+     * Ban user with given ID.
+     *
+     * @param $id
+     * @throws BadRequestException
+     */
     public function actionBan($id)
     {
-        $user = $this->userRepository->find($id);
+        /** @var User $user */
+        $user = $this->em->getRepository(User::class)->find($id);
+
         self::checkUser($user);
         if ($user->getRole() != User::ROLE_USER) throw new BadRequestException;
 
         if ($user->isBanned()) {
             $user->setBan(NULL);
         } else {
-            $admin_email = $this->userRepository->find($this->user->id)->getEmail();
+
+            /** @var User $logged_admin */
+            $logged_admin = $this->em->getRepository(User::class)->find($this->user->id);
+
+            $admin_email = $logged_admin->getEmail();
             $user->setBan($admin_email);
         }
 
@@ -42,9 +54,16 @@ class UzivatelePresenter extends BasePresenter
         $this->redirect('default');
     }
 
+    /**
+     * Fills NewUserForm with data of User with specified ID and set onSuccess callback to editUser method.
+     *
+     * @param $id
+     * @throws BadRequestException
+     */
     public function actionEdit($id)
     {
-        $user = $this->userRepository->find($id);
+        /** @var User $user */
+        $user = $this->em->getRepository(User::class)->find($id);
         self::checkUser($user);
 
         $this->setView('default');
@@ -69,21 +88,36 @@ class UzivatelePresenter extends BasePresenter
         }
     }
 
+    /**
+     * Displays user detail on separate page.
+     *
+     * @param $id
+     * @throws BadRequestException
+     */
     public function actionDetail($id)
     {
-        $user = $this->userRepository->find($id);
+        /** @var User $user */
+        $user = $this->em->getRepository(User::class)->find($id);
         self::checkUser($user);
 
         $this->template->info = $user;
     }
 
+    /**
+     * Deletes user with specified ID and redirects back to datatable page.
+     *
+     * @param $id
+     */
     public function actionDelete($id)
     {
         if ($id == $this->user->id) {
             $this->flashMessage('Nelze smazat sebe sama.', 'danger');
             $this->redirect('default');
         } else {
-            $this->userRepository->remove($id);
+            $user = $this->em->getRepository(User::class)->find($id);
+
+            $this->em->remove($user);
+            $this->em->flush();
 
             $this->flashMessage('Uživatel byl smazán', 'info');
             $this->redirect('default');
@@ -92,7 +126,7 @@ class UzivatelePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->users = $this->userRepository->findAll();
+        $this->template->users = $this->em->getRepository(User::class)->findBy([], ['id' => 'DESC']);
     }
 
     /**
@@ -106,7 +140,7 @@ class UzivatelePresenter extends BasePresenter
         try {
             $values = $form->getValues();
 
-            $user = $this->userRepository->find($this->getParameter('id'));
+            $user = $this->em->getRepository(User::class)->find($this->getParameter('id'));
             $user->setUsername($values->username);
             $user->setRole($values->role);
             if (strlen($values->password) > 5) {
