@@ -217,6 +217,15 @@ class QuoteRepository extends Object
      */
     public function search($query)
     {
+        return $this->searchQuery($query)->getResult();
+    }
+
+    /**
+     * @param $query
+     * @return Query
+     */
+    function searchQuery($query)
+    {
         return $this->em->createQueryBuilder()
             ->select('q,t,s')
             ->from('App\Model\Entities\Quote', 'q')
@@ -228,7 +237,7 @@ class QuoteRepository extends Object
             ->setMaxResults(50)
             ->setParameter('status', Quote::STATUS_APPROVED)
             ->setParameter('query', "%{$query}%")
-            ->getQuery()->getResult();
+            ->getQuery();
     }
 
     /**
@@ -238,6 +247,17 @@ class QuoteRepository extends Object
      * @return array
      */
     public function findAllBySubject($subject, $limit, $offset)
+    {
+        return $this->allBySubjectQuery($subject, $limit, $offset)->getResult();
+    }
+
+    /**
+     * @param $subject
+     * @param $limit
+     * @param $offset
+     * @return Query
+     */
+    function allBySubjectQuery($subject, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
             ->select('q,t,s')
@@ -252,7 +272,7 @@ class QuoteRepository extends Object
             ->setMaxResults($limit)
             ->setParameter('subject', $subject)
             ->setParameter('status', Quote::STATUS_APPROVED)
-            ->getQuery()->getResult();
+            ->getQuery();
     }
 
     /**
@@ -262,6 +282,17 @@ class QuoteRepository extends Object
      * @return array
      */
     public function findAllByTeacher($teacher, $limit, $offset)
+    {
+        return $this->allByTeacherQuery($teacher, $limit, $offset)->getResult();
+    }
+
+    /**
+     * @param $teacher
+     * @param $limit
+     * @param $offset
+     * @return Query
+     */
+    function allByTeacherQuery($teacher, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
             ->select('q,t,s')
@@ -276,7 +307,7 @@ class QuoteRepository extends Object
             ->setMaxResults($limit)
             ->setParameter('teacher', $teacher)
             ->setParameter('status', Quote::STATUS_APPROVED)
-            ->getQuery()->getResult();
+            ->getQuery();
     }
 
     /**
@@ -286,6 +317,17 @@ class QuoteRepository extends Object
      * @return array
      */
     public function findAllByTag($tag, $limit, $offset)
+    {
+        return $this->allByTagQuery($tag, $limit, $offset)->getResult();
+    }
+
+    /**
+     * @param $tag
+     * @param $limit
+     * @param $offset
+     * @return Query
+     */
+    function allByTagQuery($tag, $limit, $offset)
     {
         return $this->em->createQueryBuilder()
             ->select('q,t,s')
@@ -301,7 +343,7 @@ class QuoteRepository extends Object
             ->setMaxResults($limit)
             ->setParameter('tag', $tag)
             ->setParameter('status', Quote::STATUS_APPROVED)
-            ->getQuery()->getResult();
+            ->getQuery();
     }
 
     /**
@@ -309,6 +351,18 @@ class QuoteRepository extends Object
      * @return array random quotes
      */
     public function getRandomQuotes($limit)
+    {
+        $query = $this->randomQuery($limit);
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
+     * @param $limit
+     * @return Query
+     */
+    function randomQuery($limit)
     {
         $ids = $this->em->createQueryBuilder()
             ->select('q.id')
@@ -331,7 +385,7 @@ class QuoteRepository extends Object
             ->groupBy('q.id')
             ->setParameter('status', Quote::STATUS_APPROVED)
             ->setParameter('ids', $ids)
-            ->getQuery()->getResult();
+            ->getQuery();
     }
 
     /**
@@ -344,7 +398,20 @@ class QuoteRepository extends Object
      */
     public function findAllApproved($limit, $offset, $o)
     {
-        if ($o == 'random') return $this->getRandomQuotes($limit);
+        $query = $this->allApprovedQuery($limit, $offset, $o);
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param $limit
+     * @param $offset
+     * @param $o
+     * @return Query
+     */
+    function allApprovedQuery($limit, $offset, $o)
+    {
+        if ($o == 'random') return $this->randomQuery($limit);
 
         $q = $this->em->createQuery("
         select q, t, s, count(com.id) as hidden c
@@ -355,13 +422,11 @@ class QuoteRepository extends Object
         where q.status=:status
         group by q.id
         {$this->order[$o]}
-        ")->setFirstResult($offset)->setMaxResults($limit);
+        ")->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->setParameter('status', Quote::STATUS_APPROVED);
 
-        $q->setParameter('status', Quote::STATUS_APPROVED);
-
-        $q->useQueryCache(true);
-
-        return $q->getResult();
+        return $q;
     }
 
     /**
