@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Vít
- * Date: 4/27/2015
- * Time: 7:40 PM
- */
 
 namespace App\Model\Events;
 
 
+use App\Libs\BooleanRatingAlgorithm;
+use App\Model\Entities\Comment;
 use App\Model\Entities\CommentRating;
-use App\Model\Services\RatingService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreFlushEventArgs;
 
 /**
  * Lifecycle event handler for CommentRating entity.
@@ -22,29 +16,43 @@ use Doctrine\ORM\Event\PreFlushEventArgs;
  */
 class CommentRatingListener
 {
-    /** @var RatingService */
-    private $ratingService;
+    /**
+     * @param CommentRating $commentRating
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(CommentRating $commentRating, LifecycleEventArgs $args)
+    {
+        $comment = $commentRating->getComment();
+        $this->updateCommentRating($comment);
+    }
 
     /**
-     * @param RatingService $ratingService
+     * @param CommentRating $rating
+     * @param LifecycleEventArgs $args
      */
-    public function __construct(RatingService $ratingService)
-    {
-        $this->ratingService = $ratingService;
-    }
-
-    public function preFlush(CommentRating $rating, PreFlushEventArgs $args)
-    {
-        $comment = $rating->getComment();
-        $this->ratingService->updateCommentRating($comment);
-    }
-
     public function preRemove(CommentRating $rating, LifecycleEventArgs $args)
     {
         $comment = $rating->getComment();
         $comment->getRatings()->removeElement($rating);
 
-        $this->ratingService->updateCommentRating($comment);
+        $this->updateCommentRating($comment);
+    }
+
+    /**
+     * Regenerates calculates rating value for given Comment entity.
+     *
+     * @param Comment $comment
+     */
+    private function updateCommentRating(Comment $comment)
+    {
+        $booleanRating = new BooleanRatingAlgorithm($comment);
+
+        $comment->setRatingUp(
+            $booleanRating->calculateBy(CommentRating::POSITIVE)->getResult()
+        );
+        $comment->setRatingDown(
+            $booleanRating->calculateBy(CommentRating::NEGATIVE)->getResult()
+        );
     }
 
 }

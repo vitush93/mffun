@@ -3,8 +3,6 @@
 namespace App\Model\Services;
 
 
-use App\Libs\BooleanRatingAlgorithm;
-use App\Libs\DifferenceRatingAlgorithm;
 use App\Model\Entities\Comment;
 use App\Model\Entities\CommentRating;
 use App\Model\Entities\Quote;
@@ -48,7 +46,13 @@ class RatingService extends Object
             if ($rating->isPositive() && $positive || $rating->isNegative() && !$positive) { // user is removing his rating
                 $this->em->remove($rating);
             } else { // user has changed his mind
-                $positive ? $rating->setPositive() : $rating->setNegative();
+                $this->em->remove($rating);
+                $this->em->flush();
+
+                $new_rating = new CommentRating($user, $comment);
+                $positive ? $new_rating->setPositive() : $new_rating->setNegative();
+
+                $this->em->persist($new_rating);
             }
         } else {
             $rating = new CommentRating($user, $comment);
@@ -56,9 +60,6 @@ class RatingService extends Object
 
             $this->em->persist($rating);
         }
-
-        // recalculate rating
-        $this->updateCommentRating($comment);
     }
 
     /**
@@ -77,7 +78,13 @@ class RatingService extends Object
             if ($rating->isPositive() && $positive || $rating->isNegative() && !$positive) { // user is removing his rating
                 $this->em->remove($rating);
             } else { // user has changed his mind
-                $positive ? $rating->setPositive() : $rating->setNegative();
+                $this->em->remove($rating);
+                $this->em->flush();
+
+                $new_rating = new QuoteRating($user, $quote);
+                $positive ? $new_rating->setPositive() : $new_rating->setNegative();
+
+                $this->em->persist($new_rating);
             }
         } else {
             $rating = new QuoteRating($user, $quote);
@@ -85,39 +92,6 @@ class RatingService extends Object
 
             $this->em->persist($rating);
         }
-
-        // recalculate rating
-        $this->updateQuoteRating($quote);
     }
 
-    /**
-     * Regenerates calculates rating value for given Comment entity.
-     *
-     * @param Comment $comment
-     */
-    public function updateCommentRating(Comment $comment)
-    {
-        $booleanRating = new BooleanRatingAlgorithm($comment);
-
-        $comment->setRatingUp(
-            $booleanRating->calculateBy(CommentRating::POSITIVE)->getResult()
-        );
-        $comment->setRatingDown(
-            $booleanRating->calculateBy(CommentRating::NEGATIVE)->getResult()
-        );
-    }
-
-    /**
-     * Quote rating algorithm.
-     *
-     * @param Quote $quote
-     */
-    public function updateQuoteRating(Quote $quote)
-    {
-        $differenceRating = new DifferenceRatingAlgorithm($quote);
-
-        $quote->setRating(
-            $differenceRating->calculate()->getResult()
-        );
-    }
 }

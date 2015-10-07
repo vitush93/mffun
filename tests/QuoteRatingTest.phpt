@@ -19,18 +19,6 @@ class QuoteRatingTest extends Tester\TestCase
     /** @var EntityManager */
     private $em;
 
-    /** @var Quote */
-    private $unratedQuote;
-
-    /** @var Quote */
-    private $positivelyRatedQuote;
-
-    /** @var Quote */
-    private $negativelyRatedQuote;
-
-    /** @var Quote */
-    private $mixedRatedQuote;
-
     /** @var User */
     private $mockAuthor;
 
@@ -47,27 +35,6 @@ class QuoteRatingTest extends Tester\TestCase
     {
         $this->mockAuthor = new User();
         $this->em->persist($this->mockAuthor);
-
-        $this->unratedQuote = new Quote("some text", new \DateTime());
-        $this->em->persist($this->unratedQuote);
-
-        $this->positivelyRatedQuote = new Quote("another text", new \DateTime());
-        $this->em->persist($this->positivelyRatedQuote);
-        $this->createRating($this->positivelyRatedQuote);
-        $this->createRating($this->positivelyRatedQuote);
-
-        $this->negativelyRatedQuote = new Quote("blah blah", new \DateTime());
-        $this->em->persist($this->negativelyRatedQuote);
-        $this->createRating($this->negativelyRatedQuote, FALSE);
-        $this->createRating($this->negativelyRatedQuote, FALSE);
-
-        $this->mixedRatedQuote = new Quote("xxx", new \DateTime());
-        $this->em->persist($this->mixedRatedQuote);
-        $this->createRating($this->mixedRatedQuote);
-        $this->createRating($this->mixedRatedQuote);
-        $this->createRating($this->mixedRatedQuote, FALSE);
-        $this->createRating($this->mixedRatedQuote, FALSE);
-        $this->createRating($this->mixedRatedQuote, FALSE);
     }
 
     function createRating(Quote $quote, $positive = TRUE)
@@ -77,15 +44,49 @@ class QuoteRatingTest extends Tester\TestCase
 
         $rating = new QuoteRating($this->mockAuthor, $quote);
         $positive ? $rating->setPositive() : $rating->setNegative();
-        $rating->setQuote($quote);
-        $rating->setUser($user);
 
         return $rating;
     }
 
-    function testSomething()
+    function testUnratedQuoteRating()
     {
-        Assert::true(TRUE);
+        $unratedQuote = new Quote("some text", new \DateTime());
+        $this->em->persist($unratedQuote);
+
+        Assert::equal(0, $unratedQuote->getRating());
+    }
+
+    function testPositivelyRatedQuoteRating()
+    {
+        $positivelyRatedQuote = new Quote("another text", new \DateTime());
+        $this->createRating($positivelyRatedQuote);
+        $this->createRating($positivelyRatedQuote);
+        $this->em->persist($positivelyRatedQuote);
+
+        Assert::equal(2, $positivelyRatedQuote->getRating());
+    }
+
+    function testNegativelyRatedQuoteRating()
+    {
+        $negativelyRatedQuote = new Quote("blah blah", new \DateTime());
+        $this->createRating($negativelyRatedQuote, FALSE);
+        $this->createRating($negativelyRatedQuote, FALSE);
+        $this->em->persist($negativelyRatedQuote);
+
+        Assert::equal(-2, $negativelyRatedQuote->getRating());
+    }
+
+    function testMixedRatedQuoteRating()
+    {
+        $mixedRatedQuote = new Quote("xxx", new \DateTime());
+        $this->createRating($mixedRatedQuote);
+        $this->createRating($mixedRatedQuote);
+        $this->createRating($mixedRatedQuote, FALSE);
+        $this->createRating($mixedRatedQuote, FALSE);
+        $this->createRating($mixedRatedQuote, FALSE);
+        $this->em->persist($mixedRatedQuote);
+
+        Assert::equal(-1, $mixedRatedQuote->getRating());
     }
 }
 
