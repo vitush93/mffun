@@ -2,59 +2,51 @@
 
 namespace App\ApiModule\Presenters;
 
-use App\Model\Entities\Quote;
+use App\Model\Services\QuoteRestService;
 use Doctrine\ORM\Query;
-use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Presenter;
 
 class QuotePresenter extends Presenter
 {
-    /** @var EntityManager @inject */
-    public $em;
+    /** @var QuoteRestService @inject */
+    public $quoteRestService;
 
-    function actionSingle($id)
+    /**
+     * [/api/quote/?limit=X&offset=Y]
+     *
+     * @param int $limit
+     * @param int $offset
+     */
+    function actionDefault($limit = 10, $offset = 0)
     {
-
+        $this->sendResponse(
+            $this->quoteRestService->latest($limit, $offset)
+        );
     }
 
-    function actionTag($id)
+    /**
+     * [/api/quote/top/?limit=X&offset=Y]
+     *
+     * @param int $limit
+     * @param int $offset
+     */
+    function actionTop($limit = 10, $offset = 0)
     {
-
+        $this->sendResponse(
+            $this->quoteRestService->top($limit, $offset)
+        );
     }
 
-    function actionTeacher($id)
+    /**
+     * [/api/quote/mostcomments/?limit=X&offset=Y]
+     *
+     * @param int $limit
+     * @param int $offset
+     */
+    function actionMostcommented($limit = 10, $offset = 0)
     {
-
+        $this->sendResponse(
+            $this->quoteRestService->mostCommented($limit, $offset)
+        );
     }
-
-    function actionSubject($id)
-    {
-
-    }
-
-    function actionDefault($page)
-    {
-        $quotes = $this->em->getRepository(Quote::getClassName())
-            ->createQuery("SELECT PARTIAL q.{id, text, rating}, t, s, tags
-                           FROM App\Model\Entities\Quote q
-                           LEFT JOIN q.teacher t
-                           LEFT JOIN q.subject s
-                           LEFT JOIN q.tags tags
-                           WHERE q.status = :status
-                           ORDER BY q.id
-                           ")
-            ->setMaxResults(10)
-            ->setParameter('status', Quote::STATUS_APPROVED)
-            ->getArrayResult();
-
-
-        $quote_ids = array_column($quotes, 'id');
-
-        // TODO fetch tags
-        // TODO fetch comment counts
-        // TODO fetch 3 best comments
-
-        $this->sendJson($quotes);
-    }
-
 }

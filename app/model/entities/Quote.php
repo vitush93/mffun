@@ -334,6 +334,7 @@ class Quote extends BaseEntity implements IRateable
             Criteria::create()
                 ->where(Criteria::expr()->gt('ratingUp', 0))
                 ->orderBy(['ratingUp' => 'DESC'])
+                ->setMaxResults(2)
         );
     }
 
