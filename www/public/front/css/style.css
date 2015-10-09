@@ -11638,7 +11638,7 @@ h6 {
   cursor: default !important;
 }
 #main .article article.content-item section div.social a.disabled:hover {
-  background: none;
+  background: none !important;
 }
 #main .article article.content-item section div.social a + a + a {
   background: #dd4b39;
@@ -12637,12 +12637,13 @@ aside[role="complementary"] .tag-cloud a {
 }
 #control-bar {
   margin-bottom: 40px;
-  padding-top: 69px;
+  padding-top: 67px;
   padding-bottom: 10px;
   height: 99px;
   width: 100%;
   background: #fff;
   box-shadow: 0 2px 0px 1px #d9d9d9;
+  overflow: hidden;
 }
 #control-bar #filter-buttons {
   display: none;
@@ -12679,48 +12680,9 @@ aside[role="complementary"] .tag-cloud a {
   position: relative;
   top: -3px;
 }
-#control-bar #bar-social {
-  float: left;
-  *zoom: 1;
-}
-#control-bar #bar-social:before,
-#control-bar #bar-social:after {
-  content: " ";
-  display: table;
-}
-#control-bar #bar-social:after {
-  clear: both;
-}
-#control-bar #bar-social:before,
-#control-bar #bar-social:after {
-  content: " ";
-  display: table;
-}
-#control-bar #bar-social:after {
-  clear: both;
-}
-#control-bar #bar-social:before,
-#control-bar #bar-social:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-#control-bar #bar-social:after {
-  clear: both;
-}
-#control-bar #bar-social:before,
-#control-bar #bar-social:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-#control-bar #bar-social:after {
-  clear: both;
-}
 #control-bar #bar-social .fb-like {
-  position: relative;
+  display: inline-block;
   margin-right: 35px;
-  top: -3px;
 }
 #control-bar #filter-button {
   float: right;

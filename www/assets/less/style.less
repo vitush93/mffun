@@ -767,12 +767,13 @@ aside[role="complementary"] {
 
 #control-bar {
     margin-bottom: 40px;
-    padding-top: 69px;
+    padding-top: 67px;
     padding-bottom: 10px;
     height: 99px;
     width: 100%;
     background: #fff;
     box-shadow: @box_shadow;
+    overflow: hidden;
     #filter-buttons {
         display: none;
         margin-top: 5px;
@@ -811,13 +812,17 @@ aside[role="complementary"] {
         }
     }
     #bar-social {
-        float: left;
-        .clearfix;
         .fb-like {
-            position: relative;
+            display: inline-block;
             margin-right: 35px;
-            top: -3px;
         }
+        //float: left;
+        //.clearfix;
+        //.fb-like {
+        //    position: relative;
+        //    margin-right: 35px;
+        //    top: -3px;
+        //}
     }
     #filter-button {
         float: right;
