@@ -6,8 +6,6 @@ module.exports = function () {
 
     var view = new QuotesView($container);
     $.getJSON('/api/quote/?limit=10&offset=0', function (data) {
-        console.log(data);
-
         view.render(data);
     });
 };
