@@ -29,7 +29,7 @@ module.exports = function (grunt) {
         uglify: {
             build: {
                 src: 'public/front/js/bundle.js',
-                dest: 'public/front/js/bundle.min.js'
+                dest: 'public/front/js/bundle.js'
             }
         },
 
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
                     optimization: 2
                 },
                 files: {
-                    'public/front/css/style.min.css': 'assets/less/main.less'
+                    'public/front/css/style.css': 'assets/less/main.less'
                 }
             }
         },

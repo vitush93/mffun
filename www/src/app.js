@@ -1,15 +1,3 @@
-'use strict';
-
-var Backbone = require('backbone');
-var Router = require('./routers/AppRouter');
-
-new Router();
-
-Backbone.history.start({
-    pushState: true,
-    root: '/'
-});
-
 window.$ = window.jQuery = require('jquery');
 require('bootstrap');
 
