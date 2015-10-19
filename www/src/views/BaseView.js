@@ -1,6 +1,6 @@
 
-var BaseView = function ($el) {
-    this.$el = $el;
+var BaseView = function () {
+
 };
 
 BaseView.prototype.template = function () {
