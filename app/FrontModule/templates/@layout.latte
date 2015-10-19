@@ -319,11 +319,12 @@
 
 <script src="{$basePath}/public/front/js/bundle.js"></script>
 
-{if isset($initPage)}
-    <script>
-        var sl = new ScrollLoad('#content-load', '#loader-container', '#more-button', '#end-msg', 1000, 200, {!$initPage});
-    </script>
-{/if}
+{* TODO refactor *}
+{*{if isset($initPage)}*}
+    {*<script>*}
+        {*var sl = new ScrollLoad('#content-load', '#loader-container', '#more-button', '#end-msg', 1000, 200, {!$initPage});*}
+    {*</script>*}
+{*{/if}*}
 <script>
     keyboardShort();
 </script>

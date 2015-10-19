@@ -3,6 +3,9 @@ require('jquery');
 var CommentRating = require('../../models/CommentRating');
 var QuoteRating = require('../../models/QuoteRating');
 
+/**
+ * @deprecated
+ */
 module.exports = function () {
 
     new QuoteRating('.q-rate', '.q-rate-up', '.q-rate-down', function (data) {

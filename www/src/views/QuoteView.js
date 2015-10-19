@@ -9,4 +9,10 @@ var QuoteView = function ($el) {
 
 QuoteView.prototype = BaseView.prototype;
 
+QuoteView.prototype.render = function (data) {
+    var html = this.template(data);
+
+    this.$el.html(html);
+};
+
 module.exports = QuoteView;

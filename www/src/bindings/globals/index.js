@@ -6,6 +6,6 @@ require('./Autocomplete')();
 require('./AvatarPicker')();
 require('./Global')();
 require('./AddQuote')();
-require('./ScrollLoad')();
+// TODO refactor require('./ScrollLoad')();
 require('./Comments')();
-require('./Rating')();
+//TODO refactor require('./Rating')();

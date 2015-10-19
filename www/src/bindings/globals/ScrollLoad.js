@@ -2,6 +2,9 @@
 
 require('jquery');
 
+/**
+ * @deprecated
+ */
 module.exports = function () {
     var ScrollLoad = function (container, loader, moreButton, endmsg, bottomOffset, interval, initialPage) {
         this.lock = false;
