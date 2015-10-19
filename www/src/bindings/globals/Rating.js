@@ -1,7 +1,7 @@
 require('jquery');
 
-var CommentRating = require('../models/CommentRating');
-var QuoteRating = require('../models/QuoteRating');
+var CommentRating = require('../../models/CommentRating');
+var QuoteRating = require('../../models/QuoteRating');
 
 module.exports = function () {
 

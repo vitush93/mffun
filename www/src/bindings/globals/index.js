@@ -1,0 +1,11 @@
+require('./Nette')();
+require('./Navbar')();
+require('./GoogleAnalytics')();
+require('./KeyboardShortcuts')();
+require('./Autocomplete')();
+require('./AvatarPicker')();
+require('./Global')();
+require('./AddQuote')();
+require('./ScrollLoad')();
+require('./Comments')();
+require('./Rating')();
