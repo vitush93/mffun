@@ -9,6 +9,7 @@ use App\Model\Entities\Quote;
 use App\Model\Entities\QuoteRating;
 use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
+use Nette\Application\Responses\JsonResponse;
 use Nette\Object;
 
 /**
@@ -28,6 +29,58 @@ class RatingService extends Object
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
+    }
+
+    /**
+     * @param $qid Quote id.
+     * @param $uid User id.
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    function rateQuoteDown($qid, $uid)
+    {
+        /** @var Quote $quote */
+        $quote = $this->em->find(Quote::class, $qid);
+
+        /** @var User $user */
+        $user = $this->em->find(User::class, $uid);
+
+        $this->rateQuote($quote, $user, false);
+        $this->em->flush();
+
+        return new JsonResponse([
+            'qid' => $qid,
+            'rate' => 'down',
+            'rating' => $quote->getRating(),
+        ]);
+    }
+
+    /**
+     * @param $qid Quote id.
+     * @param $uid User id.
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    function rateQuoteUp($qid, $uid)
+    {
+        /** @var Quote $quote */
+        $quote = $this->em->find(Quote::class, $qid);
+
+        /** @var User $user */
+        $user = $this->em->find(User::class, $uid);
+
+        $this->rateQuote($quote, $user, true);
+        $this->em->flush();
+
+        return new JsonResponse([
+            'qid' => $qid,
+            'rate' => 'up',
+            'rating' => $quote->getRating()
+        ]);
     }
 
     /**

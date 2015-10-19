@@ -35,48 +35,32 @@ class RateQuoteControl extends Control
         $this->ratingService = $ratingService;
     }
 
+    /**
+     * @param $qid Quote id.
+     */
     public function handleUp($qid)
     {
-        if (!$this->presenter->user->isLoggedIn()) $this->presenter->sendJson([]);
+        if (!$this->presenter->user->isLoggedIn()) {
+            $this->presenter->sendJson([]);
+        } else {
+            $response = $this->ratingService->rateQuoteUp($qid, $this->presenter->user->id);
 
-        /** @var Quote $quote */
-        $quote = $this->em->find(Quote::class, $qid);
-
-        /** @var User $user */
-        $user = $this->em->find(User::class, $this->presenter->user->id);
-
-        $this->ratingService->rateQuote($quote, $user, true);
-        $this->em->flush();
-
-        $this->presenter->sendJson(
-            [
-                'qid' => $qid,
-                'rate' => 'up',
-                'rating' => $quote->getRating(),
-            ]
-        );
+            $this->presenter->sendResponse($response);
+        }
     }
 
+    /**
+     * @param $qid Quote id.
+     */
     public function handleDown($qid)
     {
-        if (!$this->presenter->user->isLoggedIn()) $this->presenter->sendJson([]);
+        if (!$this->presenter->user->isLoggedIn()) {
+            $this->presenter->sendJson([]);
+        } else {
+            $response = $this->ratingService->rateQuoteDown($qid, $this->presenter->user->id);
 
-        /** @var Quote $quote */
-        $quote = $this->em->find(Quote::class, $qid);
-
-        /** @var User $user */
-        $user = $this->em->find(User::class, $this->presenter->user->id);
-
-        $this->ratingService->rateQuote($quote, $user, false);
-        $this->em->flush();
-
-        $this->presenter->sendJson(
-            [
-                'qid' => $qid,
-                'rate' => 'down',
-                'rating' => $quote->getRating(),
-            ]
-        );
+            $this->presenter->sendResponse($response);
+        }
     }
 
     public function render($q)
