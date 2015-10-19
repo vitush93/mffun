@@ -2,7 +2,7 @@
 
 require('jquery');
 
-var CommentRate = function (up, down, callback) {
+var CommentRating = function (up, down, callback) {
     this.up = up;
     this.down = down;
     this.callback = callback;
@@ -10,7 +10,7 @@ var CommentRate = function (up, down, callback) {
     this.init();
 };
 
-CommentRate.prototype = {
+CommentRating.prototype = {
 
     /**
      * Attaches active class toggling on rate up/down buttons.
@@ -69,10 +69,5 @@ CommentRate.prototype = {
     }
 };
 
-module.exports = function () {
-    new CommentRate('.rate.up', '.rate.down', function (data) {
-        $('#c-ups-' + data.cid).html(data.ups);
-        $('#c-downs-' + data.cid).html(data.downs);
-    });
-};
+module.exports = CommentRating;
 

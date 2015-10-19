@@ -77,12 +77,4 @@ QuoteRating.prototype = {
     }
 };
 
-module.exports = function () {
-    var common = '.q-rate';
-    var up = '.q-rate-up';
-    var down = '.q-rate-down';
-
-    new QuoteRating(common, up, down, function (data) {
-        $('#q-rating-' + data.qid).html(data.rating);
-    });
-};
+module.exports = QuoteRating;

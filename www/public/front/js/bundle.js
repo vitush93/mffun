@@ -29653,9 +29653,8 @@ require('./bindings/Comments')();
 require('./bindings/AddQuote')();
 require('./bindings/AvatarPicker')();
 require('./bindings/Global')();
-require('./bindings/CommentRating')();
-require('./bindings/QuoteRating')();
-},{"./bindings/AddQuote":20,"./bindings/Autocomplete":21,"./bindings/AvatarPicker":22,"./bindings/CommentRating":23,"./bindings/Comments":24,"./bindings/Global":25,"./bindings/GoogleAnalytics":26,"./bindings/KeyboardShortcuts":27,"./bindings/Navbar":28,"./bindings/Nette":29,"./bindings/QuoteRating":30,"./bindings/ScrollLoad":31,"bootstrap":5,"jquery":18}],20:[function(require,module,exports){
+require('./bindings/Rating')();
+},{"./bindings/AddQuote":20,"./bindings/Autocomplete":21,"./bindings/AvatarPicker":22,"./bindings/Comments":23,"./bindings/Global":24,"./bindings/GoogleAnalytics":25,"./bindings/KeyboardShortcuts":26,"./bindings/Navbar":27,"./bindings/Nette":28,"./bindings/Rating":29,"./bindings/ScrollLoad":30,"bootstrap":5,"jquery":18}],20:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -29827,86 +29826,6 @@ module.exports = function () {
 },{"jquery":18}],23:[function(require,module,exports){
 'use strict';
 
-require('jquery');
-
-var CommentRate = function (up, down, callback) {
-    this.up = up;
-    this.down = down;
-    this.callback = callback;
-
-    this.init();
-};
-
-CommentRate.prototype = {
-
-    /**
-     * Attaches active class toggling on rate up/down buttons.
-     *
-     * @param $el
-     */
-    activeToggle: function ($el) {
-        var cid = $el.data('cid');
-        if ($el.hasClass('active')) {
-            $el.removeClass('active');
-        } else {
-            $('a[data-cid=' + cid + "]").removeClass('active');
-            $el.addClass('active');
-        }
-    },
-
-    /**
-     * Attaches active class toggling and actual rate requesting.
-     *
-     * @param selector
-     */
-    attach: function (selector) {
-        var context = this;
-        $('body').on('click', selector, function (e) {
-            e.preventDefault();
-            var $el = $(this);
-
-            context.activeToggle($el);
-            context.rate($el.data('cid'), $el.data('rate'));
-        });
-    },
-
-    /**
-     * Does the rating via ajax request.
-     *
-     * @param cid
-     * @param rate
-     */
-    rate: function (cid, rate) {
-        var context = this;
-        $.ajax({
-            method: 'GET',
-            url: window.location.toString(),
-            data: 'rateComment-cid=' + cid + '&do=rateComment-' + rate
-        }).done(function (data) {
-            context.callback(data);
-        });
-    },
-
-    /**
-     * Prepares stuff.
-     */
-    init: function () {
-        this.attach(this.up);
-        this.attach(this.down);
-    }
-};
-
-module.exports = function () {
-    new CommentRate('.rate.up', '.rate.down', function (data) {
-        $('#c-ups-' + data.cid).html(data.ups);
-        $('#c-downs-' + data.cid).html(data.downs);
-    });
-};
-
-
-},{"jquery":18}],24:[function(require,module,exports){
-'use strict';
-
 window.$ = window.jQuery = require('jquery');
 require('autogrow');
 
@@ -29936,7 +29855,7 @@ module.exports = function () {
         }
     });
 };
-},{"autogrow":1,"jquery":18}],25:[function(require,module,exports){
+},{"autogrow":1,"jquery":18}],24:[function(require,module,exports){
 'use strict';
 
 require('jquery');
@@ -29999,7 +29918,7 @@ var footerScroll = {
         }, 150);
     }
 };
-},{"jquery":18}],26:[function(require,module,exports){
+},{"jquery":18}],25:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -30018,7 +29937,7 @@ module.exports = function () {
     ga('create', 'UA-65154224-1', 'auto');
     ga('send', 'pageview');
 };
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -30090,7 +30009,7 @@ var keyboardShort = function() {
 
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":18}],28:[function(require,module,exports){
+},{"jquery":18}],27:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -30177,7 +30096,7 @@ function searchBoxControl() {
     }
 }
 
-},{"jquery":18}],29:[function(require,module,exports){
+},{"jquery":18}],28:[function(require,module,exports){
 'use strict';
 
 window.$ = window.jQuery = require('jquery');
@@ -30188,97 +30107,24 @@ module.exports = function () {
     $.nette.init();
 };
 
-},{"jquery":18,"nette":4,"nette-live-form":2}],30:[function(require,module,exports){
-'use strict';
-
+},{"jquery":18,"nette":4,"nette-live-form":2}],29:[function(require,module,exports){
 require('jquery');
 
-/**
- *
- * @param rating commong rate up/down selection
- * @param up rate up button selector
- * @param down rate down button selector
- * @param callback after-rate callback
- * @constructor
- */
-var QuoteRating = function (rating, up, down, callback) {
-    this.rating = rating;
-    this.callback = callback;
-    this.up = up;
-    this.down = down;
-
-    this.init();
-};
-
-QuoteRating.prototype = {
-
-    /**
-     * Locks / unlocks rating.
-     * Performs ajax request to rate quote by given id.
-     *
-     * @param qid ID of the quote
-     * @param rate up/down
-     */
-    rate: function (qid, rate) {
-        var context = this;
-
-        $.ajax({
-            method: 'GET',
-            url: window.location.toString(),
-            data: 'rateQuote-qid=' + qid + '&do=rateQuote-' + rate
-        }).done(function (data) {
-            context.callback(data);
-        });
-    },
-
-    /**
-     * Toggles 'active' class on rate up/down button.
-     *
-     * @param $elem jquery element
-     */
-    activeToggle: function ($elem) {
-        var qid = $elem.data('qid');
-        if ($elem.hasClass('active')) {
-            $elem.removeClass('active');
-        } else {
-            $('a[data-qid=' + qid + ']').removeClass('active');
-            $elem.addClass('active');
-        }
-    },
-
-    /**
-     * Attaches class toggling and ajax requesting on button click.
-     *
-     * @param selector rate up/down button selector
-     */
-    attach: function (selector) {
-        var context = this;
-        $('body').on('click', selector, function (e) {
-            var $el = $(this);
-
-            e.preventDefault();
-            context.activeToggle($el);
-            context.rate($el.data('qid'), $el.data('rate'));
-        });
-    },
-
-    init: function () {
-        this.attach(this.up);
-        this.attach(this.down);
-    }
-};
+var CommentRating = require('../models/CommentRating');
+var QuoteRating = require('../models/QuoteRating');
 
 module.exports = function () {
-    var common = '.q-rate';
-    var up = '.q-rate-up';
-    var down = '.q-rate-down';
 
-    new QuoteRating(common, up, down, function (data) {
+    new QuoteRating('.q-rate', '.q-rate-up', '.q-rate-down', function (data) {
         $('#q-rating-' + data.qid).html(data.rating);
     });
-};
 
-},{"jquery":18}],31:[function(require,module,exports){
+    new CommentRating('.rate.up', '.rate.down', function (data) {
+        $('#c-ups-' + data.cid).html(data.ups);
+        $('#c-downs-' + data.cid).html(data.downs);
+    });
+};
+},{"../models/CommentRating":31,"../models/QuoteRating":32,"jquery":18}],30:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -30365,4 +30211,160 @@ module.exports = function () {
     global.ScrollLoad = ScrollLoad;
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"jquery":18}],31:[function(require,module,exports){
+'use strict';
+
+require('jquery');
+
+var CommentRating = function (up, down, callback) {
+    this.up = up;
+    this.down = down;
+    this.callback = callback;
+
+    this.init();
+};
+
+CommentRating.prototype = {
+
+    /**
+     * Attaches active class toggling on rate up/down buttons.
+     *
+     * @param $el
+     */
+    activeToggle: function ($el) {
+        var cid = $el.data('cid');
+        if ($el.hasClass('active')) {
+            $el.removeClass('active');
+        } else {
+            $('a[data-cid=' + cid + "]").removeClass('active');
+            $el.addClass('active');
+        }
+    },
+
+    /**
+     * Attaches active class toggling and actual rate requesting.
+     *
+     * @param selector
+     */
+    attach: function (selector) {
+        var context = this;
+        $('body').on('click', selector, function (e) {
+            e.preventDefault();
+            var $el = $(this);
+
+            context.activeToggle($el);
+            context.rate($el.data('cid'), $el.data('rate'));
+        });
+    },
+
+    /**
+     * Does the rating via ajax request.
+     *
+     * @param cid
+     * @param rate
+     */
+    rate: function (cid, rate) {
+        var context = this;
+        $.ajax({
+            method: 'GET',
+            url: window.location.toString(),
+            data: 'rateComment-cid=' + cid + '&do=rateComment-' + rate
+        }).done(function (data) {
+            context.callback(data);
+        });
+    },
+
+    /**
+     * Prepares stuff.
+     */
+    init: function () {
+        this.attach(this.up);
+        this.attach(this.down);
+    }
+};
+
+module.exports = CommentRating;
+
+
+},{"jquery":18}],32:[function(require,module,exports){
+'use strict';
+
+require('jquery');
+
+/**
+ *
+ * @param rating commong rate up/down selection
+ * @param up rate up button selector
+ * @param down rate down button selector
+ * @param callback after-rate callback
+ * @constructor
+ */
+var QuoteRating = function (rating, up, down, callback) {
+    this.rating = rating;
+    this.callback = callback;
+    this.up = up;
+    this.down = down;
+
+    this.init();
+};
+
+QuoteRating.prototype = {
+
+    /**
+     * Locks / unlocks rating.
+     * Performs ajax request to rate quote by given id.
+     *
+     * @param qid ID of the quote
+     * @param rate up/down
+     */
+    rate: function (qid, rate) {
+        var context = this;
+
+        $.ajax({
+            method: 'GET',
+            url: window.location.toString(),
+            data: 'rateQuote-qid=' + qid + '&do=rateQuote-' + rate
+        }).done(function (data) {
+            context.callback(data);
+        });
+    },
+
+    /**
+     * Toggles 'active' class on rate up/down button.
+     *
+     * @param $elem jquery element
+     */
+    activeToggle: function ($elem) {
+        var qid = $elem.data('qid');
+        if ($elem.hasClass('active')) {
+            $elem.removeClass('active');
+        } else {
+            $('a[data-qid=' + qid + ']').removeClass('active');
+            $elem.addClass('active');
+        }
+    },
+
+    /**
+     * Attaches class toggling and ajax requesting on button click.
+     *
+     * @param selector rate up/down button selector
+     */
+    attach: function (selector) {
+        var context = this;
+        $('body').on('click', selector, function (e) {
+            var $el = $(this);
+
+            e.preventDefault();
+            context.activeToggle($el);
+            context.rate($el.data('qid'), $el.data('rate'));
+        });
+    },
+
+    init: function () {
+        this.attach(this.up);
+        this.attach(this.down);
+    }
+};
+
+module.exports = QuoteRating;
 },{"jquery":18}]},{},[19]);

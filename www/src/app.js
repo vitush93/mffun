@@ -11,5 +11,4 @@ require('./bindings/Comments')();
 require('./bindings/AddQuote')();
 require('./bindings/AvatarPicker')();
 require('./bindings/Global')();
-require('./bindings/CommentRating')();
-require('./bindings/QuoteRating')();
+require('./bindings/Rating')();
