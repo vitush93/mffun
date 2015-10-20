@@ -45,6 +45,11 @@ class HomepagePresenter extends BasePresenter
 
         $this->paginator = new Paginator();
         $this->paginator->setItemsPerPage(self::ITEMS_PER_PAGE);
+
+        $page = $this->getParameter('p');
+        if ($page) {
+            $this->paginator->setPage($page);
+        }
     }
 
     /**
@@ -129,14 +134,67 @@ class HomepagePresenter extends BasePresenter
 
     /**
      * Homepage.
+     *
      * @param $p
+     * @throws \Nette\Utils\JsonException
      */
     public function actionDefault($p)
     {
-        $quotes = $this->quoteRepository->findAllApproved(10, 0, QuoteRepository::ORDER_LATEST);
+        $quotes = $this->getQuotes(QuoteRepository::ORDER_LATEST);
 
         $this->template->quotes = Json::encode($quotes);
+    }
 
-        // TODO
+    /**
+     * Homepage
+     *
+     * @param $p
+     * @throws \Nette\Utils\JsonException
+     */
+    function actionTop($p)
+    {
+        $quotes = $this->getQuotes(QuoteRepository::ORDER_TOP);
+
+        $this->setView('default');
+        $this->template->quotes = Json::encode($quotes);
+    }
+
+    /**
+     * Homepage
+     *
+     * @param $p
+     * @throws \Nette\Utils\JsonException
+     */
+    function actionMostcommented($p)
+    {
+        $quotes = $this->getQuotes(QuoteRepository::ORDER_COMMENTS);
+
+        $this->setView('default');
+        $this->template->quotes = Json::encode($quotes);
+    }
+
+    /**
+     * Homepage
+     *
+     * @param $p
+     * @throws \Nette\Utils\JsonException
+     */
+    function actionRandom($p)
+    {
+        $quotes = $this->quoteRepository->getRandomQuotes(10);
+
+        $this->setView('default');
+        $this->template->quotes = Json::encode($quotes);
+    }
+
+    /**
+     * @param $order
+     * @return array
+     */
+    private function getQuotes($order)
+    {
+        $quotes = $this->quoteRepository->findAllApproved(self::ITEMS_PER_PAGE, $this->paginator->getOffset(), $order);
+
+        return $quotes;
     }
 }

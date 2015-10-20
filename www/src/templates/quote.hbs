@@ -4,31 +4,6 @@
         <div class="col-lg-10 col-md-12 col-sm-12 article-content">
             <section>
 
-                <!-- Share and like buttons -->
-                <div class="social">
-                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://fun.dev/quote/default/570">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-
-                    <a target="_blank" href="https://twitter.com/home?status=citace%20z%20MFF:%0Ahttp://fun.dev/quote/default/570">
-                        <i class="fa fa-twitter"></i>
-                    </a>
-
-                    <a target="_blank" href="https://plus.google.com/share?url=http://fun.dev/quote/default/570">
-                        <i class="fa fa-google-plus"></i>
-                    </a>
-
-                    <a href="/?rateQuote-qid=570&do=rateQuote-down" data-qid="570" data-rate="down" class="q-rate q-rate-down">
-                        <i class="fa fa-thumbs-down"></i>
-                    </a>
-
-                    <a href="/?rateQuote-qid=570&do=rateQuote-up" data-qid="570" data-rate="up" class="q-rate q-rate-up active">
-                        <i class="fa fa-thumbs-up"></i>
-                    </a>
-                </div>
-                <!-- Share and like buttons -->
-
-
                 <!-- Heading -->
                 <h2>
                     {{#if teacher}}
@@ -108,6 +83,47 @@
                 </footer>
                 {{/if}}
                 <!-- Best comments -->
+
+
+                <!-- Share and like buttons -->
+                <div class="quote-share">
+                    <div class="quote-share-like">
+                        <a href="/?rateQuote-qid={{id}}&do=rateQuote-down"
+                           data-qid="{{id}}"
+                           data-rate="down"
+                           class="q-rate q-rate-down rate-button">
+                            <i class="fa fa-thumbs-down"></i>
+                        </a>
+
+                        <a href="/?rateQuote-qid={{id}}&do=rateQuote-up"
+                           data-qid="{{id}}"
+                           data-rate="up"
+                           class="q-rate q-rate-up rate-button">
+                            <i class="fa fa-thumbs-up"></i>
+                        </a>
+                    </div>
+
+                    <div class="quote-share-social">
+                        <a href="/quote/default/{{id}}#comments" class="share-button">
+                            <i class="fa fa-comment"></i>
+                        </a>
+
+                        <a href="" target="_blank" class="share-button a2a_dd">
+                            <i class="fa fa-share-alt"></i>
+                        </a>
+                        <script type="text/javascript">
+                            var a2a_config = a2a_config || {};
+                            a2a_config.linkname = "MFFun";
+                            a2a_config.linkurl = "mffun.ms.mff.cuni.cz/quote/default/{{id}}";
+                            a2a_config.onclick = 1;
+                            a2a_config.locale = "cs";
+                        </script>
+                        <script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+                    </div>
+
+                    <div style="clear: both;"></div>
+                </div>
+                <!-- Share and like buttons -->
 
             </section>
         </div>

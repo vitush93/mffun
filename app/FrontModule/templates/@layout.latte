@@ -70,29 +70,29 @@
             <span></span>
         </button>
 
-        <a href="{link Homepage:default, quotes=>'latest'}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
+        <a href="{link Homepage:default}" id="logo"><i class="fa fa-comment"></i> <span>MFFun</span></a>
 
         <ul id="top-menu">
             <li>
-                <a href="{link Homepage:default, quotes=>'latest'}" {if isset($section) && $section == 'latest'}class="active"{/if}>
+                <a href="{link Homepage:default}" {ifCurrent Homepage:default}class="active"{/ifCurrent}>
                     <i class="fa fa-lightbulb-o fa-fw"></i>
                     <span class="hidden-md hidden-sm">nejnovější</span>
                 </a>
             </li>
             <li>
-                <a href="{link Homepage:default, quotes=>'top'}" {if isset($section) && $section == 'top'}class="active"{/if}>
+                <a href="{link Homepage:top}" {ifCurrent Homepage:top}class="active"{/ifCurrent}>
                     <i class="fa fa-trophy fa-fw"></i>
                     <span class="hidden-md hidden-sm">top</span>
                 </a>
             </li>
             <li>
-                <a href="{link Homepage:default, quotes=>'mostcommented'}" {if isset($section) && $section == 'mostcommented'}class="active"{/if}>
+                <a href="{link Homepage:mostcommented}" {ifCurrent Homepage:mostcommented}class="active"{/ifCurrent}>
                     <i class="fa fa-comments fa-fw"></i>
                     <span class="hidden-md hidden-sm">nejkomentovanější</span>
                 </a>
             </li>
             <li>
-                <a href="{link Homepage:default, quotes=>'random'}" {if isset($section) && $section == 'random'}class="active"{/if}>
+                <a href="{link Homepage:random}" {ifCurrent Homepage:random}class="active"{/ifCurrent}>
                     <i class="fa fa-random fa-fw"></i>
                     <span class="hidden-md hidden-sm">náhodné</span>
                 </a>
