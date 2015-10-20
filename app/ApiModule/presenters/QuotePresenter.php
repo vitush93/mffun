@@ -38,7 +38,7 @@ class QuotePresenter extends Presenter
     }
 
     /**
-     * [/api/quote/mostcomments/?limit=X&offset=Y]
+     * [/api/quote/mostcommented/?limit=X&offset=Y]
      *
      * @param int $limit
      * @param int $offset
@@ -46,6 +46,18 @@ class QuotePresenter extends Presenter
     function actionMostcommented($limit = 10, $offset = 0)
     {
         $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_COMMENTS);
+
+        $this->sendJson($q);
+    }
+
+    /**
+     * [/api/quote/random/?limit=X]
+     *
+     * @param int $limit
+     */
+    function actionRandom($limit = 10)
+    {
+        $q = $this->quoteRepository->getRandomQuotes($limit);
 
         $this->sendJson($q);
     }

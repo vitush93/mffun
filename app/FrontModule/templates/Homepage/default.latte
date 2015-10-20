@@ -33,39 +33,9 @@
     <div id="content-load"></div>
     <script>
         var quotes = {!$quotes};
+        var action = '{!$presenter->action}';
+        var page = '{!$presenter->getParameter('p')}';
     </script>
 
-
-    {if $presenter->action != 'search'}
-    <div id="loader-container">
-        <div class="col-lg-2 visible-lg"></div>
-        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-            <div id="loader"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-        </div>
-    </div>
-    {/if}
-
-
-    <div class="row" id="more-button">
-        <div class="col-lg-2 visible-lg"></div>
-        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-            <a href="{link this, p => 2}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
-        </div>
-    </div>
-
-
-    <div class="row" id="reload-button-content">
-            <div class="col-lg-2 visible-lg"></div>
-            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                <button class="btn btn-warning btn-lg btn-block" id="reload-button">zkusit znovu</button>
-            </div>
-    </div>
-
-
-    <div class="row" id="end-msg">
-        <div class="col-lg-2 visible-lg"></div>
-        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-            <p>víc už tu není :(</p>
-        </div>
-    </div>
+    <div id="js-loader-container"></div>
 {/block}

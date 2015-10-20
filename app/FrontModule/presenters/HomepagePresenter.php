@@ -22,10 +22,7 @@ use Nette\Utils\Paginator;
 class HomepagePresenter extends BasePresenter
 {
     /** Items per loaded page */
-    const ITEMS_PER_PAGE = 10;
-
-    /** Maximum of pages to load before displaying 'show more' button */
-    const MAX_PAGES_LOAD = 10;
+    const ITEMS_PER_PAGE = 100;
 
     /** @var Paginator */
     private $paginator;
@@ -193,7 +190,7 @@ class HomepagePresenter extends BasePresenter
      */
     private function getQuotes($order)
     {
-        $quotes = $this->quoteRepository->findAllApproved(self::ITEMS_PER_PAGE, $this->paginator->getOffset(), $order);
+        $quotes = $this->quoteRepository->findAllApproved(10, $this->paginator->getOffset(), $order);
 
         return $quotes;
     }
