@@ -5,7 +5,6 @@ module.exports = function () {
     var $container = $('#content-load');
 
     var view = new QuotesView($container);
-    $.getJSON('/api/quote/?limit=10&offset=0', function (data) {
-        view.render(data);
-    });
+
+    view.render(window.quotes);
 };

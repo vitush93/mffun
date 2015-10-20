@@ -19,6 +19,10 @@ use Nette\Object;
 class QuoteRepository extends Object
 {
 
+    const ORDER_LATEST = 'latest',
+        ORDER_TOP = 'top',
+        ORDER_COMMENTS = 'mostcommented';
+
     /** @var EntityManager */
     private $em;
 

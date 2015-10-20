@@ -30,9 +30,12 @@
 {/block}
 
 {block content}
-    <div id="content-load">
-        {include 'loop.latte'}
-    </div>
+    <div id="content-load"></div>
+    <script>
+        var quotes = {!$quotes};
+    </script>
+
+
     {if $presenter->action != 'search'}
     <div id="loader-container">
         <div class="col-lg-2 visible-lg"></div>
@@ -41,21 +44,12 @@
         </div>
     </div>
     {/if}
+
+
     <div class="row" id="more-button">
         <div class="col-lg-2 visible-lg"></div>
         <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-            {if isset($tag)}
-                <a href="{link Homepage:tag $tagId, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
-                    další</a>
-            {elseif isset($teacher)}
-                <a href="{link Homepage:teacher $teacherId, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
-                    další</a>
-            {elseif isset($subject)}
-                <a href="{link Homepage:subject $subjectId, p=>$more}" class="btn btn-primary btn-lg btn-block">zobrazit
-                    další</a>
-            {else}
-                <a href="{link Homepage:page $more}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
-            {/if}
+            <a href="{link this, p => 2}" class="btn btn-primary btn-lg btn-block">zobrazit další</a>
         </div>
     </div>
 
@@ -66,6 +60,8 @@
                 <button class="btn btn-warning btn-lg btn-block" id="reload-button">zkusit znovu</button>
             </div>
     </div>
+
+
     <div class="row" id="end-msg">
         <div class="col-lg-2 visible-lg"></div>
         <div class="col-lg-10 col-md-12 col-sm-12 article-content">

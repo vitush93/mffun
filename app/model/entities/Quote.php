@@ -15,7 +15,7 @@ use Nette\Utils\Strings;
  * @ORM\Entity
  * @ORM\EntityListeners({"App\Model\Events\QuoteListener"})
  */
-class Quote extends BaseEntity implements IRateable
+class Quote extends BaseEntity implements IRateable, \JsonSerializable
 {
     const STATUS_APPROVED = 1;
     const STATUS_NEED_APPROVAL = 2;
@@ -455,6 +455,7 @@ class Quote extends BaseEntity implements IRateable
 
     /**
      * @param float $rating
+     * @return mixed|void
      */
     public function setRating($rating)
     {
@@ -477,5 +478,52 @@ class Quote extends BaseEntity implements IRateable
         }
         return false;
     }
+
+    function jsonSerialize()
+    {
+        $tags = array();
+        $top_comments = array();
+
+        $i = 0;
+
+        /** @var Tag $tag */
+        foreach ($this->tags as $tag) {
+            $tags[$i]['id'] = $tag->getId();
+            $tags[$i]['tag'] = $tag->getTag();
+
+            $i++;
+        }
+
+        $i = 0;
+
+        /** @var Comment $c */
+        foreach ($this->getBestComments() as $c) {
+            $comment['avatar'] = $c->getUser()->getAvatar();
+            $comment['author'] = $c->getUser()->getUsername();
+            $comment['down'] = $c->getRatingDown();
+            $comment['up'] = $c->getRatingUp();
+
+            $top_comments[$i] = $comment;
+            $i++;
+        }
+
+        return array(
+            'id' => $this->id,
+            'comment_count' => $this->comments->count(),
+            'rating' => $this->rating,
+            'text' => $this->text,
+            'tags' => $tags,
+            'top_comments' => $top_comments,
+            'subject' => $this->subject ? array(
+                'id' => $this->subject->getId(),
+                'name' => $this->subject->getName()
+            ) : array(),
+            'teacher' => $this->teacher ? array(
+                'id' => $this->teacher->getId(),
+                'name' => $this->teacher->getName()
+            ) : array()
+        );
+    }
+
 
 }

@@ -2,14 +2,14 @@
 
 namespace App\ApiModule\Presenters;
 
-use App\Model\Services\QuoteRestService;
+use App\Model\Repositories\QuoteRepository;
 use Doctrine\ORM\Query;
 use Nette\Application\UI\Presenter;
 
 class QuotePresenter extends Presenter
 {
-    /** @var QuoteRestService @inject */
-    public $quoteRestService;
+    /** @var QuoteRepository @inject */
+    public $quoteRepository;
 
     /**
      * [/api/quote/?limit=X&offset=Y]
@@ -19,9 +19,9 @@ class QuotePresenter extends Presenter
      */
     function actionDefault($limit = 10, $offset = 0)
     {
-        $this->sendResponse(
-            $this->quoteRestService->latest($limit, $offset)
-        );
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_LATEST);
+
+        $this->sendJson($q);
     }
 
     /**
@@ -32,9 +32,9 @@ class QuotePresenter extends Presenter
      */
     function actionTop($limit = 10, $offset = 0)
     {
-        $this->sendResponse(
-            $this->quoteRestService->top($limit, $offset)
-        );
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_TOP);
+
+        $this->sendJson($q);
     }
 
     /**
@@ -45,8 +45,8 @@ class QuotePresenter extends Presenter
      */
     function actionMostcommented($limit = 10, $offset = 0)
     {
-        $this->sendResponse(
-            $this->quoteRestService->mostCommented($limit, $offset)
-        );
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_COMMENTS);
+
+        $this->sendJson($q);
     }
 }

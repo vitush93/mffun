@@ -6,7 +6,6 @@ services:
     - App\Model\Services\AuthenticationService
     - App\Model\Services\AutocompleteService
     - App\Model\Services\RatingService
-    - App\Model\Services\QuoteRestService
 
     # entity listeners
     - App\Model\Events\QuoteListener

@@ -3,6 +3,7 @@
         <div class="col-lg-2 visible-lg"></div>
         <div class="col-lg-10 col-md-12 col-sm-12 article-content">
             <section>
+
                 <!-- Share and like buttons -->
                 <div class="social">
                     <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://fun.dev/quote/default/570">
@@ -30,13 +31,26 @@
 
                 <!-- Heading -->
                 <h2>
-                    <a href="/quote/default/570" target="_blank">
-                        Předmět neuveden
-                    </a>
+                    {{#if teacher}}
+                    <a href="/homepage/teacher/{{teacher.id}}" target="_blank">{{teacher.name}}</a>
+
+                    {{else}}
+
+                    <a href="/homepage/teacher" target="_blank">vyučující neuveden</a>
+                    {{/if}}
+
+
+                    {{#if subject}}
+                    <small>
+                        <a href="/homepage/subject/{{subject.id}}">{{subject.name}}</a>
+                    </small>
+
+                    {{else}}
 
                     <small>
-                        <a href="/homepage/teacher/56">#DoležalováDrahomíra</a>
+                        <a href="/homepage/subject" target="_blank">předmět neuveden</a>
                     </small>
+                    {{/if}}
                     <br>
                 </h2>
                 <!-- Heading -->
@@ -44,47 +58,55 @@
 
                 <!-- Quote info -->
                 <span>
-                    <a href="/quote/default/570" target="_blank">
-                        <span id="q-rating-570">2</span> bodů
+                    <a href="/quote/default/{{id}}" target="_blank">
+                        <span id="q-rating-{{id}}">{{rating}}</span> bodů
                     </a>
                     &nbsp; &middot; &nbsp;
-                    <a href="/quote/default/570#comments" target="_blank">
-                        1 komentářů
+                    <a href="/quote/default/{{id}}#comments" target="_blank">
+                        {{comment_count}} komentářů
                     </a>
                 </span>
                 <!-- Quote info -->
 
 
                 <!-- Text -->
-                <div class="quote-text"><p>Chcešli změnit svůj život, změn své okolí.</p></div>
+                <div class="quote-text"><p>{{text}}</p></div>
                 <!-- Text -->
 
 
                 <!-- Tags -->
-                <div class="item-tags"></div>
+                <div class="item-tags">
+                    {{#each tags}}
+                        <a href="/homepage/tag/{{id}}">#{{tag}}</a>
+                    {{/each}}
+                </div>
                 <!-- Tags -->
 
 
                 <!-- Best comments -->
+                {{#if top_comments.length}}
                 <footer>
+                    {{#each top_comments}}
                     <div class="top-comment clearfix">
-                        <img src="/public/front/avatars/cheetah_128px.png" alt="" title="borec" class="img-circle">
+                        <img src="/public/front/avatars/{{avatar}}" alt="" title="{{author}}" class="img-circle">
 
                         <div class="comment-body">
                             <p>
-                                nejaky koment
+                                {{text}}
                             </p>
-                            <span><i class="fa fa-thumbs-up"></i> 1</span>
-                            <span><i class="fa fa-thumbs-down"></i> 0</span>
+                            <span><i class="fa fa-thumbs-up"></i> {{up}}</span>
+                            <span><i class="fa fa-thumbs-down"></i> {{down}}</span>
                         </div>
                     </div>
+                    {{/each}}
                     <p>
                         <i class="fa fa-angle-right"></i>
-                        <a href="/quote/default/570#comments" target="_blank">
+                        <a href="/quote/default/{{id}}#comments" target="_blank">
                             všechny komentáře
                         </a>
                     </p>
                 </footer>
+                {{/if}}
                 <!-- Best comments -->
 
             </section>

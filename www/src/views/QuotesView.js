@@ -22,6 +22,7 @@ QuotesView.prototype.render = function (data) {
 
     var _this = this;
     _.each(data, function (quote) {
+        console.log(quote);
         html += _this.quoteView.template(quote);
     });
 
