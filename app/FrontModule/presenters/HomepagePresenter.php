@@ -85,13 +85,22 @@ class HomepagePresenter extends BasePresenter
      */
     public function actionSubject($id, $p)
     {
-        /** @var Subject $subj */
-        $subj = $this->em->find(Subject::class, $id);
-        if (!$subj) throw new BadRequestException;
+        if ($id != null) {
+
+            /** @var Subject $subj */
+            $subj = $this->em->find(Subject::class, $id);
+            if (!$subj) throw new BadRequestException;
+        }
 
         $this->setView('default');
 
-        // TODO
+        $quotes = $this->quoteRepository->findAllBySubject($id, 10, $this->paginator->getOffset());
+        $this->template->quotes = Json::encode($quotes);
+        if ($id == null) {
+            $this->template = 'předmět neuveden';
+        } else {
+            $this->template->title = $subj->getName();
+        }
     }
 
     /**
@@ -114,7 +123,7 @@ class HomepagePresenter extends BasePresenter
 
         $quotes = $this->quoteRepository->findAllByTeacher($id, 10, $this->paginator->getOffset());
         $this->template->quotes = Json::encode($quotes);
-        if($id == null) {
+        if ($id == null) {
             $this->template->title = 'vyučující neuveden';
         } else {
             $this->template->title = $teacher->getName();
