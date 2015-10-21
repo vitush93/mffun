@@ -88,12 +88,12 @@
                 <!-- Share and like buttons -->
                 <div class="quote-share">
                     <div class="quote-share-like">
-                        <a href="" class="q-rate q-rate-down rate-button">
-                            <i class="fa fa-thumbs-down"></i>
+                        <a href="" class="q-rate q-rate-up rate-button{{#if rated_up}} active{{/if}}">
+                            <i class="fa fa-thumbs-up"></i>
                         </a>
 
-                        <a href="" class="q-rate q-rate-up rate-button">
-                            <i class="fa fa-thumbs-up"></i>
+                        <a href="" class="q-rate q-rate-down rate-button{{#if rated_down}} active{{/if}}">
+                            <i class="fa fa-thumbs-down"></i>
                         </a>
                     </div>
 

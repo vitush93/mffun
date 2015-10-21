@@ -14,18 +14,20 @@ var QuotesView = function ($el) {
 QuotesView.prototype = Object.create(BaseView.prototype);
 QuotesView.prototype.constructor = QuotesView;
 
+QuotesView.prototype.quotes = [];
+
+QuotesView.prototype.$loaderContainer = null;
+
+QuotesView.prototype.endlessScroll = null;
+
+QuotesView.prototype.currentLoad = 1;
+
 QuotesView.prototype.init = function () {
     this.$loaderContainer = $('#js-loader-container');
 
     this.bindScrollLoad();
     this.bindRetry();
 };
-
-QuotesView.prototype.quotes = [];
-
-QuotesView.prototype.$loaderContainer = null;
-
-QuotesView.prototype.endlessScroll = null;
 
 QuotesView.prototype.addQuoteViews = function (data) {
     var _this = this;
@@ -40,8 +42,6 @@ QuotesView.prototype.addQuoteViews = function (data) {
 QuotesView.prototype.render = function (data) {
     this.addQuoteViews(data);
 };
-
-QuotesView.prototype.currentLoad = 1;
 
 QuotesView.prototype.bindScrollLoad = function () {
     var _this = this;
