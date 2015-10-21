@@ -1,22 +1,5 @@
 {block full}
-    {var $title = ''}
-    {if $presenter->action == 'search'}
-        {?
-    $title = 'výsledky hledání pro \''.$presenter->getParameter('id').'\'';
-    }
-    {/if}
-    {if isset($tag)}{? $title = '#'.$tag}{/if}
-    {if isset($teacher)}
-        {?
-    $title = $asTag($teacher);
-    }
-    {/if}
-    {if isset($subject)}
-        {?
-    $title = $asTag($subject);
-    }
-    {/if}
-    {if $title}
+    {if isset($title)}
         <div class="row">
             <div class="col-lg-8">
                 <div class="col-lg-2"></div>

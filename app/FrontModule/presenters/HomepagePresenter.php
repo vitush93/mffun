@@ -59,6 +59,7 @@ class HomepagePresenter extends BasePresenter
         $this->setView('default');
 
         // TODO
+        $this->template->title = "výsledky hledání pro {$id}.";
     }
 
     /**
@@ -102,13 +103,22 @@ class HomepagePresenter extends BasePresenter
      */
     public function actionTeacher($id, $p)
     {
-        /** @var Teacher $teacher */
-        $teacher = $this->em->find(Teacher::class, $id);
-        if (!$teacher) throw new BadRequestException;
+        if ($id != null) {
+
+            /** @var Teacher $teacher */
+            $teacher = $this->em->find(Teacher::class, $id);
+            if (!$teacher) throw new BadRequestException;
+        }
 
         $this->setView('default');
 
-        // TODO
+        $quotes = $this->quoteRepository->findAllByTeacher($id, 10, $this->paginator->getOffset());
+        $this->template->quotes = Json::encode($quotes);
+        if($id == null) {
+            $this->template->title = 'vyučující neuveden';
+        } else {
+            $this->template->title = $teacher->getName();
+        }
     }
 
     /**
@@ -128,7 +138,7 @@ class HomepagePresenter extends BasePresenter
 
         $quotes = $this->quoteRepository->findAllByTag($id, 10, $this->paginator->getOffset());
         $this->template->quotes = Json::encode($quotes);
-        $this->template->tag = $tag->getTag();
+        $this->template->title = $tag->getTag();
     }
 
     /**

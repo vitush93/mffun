@@ -74,4 +74,18 @@ class QuotePresenter extends Presenter
 
         $this->sendJson($q);
     }
+
+    /**
+     * [/api/quote/teacher/?limit=X&offset=Y]
+     *
+     * @param $id
+     * @param int $limit
+     * @param int $offset
+     */
+    function actionTeacher($id, $limit = 10, $offset = 0)
+    {
+        $q = $this->quoteRepository->findAllByTeacher($id, $limit, $offset);
+
+        $this->sendJson($q);
+    }
 }
