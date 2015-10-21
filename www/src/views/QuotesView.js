@@ -18,15 +18,18 @@ QuotesView.prototype.init = function () {
     this.$loaderContainer = $('#js-loader-container');
 
     this.bindScrollLoad();
+    this.bindRetry();
 };
 
 QuotesView.prototype.quotes = [];
 
 QuotesView.prototype.$loaderContainer = null;
 
-QuotesView.prototype.addQuoteViews = function(data) {
+QuotesView.prototype.endlessScroll = null;
+
+QuotesView.prototype.addQuoteViews = function (data) {
     var _this = this;
-    _.each(data, function(quote) {
+    _.each(data, function (quote) {
         var view = new QuoteView(_this.$el);
         view.render(quote);
 
@@ -43,8 +46,8 @@ QuotesView.prototype.currentLoad = 1;
 QuotesView.prototype.bindScrollLoad = function () {
     var _this = this;
 
-    var scroll = new EndlessScroll();
-    scroll.callback = function () {
+    _this.endlessScroll = new EndlessScroll();
+    _this.endlessScroll.callback = function () {
         if (_this.currentLoad == config.endlessScroll.maxLoadsPerPage) {
             _this.$loaderContainer.html(Templates.more({
                 action: window.action,
@@ -55,12 +58,18 @@ QuotesView.prototype.bindScrollLoad = function () {
         }
         _this.$loaderContainer.html(Templates.loader());
 
-        $.getJSON(config.api.quotes(_this.getAction(), config.endlessScroll.itemsPerLoad, _this.getOffset()), function (data) {
+        $.getJSON(config.api.quotes(_this.getAction(), config.endlessScroll.itemsPerLoad, _this.getOffset(), window.url_id), function (data) {
+            if (data.length == 0) {
+                _this.$loaderContainer.html(Templates.end());
+
+                _this.endlessScroll.lock = true;
+                return;
+            }
             _this.addQuoteViews(data);
 
             _this.currentLoad++;
 
-            scroll.lock = false;
+            _this.endlessScroll.lock = false;
             _this.$loaderContainer.html('');
         }).error(function () {
             _this.$loaderContainer.html(Templates.reload());
@@ -86,6 +95,13 @@ QuotesView.prototype.getOffset = function () {
     var loadOffset = (this.currentLoad * config.endlessScroll.itemsPerLoad);
 
     return pageOffset + loadOffset;
+};
+
+QuotesView.prototype.bindRetry = function () {
+    var _this = this;
+    $('body').on('click', '#reload-button', function () {
+        _this.endlessScroll.lock = false;
+    });
 };
 
 module.exports = QuotesView;

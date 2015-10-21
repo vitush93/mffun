@@ -126,7 +126,9 @@ class HomepagePresenter extends BasePresenter
 
         $this->setView('default');
 
-        // TODO
+        $quotes = $this->quoteRepository->findAllByTag($id, 10, $this->paginator->getOffset());
+        $this->template->quotes = Json::encode($quotes);
+        $this->template->tag = $tag->getTag();
     }
 
     /**

@@ -1,4 +1,3 @@
-
 module.exports = {
 
     endlessScroll: {
@@ -12,8 +11,13 @@ module.exports = {
 
         },
 
-        quotes: function (action, limit, offset) {
-            return '/api/quote/' + action + '/?limit=' + limit + '&offset=' + offset;
+        quotes: function (action, limit, offset, url_id) {
+            if (url_id) {
+                return '/api/quote/' + action + '/' + url_id + '/?limit=' + limit + '&offset=' + offset;
+            } else {
+                return '/api/quote/' + action + '/?limit=' + limit + '&offset=' + offset;
+            }
+
         }
     }
 };
