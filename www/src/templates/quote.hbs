@@ -34,7 +34,7 @@
                 <!-- Quote info -->
                 <span>
                     <a href="/quote/default/{{id}}" target="_blank">
-                        <span id="q-rating-{{id}}">{{rating}}</span> bodů
+                        <span id="q-rating-{{id}}" class="js-q-rating">{{rating}}</span> bodů
                     </a>
                     &nbsp; &middot; &nbsp;
                     <a href="/quote/default/{{id}}#comments" target="_blank">
@@ -88,24 +88,18 @@
                 <!-- Share and like buttons -->
                 <div class="quote-share">
                     <div class="quote-share-like">
-                        <a href="/?rateQuote-qid={{id}}&do=rateQuote-down"
-                           data-qid="{{id}}"
-                           data-rate="down"
-                           class="q-rate q-rate-down rate-button">
+                        <a href="" class="q-rate q-rate-down rate-button">
                             <i class="fa fa-thumbs-down"></i>
                         </a>
 
-                        <a href="/?rateQuote-qid={{id}}&do=rateQuote-up"
-                           data-qid="{{id}}"
-                           data-rate="up"
-                           class="q-rate q-rate-up rate-button">
+                        <a href="" class="q-rate q-rate-up rate-button">
                             <i class="fa fa-thumbs-up"></i>
                         </a>
                     </div>
 
                     <div class="quote-share-social">
                         <a href="/quote/default/{{id}}#comments" class="share-button">
-                            <i class="fa fa-comment"></i>
+                            <i class="fa fa-comment"></i>&nbsp;&nbsp;{{comment_count}}
                         </a>
 
                         <a href="" target="_blank" class="share-button a2a_dd">

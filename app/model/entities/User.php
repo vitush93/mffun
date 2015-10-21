@@ -13,7 +13,7 @@ use Nette\Security\Passwords;
 /**
  * @ORM\Entity
  */
-class User extends BaseEntity
+class User extends BaseEntity implements \JsonSerializable
 {
     const ROLE_ADMIN = 'admin';
     const ROLE_USER = 'user';
@@ -451,6 +451,17 @@ class User extends BaseEntity
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    function jsonSerialize()
+    {
+        return array(
+            'username' => $this->username,
+            'name' => $this->name,
+            'email' => $this->email,
+            'q_ratings' => $this->quote_ratings->toArray(),
+            'c_ratings' => $this->comment_ratings->toArray()
+        );
     }
 
 

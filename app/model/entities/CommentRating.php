@@ -14,7 +14,7 @@ use Nette\Utils\DateTime;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"comment_id", "user_id"})})
  * @ORM\EntityListeners({"App\Model\Events\CommentRatingListener"})
  */
-class CommentRating extends BaseEntity implements IRating
+class CommentRating extends BaseEntity implements IRating, \JsonSerializable
 {
     const
         POSITIVE = 1,
@@ -162,5 +162,13 @@ class CommentRating extends BaseEntity implements IRating
         return $this->value;
     }
 
+    function jsonSerialize()
+    {
+        return array(
+            'c_id' => $this->comment->getId(),
+            'u_id' => $this->user->getId(),
+            'value' => $this->value
+        );
+    }
 
 } 

@@ -30,7 +30,7 @@ QuotesView.prototype.endlessScroll = null;
 QuotesView.prototype.addQuoteViews = function (data) {
     var _this = this;
     _.each(data, function (quote) {
-        var view = new QuoteView(_this.$el);
+        var view = new QuoteView(_this.$el, quote.id);
         view.render(quote);
 
         _this.quotes.push(view);

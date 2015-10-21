@@ -3,6 +3,7 @@
 namespace App\ApiModule\Presenters;
 
 use App\Model\Repositories\QuoteRepository;
+use App\Model\Services\RatingService;
 use Doctrine\ORM\Query;
 use Nette\Application\UI\Presenter;
 
@@ -10,6 +11,9 @@ class QuotePresenter extends Presenter
 {
     /** @var QuoteRepository @inject */
     public $quoteRepository;
+
+    /** @var RatingService @inject */
+    public $ratingService;
 
     /**
      * [/api/quote/?limit=X&offset=Y]
@@ -101,5 +105,41 @@ class QuotePresenter extends Presenter
         $q = $this->quoteRepository->findAllBySubject($id, $limit, $offset);
 
         $this->sendJson($q);
+    }
+
+    /**
+     * [/api/quote/rateUp/X]
+     *
+     * @param $id
+     */
+    function actionRateUp($id)
+    {
+        if (!$this->user->isLoggedIn()) {
+            $this->sendJson([
+                'success' => false
+            ]);
+        } else {
+            $response = $this->ratingService->rateQuoteUp($id, $this->user->id);
+
+            $this->sendResponse($response);
+        }
+    }
+
+    /**
+     * [/api/quote/rateDown/X]
+     *
+     * @param $id
+     */
+    function actionRateDown($id)
+    {
+        if (!$this->user->isLoggedIn()) {
+            $this->sendJson([
+                'success' => false
+            ]);
+        } else {
+            $response = $this->ratingService->rateQuoteDown($id, $this->user->id);
+
+            $this->sendResponse($response);
+        }
     }
 }

@@ -13,7 +13,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="rating_unique", columns={"quote_id", "user_id"})})
  * @ORM\EntityListeners({"App\Model\Events\QuoteRatingListener"})
  */
-class QuoteRating extends BaseEntity implements IRating
+class QuoteRating extends BaseEntity implements IRating, \JsonSerializable
 {
     const
         POSITIVE = 1,
@@ -152,4 +152,15 @@ class QuoteRating extends BaseEntity implements IRating
     {
         return $this->value == QuoteRating::NEGATIVE;
     }
+
+    function jsonSerialize()
+    {
+        return array(
+            'q_id' => $this->quote->getId(),
+            'u_id' => $this->user->getId(),
+            'value' => $this->value
+        );
+    }
+
+
 } 

@@ -11,6 +11,14 @@ module.exports = {
 
         },
 
+        rateUp: function (qid) {
+            return '/api/quote/rate-up/' + qid;
+        },
+
+        rateDown: function (qid) {
+            return '/api/quote/rate-down/' + qid;
+        },
+
         quotes: function (action, limit, offset, url_id) {
             if (url_id) {
                 return '/api/quote/' + action + '/' + url_id + '/?limit=' + limit + '&offset=' + offset;

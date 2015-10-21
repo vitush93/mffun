@@ -5,6 +5,7 @@ namespace App\FrontModule\Presenters;
 use App\Model\Entities\Subject;
 use App\Model\Entities\Tag;
 use App\Model\Entities\Teacher;
+use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;

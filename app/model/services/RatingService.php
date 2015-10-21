@@ -51,6 +51,7 @@ class RatingService extends Object
         $this->em->flush();
 
         return new JsonResponse([
+            'success' => true,
             'qid' => $qid,
             'rate' => 'down',
             'rating' => $quote->getRating(),
@@ -77,6 +78,7 @@ class RatingService extends Object
         $this->em->flush();
 
         return new JsonResponse([
+            'success' => true,
             'qid' => $qid,
             'rate' => 'up',
             'rating' => $quote->getRating()
