@@ -5,32 +5,40 @@ var Templates = require('../templates');
 var EndlessScroll = require('../helpers/EndlessScroll');
 var config = require('../config');
 
-var QuotesView = function ($el) {
+// TODO move API urls to config
+var QuotesView = function ($el, model) {
     this.$el = $el;
-    this.quoteView = new QuoteView();
+    this.model = model;
 
-    this.$loaderContainer = $('#js-loader-container');
+    this.init();
+};
 
+QuotesView.prototype.init = function () {
+    this.$loaderContainer = $('#content-load');
+
+    this.initQuotes();
     this.bindScrollLoad();
 };
 
 QuotesView.prototype = BaseView.prototype;
 
-/**
- * Child view for single quote.
- *
- * @type {null|QuoteView}
- */
-QuotesView.prototype.quoteView = null;
+QuotesView.prototype.quotes = [];
 
-QuotesView.$loaderContainer = null;
+QuotesView.prototype.$loaderContainer = null;
 
-QuotesView.prototype.render = function (data) {
+QuotesView.prototype.initQuotes = function() {
+    var _this = this;
+    _.each(this.model, function(quote) {
+        _this.quotes.push(new QuoteView(Templates.quote, _this.$el, quote));
+    });
+};
+
+QuotesView.prototype.render = function () {
     var html = '';
 
     var _this = this;
-    _.each(data, function (quote) {
-        html += _this.quoteView.template(quote);
+    _.each(_this.quotes, function(quoteView) {
+        _this.$el.append(quoteView.render());
     });
 
     this.$el.append(html);

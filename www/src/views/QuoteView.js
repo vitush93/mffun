@@ -1,18 +1,17 @@
-var _ = require('underscore');
 var BaseView = require('./BaseView');
-var Template = require('../templates');
 
-var QuoteView = function ($el) {
+var QuoteView = function (template, $el, model) {
+    this.template = template;
     this.$el = $el;
-    this.template = Template.quote;
+    this.model = model;
 };
 
 QuoteView.prototype = BaseView.prototype;
 
-QuoteView.prototype.render = function (data) {
-    var html = this.template(data);
+QuoteView.prototype.render = function () {
+    var html = this.template(this.model);
 
-    this.$el.html(html);
+    this.$el.append(html);
 };
 
 module.exports = QuoteView;
