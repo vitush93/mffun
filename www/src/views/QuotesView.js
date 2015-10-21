@@ -5,43 +5,37 @@ var Templates = require('../templates');
 var EndlessScroll = require('../helpers/EndlessScroll');
 var config = require('../config');
 
-// TODO move API urls to config
-var QuotesView = function ($el, model) {
+var QuotesView = function ($el) {
     this.$el = $el;
-    this.model = model;
 
     this.init();
 };
 
-QuotesView.prototype.init = function () {
-    this.$loaderContainer = $('#content-load');
+QuotesView.prototype = Object.create(BaseView.prototype);
+QuotesView.prototype.constructor = QuotesView;
 
-    this.initQuotes();
+QuotesView.prototype.init = function () {
+    this.$loaderContainer = $('#js-loader-container');
+
     this.bindScrollLoad();
 };
-
-QuotesView.prototype = BaseView.prototype;
 
 QuotesView.prototype.quotes = [];
 
 QuotesView.prototype.$loaderContainer = null;
 
-QuotesView.prototype.initQuotes = function() {
+QuotesView.prototype.addQuoteViews = function(data) {
     var _this = this;
-    _.each(this.model, function(quote) {
-        _this.quotes.push(new QuoteView(Templates.quote, _this.$el, quote));
+    _.each(data, function(quote) {
+        var view = new QuoteView(_this.$el);
+        view.render(quote);
+
+        _this.quotes.push(view);
     });
 };
 
-QuotesView.prototype.render = function () {
-    var html = '';
-
-    var _this = this;
-    _.each(_this.quotes, function(quoteView) {
-        _this.$el.append(quoteView.render());
-    });
-
-    this.$el.append(html);
+QuotesView.prototype.render = function (data) {
+    this.addQuoteViews(data);
 };
 
 QuotesView.prototype.currentLoad = 1;
@@ -61,8 +55,8 @@ QuotesView.prototype.bindScrollLoad = function () {
         }
         _this.$loaderContainer.html(Templates.loader());
 
-        $.getJSON('/api/quote/' + _this.getAction() + '/?limit=' + config.endlessScroll.itemsPerLoad + '&offset=' + _this.getOffset(), function (data) {
-            _this.render(data);
+        $.getJSON(config.api.quotes(_this.getAction(), config.endlessScroll.itemsPerLoad, _this.getOffset()), function (data) {
+            _this.addQuoteViews(data);
 
             _this.currentLoad++;
 

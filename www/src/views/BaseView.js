@@ -17,6 +17,4 @@ BaseView.prototype.init = function () {
 
 BaseView.prototype.$el = null;
 
-BaseView.prototype.model = null;
-
 module.exports = BaseView;

@@ -1,17 +1,26 @@
 var BaseView = require('./BaseView');
+var Templates = require('../templates');
 
-var QuoteView = function (template, $el, model) {
-    this.template = template;
-    this.$el = $el;
-    this.model = model;
+var QuoteView = function ($el) {
+    this.$container = $el;
+    this.template = Templates.quote;
+
+    this.init();
 };
 
-QuoteView.prototype = BaseView.prototype;
+QuoteView.prototype = Object.create(BaseView.prototype);
+QuoteView.prototype.constructor = QuoteView;
 
-QuoteView.prototype.render = function () {
-    var html = this.template(this.model);
+QuoteView.prototype.init = function () {
+    this.$el = $('<div></div>');
+    this.$el.addClass('js-quote-view');
+};
 
-    this.$el.append(html);
+QuoteView.prototype.render = function (data) {
+    var html = this.template(data);
+
+    this.$el.html(html);
+    this.$container.append(this.$el);
 };
 
 module.exports = QuoteView;
