@@ -1,11 +1,10 @@
 var _ = require('underscore');
 var BaseView = require('./BaseView');
-var Templates = require('../templates');
 var config = require('../config');
 
-var QuoteView = function ($el, id) {
+var QuoteView = function (template, $el, id) {
     this.$container = $el;
-    this.template = Templates.quote;
+    this.template = template;
     this.id = id;
 
     this.init();
@@ -31,9 +30,10 @@ QuoteView.prototype.hasRated = function (value) {
 };
 
 QuoteView.prototype.render = function (data) {
-    data.rated_up = this.hasRated(1);
-    data.rated_down = this.hasRated(-1);
+    //data.rated_up = this.hasRated(1); TODO use localStorage instead
+    //data.rated_down = this.hasRated(-1);
 
+    data.logged_user = window.logged_user;
     var html = this.template(data);
 
     this.$el.html(html);

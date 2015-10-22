@@ -8,22 +8,22 @@ module.exports = {
 
     api: {
         quote: function (qid) {
-
+            return '/api/?presenter=Quote&action=single&id=' + qid;
         },
 
         rateUp: function (qid) {
-            return '/api/quote/rate-up/' + qid;
+            return '/api/?presenter=Quote&action=rateUp&id=' + qid;
         },
 
         rateDown: function (qid) {
-            return '/api/quote/rate-down/' + qid;
+            return '/api/?presenter=Quote&action=rateDown&id=' + qid;
         },
 
         quotes: function (action, limit, offset, url_id) {
             if (url_id) {
-                return '/api/quote/' + action + '/' + url_id + '/?limit=' + limit + '&offset=' + offset;
+                return '/api/?presenter=Quote&action=' + action + '&limit=' + limit + '&offset=' + offset + '&id=' + url_id;
             } else {
-                return '/api/quote/' + action + '/?limit=' + limit + '&offset=' + offset;
+                return '/api/?presenter=Quote&action=' + action + '&limit=' + limit + '&offset=' + offset;
             }
 
         }

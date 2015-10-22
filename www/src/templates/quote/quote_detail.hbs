@@ -1,0 +1,98 @@
+<div class="row article last detail">
+    <article class="content-item">
+        <div class="col-lg-2 visible-lg">
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 article-content">
+            <section>
+
+                <!-- Heading -->
+                {{> quote_heading}}
+                <!-- Heading -->
+
+
+                <!-- Quote info -->
+                {{> quote_info}}
+                <!-- Quote info -->
+
+
+                <!-- Text -->
+                <div class="quote-text"><p>{{text}}</p></div>
+                <!-- Text -->
+
+                <!-- Tags -->
+                {{> quote_tags}}
+                <!-- Tags -->
+
+                <div class="item-details">
+                    <p>
+                        {{#if user}}
+                            {{user.username}}
+                        {{else}}
+                            anonym
+                        {{/if}}
+                        &middot;
+                        {{posted_format}}
+                    </p>
+                </div>
+
+                <div class="comments" id="comments">
+                    <h3>Komentáře</h3>
+
+                    {{#if logged_user}}
+                        <form class="new-comment-form">
+                            <div class="comment newcomment clearfix">
+                                <div class="comment-left">
+                                    <img src="/public/front/avatars/giraffe_128px.png" alt="" title=""
+                                         class="img-circle">
+                                </div>
+                                <div class="comment-right">
+                                <textarea name="text"
+                                          placeholder="napiš něco.."
+                                          maxlength="1000"
+                                          class="comment-textarea"
+                                          style="overflow: hidden; resize: none; height: 50px;"></textarea>
+                                    <input type="submit" name="process" value="">
+                                </div>
+                            </div>
+                        </form>
+                    {{else}}
+                        <p class="notice">Pro komentování musíš být přihlášený.</p>
+                    {{/if}}
+
+                    <!--
+                    {form commentsForm, class=>'new-reply-form ajax'}
+
+                    {snippet comments}
+                    {foreach
+                    $em->getRepository(\App\Model\Entities\Comment::class)
+                    ->findBy(['quote' => $q, 'parent' => 0], ['posted' => 'DESC'])
+                    as $comment}
+
+                    {include 'comment.latte' comment => $comment, class => ''}
+
+                    {foreach
+                    $em->getRepository(\App\Model\Entities\Comment::class)
+                    ->createQueryBuilder()
+                    ->select('c')
+                    ->from('\App\Model\Entities\Comment', 'c')
+                    ->where('c.parent = :parent')
+                    ->andWhere('c.quote = :q')
+                    ->setParameter('q', $q)
+                    ->setParameter('parent', $comment->id)
+                    ->orderBy('c.posted')
+                    ->getQuery()
+                    ->getResult()
+                    as $reply}
+
+                    {include 'comment.latte' comment => $reply, class => 'child'}
+
+                    {/foreach}
+                    {/foreach}
+                    {/snippet}
+                    {/form}
+                    -->
+                </div>
+            </section>
+        </div>
+    </article>
+</div>

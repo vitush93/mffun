@@ -11,6 +11,7 @@ use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Json;
 
 /**
  * Handles displaying a single quote.
@@ -49,7 +50,7 @@ class QuotePresenter extends BasePresenter
      */
     public function renderDefault($id)
     {
-        $this->template->q = $this->quote;
+        $this->template->quote = Json::encode($this->quote);
         $this->template->em = $this->em;
 
         $og = new ArrayHash();

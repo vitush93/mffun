@@ -1,0 +1,23 @@
+<h2>
+    {{#if teacher}}
+        <a href="/homepage/teacher/{{teacher.id}}">{{teacher.name}}</a>
+
+    {{else}}
+
+        <a href="/homepage/teacher">vyučující neuveden</a>
+    {{/if}}
+
+
+    {{#if subject}}
+        <small>
+            <a href="/homepage/subject/{{subject.id}}">{{subject.name}}</a>
+        </small>
+
+    {{else}}
+
+        <small>
+            <a href="/homepage/subject">předmět neuveden</a>
+        </small>
+    {{/if}}
+    <br>
+</h2>

@@ -4,34 +4,16 @@ require('bootstrap');
 require('./bindings/globals');
 
 var Backbone = require('backbone');
+var AppRouter = require('./router/AppRouter');
 
-var AppRouter = Backbone.Router.extend({
-    routes: {
+$(function () {
+    var router = new AppRouter();
 
-        '': 'homeRoute',
+    Backbone.history.start({
+        pushState: true,
+        root: '/'
+    });
 
-        'homepage/:action': 'homeRoute',
-
-        'homepage/:action/:id': 'homeRoute',
-
-        'quote/default/:id': 'quoteRoute',
-
-        'test/neco': 'test'
-    },
-
-    quoteRoute: require('./controllers/QuoteController'),
-
-    homeRoute: require('./controllers/IndexController')
-});
-
-
-var router = new AppRouter();
-Backbone.history.start({
-    pushState: true,
-    root: '/'
-});
-
-$(document).ready(function () {
     var url = window.location.pathname;
     url = url.substr(1);
 

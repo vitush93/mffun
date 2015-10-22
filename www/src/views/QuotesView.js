@@ -32,7 +32,8 @@ QuotesView.prototype.init = function () {
 QuotesView.prototype.addQuoteViews = function (data) {
     var _this = this;
     _.each(data, function (quote) {
-        var view = new QuoteView(_this.$el, quote.id);
+        var view = new QuoteView(Templates.quote, _this.$el, quote.id);
+
         view.render(quote);
 
         _this.quotes.push(view);

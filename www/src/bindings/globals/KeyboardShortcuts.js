@@ -1,12 +1,6 @@
-'use strict';
-
 require('jquery');
 
-module.exports = function () {
-    global.keyboardShort = keyboardShort;
-};
-
-var keyboardShort = function() {
+module.exports = function() {
 
     var $sections = $('.article'),
         $animContainer = $('html, body'),

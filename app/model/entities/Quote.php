@@ -502,6 +502,7 @@ class Quote extends BaseEntity implements IRateable, \JsonSerializable
             $comment['author'] = $c->getUser()->getUsername();
             $comment['down'] = $c->getRatingDown();
             $comment['up'] = $c->getRatingUp();
+            $comment['text'] = Strings::truncate($c->getText(), 50);
 
             $top_comments[$i] = $comment;
             $i++;
@@ -513,7 +514,13 @@ class Quote extends BaseEntity implements IRateable, \JsonSerializable
             'rating' => $this->rating,
             'text' => $this->text,
             'tags' => $tags,
+            'posted' => $this->date,
+            'posted_format' => $this->date->format('j.n.Y'),
             'top_comments' => $top_comments,
+            'user' => $this->user ? array(
+                'username' => $this->user->getUsername(),
+                'name' => $this->user->getName()
+            ) : array(),
             'subject' => $this->subject ? array(
                 'id' => $this->subject->getId(),
                 'name' => $this->subject->getName()
