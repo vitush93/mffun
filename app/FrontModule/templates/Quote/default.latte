@@ -1,99 +1,101 @@
 {block content}
-    <div class="row article last detail">
-        <article class="content-item">
-            <div class="col-lg-2 visible-lg">
-            </div>
-            <div class="col-lg-10 col-md-12 col-sm-12 article-content">
-                <section>
-                    {control rateQuote, q => $q->id}
-                    {snippet counts}
-                        <h2>
-                            <a n:if="$q->subject" href="{link Homepage:subject $q->subject->id}" class="q-hash">#</a>
-                            <a href="{link Quote:default $q->getId()}">
-                                {if $q->subject}
-                                    {$q->subject->name}
-                                {else}
-                                    Předmět neuveden
-                                {/if}
-                            </a>
-                            <small n:if="$q->teacher"><a
-                                        href="{link Homepage:teacher $q->teacher->id}">{$q->teacher->getName(true)}</a>
-                            </small>
-                            <br>
-                        </h2>
-                        <span><a href="{link Quote:default $q->getId()}"><span
-                                        id="q-rating-{$q->id}">{$q->getRating()|number:0:'':' '}</span> bodů</a> &nbsp;·&nbsp; <a
-                                href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}
-                            komentářů</a></span>
-                    {/snippet}
+    <div id="content-load"></div>
 
-                    <div class="quote-text">
-                        {!App\Libs\Utils::texy($q->getText())}
-                    </div>
+    {*<div class="row article last detail">*}
+        {*<article class="content-item">*}
+            {*<div class="col-lg-2 visible-lg">*}
+            {*</div>*}
+            {*<div class="col-lg-10 col-md-12 col-sm-12 article-content">*}
+                {*<section>*}
+                    {*{control rateQuote, q => $q->id}*}
+                    {*{snippet counts}*}
+                        {*<h2>*}
+                            {*<a n:if="$q->subject" href="{link Homepage:subject $q->subject->id}" class="q-hash">#</a>*}
+                            {*<a href="{link Quote:default $q->getId()}">*}
+                                {*{if $q->subject}*}
+                                    {*{$q->subject->name}*}
+                                {*{else}*}
+                                    {*Předmět neuveden*}
+                                {*{/if}*}
+                            {*</a>*}
+                            {*<small n:if="$q->teacher"><a*}
+                                        {*href="{link Homepage:teacher $q->teacher->id}">{$q->teacher->getName(true)}</a>*}
+                            {*</small>*}
+                            {*<br>*}
+                        {*</h2>*}
+                        {*<span><a href="{link Quote:default $q->getId()}"><span*}
+                                        {*id="q-rating-{$q->id}">{$q->getRating()|number:0:'':' '}</span> bodů</a> &nbsp;·&nbsp; <a*}
+                                {*href="{link Quote:default $q->getId()}#comments">{$q->getComments()->count()}*}
+                            {*komentářů</a></span>*}
+                    {*{/snippet}*}
 
-                    {if $q->getTags()->count() > 0}
-                        <div class="item-tags">
-                            {foreach $q->getTags() as $tag}
-                                <a href="{link Homepage:tag $tag->id}" class="tag">#{$tag->getTag()}</a>
-                            {/foreach}
-                        </div>
-                    {/if}
+                    {*<div class="quote-text">*}
+                        {*{!App\Libs\Utils::texy($q->getText())}*}
+                    {*</div>*}
 
-                    <div class="item-details">
-                        <p>{if $q->user}{$q->user->username}{else}anonym{/if}{if $q->getDate()->diff(new \DateTime())->days < 20000} &middot; {$q->date->format('j.n.Y')}{/if}</p>
-                    </div>
+                    {*{if $q->getTags()->count() > 0}*}
+                        {*<div class="item-tags">*}
+                            {*{foreach $q->getTags() as $tag}*}
+                                {*<a href="{link Homepage:tag $tag->id}" class="tag">#{$tag->getTag()}</a>*}
+                            {*{/foreach}*}
+                        {*</div>*}
+                    {*{/if}*}
 
-                    <div class="comments" id="comments">
-                        <h3>Komentáře</h3>
-                        {if !$user->isLoggedIn()}<p class="notice">Pro komentování musíš být přihlášený.</p>{/if}
-                        {if $user->isLoggedIn()}
-                            {form postCommentForm, class=>'new-comment-form ajax'}
-                                <div class="comment newcomment clearfix">
-                                    <div class="comment-left">
-                                        <img src="{$basePath}/public/front/avatars/{$info->avatar}" alt="" title=""
-                                             class="img-circle">
-                                    </div>
-                                    <div class="comment-right">
-                                        {input text, class=>'comment-textarea'}
-                                        {input process}
-                                    </div>
-                                </div>
-                            {/form}
-                        {/if}
+                    {*<div class="item-details">*}
+                        {*<p>{if $q->user}{$q->user->username}{else}anonym{/if}{if $q->getDate()->diff(new \DateTime())->days < 20000} &middot; {$q->date->format('j.n.Y')}{/if}</p>*}
+                    {*</div>*}
 
-                        {form commentsForm, class=>'new-reply-form ajax'}
+                    {*<div class="comments" id="comments">*}
+                        {*<h3>Komentáře</h3>*}
+                        {*{if !$user->isLoggedIn()}<p class="notice">Pro komentování musíš být přihlášený.</p>{/if}*}
+                        {*{if $user->isLoggedIn()}*}
+                            {*{form postCommentForm, class=>'new-comment-form ajax'}*}
+                                {*<div class="comment newcomment clearfix">*}
+                                    {*<div class="comment-left">*}
+                                        {*<img src="{$basePath}/public/front/avatars/{$info->avatar}" alt="" title=""*}
+                                             {*class="img-circle">*}
+                                    {*</div>*}
+                                    {*<div class="comment-right">*}
+                                        {*{input text, class=>'comment-textarea'}*}
+                                        {*{input process}*}
+                                    {*</div>*}
+                                {*</div>*}
+                            {*{/form}*}
+                        {*{/if}*}
 
-                        {snippet comments}
-                        {foreach
-                        $em->getRepository(\App\Model\Entities\Comment::class)
-                        ->findBy(['quote' => $q, 'parent' => 0], ['posted' => 'DESC'])
-                        as $comment}
+                        {*{form commentsForm, class=>'new-reply-form ajax'}*}
 
-                            {include 'comment.latte' comment => $comment, class => ''}
+                        {*{snippet comments}*}
+                        {*{foreach*}
+                        {*$em->getRepository(\App\Model\Entities\Comment::class)*}
+                        {*->findBy(['quote' => $q, 'parent' => 0], ['posted' => 'DESC'])*}
+                        {*as $comment}*}
 
-                            {foreach
-                            $em->getRepository(\App\Model\Entities\Comment::class)
-                            ->createQueryBuilder()
-                            ->select('c')
-                            ->from('\App\Model\Entities\Comment', 'c')
-                            ->where('c.parent = :parent')
-                            ->andWhere('c.quote = :q')
-                            ->setParameter('q', $q)
-                            ->setParameter('parent', $comment->id)
-                            ->orderBy('c.posted')
-                            ->getQuery()
-                            ->getResult()
-                            as $reply}
+                            {*{include 'comment.latte' comment => $comment, class => ''}*}
 
-                                {include 'comment.latte' comment => $reply, class => 'child'}
+                            {*{foreach*}
+                            {*$em->getRepository(\App\Model\Entities\Comment::class)*}
+                            {*->createQueryBuilder()*}
+                            {*->select('c')*}
+                            {*->from('\App\Model\Entities\Comment', 'c')*}
+                            {*->where('c.parent = :parent')*}
+                            {*->andWhere('c.quote = :q')*}
+                            {*->setParameter('q', $q)*}
+                            {*->setParameter('parent', $comment->id)*}
+                            {*->orderBy('c.posted')*}
+                            {*->getQuery()*}
+                            {*->getResult()*}
+                            {*as $reply}*}
 
-                            {/foreach}
-                        {/foreach}
-                        {/snippet}
-                        {/form}
-                    </div>
-                </section>
-            </div>
-        </article>
-    </div>
+                                {*{include 'comment.latte' comment => $reply, class => 'child'}*}
+
+                            {*{/foreach}*}
+                        {*{/foreach}*}
+                        {*{/snippet}*}
+                        {*{/form}*}
+                    {*</div>*}
+                {*</section>*}
+            {*</div>*}
+        {*</article>*}
+    {*</div>*}
 {/block}

@@ -12,7 +12,7 @@ use Kdyby\Doctrine\NotImplementedException;
 /**
  * @ORM\Entity
  */
-class Comment extends BaseEntity implements IRateable
+class Comment extends BaseEntity implements IRateable, \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -246,5 +246,21 @@ class Comment extends BaseEntity implements IRateable
     {
         throw new NotImplementedException;
     }
+
+    function jsonSerialize()
+    {
+        return array(
+            'id' => $this->id,
+            'text' => $this->text,
+            'user' => $this->user,
+            'up' => $this->ratingUp,
+            'down' => $this->ratingDown,
+            'diff' => $this->getDiff(),
+            'admin' => ($this->user->getRole() == User::ROLE_ADMIN),
+            'mod' => ($this->user->getRole() == User::ROLE_MODERATOR),
+            'mff' => ($this->user->isMff())
+        );
+    }
+
 
 }

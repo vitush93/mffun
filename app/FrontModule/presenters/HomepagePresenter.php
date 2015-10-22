@@ -98,7 +98,7 @@ class HomepagePresenter extends BasePresenter
         $quotes = $this->quoteRepository->findAllBySubject($id, 10, $this->paginator->getOffset());
         $this->template->quotes = Json::encode($quotes);
         if ($id == null) {
-            $this->template = 'předmět neuveden';
+            $this->template->title = 'předmět neuveden';
         } else {
             $this->template->title = $subj->getName();
         }

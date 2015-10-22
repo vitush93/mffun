@@ -45,6 +45,12 @@ QuoteView.prototype.bindRating = function () {
     this.$el.on('click', '.q-rate', function (e) {
         e.preventDefault();
 
+        if (window.logged_user == undefined || window.logged_user.length == 0) {
+            window.location.href = "/sign/in";
+
+            return;
+        }
+
         if ($(this).hasClass('q-rate-up')) {
             _this.rateUp();
         } else {

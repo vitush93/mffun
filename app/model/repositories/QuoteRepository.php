@@ -262,20 +262,36 @@ class QuoteRepository extends Object
      */
     function allBySubjectQuery($subject, $limit, $offset)
     {
-        return $this->em->createQueryBuilder()
-            ->select('q,t,s')
-            ->from('App\Model\Entities\Quote', 'q')
-            ->leftJoin('q.teacher', 't')
-            ->leftJoin('q.subject', 's')
-            ->where('s.id = :subject')
-            ->andWhere('q.status = :status')
-            ->groupBy('q.id')
-            ->orderBy('q.approved', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->setParameter('subject', $subject)
-            ->setParameter('status', Quote::STATUS_APPROVED)
-            ->getQuery();
+        if ($subject == null) {
+            return $this->em->createQueryBuilder()
+                ->select('q,t,s')
+                ->from('App\Model\Entities\Quote', 'q')
+                ->leftJoin('q.teacher', 't')
+                ->leftJoin('q.subject', 's')
+                ->where('s.id is null')
+                ->andWhere('q.status = :status')
+                ->groupBy('q.id')
+                ->orderBy('q.approved', 'DESC')
+                ->setFirstResult($offset)
+                ->setMaxResults($limit)
+                ->setParameter('status', Quote::STATUS_APPROVED)
+                ->getQuery();
+        } else {
+            return $this->em->createQueryBuilder()
+                ->select('q,t,s')
+                ->from('App\Model\Entities\Quote', 'q')
+                ->leftJoin('q.teacher', 't')
+                ->leftJoin('q.subject', 's')
+                ->where('s.id = :subject')
+                ->andWhere('q.status = :status')
+                ->groupBy('q.id')
+                ->orderBy('q.approved', 'DESC')
+                ->setFirstResult($offset)
+                ->setMaxResults($limit)
+                ->setParameter('subject', $subject)
+                ->setParameter('status', Quote::STATUS_APPROVED)
+                ->getQuery();
+        }
     }
 
     /**

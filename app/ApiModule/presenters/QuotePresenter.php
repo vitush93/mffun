@@ -2,10 +2,13 @@
 
 namespace App\ApiModule\Presenters;
 
+use App\Model\Entities\Comment;
 use App\Model\Repositories\QuoteRepository;
 use App\Model\Services\RatingService;
 use Doctrine\ORM\Query;
+use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Presenter;
+use Nette\Utils\Json;
 
 class QuotePresenter extends Presenter
 {
@@ -14,6 +17,9 @@ class QuotePresenter extends Presenter
 
     /** @var RatingService @inject */
     public $ratingService;
+
+    /** @var EntityManager @inject */
+    public $em;
 
     /**
      * [/api/quote/?limit=X&offset=Y]
@@ -24,6 +30,18 @@ class QuotePresenter extends Presenter
     function actionDefault($limit = 10, $offset = 0)
     {
         $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_LATEST);
+
+        $this->sendJson($q);
+    }
+
+    /**
+     * [/api/quote/single/X]
+     *
+     * @param $id
+     */
+    function actionSingle($id)
+    {
+        $q = $this->quoteRepository->find($id);
 
         $this->sendJson($q);
     }
