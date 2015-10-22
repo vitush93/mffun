@@ -8,9 +8,9 @@ module.exports = function () {
         $(this).parent('.flash').remove();
     });
 
-    $('#share-icons').bind('click mouseover', function () {
+    $('#share-icons').bind('click', function () {
         $('#bar-social').load('/public/front/social.html');
-        $(this).unbind('click mouseover');
+        $(this).unbind('click');
     });
 
     footerScroll.init();
