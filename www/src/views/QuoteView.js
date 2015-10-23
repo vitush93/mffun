@@ -23,10 +23,10 @@ QuoteView.prototype.init = function () {
 };
 
 QuoteView.prototype.hasRated = function (value) {
-    var _this = this;
-    return _.some(window.logged_user.q_ratings, function (item) {
-        return item.q_id == _this.id && item.value == value;
-    });
+    //var _this = this; TODO use localStorage instead
+    //return _.some(window.logged_user.q_ratings, function (item) {
+    //    return item.q_id == _this.id && item.value == value;
+    //});
 };
 
 QuoteView.prototype.render = function (data) {
@@ -34,10 +34,18 @@ QuoteView.prototype.render = function (data) {
     //data.rated_down = this.hasRated(-1);
 
     data.logged_user = window.logged_user;
-    var html = this.template(data);
 
-    this.$el.html(html);
-    this.$container.append(this.$el);
+    var _this = this;
+    $.getJSON('http://fun.dev/api/?presenter=Comment&action=quote&id=587', function (comments) {
+        data.comments = comments;
+        data.root_comments = comments[0];
+        console.log(comments);
+
+        var html = _this.template(data);
+
+        _this.$el.html(html);
+        _this.$container.append(_this.$el);
+    });
 };
 
 QuoteView.prototype.bindRating = function () {

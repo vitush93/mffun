@@ -24,8 +24,6 @@ EndlessScroll.prototype.interval = 200;
 EndlessScroll.prototype.bottomOffset = 1000;
 
 EndlessScroll.prototype.callback = function () {
-    console.log('Scrolled!');
-
     this.lock = false;
 };
 

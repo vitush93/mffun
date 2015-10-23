@@ -59,6 +59,13 @@
                         <p class="notice">Pro komentování musíš být přihlášený.</p>
                     {{/if}}
 
+                    {{#each root_comments}}
+                        {{text}}
+                        {{#each (lookup comments id)}}
+                            {{text}}
+                        {{/each}}
+                    {{/each}}
+
                     <!--
                     {form commentsForm, class=>'new-reply-form ajax'}
 
