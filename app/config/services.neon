@@ -1,6 +1,7 @@
 services:
     # repositories
     - App\Model\Repositories\QuoteRepository
+    - App\Model\Repositories\CommentRepository
 
     # services
     - App\Model\Services\AuthenticationService

@@ -2,40 +2,47 @@
 
 namespace App\ApiModule\Presenters;
 
-use App\Model\Entities\Comment;
-use App\Model\Entities\Quote;
-use Kdyby\Doctrine\EntityManager;
-use Nette\Application\UI\Presenter;
+use App\Model\Repositories\CommentRepository;
 
-class CommentPresenter extends Presenter
+class CommentPresenter extends BasePresenter
 {
-    /** @var EntityManager @inject */
-    public $em;
+    /** @var CommentRepository @inject */
+    public $commentRepository;
 
+    /**
+     * Fetch first 10 comments its children (3 per comment max).
+     *
+     * @param int $id Quote id.
+     */
     function actionQuote($id)
     {
-        $q = $this->em->getRepository(Quote::class)->find($id);
+        $comments = $this->commentRepository->quoteComments($id);
 
-        $comments = $this->em->getRepository(Comment::class)->findBy(array(
-            'quote' => $q,
-            'parent' => 0
-        ), array('posted' => 'DESC'));
+        $this->sendJson($comments);
+    }
 
-        $arr[0] = $comments;
+    /**
+     * @param int $id Comment id.
+     * @param $limit
+     * @param $offset
+     */
+    function actionThread($id, $limit = 3, $offset = 0)
+    {
+        $comments = $this->commentRepository->thread($id, $limit, $offset);
 
-        /** @var Comment $c */
-        foreach ($comments as $c) {
+        $this->sendJson($comments);
+    }
 
-            /** @var Comment $child */
-            foreach ($this->em->getRepository(Comment::class)->findBy(array(
-                'quote' => $q,
-                'parent' => $c->getId()
-            )) as $child) {
-                $index = $c->getId();
-                $arr[$index][] = $child;
-            }
+    function actionPost($id = NULL, $quote = NULL)
+    {
+        if ($id == NULL && $quote == NULL) {
+            $this->error('No comment id nor quote id provided.');
         }
 
-        $this->sendJson($arr);
+        if (!$this->request->isMethod('POST')) {
+            $this->error('Incorrect method: '.$this->request->method.'. Use POST instead.');
+        }
+
+        dump($this->request->getPost()); // TODO
     }
 }

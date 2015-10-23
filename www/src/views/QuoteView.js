@@ -33,19 +33,9 @@ QuoteView.prototype.render = function (data) {
     //data.rated_up = this.hasRated(1); TODO use localStorage instead
     //data.rated_down = this.hasRated(-1);
 
-    data.logged_user = window.logged_user;
-
-    var _this = this;
-    $.getJSON('http://fun.dev/api/?presenter=Comment&action=quote&id=587', function (comments) {
-        data.comments = comments;
-        data.root_comments = comments[0];
-        console.log(comments);
-
-        var html = _this.template(data);
-
-        _this.$el.html(html);
-        _this.$container.append(_this.$el);
-    });
+    var html = this.template(data);
+    this.$el.html(html);
+    this.$container.append(this.$el);
 };
 
 QuoteView.prototype.bindRating = function () {

@@ -90,6 +90,7 @@ class QuoteRepository extends Object
      * @param int $qid quote id
      * @param int $uid user id
      * @param int $parentid parent comment
+     * @deprecated
      */
     public function postComment($text, $qid, $uid, $parentid = null)
     {
