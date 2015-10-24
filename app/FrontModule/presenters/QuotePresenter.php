@@ -7,6 +7,7 @@ use App\FrontModule\Components\IRateQuoteControlFactory;
 use App\FrontModule\Components\RateCommentControl;
 use App\FrontModule\Components\RateQuoteControl;
 use App\Model\Entities\Quote;
+use App\Model\Repositories\CommentRepository;
 use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
@@ -30,6 +31,9 @@ class QuotePresenter extends BasePresenter
     /** @var QuoteRepository @inject */
     public $quoteRepository;
 
+    /** @var CommentRepository @inject */
+    public $commentRepository;
+
     /** @var Quote */
     private $quote;
 
@@ -51,6 +55,7 @@ class QuotePresenter extends BasePresenter
     public function renderDefault($id)
     {
         $this->template->quote = Json::encode($this->quote);
+        $this->template->comments = Json::encode($this->commentRepository->quoteComments($id, null, null, null));
         $this->template->em = $this->em;
 
         $og = new ArrayHash();
