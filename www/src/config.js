@@ -26,6 +26,23 @@ module.exports = {
                 return '/api/?presenter=Quote&action=' + action + '&limit=' + limit + '&offset=' + offset;
             }
 
+        },
+
+        comments: function (qid) {
+            return '/api/?presenter=Comment&action=quote&id=' + qid;
+        },
+
+        comment: function (qid, limit, offset) {
+            return '/api/?presenter=Comment&action=thread&id=' + qid + '&limit=' + limit + '&offset=' + offset;
+        },
+
+        newComment: function (qid, comm) {
+            if (comm) {
+                return '/api/?presenter=Comment&action=post&id=' + comm + '&quote=' + qid;
+            } else {
+                return '/api/?presenter=Comment&action=post&quote=' + qid;
+            }
+
         }
     }
 };

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Kdyby\Doctrine\NotImplementedException;
+use Nette\InvalidArgumentException;
 
 /**
  * @ORM\Entity
@@ -114,6 +115,8 @@ class Comment extends BaseEntity implements IRateable, \JsonSerializable
      */
     public function setText($text)
     {
+        if (strlen($text) == 0) throw new InvalidArgumentException('Comment text must be a non-empty string.');
+
         $this->text = $text;
     }
 
@@ -212,7 +215,11 @@ class Comment extends BaseEntity implements IRateable, \JsonSerializable
         $diff = $now->diff($this->posted);
 
         if ($diff->d > 0) {
-            return $diff->d . 'd';
+            if ($diff->d < 3) {
+                return $diff->d . 'd';
+            } else {
+                return $this->posted->format('j.n.Y H:i');
+            }
         } else if ($diff->h > 0) {
             return $diff->h . 'h ' . $diff->i . 'm';
         } else if ($diff->i > 0) {
@@ -251,6 +258,7 @@ class Comment extends BaseEntity implements IRateable, \JsonSerializable
     {
         return array(
             'id' => $this->id,
+            'parent' => $this->parent,
             'text' => $this->text,
             'user' => $this->user,
             'up' => $this->ratingUp,

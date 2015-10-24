@@ -13,6 +13,10 @@ var AppRouter = Backbone.Router.extend({
         'quote/default/:id': 'quoteRoute'
     },
 
+    navigate: function (url) {
+        Backbone.history.loadUrl(url);
+    },
+
     initialize: function () {
         this.bind('route', require('./UserMiddleware'));
     },

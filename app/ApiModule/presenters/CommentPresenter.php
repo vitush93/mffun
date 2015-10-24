@@ -3,20 +3,28 @@
 namespace App\ApiModule\Presenters;
 
 use App\Model\Repositories\CommentRepository;
+use Doctrine\ORM\EntityNotFoundException;
+use Kdyby\Doctrine\EntityManager;
+use Nette\InvalidArgumentException;
 
 class CommentPresenter extends BasePresenter
 {
     /** @var CommentRepository @inject */
     public $commentRepository;
 
+    /** @var EntityManager @inject */
+    public $em;
+
     /**
      * Fetch first 10 comments its children (3 per comment max).
      *
      * @param int $id Quote id.
+     * @param int $limit
+     * @param int $offset
      */
-    function actionQuote($id)
+    function actionQuote($id, $limit = 10, $offset = 0)
     {
-        $comments = $this->commentRepository->quoteComments($id);
+        $comments = $this->commentRepository->quoteComments($id, $limit, $offset, 3);
 
         $this->sendJson($comments);
     }
@@ -33,16 +41,30 @@ class CommentPresenter extends BasePresenter
         $this->sendJson($comments);
     }
 
-    function actionPost($id = NULL, $quote = NULL)
+    /**
+     * @param int $id parent Comment id.
+     * @param null $quote
+     */
+    function actionPost($id = 0, $quote)
     {
-        if ($id == NULL && $quote == NULL) {
-            $this->error('No comment id nor quote id provided.');
-        }
+        if (!$this->user->isLoggedIn()) $this->error('Not authenticated.');
 
-        if (!$this->request->isMethod('POST')) {
-            $this->error('Incorrect method: '.$this->request->method.'. Use POST instead.');
-        }
+        if ($quote == NULL) $this->error('No quote id provided.');
 
-        dump($this->request->getPost()); // TODO
+        if (!$this->request->isMethod('POST')) $this->error('Incorrect method: ' . $this->request->method . '. Use POST instead.');
+
+        try {
+            $new_comment = $this->commentRepository->create($this->request->getPost('text'), $quote, $this->user->id, $id);
+            $this->em->flush();
+
+            $this->sendJson([
+                'success' => true,
+                'comment' => $new_comment
+            ]);
+        } catch (EntityNotFoundException $e) {
+            $this->error($e->getMessage());
+        } catch (InvalidArgumentException $e) {
+            $this->error($e->getMessage());
+        }
     }
 }

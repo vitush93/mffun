@@ -13,19 +13,19 @@ module.exports = function () {
         $('textarea').autogrow();
     });
 
-    $(".new-comment-form textarea").keypress(function (event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            $(".new-comment-form").submit();
-            $(this).val('');
-        }
-    });
+    //$(".new-comment-form textarea").keypress(function (event) {
+    //    if (event.which == 13) {
+    //        event.preventDefault();
+    //        $(".new-comment-form").submit();
+    //        $(this).val('');
+    //    }
+    //});
 
-    $('.new-reply-form').on('keypress', 'textarea', function (event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            $(".new-reply-form").submit();
-            $('.new-reply-form textarea').remove();
-        }
-    });
+    //$('.new-reply-form').on('keypress', 'textarea', function (event) {
+    //    if (event.which == 13) {
+    //        event.preventDefault();
+    //        $(".new-reply-form").submit();
+    //        $('.new-reply-form textarea').remove();
+    //    }
+    //});
 };

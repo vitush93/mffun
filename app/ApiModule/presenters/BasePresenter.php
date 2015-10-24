@@ -11,6 +11,7 @@ abstract class BasePresenter extends Presenter
     public function error($message = NULL, $code = Http\IResponse::S404_NOT_FOUND)
     {
         $this->sendJson([
+            'success' => false,
             'error' => $code,
             'message' => $message
         ]);

@@ -14,8 +14,6 @@ var QuotesView = function ($el) {
 QuotesView.prototype = Object.create(BaseView.prototype);
 QuotesView.prototype.constructor = QuotesView;
 
-QuotesView.prototype.quotes = [];
-
 QuotesView.prototype.$loaderContainer = null;
 
 QuotesView.prototype.endlessScroll = null;
@@ -35,8 +33,6 @@ QuotesView.prototype.addQuoteViews = function (data) {
         var view = new QuoteView(Templates.quote, _this.$el, quote.id);
 
         view.render(quote);
-
-        _this.quotes.push(view);
     });
 };
 

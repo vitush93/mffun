@@ -95,7 +95,7 @@ class BasePresenter extends Presenter
             if ($this->presenter->action == 'in') {
                 $this->redirect('Homepage:default');
             }
-            $this->redirect('this');
+            $this->redirect('Homepage:default');
         } catch (Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage(), 'error');
         }

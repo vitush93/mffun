@@ -42,15 +42,16 @@
                         <form class="new-comment-form">
                             <div class="comment newcomment clearfix">
                                 <div class="comment-left">
-                                    <img src="/public/front/avatars/giraffe_128px.png" alt="" title=""
-                                         class="img-circle">
+                                    <img src="/public/front/avatars/{{logged_user.avatar}}" alt="" title="" class="img-circle">
                                 </div>
+
                                 <div class="comment-right">
-                                <textarea name="text"
-                                          placeholder="napiš něco.."
-                                          maxlength="1000"
-                                          class="comment-textarea"
-                                          style="overflow: hidden; resize: none; height: 50px;"></textarea>
+                                    <textarea name="text"
+                                              data-qid="{{id}}"
+                                              placeholder="napiš něco.."
+                                              maxlength="1000"
+                                              class="comment-textarea"
+                                              style="overflow: hidden; resize: none; height: 50px;"></textarea>
                                     <input type="submit" name="process" value="">
                                 </div>
                             </div>
@@ -59,45 +60,7 @@
                         <p class="notice">Pro komentování musíš být přihlášený.</p>
                     {{/if}}
 
-                    {{#each root_comments}}
-                        {{text}}
-                        {{#each (lookup comments id)}}
-                            {{text}}
-                        {{/each}}
-                    {{/each}}
-
-                    <!--
-                    {form commentsForm, class=>'new-reply-form ajax'}
-
-                    {snippet comments}
-                    {foreach
-                    $em->getRepository(\App\Model\Entities\Comment::class)
-                    ->findBy(['quote' => $q, 'parent' => 0], ['posted' => 'DESC'])
-                    as $comment}
-
-                    {include 'comment.latte' comment => $comment, class => ''}
-
-                    {foreach
-                    $em->getRepository(\App\Model\Entities\Comment::class)
-                    ->createQueryBuilder()
-                    ->select('c')
-                    ->from('\App\Model\Entities\Comment', 'c')
-                    ->where('c.parent = :parent')
-                    ->andWhere('c.quote = :q')
-                    ->setParameter('q', $q)
-                    ->setParameter('parent', $comment->id)
-                    ->orderBy('c.posted')
-                    ->getQuery()
-                    ->getResult()
-                    as $reply}
-
-                    {include 'comment.latte' comment => $reply, class => 'child'}
-
-                    {/foreach}
-                    {/foreach}
-                    {/snippet}
-                    {/form}
-                    -->
+                    <div id="js-comments-load"></div>
                 </div>
             </section>
         </div>

@@ -1,23 +1,36 @@
-<div class="comment {$class} clearfix">
+<div class="comment clearfix{{#if child}} child{{/if}}">
     <div class="comment-left">
-        <img src="{$basePath}/public/front/avatars/{$comment->user->avatar}" alt="" title=""
-             class="img-circle">
+        <img src="/public/front/avatars/{{user.avatar}}" alt="" title="" class="img-circle">
     </div>
     <div class="comment-right">
-        <a {if $comment->user->name}title="{$comment->user->name}"{/if}>{$comment->getUser()->getUsername()}
-            <i class="flag-mff" n:if="$comment->user->mff" title="ověřený matfyzák">MFF</i>
-            <i class="flag-adm" n:if="$comment->user->role == App\Model\Entities\User::ROLE_ADMIN" title="administrátor">ADM</i>
-            <i class="flag-mod" n:if="$comment->user->role == App\Model\Entities\User::ROLE_MODERATOR" title="moderátor">MOD</i>
-            <span>{$comment->getDiff()}</span></a>
+        <a title="{{user.name}}">
+            {{user.username}}
+
+            {{#if user.mff}}<i class="flag-mff" title="ověřený matfyzák">MFF</i>{{/if}}
+
+            {{#if user.isAdmin}}<i class="flag-adm" title="administrátor">ADM</i>{{/if}}
+
+            {{#if user.isMod}}<i class="flag-mod" title="moderátor">MOD</i>{{/if}}
+
+            <span>{{diff}}</span></a>
 
         <p>
-            {$comment->getText()}
+            {{text}}
         </p>
 
         <div class="comment-controls">
-            {control rateComment, cid => $comment->id, up => $comment->getRatingUp(), down => $comment->getRatingDown()}
-            {if !$class && $user->isLoggedIn()}<a href="" class="reply" data-reply="{$comment->id}">
-                    reagovat</a>{/if}
+
+            <a href="" class="rate up  active" data-cid="1" data-rate="up">
+                <i class="fa fa-thumbs-up"></i>
+                <span id="c-ups-1">1</span>
+            </a>
+
+            <a href="" class="rate down  " data-cid="1" data-rate="down">
+                <i class="fa fa-thumbs-down"></i>
+                <span id="c-downs-1">0</span>
+            </a>
+
+            {{#if show_reply}}<a href="" class="reply" data-reply="1">reagovat</a>{{/if}}
         </div>
     </div>
 </div>

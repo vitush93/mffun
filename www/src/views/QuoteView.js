@@ -19,7 +19,7 @@ QuoteView.prototype.init = function () {
     this.$el = $('<div></div>');
     this.$el.addClass('js-quote-view');
 
-    this.bindRating();
+    this.rateQuote();
 };
 
 QuoteView.prototype.hasRated = function (value) {
@@ -38,7 +38,7 @@ QuoteView.prototype.render = function (data) {
     this.$container.append(this.$el);
 };
 
-QuoteView.prototype.bindRating = function () {
+QuoteView.prototype.rateQuote = function () {
     var _this = this;
     this.$el.on('click', '.q-rate', function (e) {
         e.preventDefault();

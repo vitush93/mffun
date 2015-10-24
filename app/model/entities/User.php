@@ -458,7 +458,10 @@ class User extends BaseEntity implements \JsonSerializable
         return array(
             'username' => $this->username,
             'name' => $this->name,
+            'avatar' => $this->avatar,
             'email' => $this->email,
+            'mff' => $this->mff,
+            'role' => $this->role,
             'q_ratings' => $this->quote_ratings->toArray(),
             'c_ratings' => $this->comment_ratings->toArray()
         );
