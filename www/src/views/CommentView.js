@@ -1,8 +1,9 @@
 var BaseView = require('./BaseView');
 
-var CommentView = function (template, $el) {
+var CommentView = function (template, $el, id) {
     this.template = template;
     this.$container = $el;
+    this.id = id;
 
     this.init();
 };

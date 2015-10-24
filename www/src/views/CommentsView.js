@@ -38,7 +38,7 @@ CommentsView.prototype.postComment = function () {
             },
             success: function (data) {
                 if (data.success) {
-                    var newComment = new CommentView(Templates.comment, _this.$el);
+                    var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id);
                     var html = newComment.render(data.comment, true);
 
                     _this.$el.prepend(html);
