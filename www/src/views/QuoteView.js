@@ -33,6 +33,7 @@ QuoteView.prototype.render = function (data) {
     //data.rated_up = this.hasRated(1); TODO use localStorage instead
     //data.rated_down = this.hasRated(-1);
 
+    data.base_url = window.base_url;
     var html = this.template(data);
     this.$el.html(html);
     this.$container.append(this.$el);

@@ -7,3 +7,4 @@ require('./AvatarPicker')();
 require('./Global')();
 require('./AddQuote')();
 require('./Comments')();
+require('./Share')();

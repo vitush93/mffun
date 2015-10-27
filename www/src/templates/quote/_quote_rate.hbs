@@ -14,9 +14,32 @@
             <i class="fa fa-comment"></i>&nbsp;&nbsp;{{comment_count}}
         </a>
 
-        <a href=""  class="share-button">
+        <a href="" class="share-button js-share" data-quote="{{id}}">
             <i class="fa fa-share-alt"></i>
         </a>
+
+        <ul class="dropdown-menu share-dropdown">
+            <li>
+                <a href="javascript:void(0)"
+                   onclick="window.open('http://www.facebook.com/sharer/sharer.php?u={{base_url}}quote/default/{{id}}&t=MFFun', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');">
+                    <i class="fa fa-facebook"></i> Facebook
+                </a>
+            </li>
+
+            <li>
+                <a href="javascript:void(0)"
+                        onclick="window.open('https://twitter.com/home?status={{base_url}}quote/default/{{id}}', 'twitter_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no')">
+                    <i class="fa fa-twitter"></i> Twitter
+                </a>
+            </li>
+
+            <li>
+                <a href="javascript:void(0)"
+                        onclick="window.open('https://plus.google.com/share?url={{base_url}}quote/default/{{id}}', 'gplus_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no')">
+                    <i class="fa fa-google-plus"></i> Google+
+                </a>
+            </li>
+        </ul>
     </div>
 
     <div style="clear: both;"></div>
