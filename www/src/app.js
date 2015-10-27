@@ -1,7 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 
 require('bootstrap');
-require('./bindings/globals');
+require('./bindings');
 
 var Backbone = require('backbone');
 var AppRouter = require('./router/AppRouter');

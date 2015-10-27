@@ -1,5 +1,3 @@
-var Templates = require('../../templates');
-
 module.exports = function () {
     $(document).on('click', function (e) {
         $('.share-dropdown').hide();
