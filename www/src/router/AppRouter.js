@@ -1,4 +1,6 @@
 var Backbone = require('backbone');
+var IndexController = require('../controllers/IndexController');
+var QuoteController = require('../controllers/QuoteController');
 
 var AppRouter = Backbone.Router.extend({
 
@@ -6,9 +8,15 @@ var AppRouter = Backbone.Router.extend({
 
         '': 'homeRoute',
 
-        'homepage/:action': 'homeRoute',
+        '?p=:page': 'homeRoute',
 
-        'homepage/:action/:id': 'homeRoute',
+        'homepage/:action': 'actionRoute',
+
+        'homepage/:action?p=:page': 'actionRoute',
+
+        'homepage/:action/:id': 'actionIdRoute',
+
+        'homepage/:action/:id?p=:page': 'actionIdRoute',
 
         'quote/default/:id': 'quoteRoute'
     },
@@ -21,9 +29,38 @@ var AppRouter = Backbone.Router.extend({
         this.bind('route', require('./UserMiddleware'));
     },
 
-    quoteRoute: require('../controllers/QuoteController'),
+    quoteRoute: QuoteController,
 
-    homeRoute: require('../controllers/IndexController')
+    homeRoute: function (page) {
+        if (page) {
+            page = this.parsePage(page);
+        }
+
+        IndexController(null, null, page);
+    },
+
+    actionRoute: function (action, page) {
+        if (page) {
+            page = this.parsePage(page);
+        }
+
+        IndexController(action, null, page);
+    },
+
+    actionIdRoute: function (action, id, page) {
+        if (page) {
+            page = this.parsePage(page);
+        }
+
+        IndexController(action, id, page);
+    },
+
+    parsePage: function (page) {
+        page = page.split('=');
+
+        return page[1];
+    }
+
 });
 
 module.exports = AppRouter;
