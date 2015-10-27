@@ -9,5 +9,7 @@ var AppRouter = require('./router/AppRouter');
 $(function () {
     new AppRouter();
 
-    Backbone.history.start();
+    Backbone.history.start({
+        pushState: true
+    });
 });
