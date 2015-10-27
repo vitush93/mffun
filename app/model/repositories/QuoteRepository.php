@@ -78,7 +78,9 @@ class QuoteRepository extends Object
         $q = $this->em->createQuery('
         select t, size(t.quotations) as density
         from App\Model\Entities\Tag t
+        join t.quotations q
         where size(t.quotations) > 0
+        and q.approved is not null
         ');
 
 
