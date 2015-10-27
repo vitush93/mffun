@@ -5,8 +5,10 @@ var Templates = require('../templates');
 var EndlessScroll = require('../helpers/EndlessScroll');
 var config = require('../config');
 
-var QuotesView = function ($el) {
+var QuotesView = function ($el, action, id) {
     this.$el = $el;
+    this.action = action;
+    this.id = id;
 
     this.init();
 };
@@ -19,6 +21,10 @@ QuotesView.prototype.$loaderContainer = null;
 QuotesView.prototype.endlessScroll = null;
 
 QuotesView.prototype.currentLoad = 1;
+
+QuotesView.prototype.action = 'default';
+
+QuotesView.prototype.id = 0;
 
 QuotesView.prototype.init = function () {
     this.$loaderContainer = $('#js-loader-container');
@@ -47,7 +53,7 @@ QuotesView.prototype.bindScrollLoad = function () {
     _this.endlessScroll.callback = function () {
         if (_this.currentLoad == config.endlessScroll.maxLoadsPerPage) {
             _this.$loaderContainer.html(Templates.more({
-                action: window.action,
+                action: _this.action,
                 page: (1 + Number(_this.getPage()))
             }));
 
@@ -55,7 +61,7 @@ QuotesView.prototype.bindScrollLoad = function () {
         }
         _this.$loaderContainer.html(Templates.loader());
 
-        $.getJSON(config.api.quotes(_this.getAction(), config.endlessScroll.itemsPerLoad, _this.getOffset(), window.url_id), function (data) {
+        $.getJSON(config.api.quotes(_this.action, config.endlessScroll.itemsPerLoad, _this.getOffset(), _this.id), function (data) {
             if (data.length == 0) {
                 _this.$loaderContainer.html(Templates.end());
 
@@ -72,10 +78,6 @@ QuotesView.prototype.bindScrollLoad = function () {
             _this.$loaderContainer.html(Templates.reload());
         });
     }
-};
-
-QuotesView.prototype.getAction = function () {
-    return window.action;
 };
 
 QuotesView.prototype.getPage = function () {
