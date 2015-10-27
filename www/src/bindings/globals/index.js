@@ -7,4 +7,3 @@ require('./AvatarPicker')();
 require('./Global')();
 require('./AddQuote')();
 require('./Comments')();
-//TODO refactor require('./Rating')();

@@ -1,4 +1,4 @@
-<div class="comment clearfix{{#if child}} child{{/if}}">
+<div class="comment clearfix{{#if child}} child js-child-{{parent}}{{/if}}">
     <div class="comment-left">
         <img src="/public/front/avatars/{{user.avatar}}" alt="" title="" class="img-circle">
     </div>
@@ -30,7 +30,7 @@
                 <span>0</span>
             </a>
 
-            {{#if show_reply}}<a href="" class="reply">reagovat</a>{{/if}}
+            {{#if show_reply}}<a href="" data-quote="{{qid}}" data-parent="{{id}}" class="reply">reagovat</a>{{/if}}
         </div>
     </div>
 </div>

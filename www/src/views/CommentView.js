@@ -1,9 +1,11 @@
 var BaseView = require('./BaseView');
+var config = require('../config');
 
-var CommentView = function (template, $el, id) {
+var CommentView = function (template, $el, id, parent) {
     this.template = template;
     this.$container = $el;
     this.id = id;
+    this.parent = parent;
 
     this.init();
 };
@@ -15,38 +17,11 @@ CommentView.prototype.$container = null;
 
 CommentView.prototype.id = 0;
 
+CommentView.prototype.parent = 0;
+
 CommentView.prototype.init = function () {
     this.$el = $('<div></div>');
     this.$el.addClass('js-comment-view');
-
-    this.showResponseBox();
-    this.postReply();
-};
-
-CommentView.prototype.postReply = function () {
-    $('body').on('keyup', '.js-post-reply', function (e) {
-        if (e.keyCode != 13) return;
-
-        $(this).after('<p>test</p>');
-        $(this).remove();
-        // TODO post a reply
-    });
-};
-
-CommentView.prototype.showResponseBox = function () {
-    var _this = this;
-    $('body').on('click', '.reply', function (e) {
-        e.preventDefault();
-
-        var replyButton = _this.$el.find('.reply')[0];
-        if (e.target != replyButton) return;
-
-        $(this).parent('div').append('<textarea maxlength="1000" class="js-post-reply" name="reply-content"></textarea>');
-
-        var textarea = $('textarea');
-        textarea.focus();
-        textarea.autogrow();
-    });
 };
 
 CommentView.prototype.render = function (data, onlyHTML) {

@@ -15,6 +15,7 @@ CommentsView.prototype.constructor = CommentsView;
 
 CommentsView.prototype.init = function () {
     this.postComment();
+    this.postReply();
 };
 
 CommentsView.prototype.postComment = function () {
@@ -38,10 +39,51 @@ CommentsView.prototype.postComment = function () {
             },
             success: function (data) {
                 if (data.success) {
-                    var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id);
+                    var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id, data.comment.parent);
+
                     var html = newComment.render(data.comment, true);
 
                     _this.$el.prepend(html);
+                }
+            }
+        });
+    });
+};
+
+CommentsView.prototype.postReply = function () {
+    var _this = this;
+    $('body').on('keyup', '.js-post-reply', function (e) {
+        if (e.keyCode != 13) return;
+
+        var qid = $(this).data('quote');
+        var parent = $(this).data('parent');
+        var text = $(this).val();
+
+        var $this = $(this);
+        var url = config.api.newComment(qid, parent);
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: {
+                text: text
+            },
+            success: function (data) {
+                if (data.success) {
+                    var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id, data.comment.parent);
+
+                    data.comment.child = true;
+                    data.comment.isAdmin = (data.comment.user.role == 'admin');
+                    data.comment.isMod = (data.comment.user.role == 'moderator');
+                    var html = newComment.render(data.comment, true);
+
+                    var $children = $('.js-child-' + parent);
+                    if ($children.size() == 0) {
+                        $this.parents('.comment').after(html);
+                    } else {
+                        $children.last().after(html);
+                    }
+
+                    $this.remove();
                 }
             }
         });

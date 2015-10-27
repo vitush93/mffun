@@ -55,7 +55,6 @@ class QuotePresenter extends BasePresenter
     public function renderDefault($id)
     {
         $this->template->quote = Json::encode($this->quote);
-        $this->template->comments = Json::encode($this->commentRepository->quoteComments($id, null, null, null));
         $this->template->em = $this->em;
 
         $og = new ArrayHash();

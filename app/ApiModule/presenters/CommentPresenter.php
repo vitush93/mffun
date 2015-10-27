@@ -19,12 +19,10 @@ class CommentPresenter extends BasePresenter
      * Fetch first 10 comments its children (3 per comment max).
      *
      * @param int $id Quote id.
-     * @param int $limit
-     * @param int $offset
      */
-    function actionQuote($id, $limit = 10, $offset = 0)
+    function actionQuote($id)
     {
-        $comments = $this->commentRepository->quoteComments($id, $limit, $offset, 3);
+        $comments = $this->commentRepository->quoteComments($id);
 
         $this->sendJson($comments);
     }

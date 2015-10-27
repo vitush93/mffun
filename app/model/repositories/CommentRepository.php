@@ -94,7 +94,7 @@ class CommentRepository extends Object
      * @param int $perThread number of responses per thread to get.
      * @return
      */
-    function quoteComments($qid, $limit, $offset, $perThread = 3)
+    function quoteComments($qid, $limit = null, $offset = null, $perThread = null)
     {
         $q = $this->em->getRepository(Quote::class)->find($qid);
 

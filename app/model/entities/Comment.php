@@ -116,6 +116,7 @@ class Comment extends BaseEntity implements IRateable, \JsonSerializable
     public function setText($text)
     {
         if (strlen($text) == 0) throw new InvalidArgumentException('Comment text must be a non-empty string.');
+        if (strlen($text) > 1000) throw new InvalidArgumentException('Max comment length is 1000 characters.');
 
         $this->text = $text;
     }
@@ -258,6 +259,7 @@ class Comment extends BaseEntity implements IRateable, \JsonSerializable
     {
         return array(
             'id' => $this->id,
+            'qid' => $this->quote->getId(),
             'parent' => $this->parent,
             'text' => $this->text,
             'user' => $this->user,
