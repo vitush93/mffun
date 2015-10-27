@@ -19,6 +19,10 @@ module.exports = {
             return '/api/?presenter=Quote&action=rateDown&id=' + qid;
         },
 
+        rateComment: function (rate, id) {
+            return '/api/?presenter=Comment&action=rate&id=' + id + '&rate=' + rate;
+        },
+
         quotes: function (action, limit, offset, url_id) {
             if (url_id) {
                 return '/api/?presenter=Quote&action=' + action + '&limit=' + limit + '&offset=' + offset + '&id=' + url_id;

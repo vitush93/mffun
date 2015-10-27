@@ -112,14 +112,6 @@ QuotesView.prototype.loaderSpinner = function () {
     this.$loaderContainer.html(Templates.loader());
 };
 
-QuotesView.prototype.getPage = function () {
-    if (window.page.length == 0) {
-        return 1;
-    }
-
-    return window.page;
-};
-
 QuotesView.prototype.getOffset = function () {
     var itemsPerPage = config.endlessScroll.itemsPerLoad * config.endlessScroll.maxLoadsPerPage;
     var pageOffset = (this.page - 1) * itemsPerPage;

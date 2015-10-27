@@ -16,6 +16,34 @@ CommentsView.prototype.constructor = CommentsView;
 CommentsView.prototype.init = function () {
     this.postComment();
     this.postReply();
+    this.rate();
+};
+
+CommentsView.prototype.rate = function () {
+    $(document).on('click', '.rate', function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+
+        var rate = $this.data('rate');
+        var comment_id = $this.data('comment');
+
+        $.getJSON(config.api.rateComment(rate, comment_id), function (data) {
+            if (data.success == false) return;
+
+            var $parent = $this.parents('.comment-controls');
+
+            $parent.find('.up span').html(data.up);
+            $parent.find('.down span').html(data.down);
+
+            if ($this.hasClass('active')) {
+                $this.removeClass('active');
+            } else {
+                $this.parents('.comment-controls').find('.rate').removeClass('active');
+                $this.toggleClass('active');
+            }
+        });
+    });
 };
 
 CommentsView.prototype.postComment = function () {
@@ -38,13 +66,12 @@ CommentsView.prototype.postComment = function () {
                 text: text
             },
             success: function (data) {
-                if (data.success) {
-                    var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id, data.comment.parent);
+                if (data.success == false) return;
 
-                    var html = newComment.render(data.comment, true);
+                var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id, data.comment.parent);
+                var html = newComment.render(data.comment, true);
 
-                    _this.$el.prepend(html);
-                }
+                _this.$el.prepend(html);
             }
         });
     });
@@ -68,23 +95,23 @@ CommentsView.prototype.postReply = function () {
                 text: text
             },
             success: function (data) {
-                if (data.success) {
-                    var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id, data.comment.parent);
+                if (data.success == false) return;
 
-                    data.comment.child = true;
-                    data.comment.isAdmin = (data.comment.user.role == 'admin');
-                    data.comment.isMod = (data.comment.user.role == 'moderator');
-                    var html = newComment.render(data.comment, true);
+                var newComment = new CommentView(Templates.comment, _this.$el, data.comment.id, data.comment.parent);
 
-                    var $children = $('.js-child-' + parent);
-                    if ($children.size() == 0) {
-                        $this.parents('.comment').after(html);
-                    } else {
-                        $children.last().after(html);
-                    }
+                data.comment.child = true;
+                data.comment.isAdmin = (data.comment.user.role == 'admin');
+                data.comment.isMod = (data.comment.user.role == 'moderator');
+                var html = newComment.render(data.comment, true);
 
-                    $this.remove();
+                var $children = $('.js-child-' + parent);
+                if ($children.size() == 0) {
+                    $this.parents('.comment').after(html);
+                } else {
+                    $children.last().after(html);
                 }
+
+                $this.remove();
             }
         });
     });

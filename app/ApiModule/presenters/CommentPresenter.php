@@ -2,7 +2,10 @@
 
 namespace App\ApiModule\Presenters;
 
+use App\Model\Entities\Comment;
+use App\Model\Entities\User;
 use App\Model\Repositories\CommentRepository;
+use App\Model\Services\RatingService;
 use Doctrine\ORM\EntityNotFoundException;
 use Kdyby\Doctrine\EntityManager;
 use Nette\InvalidArgumentException;
@@ -11,6 +14,9 @@ class CommentPresenter extends BasePresenter
 {
     /** @var CommentRepository @inject */
     public $commentRepository;
+
+    /** @var RatingService @inject */
+    public $ratingService;
 
     /** @var EntityManager @inject */
     public $em;
@@ -37,6 +43,29 @@ class CommentPresenter extends BasePresenter
         $comments = $this->commentRepository->thread($id, $limit, $offset);
 
         $this->sendJson($comments);
+    }
+
+    function actionRate($id, $rate)
+    {
+        if (!$this->user->isLoggedIn()) $this->error('Not authenticated');
+
+        if ($rate != 'up' && $rate != 'down') $this->error('Rate parameter can be either "up" or "down"');
+
+        /** @var Comment $comment */
+        $comment = $this->em->find(Comment::class, $id);
+        if (!$comment) $this->error('Entity not found.');
+
+        /** @var User $user */
+        $user = $this->em->find(User::class, $this->user->id);
+
+        $this->ratingService->rateComment($comment, $user, ($rate == 'up'));
+        $this->em->flush();
+
+        $this->sendJson([
+            'success' => true,
+            'up' => $comment->getRatingUp(),
+            'down' => $comment->getRatingDown()
+        ]);
     }
 
     /**

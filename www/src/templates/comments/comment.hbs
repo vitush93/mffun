@@ -20,14 +20,14 @@
 
         <div class="comment-controls">
 
-            <a href="" class="rate up{{#if rated_up}} active{{/if}}" data-rate="up">
+            <a href="" class="rate up{{#if rated_up}} active{{/if}}" data-comment="{{id}}" data-rate="up">
                 <i class="fa fa-thumbs-up"></i>
-                <span>1</span>
+                <span>{{up}}</span>
             </a>
 
-            <a href="" class="rate down{{#if rated_down}} active{{/if}}" data-rate="down">
+            <a href="" class="rate down{{#if rated_down}} active{{/if}}" data-comment="{{id}}" data-rate="down">
                 <i class="fa fa-thumbs-down"></i>
-                <span>0</span>
+                <span>{{down}}</span>
             </a>
 
             {{#if show_reply}}<a href="" data-quote="{{qid}}" data-parent="{{id}}" class="reply">reagovat</a>{{/if}}
