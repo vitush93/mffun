@@ -39,7 +39,6 @@ QuotesView.prototype.page = 1;
 QuotesView.prototype.init = function (opts) {
     this.$loaderContainer = $('#js-loader-container');
 
-    console.log(opts);
     if (!opts || opts.endlessScroll != false) {
         this.bindScrollLoad();
         this.bindRetry();

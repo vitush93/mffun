@@ -8,3 +8,4 @@ require('./Global')();
 require('./AddQuote')();
 require('./Comments')();
 require('./Share')();
+require('./Login')();

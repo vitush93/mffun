@@ -29,7 +29,6 @@ module.exports = {
             } else {
                 return '/api/?presenter=Quote&action=' + action + '&limit=' + limit + '&offset=' + offset;
             }
-
         },
 
         comments: function (qid) {
@@ -46,7 +45,10 @@ module.exports = {
             } else {
                 return '/api/?presenter=Comment&action=post&quote=' + qid;
             }
+        },
 
+        user: function () {
+            return '/api/?presenter=Homepage&action=user';
         }
     }
 };

@@ -92,12 +92,25 @@ class BasePresenter extends Presenter
         try {
             $this->getUser()->login($values->username, $values->password);
             $this->flashMessage('Byl jsi úspěšně přihlášen!', 'success');
-            if ($this->presenter->action == 'in') {
+            if ($this->isAjax()) {
+
+                /** @var User $user */
+                $user = $this->em->find(User::class, $this->user->id);
+                $data = $user->getUserData();
+                $data['success'] = true;
+
+                $this->sendJson($data);
+            } else {
                 $this->redirect('Homepage:default');
             }
-            $this->redirect('Homepage:default');
         } catch (Nette\Security\AuthenticationException $e) {
             $this->flashMessage($e->getMessage(), 'error');
+
+            if ($this->isAjax()) {
+                $this->sendJson([
+                    'success' => false
+                ]);
+            }
         }
     }
 

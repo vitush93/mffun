@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Nette\InvalidArgumentException;
 use Nette\Security\Passwords;
+use Nette\Utils\Json;
 
 /**
  * @ORM\Entity
@@ -456,16 +457,24 @@ class User extends BaseEntity implements \JsonSerializable
     function jsonSerialize()
     {
         return array(
+            'id' => $this->id,
             'username' => $this->username,
             'name' => $this->name,
             'avatar' => $this->avatar,
             'email' => $this->email,
             'mff' => $this->mff,
-            'role' => $this->role,
-            'q_ratings' => $this->quote_ratings->toArray(),
-            'c_ratings' => $this->comment_ratings->toArray()
+            'role' => $this->role
         );
     }
 
+    function getUserData()
+    {
+        $data = $this->jsonSerialize();
+
+        $data['rated_quotes'] = $this->quote_ratings->toArray();
+        $data['rated_comments'] = $this->comment_ratings->toArray();
+
+        return $data;
+    }
 
 }
