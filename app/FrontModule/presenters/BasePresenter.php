@@ -108,7 +108,8 @@ class BasePresenter extends Presenter
 
             if ($this->isAjax()) {
                 $this->sendJson([
-                    'success' => false
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ]);
             }
         }

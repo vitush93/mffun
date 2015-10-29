@@ -4,7 +4,7 @@ require('jquery');
 
 module.exports = function () {
 
-    $('.flash i').on('click', function () {
+    $(document).on('click', '.flash i', function () {
         $(this).parent('.flash').remove();
     });
 

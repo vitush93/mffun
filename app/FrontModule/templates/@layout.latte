@@ -223,11 +223,13 @@
         {block flashes}
             <div class="row">
                 <div class="col-lg-12">
+                    <div id="js-flashes">
                     {if count($flashes) > 0}
                         <div n:foreach="$flashes as $flash" class="clearfix flash {$flash->type}">
                             {$flash->message} <i class="fa fa-times"></i>
                         </div>
                     {/if}
+                    </div>
                 </div>
             </div>
         {/block}

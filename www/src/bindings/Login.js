@@ -1,4 +1,5 @@
 var UserStorage = require('../helpers/UserStorage');
+var FlashMessage = require('../helpers/FlashMessage');
 
 module.exports = function () {
 
@@ -17,11 +18,14 @@ module.exports = function () {
             success: function (data) {
                 if (data.success) {
                     UserStorage.init(data);
-                }
-            },
 
-            complete: function () {
-                window.location.href = '/';
+                    window.location.href = '/';
+                } else {
+                    FlashMessage.show({
+                        type: 'error',
+                        message: data.message
+                    });
+                }
             }
         });
     });
