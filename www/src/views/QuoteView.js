@@ -1,6 +1,8 @@
 var _ = require('underscore');
 var BaseView = require('./BaseView');
 var config = require('../config');
+var UserStorage = require('../helpers/UserStorage');
+UserStorage.init();
 
 var QuoteView = function (template, $el, id) {
     this.$container = $el;
@@ -23,15 +25,13 @@ QuoteView.prototype.init = function () {
 };
 
 QuoteView.prototype.hasRated = function (value) {
-    //var _this = this; TODO use localStorage instead
-    //return _.some(window.logged_user.q_ratings, function (item) {
-    //    return item.q_id == _this.id && item.value == value;
-    //});
+    if (value == 1) return UserStorage.ratedQuoteUp(this.id);
+    else return UserStorage.ratedQuoteDown(this.id);
 };
 
 QuoteView.prototype.render = function (data) {
-    //data.rated_up = this.hasRated(1); TODO use localStorage instead
-    //data.rated_down = this.hasRated(-1);
+    data.rated_up = this.hasRated(1);
+    data.rated_down = this.hasRated(-1);
 
     data.base_url = window.base_url;
     var html = this.template(data);
@@ -70,6 +70,8 @@ QuoteView.prototype.rateUp = function () {
     $.getJSON(config.api.rateUp(this.id), function (res) {
         if (res.success) {
             _this.$el.find('.js-q-rating').html(res.rating);
+
+            UserStorage.rateQuote(_this.id, 'up');
         }
     });
 };
@@ -79,6 +81,8 @@ QuoteView.prototype.rateDown = function () {
     $.getJSON(config.api.rateDown(this.id), function (res) {
         if (res.success) {
             _this.$el.find('.js-q-rating').html(res.rating);
+
+            UserStorage.rateQuote(_this.id, 'down');
         }
     });
 };

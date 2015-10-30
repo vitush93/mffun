@@ -1,5 +1,7 @@
 var BaseView = require('./BaseView');
 var config = require('../config');
+var UserStorage = require('../helpers/UserStorage');
+UserStorage.init();
 
 var CommentView = function (template, $el, id, parent) {
     this.template = template;
@@ -27,6 +29,8 @@ CommentView.prototype.init = function () {
 CommentView.prototype.render = function (data, onlyHTML) {
     data.logged_user = window.logged_user;
     data.show_reply = (window.logged_user && data.parent == 0);
+    data.rated_up = UserStorage.ratedCommentUp(data.id);
+    data.rated_down = UserStorage.ratedCommentDown(data.id);
 
     var html = this.template(data);
 

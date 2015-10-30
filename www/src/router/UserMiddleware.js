@@ -1,4 +1,6 @@
+var UserStorage = require('../helpers/UserStorage');
 
 module.exports = function () {
-    // TODO initialize logged user from localStorage or API
-};
+    UserStorage.init();
+}
+;
