@@ -61,7 +61,7 @@ class HomepagePresenter extends BasePresenter
 
         $quotes = $this->quoteRepository->search($id);
         $this->template->quotes = Json::encode($quotes);
-        // TODO
+
         $this->template->title = "výsledky hledání pro {$id}.";
     }
 

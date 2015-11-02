@@ -4,7 +4,6 @@ var CommentView = require('./CommentView');
 var Templates = require('../templates');
 var config = require('../config');
 var UserStorage = require('../helpers/UserStorage');
-UserStorage.init();
 
 var CommentsView = function ($el) {
     this.$el = $el;
@@ -45,7 +44,11 @@ CommentsView.prototype.rate = function () {
                 $this.toggleClass('active');
             }
 
-            UserStorage.rateComment(comment_id, rate);
+            if (rate == 'up') {
+                UserStorage.rateComment(comment_id, 1);
+            } else if (rate == 'down') {
+                UserStorage.rateComment(comment_id, -1);
+            }
         });
     });
 };

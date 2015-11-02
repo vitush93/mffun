@@ -29,8 +29,6 @@ class DoctrineForm extends Form
                         $control->setValue($entity->$method());
                     }
                 }
-            } elseif ($control instanceof Container) {
-                // TODO
             }
         }
 

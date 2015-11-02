@@ -2,125 +2,85 @@ var _ = require('underscore');
 var Lockr = require('lockr');
 var config = require('../config');
 
-var UserStorage = {
+var UserStorage = (function () {
 
-    data: null,
-
-    namespace: null,
-
-    init: function (data) {
-        if (data == null) {
-            if (this.isLoggedIn()) {
-                this.setNamespace(window.logged_user.id);
-
-                this.data = Lockr.get(this.namespace);
-            }
-        } else {
-            this.data = data;
-            this.setNamespace(data.id);
-
-            this.flush();
+    /**
+     * Gets correct localStorage index.
+     *
+     * @param type
+     * @param value
+     * @returns {string}
+     */
+    function resolveIndex(type, value) {
+        if (type == 'comment') {
+            return value == 1 ? config.cache.commentRatingsPositive : config.cache.commentRatingsNegative;
+        } else if (type == 'quote') {
+            return value == 1 ? config.cache.quoteRatingsPositive : config.cache.quoteRatingsNegative;
         }
-    },
-
-    ratedCommentUp: function (comment_id) {
-        if (!this.isLoggedIn()) return false;
-
-        var ratings = this.getCommentRatings();
-
-        return _.some(ratings, function (item) {
-            return item.c_id == comment_id && item.value == 1;
-        });
-    },
-
-    ratedCommentDown: function (comment_id) {
-        if (!this.isLoggedIn()) return false;
-
-        var ratings = this.getCommentRatings();
-
-        return _.some(ratings, function (item) {
-            return item.c_id == comment_id && item.value == -1;
-        });
-    },
-
-    ratedQuoteUp: function (quote_id) {
-        if (!this.isLoggedIn()) return false;
-
-        var ratings = this.getQuoteRatings();
-
-        return _.some(ratings, function (item) {
-            return item.q_id == quote_id && item.value == 1;
-        })
-    },
-
-    ratedQuoteDown: function (quote_id) {
-        if (!this.isLoggedIn()) return false;
-
-        var ratings = this.getQuoteRatings();
-
-        return _.some(ratings, function (item) {
-            return item.q_id == quote_id && item.value == -1;
-        })
-    },
-
-    setNamespace: function (user_id) {
-        this.namespace = 'User-' + user_id;
-    },
-
-    isLoggedIn: function () {
-        return _.has(window.logged_user, 'id');
-    },
-
-    flush: function () {
-        Lockr.set(this.namespace, this.data);
-    },
-
-    add: function (key, value) {
-        this.data[key].push(value);
-
-        this.flush();
-    },
-
-    rateComment: function (comment_id, rate) {
-        var value = (rate == 'up') ? 1 : -1;
-
-        var rating = {
-            c_id: comment_id,
-            value: value,
-            u_id: window.logged_user.id
-        };
-
-        this.add('rated_comments', rating);
-    },
-
-    rateQuote: function (quote_id, rate) {
-        var value = (rate == 'up') ? 1 : -1;
-
-        var rating = {
-            q_id: quote_id,
-            u_id: window.logged_user.id,
-            value: value
-        };
-
-        this.add('rated_quotes', rating);
-    },
-
-    getCommentRatings: function () {
-        return this.data['rated_comments'];
-    },
-
-    getQuoteRatings: function () {
-        return this.data['rated_quotes'];
-    },
-
-    fetch: function (callback) {
-        var _this = this;
-        $.getJSON(config.api.user(), function (data) {
-            _this = data;
-
-            callback(data);
-        });
     }
-};
+
+    return {
+
+        drop: function () {
+            Lockr.flush();
+        },
+
+        init: function (data) {
+
+            // save all user data
+            Lockr.set(config.cache.user, data);
+
+            // save user's comment ratings
+            _.each(data.rated_comments, function (r) {
+                var index = resolveIndex('comment', r.value);
+
+                Lockr.sadd(index, r.c_id);
+            });
+
+            // save user's quote ratings
+            _.each(data.rated_quotes, function (r) {
+                var index = resolveIndex('quote', r.value);
+
+                Lockr.sadd(index, r.q_id);
+            });
+        },
+
+        ratedComment: function (comment_id, value) {
+            var index = resolveIndex('comment', value);
+
+            return Lockr.sismember(index, comment_id);
+        },
+
+        ratedQuote: function (quote_id, value) {
+            var index = resolveIndex('quote', value);
+
+            return Lockr.sismember(index, quote_id);
+        },
+
+        rateComment: function (comment_id, value) {
+            var index = resolveIndex('comment', value);
+            var remove_index = resolveIndex('comment', -1 * value);
+
+            Lockr.srem(remove_index, comment_id);
+            if (Lockr.sismember(index, comment_id)) {
+                Lockr.srem(index, comment_id);
+            } else {
+                Lockr.sadd(index, comment_id);
+            }
+        },
+
+        rateQuote: function (quote_id, value) {
+            var index = resolveIndex('quote', value);
+            var remove_index = resolveIndex('quote', -1 * value);
+
+            Lockr.srem(remove_index, quote_id);
+            if (Lockr.sismember(index, quote_id)) {
+                Lockr.srem(index, quote_id);
+            } else {
+                Lockr.sadd(index, quote_id);
+            }
+        }
+    }
+})();
 
 module.exports = UserStorage;

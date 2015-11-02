@@ -2,7 +2,6 @@ var _ = require('underscore');
 var BaseView = require('./BaseView');
 var config = require('../config');
 var UserStorage = require('../helpers/UserStorage');
-UserStorage.init();
 
 var QuoteView = function (template, $el, id) {
     this.$container = $el;
@@ -25,8 +24,7 @@ QuoteView.prototype.init = function () {
 };
 
 QuoteView.prototype.hasRated = function (value) {
-    if (value == 1) return UserStorage.ratedQuoteUp(this.id);
-    else return UserStorage.ratedQuoteDown(this.id);
+    return UserStorage.ratedQuote(this.id, value);
 };
 
 QuoteView.prototype.render = function (data) {
@@ -71,7 +69,7 @@ QuoteView.prototype.rateUp = function () {
         if (res.success) {
             _this.$el.find('.js-q-rating').html(res.rating);
 
-            UserStorage.rateQuote(_this.id, 'up');
+            UserStorage.rateQuote(_this.id, 1);
         }
     });
 };
@@ -82,7 +80,7 @@ QuoteView.prototype.rateDown = function () {
         if (res.success) {
             _this.$el.find('.js-q-rating').html(res.rating);
 
-            UserStorage.rateQuote(_this.id, 'down');
+            UserStorage.rateQuote(_this.id, -1);
         }
     });
 };

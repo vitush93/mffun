@@ -2,8 +2,15 @@ module.exports = {
 
     endlessScroll: {
         itemsPerLoad: 10,
-
         maxLoadsPerPage: 10
+    },
+
+    cache: {
+        user: 'cachedUser',
+        quoteRatingsPositive: 'cachedPositiveQuoteRatings',
+        quoteRatingsNegative: 'cachedNegativeQuoteRatings',
+        commentRatingsPositive: 'cachedPositiveCommentRatings',
+        commentRatingsNegative: 'cachedNegativeCommentRatings'
     },
 
     api: {

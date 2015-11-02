@@ -59,8 +59,7 @@ class PasswordRecovery extends BaseEntity
 
     private function generateToken()
     {
-        // TODO better algo
-        return sha1(microtime());
+        return bin2hex(openssl_random_pseudo_bytes(16));
     }
 
     /**

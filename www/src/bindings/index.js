@@ -9,3 +9,4 @@ require('./AddQuote')();
 require('./Comments')();
 require('./Share')();
 require('./Login')();
+require('./Logout');
