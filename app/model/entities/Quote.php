@@ -514,8 +514,8 @@ class Quote extends BaseEntity implements IRateable, \JsonSerializable
             'rating' => $this->rating,
             'text' => $this->text,
             'tags' => $tags,
-            'posted' => $this->date,
-            'posted_format' => $this->date->format('j.n.Y'),
+            'posted' => $this->posted,
+            'posted_format' => $this->posted->format('j.n.Y'),
             'top_comments' => $top_comments,
             'user' => $this->user ? array(
                 'username' => $this->user->getUsername(),
