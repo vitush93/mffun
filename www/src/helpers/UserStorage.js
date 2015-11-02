@@ -51,12 +51,14 @@ var UserStorage = (function () {
 
         ratedComment: function (comment_id, value) {
             var index = resolveIndex('comment', value);
+            comment_id = Number(comment_id);
 
             return Lockr.sismember(index, comment_id);
         },
 
         ratedQuote: function (quote_id, value) {
             var index = resolveIndex('quote', value);
+            quote_id = Number(quote_id);
 
             return Lockr.sismember(index, quote_id);
         },
@@ -64,6 +66,7 @@ var UserStorage = (function () {
         rateComment: function (comment_id, value) {
             var index = resolveIndex('comment', value);
             var remove_index = resolveIndex('comment', -1 * value);
+            comment_id = Number(comment_id);
 
             Lockr.srem(remove_index, comment_id);
             if (Lockr.sismember(index, comment_id)) {
@@ -76,6 +79,7 @@ var UserStorage = (function () {
         rateQuote: function (quote_id, value) {
             var index = resolveIndex('quote', value);
             var remove_index = resolveIndex('quote', -1 * value);
+            quote_id = Number(quote_id);
 
             Lockr.srem(remove_index, quote_id);
             if (Lockr.sismember(index, quote_id)) {
