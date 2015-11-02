@@ -24,6 +24,12 @@ CommentsView.prototype.rate = function () {
     $(document).on('click', '.rate', function (e) {
         e.preventDefault();
 
+        if (UserStorage.user == undefined) {
+            window.location.href = "/sign/in";
+
+            return;
+        }
+
         var $this = $(this);
 
         var rate = $this.data('rate');

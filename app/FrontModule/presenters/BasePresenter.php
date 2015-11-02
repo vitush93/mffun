@@ -13,7 +13,6 @@ use Model;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
-use Nette\Utils\Json;
 
 /**
  * Base presenter for all application's presenter classes.
@@ -64,14 +63,6 @@ class BasePresenter extends Presenter
         $template->tags = $this->quoteRepository->getTagCloud();
         $template->minTag = $this->quoteRepository->getMinTag()[0]['mm'];
         $template->maxTag = $this->quoteRepository->getMaxTag()[0]['mx'];
-
-        if ($this->user->isLoggedIn()) {
-            $user = $this->em->find(User::class, $this->user->id);
-
-            $this->template->logged_user = Json::encode($user);
-        } else {
-            $this->template->logged_user = Json::encode(array());
-        }
     }
 
     /**

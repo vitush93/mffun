@@ -26,8 +26,8 @@ CommentView.prototype.init = function () {
 };
 
 CommentView.prototype.render = function (data, onlyHTML) {
-    data.logged_user = window.logged_user;
-    data.show_reply = (window.logged_user && data.parent == 0);
+    data.logged_user = UserStorage.user;
+    data.show_reply = UserStorage.user && data.parent == 0;
 
     data.rated_up = UserStorage.ratedComment(data.id, 1);
     data.rated_down = UserStorage.ratedComment(data.id, -1);

@@ -19,7 +19,11 @@ var UserStorage = (function () {
         }
     }
 
+    var cachedUser = Lockr.get(config.cache.user);
+
     return {
+
+        user: cachedUser,
 
         drop: function () {
             Lockr.flush();

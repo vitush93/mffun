@@ -42,7 +42,7 @@ QuoteView.prototype.rateQuote = function () {
     this.$el.on('click', '.q-rate', function (e) {
         e.preventDefault();
 
-        if (window.logged_user == undefined || window.logged_user.length == 0) {
+        if (UserStorage.user == undefined) {
             window.location.href = "/sign/in";
 
             return;
