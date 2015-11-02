@@ -3,6 +3,7 @@
 namespace App\ApiModule\Presenters;
 
 use App\Model\Entities\Comment;
+use App\Model\Entities\Quote;
 use App\Model\Entities\User;
 use App\Model\Repositories\CommentRepository;
 use App\Model\Services\RatingService;
@@ -28,6 +29,11 @@ class CommentPresenter extends BasePresenter
      */
     function actionQuote($id)
     {
+        $quote = $this->em->find(Quote::class, $id);
+        if (!$quote) {
+            $this->error('Quote with id ' . $id . ' was not found.');
+        }
+
         $comments = $this->commentRepository->quoteComments($id);
 
         $this->sendJson($comments);
@@ -40,11 +46,23 @@ class CommentPresenter extends BasePresenter
      */
     function actionThread($id, $limit = 3, $offset = 0)
     {
+        /** @var Comment $comment */
+        $comment = $this->em->find(Comment::class, $id);
+        if (!$comment) {
+            $this->error('Comment with id ' . $id . ' was not found.');
+        } else if ($comment->getParent() > 0) {
+            $this->error('Comment with id ' . $id . ' is not a root comment.');
+        }
+
         $comments = $this->commentRepository->thread($id, $limit, $offset);
 
         $this->sendJson($comments);
     }
 
+    /**
+     * @param int $id Comment id.
+     * @param string $rate either 'up' or 'down'
+     */
     function actionRate($id, $rate)
     {
         if (!$this->user->isLoggedIn()) $this->error('Not authenticated');
@@ -53,7 +71,7 @@ class CommentPresenter extends BasePresenter
 
         /** @var Comment $comment */
         $comment = $this->em->find(Comment::class, $id);
-        if (!$comment) $this->error('Entity not found.');
+        if (!$comment) $this->error('Comment with id ' . $id . ' not found.');
 
         /** @var User $user */
         $user = $this->em->find(User::class, $this->user->id);
