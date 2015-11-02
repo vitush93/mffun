@@ -5,6 +5,7 @@ namespace App\AdminModule\Presenters;
 use App\Model\Entities\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Presenter;
+use Nette\Mail\Message;
 use Nette\Security\IUserStorage;
 
 class BasePresenter extends Presenter
@@ -31,6 +32,22 @@ class BasePresenter extends Presenter
         parent::startup();
 
         $this->detectAccess();
+    }
+
+    /**
+     * @param string $to E-mail address
+     * @param string $subject E-mail subject
+     * @param string $message
+     */
+    public function sendMail($to, $subject, $message)
+    {
+        $mail = new Message();
+        $mail->setFrom('MFFun <noreply@vithabada.cz>')
+            ->addTo($to)
+            ->setSubject($subject)
+            ->setHtmlBody($message);
+
+        $this->mailer->send($mail);
     }
 
     /**

@@ -9,7 +9,6 @@ use App\Model\Repositories\QuoteRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Mail\IMailer;
-use Nette\Mail\Message;
 use Nette\Utils\ArrayHash;
 
 class QuotesPresenter extends BasePresenter
@@ -51,17 +50,6 @@ class QuotesPresenter extends BasePresenter
         } else {
             $this->redirect('default');
         }
-    }
-
-    public function sendMail($to, $subject, $message)
-    {
-        $mail = new Message();
-        $mail->setFrom('MFFun <noreply@vithabada.cz>')
-            ->addTo($to)
-            ->setSubject($subject)
-            ->setHtmlBody($message);
-
-        $this->mailer->send($mail);
     }
 
     /**

@@ -46,6 +46,14 @@ class UzivatelePresenter extends BasePresenter
 
             $admin_email = $logged_admin->getEmail();
             $user->setBan($admin_email);
+
+            if ($user->getEmail()) {
+                /** @var User $admin */
+                $admin = $this->em->find(User::class, $this->user->id);
+
+                $message = 'Byl jsi zabanován administrátorem ' . $admin->getUsername() . '. E-mail administrátora: ' . $admin->getEmail();
+                $this->sendMail($user->getEmail(), 'MFFun - Byl jsi zabanován.', $message);
+            }
         }
 
         $this->em->flush();
