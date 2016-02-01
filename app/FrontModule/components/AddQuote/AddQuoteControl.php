@@ -88,8 +88,13 @@ class AddQuoteControl extends Control
     {
         $data = $form->getValues(true);
 
-        // google recaptcha
-        if (!$this->recaptcha($_POST['g-recaptcha-response'])) throw new BadRequestException;
+        if (!$this->presenter->user->isLoggedIn()) {
+            if (!$this->recaptcha($_POST['g-recaptcha-response'])) {
+                $this->presenter->flashMessage('Potvrď prosím, že nejsi robot.', 'info');
+
+                return;
+            }
+        }
 
         $text = \HTMLPurifier::getInstance()->purify($data['text']);
         if (strlen($text) == 0) {

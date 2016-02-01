@@ -10,7 +10,9 @@
                     <legend>přidat citát</legend>
                     <p n:if="!$user->isLoggedIn()" class="notice">Nejsi přihlášen - citace bude nejprve zaslána ke
                         schválení.</p>
-                    <p n:if="$user->isLoggedIn() && $u->getCrank() <= 0 && $u->role == App\Model\Entities\User::ROLE_USER" class="notice">Nemáš dostatek trust bodů - citace bude nejprve zaslána ke schválení. Trust body dostaneš za schválené citace.</p>
+                    <p n:if="$user->isLoggedIn() && $u->getCrank() <= 0 && $u->role == App\Model\Entities\User::ROLE_USER"
+                       class="notice">Nemáš dostatek trust bodů - citace bude nejprve zaslána ke schválení. Trust body
+                        dostaneš za schválené citace.</p>
 
 
                     <div class="required">
@@ -26,7 +28,8 @@
                         {input teacher}
                     </div>
 
-                    <span id="optional-toggle">zadat tagy{if !$presenter->user->isLoggedIn()} a email{/if}  <i class="fa fa-caret-down"></i></span>
+                    <span id="optional-toggle">zadat tagy{if !$presenter->user->isLoggedIn()} a email{/if} <i
+                                class="fa fa-caret-down"></i></span>
 
                     <div id="optional-content">
 
@@ -41,13 +44,27 @@
                             </div>
                         {/if}
                     </div>
+
+                    {if !$user->isLoggedIn()}
                     <div class="g-recaptcha" data-sitekey="6LeEFBcTAAAAACp4h03SqMfhg2ym9gB0EK0HAyZV"></div>
+                    {/if}
+
                     <div>
-                        {input process}
+                    {input process, id=>'quote-submit'}
                     </div>
                 </fieldset>
             {/form}
         </div>
     </div>
+    {if !$user->isLoggedIn()}
+    <script>
+        var quote_submit = document.getElementById('quote-submit');
+        quote_submit.style.display = 'none';
+
+        var captchaCallback = function () {
+            quote_submit.style.display = 'block';
+        };
+    </script>
+    {/if}
 
 </div>
