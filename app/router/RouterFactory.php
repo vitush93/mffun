@@ -28,6 +28,13 @@ class RouterFactory
         $apiRouter[] = new Route('api/?presenter=<presenter>&action=<action>[&id=<id>]', 'Homepage:default');
 
         $router[] = $frontRouter = new RouteList('Front');
+        $frontRouter[] = new Route('top', 'Homepage:top');
+        $frontRouter[] = new Route('most-commented', 'Homepage:mostcommented');
+        $frontRouter[] = new Route('random', 'Homepage:random');
+        $frontRouter[] = new Route('search[/<id>]', 'Homepage:search');
+        $frontRouter[] = new Route('teacher[/<id>]', 'Homepage:teacher');
+        $frontRouter[] = new Route('subject[/<id>]', 'Homepage:subject');
+        $frontRouter[] = new Route('tag[/<id>]', 'Homepage:tag');
         $frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 
         return $router;

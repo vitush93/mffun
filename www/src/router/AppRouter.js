@@ -10,13 +10,13 @@ var AppRouter = Backbone.Router.extend({
 
         '?p=:page': 'homeRoute',
 
-        'homepage/:action': 'actionRoute',
+        ':action': 'actionRoute',
 
-        'homepage/:action?p=:page': 'actionRoute',
+        ':action?p=:page': 'actionRoute',
 
-        'homepage/:action/:id': 'actionIdRoute',
+        ':action/:id': 'actionIdRoute',
 
-        'homepage/:action/:id?p=:page': 'actionIdRoute',
+        ':action/:id?p=:page': 'actionIdRoute',
 
         'quote/default/:id': 'quoteRoute'
     },
