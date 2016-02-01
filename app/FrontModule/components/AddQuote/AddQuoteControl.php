@@ -11,8 +11,10 @@ use App\Model\Entities\User;
 use App\Model\Repositories\QuoteRepository;
 use App\Model\Services\AutocompleteService;
 use Kdyby\Doctrine\EntityManager;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
+use ReCaptcha\ReCaptcha;
 
 interface IAddQuoteControlFactory
 {
@@ -67,15 +69,28 @@ class AddQuoteControl extends Control
         $this->template->render();
     }
 
+    private function recaptcha($response)
+    {
+        $recaptcha = new ReCaptcha(RECAPTCHA_SECRET);
+        $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
+
+        return $resp->isSuccess();
+    }
+
     /**
      * [AddQuoteForm]
      * Tries to add a new quote to the database.
      *
      * @param Form $form
+     * @throws BadRequestException
      */
     public function processAddQuoteForm(Form $form)
     {
         $data = $form->getValues(true);
+
+        // google recaptcha
+        if (!$this->recaptcha($_POST['g-recaptcha-response'])) throw new BadRequestException;
+
         $text = \HTMLPurifier::getInstance()->purify($data['text']);
         if (strlen($text) == 0) {
             $this->presenter->flashMessage('Nelze přidat citaci s prázdným textem.', 'error');
