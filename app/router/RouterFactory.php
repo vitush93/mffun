@@ -29,7 +29,7 @@ class RouterFactory
 
         $router[] = $frontRouter = new RouteList('Front');
         $frontRouter[] = new Route('top', 'Homepage:top');
-        $frontRouter[] = new Route('most-commented', 'Homepage:mostcommented');
+        $frontRouter[] = new Route('mostcommented', 'Homepage:mostcommented');
         $frontRouter[] = new Route('random', 'Homepage:random');
         $frontRouter[] = new Route('search[/<id>]', 'Homepage:search');
         $frontRouter[] = new Route('teacher[/<id>]', 'Homepage:teacher');
