@@ -55,9 +55,9 @@ class AddQuoteControl extends Control
         $this->quoteRepository = $quoteRepository;
         $this->em = $entityManager;
         $this->autocompleteService = $autocompleteService;
-        $this->userDao = $entityManager->getDao(User::getClassName());
-        $this->subjectDao = $entityManager->getDao(Subject::getClassName());
-        $this->teacherDao = $entityManager->getDao(Teacher::getClassName());
+        $this->userDao = $entityManager->getRepository(User::getClassName());
+        $this->subjectDao = $entityManager->getRepository(Subject::getClassName());
+        $this->teacherDao = $entityManager->getRepository(Teacher::getClassName());
     }
 
     public function render()

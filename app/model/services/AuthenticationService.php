@@ -28,7 +28,7 @@ class AuthenticationService extends Object implements Nette\Security\IAuthentica
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
-        $this->usersDao = $entityManager->getDao(User::getClassName());
+        $this->usersDao = $entityManager->getRepository(User::getClassName());
     }
 
     /**

@@ -44,8 +44,8 @@ class QuoteRepository extends Object
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
-        $this->quoteDao = $entityManager->getDao(Quote::getClassName());
-        $this->commentDao = $entityManager->getDao(Comment::getClassName());
+        $this->quoteDao = $entityManager->getRepository(Quote::getClassName());
+        $this->commentDao = $entityManager->getRepository(Comment::getClassName());
     }
 
     /**
@@ -194,7 +194,7 @@ class QuoteRepository extends Object
         $this->em->persist($quote);
 
         // collect existing tags
-        $existing_tags = $this->em->getDao(Tag::getClassName())->findAll();
+        $existing_tags = $this->em->getRepository(Tag::getClassName())->findAll();
         $ex = array();
 
         /** @var Tag $e */
