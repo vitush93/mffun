@@ -25,7 +25,10 @@ class HomepagePresenter extends BasePresenter
         /** @var User $user */
         $user = $this->em->find(User::class, $this->user->id);
 
-        $this->sendJson($user->getUserData());
+        $data = $user->getUserData();
+        $data['success'] = true;
+
+        $this->sendJson($data);
     }
 
 }
