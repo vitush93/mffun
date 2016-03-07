@@ -242,9 +242,7 @@ class QuotePresenter extends BasePresenter
         $this->checkQuote($id);
 
         if (!$this->user->isLoggedIn()) {
-            $this->sendJson([
-                'success' => false
-            ]);
+            $this->error('User is not logged in.');
         } else {
             $response = $this->ratingService->rateQuoteUp($id, $this->user->id);
 
@@ -262,9 +260,7 @@ class QuotePresenter extends BasePresenter
         $this->checkQuote($id);
 
         if (!$this->user->isLoggedIn()) {
-            $this->sendJson([
-                'success' => false
-            ]);
+            $this->error('User is not logged in.');
         } else {
             $response = $this->ratingService->rateQuoteDown($id, $this->user->id);
 
