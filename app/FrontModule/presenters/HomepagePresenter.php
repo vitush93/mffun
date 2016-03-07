@@ -6,6 +6,7 @@ use App\Model\Entities\Subject;
 use App\Model\Entities\Tag;
 use App\Model\Entities\Teacher;
 use App\Model\Entities\User;
+use App\Model\Repositories\QuoteOrder;
 use App\Model\Repositories\QuoteRepository;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
@@ -161,7 +162,7 @@ class HomepagePresenter extends BasePresenter
      */
     public function actionDefault($p)
     {
-        $quotes = $this->getQuotes(QuoteRepository::ORDER_LATEST);
+        $quotes = $this->getQuotes(QuoteOrder::DATE_DESC);
 
         $this->template->quotes = Json::encode($quotes);
     }
@@ -174,7 +175,7 @@ class HomepagePresenter extends BasePresenter
      */
     function actionTop($p)
     {
-        $quotes = $this->getQuotes(QuoteRepository::ORDER_TOP);
+        $quotes = $this->getQuotes(QuoteOrder::RATING_DESC);
 
         $this->setView('default');
         $this->template->quotes = Json::encode($quotes);
@@ -188,7 +189,7 @@ class HomepagePresenter extends BasePresenter
      */
     function actionMostcommented($p)
     {
-        $quotes = $this->getQuotes(QuoteRepository::ORDER_COMMENTS);
+        $quotes = $this->getQuotes(QuoteOrder::COMMENTS_DESC);
 
         $this->setView('default');
         $this->template->quotes = Json::encode($quotes);

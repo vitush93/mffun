@@ -2,6 +2,7 @@
 
 namespace App\Model\Repositories;
 
+use App\Libs\Enum;
 use App\Model\Entities\Comment;
 use App\Model\Entities\Quote;
 use App\Model\Entities\Subject;
@@ -10,6 +11,7 @@ use App\Model\Entities\Teacher;
 use App\Model\Entities\User;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
+use Nette\InvalidArgumentException;
 use Nette\Object;
 
 /**
@@ -431,13 +433,35 @@ class QuoteRepository extends Object
      *
      * @param int $limit LIMIT statement part parameter
      * @param int $offset
-     * @param string $o
+     * @param int $quoteOrder QuoteOrder enum
      * @return array
      */
-    public function findAllApproved($limit, $offset, $o)
+    public function findAllApproved($limit, $offset, $quoteOrder)
     {
+        if (!QuoteOrder::check($quoteOrder)) throw new InvalidArgumentException("Unrecognized order parameter.");
+
+        // resolve order of quotes
+        $o = "order by q.approved DESC";
+        if ($quoteOrder == QuoteOrder::DATE_ASC) { // by date
+            $o = "order by q.approved ASC";
+        }
+
+        if ($quoteOrder == QuoteOrder::COMMENTS_ASC) { // by number of comments
+            $o = "order by c ASC, q.approved DESC";
+        } else if ($quoteOrder == QuoteOrder::COMMENTS_DESC) {
+            $o = "order by c DESC, q.approved DESC";
+        }
+
+        if ($quoteOrder == QuoteOrder::RATING_ASC) { // by rating
+            $o = "order by q.rating ASC, q.approved DESC";
+        } else if ($quoteOrder == QuoteOrder::RATING_DESC) {
+            $o = "order by q.rating DESC, q.approved DESC";
+        }
+
+        // create query
         $query = $this->allApprovedQuery($limit, $offset, $o);
 
+        // return result
         return $query->getResult();
     }
 
@@ -459,7 +483,7 @@ class QuoteRepository extends Object
         left join q.comments com
         where q.status=:status
         group by q.id
-        {$this->order[$o]}
+        {$o}
         ")->setFirstResult($offset)
             ->setMaxResults($limit)
             ->setParameter('status', Quote::STATUS_APPROVED);
@@ -476,5 +500,33 @@ class QuoteRepository extends Object
     public function findAllByRatingDesc($limit = 10)
     {
         return $this->quoteDao->findBy([], ['rating' => 'DESC'], $limit);
+    }
+}
+
+final class QuoteOrder implements Enum
+{
+    const DATE_ASC = 1,
+        DATE_DESC = 2,
+        RATING_ASC = 3,
+        RATING_DESC = 4,
+        COMMENTS_ASC = 5,
+        COMMENTS_DESC = 6;
+
+    static function check($num)
+    {
+        return !($num < 1 || $num > 6);
+    }
+}
+
+final class QuoteCategory implements Enum
+{
+    const ALL = 1,
+        SUBJECT = 2,
+        TEACHER = 3,
+        TAG = 4;
+
+    static function check($num)
+    {
+        return !($num < 1 || $num > 4);
     }
 }

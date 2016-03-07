@@ -6,11 +6,13 @@ use App\Model\Entities\Comment;
 use App\Model\Entities\Subject;
 use App\Model\Entities\Tag;
 use App\Model\Entities\Teacher;
+use App\Model\Repositories\QuoteOrder;
 use App\Model\Repositories\QuoteRepository;
 use App\Model\Services\RatingService;
 use Doctrine\ORM\Query;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\GeneratedProxy\__CG__\App\Model\Entities\Quote;
+use Kdyby\Redis\InvalidArgumentException;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\Json;
 
@@ -26,21 +28,68 @@ class QuotePresenter extends BasePresenter
     public $em;
 
     /**
-     * [/api/quote/?limit=X&offset=Y]
+     * Quotes ordered by date of approval in descending order.
      *
      * @param int $limit
      * @param int $offset
+     * @param int $order
      */
-    function actionDefault($limit = 10, $offset = 0)
+    function actionDefault($limit = 10, $offset = 0, $order = QuoteOrder::DATE_DESC)
     {
-        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_LATEST);
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, $order);
 
         $this->sendJson($q);
     }
 
     /**
-     * [/api/quote/single/X]
+     * Quotes ordered by date of approval.
      *
+     * @param int $limit
+     * @param int $offset
+     * @param string $order
+     */
+    function actionDate($limit = 10, $offset = 0, $order = 'desc')
+    {
+        if ($order == 'desc') {
+            $o = QuoteOrder::DATE_DESC;
+        } else if ($order == 'asc') {
+            $o = QuoteOrder::DATE_ASC;
+        } else {
+            $this->error("Invalid 'order' parameter.");
+
+            return;
+        }
+
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, $o);
+
+        $this->sendJson($q);
+    }
+
+    /**
+     * Quotes ordered by number of comments.
+     *
+     * @param int $limit
+     * @param int $offset
+     * @param string $order
+     */
+    function actionComments($limit = 10, $offset = 0, $order = 'desc')
+    {
+        if ($order == 'desc') {
+            $o = QuoteOrder::COMMENTS_DESC;
+        } else if ($order == 'asc') {
+            $o = QuoteOrder::COMMENTS_ASC;
+        } else {
+            $this->error("Invalid 'order' parameter.");
+
+            return;
+        }
+
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, $o);
+
+        $this->sendJson($q);
+    }
+
+    /**
      * @param $id
      */
     function actionSingle($id)
@@ -54,34 +103,47 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * [/api/quote/top/?limit=X&offset=Y]
-     *
      * @param int $limit
      * @param int $offset
      */
     function actionTop($limit = 10, $offset = 0)
     {
-        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_TOP);
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteOrder::RATING_DESC);
+
+        $this->sendJson($q);
+    }
+
+    function actionRating($limit = 10, $offset = 0, $order = 'desc')
+    {
+        if ($order == 'desc') {
+            $o = QuoteOrder::RATING_DESC;
+        } else if ($order == 'asc') {
+            $o = QuoteOrder::RATING_ASC;
+        } else {
+            $this->error("Invalid 'order' parameter.");
+
+            return;
+        }
+
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, $o);
 
         $this->sendJson($q);
     }
 
     /**
-     * [/api/quote/mostcommented/?limit=X&offset=Y]
+     * Quotes ordered by number of comments in descending orders.
      *
      * @param int $limit
      * @param int $offset
      */
     function actionMostcommented($limit = 10, $offset = 0)
     {
-        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteRepository::ORDER_COMMENTS);
+        $q = $this->quoteRepository->findAllApproved($limit, $offset, QuoteOrder::COMMENTS_DESC);
 
         $this->sendJson($q);
     }
 
     /**
-     * [/api/quote/random/?limit=X]
-     *
      * @param int $limit
      */
     function actionRandom($limit = 10)
@@ -92,8 +154,6 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * [/api/quote/tag/?limit=X&offset=Y]
-     *
      * @param $id
      * @param int $limit
      * @param int $offset
@@ -118,8 +178,6 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * [/api/quote/teacher/?limit=X&offset=Y]
-     *
      * @param $id
      * @param int $limit
      * @param int $offset
@@ -139,19 +197,20 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * [/api/quote/subject/?limit=X&offset=Y]
-     *
      * @param $id
      * @param int $limit
      * @param int $offset
      */
     function actionSubject($id, $limit = 10, $offset = 0)
     {
-        /** @var Subject $subject */
-        $subject = $this->em->find(Subject::class, $id);
+        if ($id !== NULL) {
 
-        if (!$subject) {
-            $this->error('Subject with id ' . $id . ' was not found.');
+            /** @var Subject $subject */
+            $subject = $this->em->find(Subject::class, $id);
+
+            if (!$subject) {
+                $this->error('Subject with id ' . $id . ' was not found.');
+            }
         }
 
         $q = $this->quoteRepository->findAllBySubject($id, $limit, $offset);
@@ -169,8 +228,6 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * [/api/quote/rateUp/X]
-     *
      * @param $id
      */
     function actionRateUp($id)
@@ -189,8 +246,6 @@ class QuotePresenter extends BasePresenter
     }
 
     /**
-     * [/api/quote/rateDown/X]
-     *
      * @param $id
      */
     function actionRateDown($id)
