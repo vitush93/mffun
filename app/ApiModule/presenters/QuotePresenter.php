@@ -92,6 +92,8 @@ class QuotePresenter extends BasePresenter
      */
     function actionSingle($id)
     {
+        if ($id == NULL) $this->error("Required parameter 'id' is missing.");
+
         $q = $this->quoteRepository->find($id);
         if (!$q) {
             $this->error('Quote with id ' . $id . ' was not found.');
@@ -158,6 +160,8 @@ class QuotePresenter extends BasePresenter
      */
     function actionTag($id, $limit = 10, $offset = 0)
     {
+        if ($id == NULL) $this->error("Required parameter 'id' is missing.");
+
         if (!is_numeric($id)) {
             $tag = $this->em->getRepository(Tag::class)->findOneBy(['tag' => $id]);
         } else {
@@ -182,11 +186,14 @@ class QuotePresenter extends BasePresenter
      */
     function actionTeacher($id, $limit = 10, $offset = 0)
     {
-        /** @var Teacher $teacher */
-        $teacher = $this->em->find(Teacher::class, $id);
+        if ($id !== NULL) {
 
-        if (!$teacher) {
-            $this->error('Teacher with id ' . $id . ' was not found.');
+            /** @var Teacher $teacher */
+            $teacher = $this->em->find(Teacher::class, $id);
+
+            if (!$teacher) {
+                $this->error('Teacher with id ' . $id . ' was not found.');
+            }
         }
 
         $q = $this->quoteRepository->findAllByTeacher($id, $limit, $offset);
@@ -230,6 +237,8 @@ class QuotePresenter extends BasePresenter
      */
     function actionRateUp($id)
     {
+        if ($id == NULL) $this->error("Required parameter 'id' is missing.");
+
         $this->checkQuote($id);
 
         if (!$this->user->isLoggedIn()) {
@@ -248,6 +257,8 @@ class QuotePresenter extends BasePresenter
      */
     function actionRateDown($id)
     {
+        if ($id == NULL) $this->error("Required parameter 'id' is missing.");
+
         $this->checkQuote($id);
 
         if (!$this->user->isLoggedIn()) {
