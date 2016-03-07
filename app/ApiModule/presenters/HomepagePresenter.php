@@ -10,12 +10,12 @@ class HomepagePresenter extends BasePresenter
     /** @var EntityManager @inject */
     public $em;
 
+    /**
+     * Render API documentation.
+     */
     function actionDefault()
     {
-        $this->sendJson(array(
-            'success' => true,
-            'message' => 'Hello World!'
-        ));
+        $this->template->setFile(__DIR__ . '/../../../docs/api.html'); // generated using swagger and bootprint
     }
 
     function actionUser()

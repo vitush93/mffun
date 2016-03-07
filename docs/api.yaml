@@ -1,0 +1,611 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "1.0.0"
+  title: MFFun API
+
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /api/quote/<orderby>:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description: |
+        Gets quotes withing given range ordered by date added (descending by default). If the **orderby** part of the URL is not specified, then order by **date** is assumed.
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: limit
+          in: query
+          description: limit number of quotes to retrieve
+          required: false
+          type: number
+          format: integer
+        -
+          name: offset
+          in: query
+          description: number of quotes to skip
+          required: false
+          type: number
+          format: integer
+        -
+          name: orderby
+          in: query
+          description: specifies which attribute to sort by (in URL, default by date)
+          type: string
+          format: date/comments/rating/random
+        -
+          name: order
+          in: query
+          description: sort order (desc is default)
+          type: string
+          format: asc/desc
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            title: ArrayOfQuotes
+            type: array
+            items:
+              title: Quote
+              type: object
+              properties:
+                id:
+                  type: integer
+                comment_count:
+                  type: integer
+                rating:
+                  type: integer
+                text:
+                  type: string
+                tags:
+                  title: ArrayOfTags
+                  type: array
+                  items: 
+                    type: object
+                    title: Tag
+                    properties:
+                      id:
+                        type: integer
+                      tag:
+                        type: string
+                posted:
+                  type: object
+                  properties:
+                    date: 
+                      type: string
+                    timezone_type:  
+                      type: integer
+                    timezone: 
+                      type: string
+                posted_format:
+                  type: string
+                top_comments:
+                  type: array
+                  title: ArrayOfComments
+                  items:
+                    type: object
+                    title: Comment
+                    properties:
+                      avatar: 
+                        type: string
+                      author: 
+                        type: string
+                      down:
+                        type: integer
+                      up: 
+                        type: integer
+                      text:
+                        type: string
+                user:
+                  type: object
+                  title: User
+                  properties:
+                    username:
+                      type: string
+                    name:
+                      type: string
+                subject:
+                  type: object
+                  title: Subject
+                  properties:
+                    id: 
+                      type: integer
+                    name:
+                      type: string
+                teacher:
+                  type: object
+                  title: Teacher
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                      
+                      
+  /api/quote/single:
+    get:
+      description: |
+        Get a single quote data.
+      parameters:
+        -
+          name: id
+          in: query
+          description: id of quote to retrieve
+          required: true
+          type: number
+          format: integer
+          
+      responses:
+        200:
+          description: Successful response
+          schema: 
+            title: Quote
+            type: object
+            properties:
+              id:
+                type: integer
+              comment_count:
+                type: integer
+              rating:
+                type: integer
+              text:
+                type: string
+              tags:
+                title: ArrayOfTags
+                type: array
+                items: 
+                  type: object
+                  title: Tag
+                  properties:
+                    id:
+                      type: integer
+                    tag:
+                      type: string
+              posted:
+                type: object
+                properties:
+                  date: 
+                    type: string
+                  timezone_type:  
+                    type: integer
+                  timezone: 
+                    type: string
+              posted_format:
+                type: string
+              top_comments:
+                type: array
+                title: ArrayOfComments
+                items:
+                  type: object
+                  title: Comment
+                  properties:
+                    avatar: 
+                      type: string
+                    author: 
+                      type: string
+                    down:
+                      type: integer
+                    up: 
+                      type: integer
+                    text:
+                      type: string
+              user:
+                type: object
+                title: User
+                properties:
+                  username:
+                    type: string
+                  name:
+                    type: string
+              subject:
+                type: object
+                title: Subject
+                properties:
+                  id: 
+                    type: integer
+                  name:
+                    type: string
+              teacher:
+                type: object
+                title: Teacher
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+        404:
+          description: Quote not found
+          schema: 
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error:
+                type: number
+              message:
+                type: string
+          
+          
+  /api/quote/tag:
+    get:
+      parameters:
+        -
+          name: id
+          in: query
+          description: id of a tag or tag itself
+          required: true
+          type: number
+          format: integer
+        -
+          name: limit
+          in: query
+          description: limit number of quotes to retrieve
+          required: false
+          type: number
+          format: integer
+        -
+          name: offset
+          in: query
+          description: number of quotes to skip
+          required: false
+          type: number
+          format: integer
+          
+      description: |
+        Quotes by tag ordered by date created. Response schema same as default action.
+      responses:
+        200:
+          description:  Successful response
+        404:
+          description: Tag not found
+          schema: 
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error:
+                type: number
+              message:
+                type: string
+                
+  /api/quote/teacher:
+    get:
+      parameters:
+        -
+          name: id
+          in: query
+          description: id of a teacher
+          required: true
+          type: number
+          format: integer
+        -
+          name: limit
+          in: query
+          description: limit number of quotes to retrieve
+          required: false
+          type: number
+          format: integer
+        -
+          name: offset
+          in: query
+          description: number of quotes to skip
+          required: false
+          type: number
+          format: integer
+          
+      description: |
+        Quotes by teacher ordered by date created. Response schema same as default action.
+      responses:
+        200:
+          description:  Successful response
+        404:
+          description: Teacher not found
+          schema: 
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+  /api/quote/subject:
+    get:
+      parameters:
+        -
+          name: id
+          in: query
+          description: id of a subject
+          required: true
+          type: number
+          format: integer
+        -
+          name: limit
+          in: query
+          description: limit number of quotes to retrieve
+          required: false
+          type: number
+          format: integer
+        -
+          name: offset
+          in: query
+          description: number of quotes to skip
+          required: false
+          type: number
+          format: integer
+          
+      description: |
+        Quotes by subject ordered by date created. Response schema same as default action.
+      responses:
+        200:
+          description:  Successful response
+        404:
+          description: Subject not found
+          schema: 
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error:
+                type: number
+              message:
+                type: string
+          
+  
+  /api/quote/rate-up:
+    get:
+      parameters:
+        -
+          name: id
+          in: query
+          description: id of a quote to rate
+          required: true
+          type: number
+          format: integer
+          
+      description: |
+        Will try to upvote a quote with given id.
+      responses:
+        200:
+          description:  Successful response
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              rate:
+                type: string "up"
+              qid:
+                type: integer
+              rating:
+                type: integer
+        404:
+          description: User not logged in
+          schema: 
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+  /api/quote/rate-down:
+    get:
+      parameters:
+        -
+          name: id
+          in: query
+          description: id of a quote to rate
+          required: true
+          type: number
+          format: integer
+          
+      description: |
+        Will try to downwote a quote with given id.
+      responses:
+        200:
+          description:  Successful response
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              rate:
+                type: string "down"
+              qid:
+                type: integer
+              rating:
+                type: integer
+                
+                
+        404:
+          description: User not logged in
+          schema: 
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error:
+                type: number
+              message:
+                type: string                
+                
+                
+  /api/comment/quote:
+      get:
+        parameters:
+          -
+            name: id
+            in: query
+            description: id of a quote
+            required: true
+            type: number
+            format: integer
+            
+        description: |
+          Fetch all quote comments by quote id. Returns associative array by comment id in *parent comment id => array of comments* fashion, where comments with parent id 0 are the top-level comments.
+        responses:
+          200:
+            description:  Successful response
+            schema:
+              type: array
+              title: ArrayOfComments
+              items:
+                type: object
+                title: Comment
+                properties:
+                  id:
+                    type: integer
+                  qid: 
+                    type: integer
+                  parent:
+                    type: integer
+                  text: 
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                      name:
+                        type: string
+                      avatar:
+                        type: string
+                      email:
+                        type: string
+                      mff:
+                        type: string
+                      role:
+                        type: string
+                  up:
+                    type: integer
+                  down:
+                    type: integer
+                  diff:
+                    type: string
+                  admin:
+                    type: boolean
+                  mod:
+                    type: boolean
+                  mff:
+                    type: boolean
+                    
+                
+          404:
+            description: Quote with given id not found
+            schema: 
+              type: object
+              properties:
+                success: 
+                  type: boolean
+                error:
+                  type: number
+                message:
+                  type: string
+                  
+                  
+  /api/comment/thread:
+      get:
+        parameters:
+          -
+            name: id
+            in: query
+            description: id of a parent comment
+            required: true
+            type: number
+            format: integer
+          -
+            name: limit
+            in: query
+            description: limit number of comments
+            required: false
+            type: number
+            format: integer
+          -
+            name: offset
+            in: query
+            description: comment list offset
+            required: false
+            type: number
+            format: integer
+            
+        description: |
+          Fetch all comments in a thread.
+        responses:
+          200:
+            description:  Successful response
+            schema:
+              type: array
+              title: ArrayOfComments
+              items:
+                type: object
+                title: Comment
+                properties:
+                  id:
+                    type: integer
+                  qid: 
+                    type: integer
+                  parent:
+                    type: integer
+                  text: 
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                      name:
+                        type: string
+                      avatar:
+                        type: string
+                      email:
+                        type: string
+                      mff:
+                        type: string
+                      role:
+                        type: string
+                  up:
+                    type: integer
+                  down:
+                    type: integer
+                  diff:
+                    type: string
+                  admin:
+                    type: boolean
+                  mod:
+                    type: boolean
+                  mff:
+                    type: boolean
+                    
+                
+          404:
+            description: Comment with given id not found
+            schema: 
+              type: object
+              properties:
+                success: 
+                  type: boolean
+                error:
+                  type: number
+                message:
+                  type: string

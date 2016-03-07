@@ -23,12 +23,14 @@ class CommentPresenter extends BasePresenter
     public $em;
 
     /**
-     * Fetch first 10 comments its children (3 per comment max).
+     * Fetch all quote comments by quote id.
      *
      * @param int $id Quote id.
      */
     function actionQuote($id)
     {
+        if ($id == NULL) $this->error("Required parameter 'id' not specified.");
+
         $quote = $this->em->find(Quote::class, $id);
         if (!$quote) {
             $this->error('Quote with id ' . $id . ' was not found.');
@@ -46,6 +48,8 @@ class CommentPresenter extends BasePresenter
      */
     function actionThread($id, $limit = 3, $offset = 0)
     {
+        if ($id == NULL) $this->error("Required parameter 'id' not specified.");
+
         /** @var Comment $comment */
         $comment = $this->em->find(Comment::class, $id);
         if (!$comment) {
@@ -66,6 +70,8 @@ class CommentPresenter extends BasePresenter
     function actionRate($id, $rate)
     {
         if (!$this->user->isLoggedIn()) $this->error('Not authenticated');
+
+        if ($id == NULL) $this->error("Required parameter 'id' not specified.");
 
         if ($rate != 'up' && $rate != 'down') $this->error('Rate parameter can be either "up" or "down"');
 
