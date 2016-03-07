@@ -32,13 +32,11 @@ class QuotePresenter extends BasePresenter
      *
      * @param int $limit
      * @param int $offset
-     * @param int $order
+     * @param string $order
      */
-    function actionDefault($limit = 10, $offset = 0, $order = QuoteOrder::DATE_DESC)
+    function actionDefault($limit = 10, $offset = 0, $order = 'desc')
     {
-        $q = $this->quoteRepository->findAllApproved($limit, $offset, $order);
-
-        $this->sendJson($q);
+        $this->actionDate($limit, $offset, $order);
     }
 
     /**
