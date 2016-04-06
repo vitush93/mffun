@@ -1,8 +1,10 @@
 # Backend development
 
-Please refer to the Nette framework's [documentation](http://doc.nette.org/cs/2.3/) for more info.
+Please refer to the Nette framework's [documentation](http://doc.nette.org/cs/2.3/) for more info. This project is built on standard Nette sandbox.
 
-Application is divided into two modules: *FrontModule* and *AdminModule*.
+Application is divided into three modules: *FrontModule*, *AdminModule* and *ApiModule*.
+
+**FrontModule** contains entire front-end website logic. **AdminModule** is a separate website used to manage project's data. **ApiModule** exposes JSON API over application's model layer. API is used to retrieve data on front-end.
 
 Application overview (namespaces corresponds with the folder structure):
 
@@ -17,4 +19,10 @@ Application overview (namespaces corresponds with the folder structure):
   - **AddQuote** is a component that handles adding quote and displaying the the modal form.
   - **CheckLdap** handles authorizing user using university's LDAP and displaying the modal form.
 
+## Doctrine ORM
 
+This project uses Doctrine as database abstraction layer. Please refer to the [Doctrine's official documentation](http://doctrine-orm.readthedocs.org/en/latest/) for more info.
+
+### Events
+
+Comment rating and Quote rating is automatically recalculated using Doctrine Event system after each insert/update/delete (`App\Model\Events` namespace).

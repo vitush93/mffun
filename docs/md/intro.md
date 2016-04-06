@@ -13,8 +13,12 @@ List of used back-end frameworks / tools and their puprose:
 
 List of user front-end frameworks / tools:
 
-- [Bower](http://bower.io/) as package manager.
-- [Grunt.js](http://gruntjs.com/) as automated task manager.
+- [Backbone.js](http://backbonejs.org/) as front-end MVC framework.
+- [Underscore.js](http://underscorejs.org/) as general purpose utility toolkit.
+- [Handlebars](http://handlebarsjs.com/) as JavaScript template engine.
 - [Jquery](http://jquery.com/).
 - [Bootstrap](http://getbootstrap.com/) as main CSS framework.
+- [font-awesome](http://fontawesome.io/) as icon font.
 - [LESS](http://lesscss.org/) as CSS pre-processor.
+- [Bower](http://bower.io/) as package manager.
+- [Grunt.js](http://gruntjs.com/) as automated task manager.
